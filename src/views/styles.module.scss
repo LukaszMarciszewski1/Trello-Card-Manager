@@ -1,0 +1,22 @@
+.addTasks {
+    height: 100vh;
+    min-height: 100%;
+}
+form{
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    height: 100%;
+    column-gap: 30px;
+}
+.formContainer{
+    display: flex;
+    flex-direction: column;
+}
+
+.formGroup{
+    width: 100%;
+}
+
+.rightPanel {
+    background-color: aliceblue;
+}

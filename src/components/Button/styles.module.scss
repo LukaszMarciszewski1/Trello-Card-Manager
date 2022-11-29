@@ -1,9 +1,18 @@
 @import '../../theme/colors.scss';
 
 .button{
+    width: 100%;
     border: none;
     padding: .5rem 2rem;
-    color: white;
-    background-color: $blue;
-    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #67788A;
+    background-color: #e7e7e7;
+    margin: 1rem 0;
+    opacity: .9;
+    border-radius: 6px;
+    &:hover{
+        background-color: darken(#e7e7e7, 5%);
+    } 
 }
