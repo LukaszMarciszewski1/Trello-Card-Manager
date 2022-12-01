@@ -1,0 +1,61 @@
+@import 'theme/colors.scss';
+
+// .checkbox {
+//   display: none;
+//   &:checked {
+//     + .label {
+//       background-color: $lightBlue;
+//     }
+//   }
+// }
+
+// .label {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   padding: 10px 20px;
+//   margin-left: 10px;
+//   width: 65px;
+//   height: 48px;
+//   border: 1px solid $matBlue;
+//   background-color: white;
+//   padding: 5px 10px;
+//   cursor: pointer;
+//   user-select: none;
+//   border-radius: 5px;
+//   backface-visibility: hidden;
+//   &:checked {
+//     background-color: $lightBlue;
+//   }
+//   &:hover {
+//     background-color: $lightBlue;
+//   }
+// }
+
+.checkbox {
+  display: none;
+  &:checked {
+    + .label {
+      background-color: $lightBlue;
+    }
+  }
+}
+
+.label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 20px;
+  margin-left: 10px;
+  width: 65px;
+  height: 48px;
+  border: 1px solid $matBlue;
+  border-radius: 5px;
+  background: white;
+  user-select: none;
+  backface-visibility: hidden;
+  &:hover {
+    background-color: $lightBlue;
+    cursor: pointer;
+  }
+}
