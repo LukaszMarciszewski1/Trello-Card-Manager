@@ -172,17 +172,15 @@ const Tasks: React.FC = () => {
             </div>
             <div className={styles.checkboxContainer}>
               {traders?.map((trader, index) => (
-                // <Checkbox
-                //   key={index}
-                //   id={trader.initial}
-                //   type={"radio"}
-                //   value={trader.initial}
-                //   label={trader.initial}
-                //   {...register("traders")} />
-                <div className={styles.selector} key={index}>
-                  <input id={trader.initial} type={'radio'} className={styles.checkbox} value={trader.initial} {...register("traders")} />
-                  <label htmlFor={trader.initial} className={styles.label}>{trader.initial}</label>
-                </div>
+                <Checkbox
+                  key={index}
+                  id={trader.initial}
+                  type={"radio"}
+                  name={"traders"}
+                  value={trader.initial}
+                  label={trader.initial}
+                  register={register}
+                />
               ))}
             </div>
           </div>

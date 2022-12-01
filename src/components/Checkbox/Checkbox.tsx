@@ -8,6 +8,7 @@ interface CheckboxProps {
   id: string
   label: string
   value: string
+  register: any
 }
 
 const Checkbox: React.FC<CheckboxProps> = forwardRef<HTMLInputElement, CheckboxProps>(
@@ -18,6 +19,7 @@ const Checkbox: React.FC<CheckboxProps> = forwardRef<HTMLInputElement, CheckboxP
       label,
       name,
       value,
+      register,
       ...props
     },
     ref
@@ -38,6 +40,7 @@ const Checkbox: React.FC<CheckboxProps> = forwardRef<HTMLInputElement, CheckboxP
           value={value}
           name="selector"
           ref={ref}
+          {...register(name)}
           {...props}
         />
         <label
