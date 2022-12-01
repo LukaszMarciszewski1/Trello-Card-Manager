@@ -6,10 +6,16 @@ import { Task } from "models/task";
 import Button from "components/Button/Button";
 import { RiAddLine } from "react-icons/ri";
 import Checkbox from "components/Checkbox/Checkbox";
+import FormSection from "components/FormSection/FormSection";
 import { traders } from "data";
 
 const validation = {
   title: {
+    required: true,
+    maxLength: 40,
+    minLength: 2,
+  },
+  logo: {
     required: true,
     maxLength: 40,
     minLength: 2,
@@ -154,12 +160,11 @@ const Tasks: React.FC = () => {
   }
 
   return (
-    <div className={styles.addTasks}>
-      <form onSubmit={handleSubmit(handleSubmitForm)}>
-        <div className={styles.formContainer}>
-          <div className={styles.formGroupContainer}>
-            <div className={styles.inputContainer}>
-              <label htmlFor="title"><h3>Kontrachent</h3></label>
+    <form onSubmit={handleSubmit(handleSubmitForm)}>
+      <div className={styles.formContainer}>
+        <div className={styles.formGroupContainer}>
+          <div className={styles.formGroupRow}>
+            <>
               <Input
                 id={"title"}
                 placeholder={"Kontrahent"}
@@ -169,21 +174,48 @@ const Tasks: React.FC = () => {
                 {...register("title", { ...validation.title })}
               />
               {titleErrors(errors.title?.type)}
-            </div>
-            <div className={styles.checkboxContainer}>
+            </>
+            <div className={styles.checkboxList}>
               {traders?.map((trader, index) => (
                 <Checkbox
                   key={index}
                   id={trader.initial}
                   type={"radio"}
-                  name={"traders"}
                   value={trader.initial}
                   label={trader.initial}
-                  register={register}
+                  {...register("traders")}
                 />
               ))}
+              {/* Feature: create new component with add new task btn and children checkbox */}
             </div>
           </div>
+          <FormSection>
+            <div className={styles.formGroupColumn}>
+              <Input
+                id={"logo"}
+                placeholder={"Logo"}
+                label={"Logo"}
+                type="text"
+                error={errors.logo}
+                {...register("title", { ...validation.logo })}
+              />
+              {titleErrors(errors.logo?.type)}
+              <div className={`${styles.checkboxList} ${styles.wrapper}`}>
+                <p>Materiał: </p>
+                {traders?.map((trader, index) => (
+                  <Checkbox
+                    key={index}
+                    id={trader.initial}
+                    type={"radio"}
+                    value={trader.initial}
+                    style={{ height: '30px'}}
+                    label={trader.initial}
+                    {...register("traders")}
+                  />
+                ))}
+              </div>
+            </div>
+          </FormSection>
           <Button
             type={'submit'}
             title={"Dodaj zlecenie"}
@@ -192,10 +224,10 @@ const Tasks: React.FC = () => {
             icon={<RiAddLine fontSize={'1.5rem'} fontWeight={'bold'} />}
           />
         </div>
-        <div className={`${styles.formContainer} ${styles.rightPanel}`}>
+        <div className={`${styles.formGroupContainer} ${styles.rightPanel}`}>
         </div>
-      </form>
-    </div>
+      </div>
+    </form>
   );
 };
 

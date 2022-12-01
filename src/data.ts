@@ -30,3 +30,9 @@ export const traders = [
     checked: false,
   },
 ]
+
+export const materials = [
+  {
+    name:'bawełna'
+  }
+]

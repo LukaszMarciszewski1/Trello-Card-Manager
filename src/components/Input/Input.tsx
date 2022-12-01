@@ -37,23 +37,26 @@ const Input: React.FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
     ref
   ) => {
     return (
-      <input
-        id={id}
-        ref={ref}
-        name={name}
-        type={type}
-        value={value}
-        defaultValue={defaultValue}
-        aria-label={label}
-        placeholder={placeholder}
-        step={step}
-        min={minValue}
-        max={maxValue}
-        onChange={onChange}
-        disabled={disabled}
-        className={styles.input}
-        {...props}
-      />
+      <div className={styles.container}>
+        <label htmlFor="title"><p>{label}</p></label>
+        <input
+          id={id}
+          ref={ref}
+          name={name}
+          type={type}
+          value={value}
+          defaultValue={defaultValue}
+          aria-label={label}
+          placeholder={placeholder}
+          step={step}
+          min={minValue}
+          max={maxValue}
+          onChange={onChange}
+          disabled={disabled}
+          className={styles.input}
+          {...props}
+        />
+      </div>
     )
   }
 )

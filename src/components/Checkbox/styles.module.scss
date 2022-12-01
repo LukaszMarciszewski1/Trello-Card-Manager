@@ -32,6 +32,11 @@
 //   }
 // }
 
+.container {
+  display: flex;
+  text-transform: uppercase;
+}
+
 .checkbox {
   display: none;
   &:checked {

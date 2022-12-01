@@ -1,14 +1,11 @@
 import React, { forwardRef } from 'react'
 import styles from './styles.module.scss'
-import { useForm } from "react-hook-form";
-
 interface CheckboxProps {
-  type: string
-  name: string
   id: string
+  type: string
   label: string
   value: string
-  register: any
+  style?: {}
 }
 
 const Checkbox: React.FC<CheckboxProps> = forwardRef<HTMLInputElement, CheckboxProps>(
@@ -17,38 +14,29 @@ const Checkbox: React.FC<CheckboxProps> = forwardRef<HTMLInputElement, CheckboxP
       id,
       type,
       label,
-      name,
       value,
-      register,
+      style,
       ...props
     },
     ref
   ) => {
-    // const form = useForm({
-    //   defaultValues: {
-    //     name: value
-    //   },
-    //   mode: "onChange"
-    // });
-
     return (
-      <div className={styles.selector}>
+      <>
         <input
           className={styles.checkbox}
           id={id}
+          ref={ref}
           type={type}
           value={value}
-          name="selector"
-          ref={ref}
-          {...register(name)}
           {...props}
         />
         <label
           htmlFor={id}
+          style={style}
           className={styles.label}>
           {label}
         </label>
-      </div>
+      </>
     )
   }
 )
