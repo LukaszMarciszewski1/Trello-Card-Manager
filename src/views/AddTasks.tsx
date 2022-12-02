@@ -6,8 +6,12 @@ import { Task } from "models/task";
 import Button from "components/Button/Button";
 import { RiAddLine } from "react-icons/ri";
 import Checkbox from "components/Checkbox/Checkbox";
+import Select from "components/Select/Select";
 import FormSection from "components/FormSection/FormSection";
-import { traders } from "data";
+import { traders, materials, production, sizes } from "data";
+import DatePicker, { registerLocale } from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import dayjs from "dayjs";
 
 const validation = {
   title: {
@@ -41,13 +45,14 @@ const titleErrors = (type: any) => {
 };
 
 const Tasks: React.FC = () => {
-  const [activeCardId, setActiveCardId] = useState<null | string>(null)
-  const [cardOptions, setCardOptions] = useState<null | any>(null)
+  dayjs.locale("pl");
+  const [activeCardId, setActiveCardId] = useState<null | string>(null);
+  const [cardOptions, setCardOptions] = useState<null | any>(null);
 
   const trelloListUrl = `https://api.trello.com/1/cards?idList=${process.env.REACT_APP_TRELLO_LIST}&key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}`;
   const cardUrlOptions = (id: string, props: string) => {
     return `https://api.trello.com/1/cards/${id}/${props}?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}`;
-  }
+  };
 
   // const trelloCardUrl = `https://api.trello.com/1/cards/${activeCardId}/checklists?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}`;
 
@@ -57,7 +62,7 @@ const Tasks: React.FC = () => {
     formState: { errors },
   } = useForm<Task>();
 
-  const cardId = '6387d0017de8b80591bef2dc'
+  const cardId = "6387d0017de8b80591bef2dc";
 
   //   const params = {
   //     param1: 'value1',
@@ -65,7 +70,7 @@ const Tasks: React.FC = () => {
   // };
   // const options = {
   //     method: 'POST',
-  //     body: JSON.stringify( params )  
+  //     body: JSON.stringify( params )
   // };
   // fetch( 'https://domain.com/path/', options )
   //     .then( response => response.json() )
@@ -108,7 +113,7 @@ const Tasks: React.FC = () => {
   //   # Position the new card at the bottom of the list.
   //   'pos': 'bottom',
   //   # Add a description to the card containing the email, phone and cover letter
-  //   'desc': f''' Email: {email} Phone: {phone} Cover letter: {cover_letter} ''' 
+  //   'desc': f''' Email: {email} Phone: {phone} Cover letter: {cover_letter} '''
   //  }
 
   //  response = requests.request(
@@ -118,9 +123,9 @@ const Tasks: React.FC = () => {
   //  )
 
   const query = {
-    'key': process.env.REACT_APP_TRELLO_KEY,
-    'token': process.env.REACT_APP_TRELLO_TOKEN
-  }
+    key: process.env.REACT_APP_TRELLO_KEY,
+    token: process.env.REACT_APP_TRELLO_TOKEN,
+  };
 
   const fetchData = async (data: any) => {
     fetch(`${trelloListUrl}&name=${data}`, {
@@ -131,33 +136,40 @@ const Tasks: React.FC = () => {
     })
       .then((response) => {
         console.log(`Response: ${response.status} ${response.statusText}`);
-        console.log(response)
+        console.log(response);
         return response.text();
       })
       .then((text) => {
-        setCardOptions('checklists')
-        fetch(`https://api.trello.com/1/cards/${JSON.parse(text).id}/checklists`, {
-          method: "POST",
-          body: JSON.stringify(query),
-          headers: {
-            Accept: "application/json",
-          },
-        })
+        setCardOptions("checklists");
+        fetch(
+          `https://api.trello.com/1/cards/${JSON.parse(text).id}/checklists`,
+          {
+            method: "POST",
+            body: JSON.stringify(query),
+            headers: {
+              Accept: "application/json",
+            },
+          }
+        );
       })
       .then((text) => console.log(text))
       .catch((err) => console.error(err));
   };
 
   const handleSubmitForm = (data: Task) => {
-    // const { title, selector } = data;
-    // fetchData(title);
-    console.log(data)
+    setPrice(33)
+    console.log(data);
   };
 
-  console.log(traders)
+  console.log(traders);
   function onSubmitButton(data: any) {
-    console.log(data)
+    console.log(data);
   }
+  const selectDate = dayjs(new Date()).format("YYYY/MM/DD");
+  const [nowDate, setNowDate] = useState(selectDate);
+
+  console.log(dayjs(new Date()).format("DD/MM/YYYY"));
+  const [price, setPrice] = useState(0)
 
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
@@ -171,6 +183,7 @@ const Tasks: React.FC = () => {
                 label={"Kontrachent"}
                 type="text"
                 error={errors.title}
+                style={{ padding: "15px" }}
                 {...register("title", { ...validation.title })}
               />
               {titleErrors(errors.title?.type)}
@@ -202,29 +215,114 @@ const Tasks: React.FC = () => {
               {titleErrors(errors.logo?.type)}
               <div className={`${styles.checkboxList} ${styles.wrapper}`}>
                 <p>Materiał: </p>
-                {traders?.map((trader, index) => (
+                {materials?.map((material, index) => (
                   <Checkbox
                     key={index}
-                    id={trader.initial}
+                    id={material.name}
                     type={"radio"}
-                    value={trader.initial}
-                    style={{ height: '30px'}}
-                    label={trader.initial}
-                    {...register("traders")}
+                    value={material.name}
+                    style={{ height: "30px" }}
+                    label={material.name}
+                    {...register("materials")}
                   />
                 ))}
               </div>
             </div>
+            <div className={styles.formGroupColumn}>
+              <Input
+                id={"fabric"}
+                placeholder={"Tkanina"}
+                label={"Tkanina"}
+                type="text"
+                error={errors.logo}
+                {...register("fabric")}
+              />
+              <Input
+                id={"amount"}
+                placeholder={"Ilość"}
+                label={"Ilość"}
+                type="number"
+                error={errors.logo}
+                {...register("amount")}
+              />
+              <Input
+                id={"width"}
+                placeholder={"Szerokość"}
+                label={"Szerokość"}
+                type="number"
+                error={errors.logo}
+                {...register("width")}
+              />
+              <Input
+                id={"height"}
+                placeholder={"Wysokość"}
+                label={"Wysokość"}
+                type="number"
+                error={errors.logo}
+                {...register("height")}
+              />
+              <Select
+                label={"Rozmiar"}
+                options={sizes}
+                id={"size"}
+                name={"size"}
+              />
+              <Input
+                id={"price"}
+                // placeholder={"Cena"}
+                label={"Cena"}
+                defaultValue={0}
+                type="number"
+                // disabled={true}
+                error={errors.logo}
+                {...register("price")}
+              />
+            </div>
           </FormSection>
           <Button
-            type={'submit'}
+            type={"submit"}
             title={"Dodaj zlecenie"}
             onClick={() => console.log("click")}
-            style={{ fontSize: '1.2rem' }}
-            icon={<RiAddLine fontSize={'1.5rem'} fontWeight={'bold'} />}
+            style={{ fontSize: "1.2rem" }}
+            icon={<RiAddLine fontSize={"1.5rem"} fontWeight={"bold"} />}
           />
         </div>
         <div className={`${styles.formGroupContainer} ${styles.rightPanel}`}>
+          <div className={styles.formGroupColumn}>
+            <Select
+              label={"Przyjął"}
+              options={production}
+              id={"przyjął"}
+              name={"przyjął"}
+            />
+            {/* <DatePicker
+              dateFormat="DD/MM/YYYY"
+              timeFormat="hh:mm"
+              locale="pl"
+              selected={null}
+              onChange={(date: Date) => console.log(date)}
+              inline
+              showTimeInput
+              timeInputLabel={`Godzina:`}
+            /> */}
+            <Input
+              id={"date-admission"}
+              placeholder={"Data przyjęcia"}
+              label={"Data przyjęcia"}
+              value={new Date().toISOString().slice(0, 10)}
+              type="date"
+              error={errors.logo}
+              {...register("dateAdmission")}
+            />
+            <Input
+              id={"deadline"}
+              placeholder={"Data oddania"}
+              label={"Data oddania"}
+              type="date"
+              error={errors.logo}
+              {...register("deadline")}
+            />
+          </div>
         </div>
       </div>
     </form>

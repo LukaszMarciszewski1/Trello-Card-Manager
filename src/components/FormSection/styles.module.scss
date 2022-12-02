@@ -1,10 +1,12 @@
 @import 'theme/colors.scss';
 
 .formSection {
-  display: flex;
   width: 100%;
   border: 1px solid $matBlue;
   border-radius: 1rem;
   padding: 1rem;
   margin: 1rem 0;
+  display: grid;
+  grid-template-columns: 1fr 250px;
+  gap: 2rem;
 }

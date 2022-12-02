@@ -34,5 +34,47 @@ export const traders = [
 export const materials = [
   {
     name:'bawełna'
+  },
+  {
+    name:'poliester'
+  },
+  {
+    name:'skóra'
+  },
+]
+
+export const production = [
+  {
+    name: 'MARCIN'
+  },
+  {
+    name: 'KASIA'
   }
+]
+
+export const sizes = [
+  {
+    name: 'MINI'
+  },
+  {
+    name: 'MAŁY'
+  },
+  {
+    name: 'ŚREDNI'
+  },
+  {
+    name: 'WIĘKSZY'
+  },
+  {
+    name: 'DUŻY'
+  },
+  {
+    name: 'MAXI'
+  },
+  {
+    name: 'MEGA'
+  },
+  {
+    name: 'GIGA'
+  },
 ]

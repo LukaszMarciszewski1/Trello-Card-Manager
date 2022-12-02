@@ -5,16 +5,17 @@ export type InputProps = {
   id: string;
   name: string;
   label: string;
-  type?: 'text' | 'email' | 'number' | 'password';
+  type?: 'text' | 'email' | 'number' | 'password' | 'date';
   placeholder?: string
   disabled?: boolean
   onChange?: (value: any) => void
   error?: {} | undefined | ((value: any) => void)
-  value?: number | string
+  value?: number | string | any
   step?: string
   minValue?: number
   maxValue?: number
   defaultValue?: string | number
+  style?: {}
 }
 
 const Input: React.FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
@@ -31,6 +32,7 @@ const Input: React.FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
       step,
       minValue,
       maxValue,
+      style,
       onChange,
       ...props
     },
@@ -54,6 +56,7 @@ const Input: React.FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
           onChange={onChange}
           disabled={disabled}
           className={styles.input}
+          style={style}
           {...props}
         />
       </div>
