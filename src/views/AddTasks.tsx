@@ -50,98 +50,23 @@ const Tasks: React.FC = () => {
   const [activeCardId, setActiveCardId] = useState<null | string>(null);
   const [cardOptions, setCardOptions] = useState<null | any>(null);
 
-  const trelloListUrl = `https://api.trello.com/1/cards?idList=${process.env.REACT_APP_TRELLO_LIST}&key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}`;
-  const cardUrlOptions = (id: string, props: string) => {
-    return `https://api.trello.com/1/cards/${id}/${props}?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}`;
+  const trelloAuthUrl = `key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}`
+  const trelloListUrl = `https://api.trello.com/1/cards?idList=${process.env.REACT_APP_TRELLO_LIST}&${trelloAuthUrl}`;
+  const trelloCardUrl = (id: string, option: string, valueKey: string, value: string) => {
+    return `https://api.trello.com/1/cards/${id}/${option}?${trelloAuthUrl}&${valueKey}=${value}`
   };
-
-  // const trelloCardUrl = `https://api.trello.com/1/cards/${activeCardId}/checklists?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}`;
-
+//`https://api.trello.com/1/cards/${JSON.parse(text).id}/idMembers?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}&value=${member}`,
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Task>();
 
-  const cardId = "6387d0017de8b80591bef2dc";
-
-  //   const params = {
-  //     param1: 'value1',
-  //     param2: 'value2'
-  // };
-  // const options = {
-  //     method: 'POST',
-  //     body: JSON.stringify( params )
-  // };
-  // fetch( 'https://domain.com/path/', options )
-  //     .then( response => response.json() )
-  //     .then( response => {
-  //     } );
-
-  // const fetchData = async (data: any) => {
-  //   fetch(`${trelloListUrl}&name=${data}`, {
-  //     method: "POST",
-  //     headers: {
-  //       Accept: "application/json",
-  //     },
-  //   })
-  //     .then((response) => {
-  //       console.log(`Response: ${response.status} ${response.statusText}`);
-  //       console.log(response)
-  //       return response.text();
-  //     })
-  //     .then((text) => {
-  //       setCardOptions('checklists')
-  //       fetch(`https://api.trello.com/1/cards/${JSON.parse(text).id}?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}`, {
-  //         method: "POST",
-  //         headers: {
-  //           Accept: "application/json",
-  //         },
-  //       })
-  //     })
-  //     .then((text) => console.log(text))
-  //     .catch((err) => console.error(err));
-  // };
-
-  // query = {
-  //   # API credentials
-  //   'key': KEY,
-  //   'token': TOKEN,
-  //   # List to create our card on
-  //   'idList': NEW_APPLICATIONS_LIST_ID,
-  //   # Set the card name to be the applicant's name
-  //   'name': name,
-  //   # Position the new card at the bottom of the list.
-  //   'pos': 'bottom',
-  //   # Add a description to the card containing the email, phone and cover letter
-  //   'desc': f''' Email: {email} Phone: {phone} Cover letter: {cover_letter} '''
-  //  }
-
-  //  response = requests.request(
-  //   'POST',
-  //   url,
-  //   params=query
-  //  )
-
-  const bodyData = `{
-    "idModel": "5abbe4b7ddc1b351ef961414",
-    "modelType": "card",
-    "name": "<string>",
-    "type": "checkbox",
-    "options": "<string>",
-    "pos": "top",
-    "display_cardFront": true
-  }`;
-
-
   const fetchData = (data: Task) => {
-    const { title, logo, dateAdmission, deadline } = data
-    const nwDate = {
-      "start": "2022-02-01T21:00:00.000Z",
-      "due": "2023-01-02T08:56:00.000Z"
-    }
+    const { title, logo, startDate, deadline, member } = data
+    const nwLogo = `**Logo:**  **${logo}**`
     console.log(data)
-    fetch(`${trelloListUrl}&name=${title}&desc=**${logo}**&start=${dateAdmission}&due=${deadline}`, {
+    fetch(`${trelloListUrl}&name=${title}&desc=${nwLogo}&start=${startDate}&due=${deadline}`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -153,8 +78,15 @@ const Tasks: React.FC = () => {
       })
       .then((text) => {
         console.log(JSON.parse(text))
-        fetch(
-          `https://api.trello.com/1/cards/${JSON.parse(text).id}/checklists?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}`,
+        fetch(`${trelloCardUrl(JSON.parse(text).id, 'checklists', 'name', 'lista zadań')}`,
+          {
+            method: 'POST',
+            headers: {
+              Accept: "application/json",
+            },
+          }
+        );
+        fetch(`${trelloCardUrl(JSON.parse(text).id, 'idMembers', 'value', member)}`,
           {
             method: 'POST',
             headers: {
@@ -195,9 +127,9 @@ const Tasks: React.FC = () => {
                   key={index}
                   id={trader.initial}
                   type={"radio"}
-                  value={trader.initial}
+                  value={trader.id}
                   label={trader.initial}
-                  {...register("traders")}
+                  {...register("member")}
                 />
               ))}
               {/* Feature: create new component with add new task btn and children checkbox */}
@@ -295,7 +227,7 @@ const Tasks: React.FC = () => {
               value={new Date().toISOString().slice(0, 10)}
               type="date"
               error={errors.logo}
-              {...register("dateAdmission")}
+              {...register("startDate")}
             />
             <Input
               id={"deadline"}
