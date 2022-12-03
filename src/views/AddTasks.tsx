@@ -62,12 +62,19 @@ const Tasks: React.FC = () => {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<Task>();
+  } = useForm<Task>({
+    defaultValues: {
+      description: [{ name: "test" }]
+    },
+    mode: "onBlur"
+  });
 
   const { fields, append, remove } = useFieldArray({
     name: "description",
     control
   });
+
+  console.log(fields)
 
   const fetchData = (data: Task) => {
     const { title, description, startDate, deadline, member, attachment } = data
@@ -160,20 +167,39 @@ const Tasks: React.FC = () => {
           </FormSection>
           <FormSection>
             <div className={styles.formGroupColumn}>
-              <Input
-                id={"description"}
-                placeholder={"description"}
-                label={"description"}
-                type="text"
-                error={errors.description}
-                {...register("description", { ...validation.description })}
-              />
-              {titleErrors(errors.description?.type)}
+              {fields.map((field, index) => {
+                {console.log(field)}
+                return (
+                  <div key={index}>
+                    
+                    <section className={"section"} key={field.id}>
+                      <input
+                        placeholder="name"
+                        {...register(`description.${index}.name` as const, {
+                          required: true
+                        })}
+                        defaultValue={field.name}
+                      />
+                      <input
+                        placeholder="quantity"
+                        type="text"
+                        {...register(`description.${index}.name` as const, {
+                          required: true
+                        })}
+                        defaultValue={field.name}
+                      />
+                      <button type="button" onClick={() => remove(index)}>
+                        DELETE
+                      </button>
+                    </section>
+                  </div>
+                );
+              })}
             </div>
             <div className={styles.formGroupColumn}>
             </div>
           </FormSection>
-          <SectionsList list={sections}/>
+          <SectionsList list={sections} />
           <Button
             type={"button"}
             title={"Dodaj sekcję"}

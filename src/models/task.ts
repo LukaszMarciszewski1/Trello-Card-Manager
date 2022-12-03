@@ -1,13 +1,17 @@
 
 
 interface Description {
-  logo: string
+  id: string
+  name: string
 }
 
 export interface Task {
   _id: string
   title: string
-  description: Description | Description[]
+  description: {
+    id: string
+    name: string
+  }[]
   materials: string[] | string
   production: string[] | string
   startDate: Date | any
