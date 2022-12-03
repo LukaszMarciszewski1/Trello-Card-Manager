@@ -12,6 +12,7 @@ import { traders, materials, production, sizes } from "data";
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import dayjs from "dayjs";
+import fs from 'fs';
 // import fetch from 'node-fetch';
 
 const validation = {
@@ -52,51 +53,74 @@ const Tasks: React.FC = () => {
 
   const trelloAuthUrl = `key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}`
   const trelloListUrl = `https://api.trello.com/1/cards?idList=${process.env.REACT_APP_TRELLO_LIST}&${trelloAuthUrl}`;
-  const trelloCardUrl = (id: string, option: string, valueKey: string, value: string) => {
+  const trelloCardUrl = (id: string, option?: string, valueKey?: string, value?: string) => {
     return `https://api.trello.com/1/cards/${id}/${option}?${trelloAuthUrl}&${valueKey}=${value}`
   };
-//`https://api.trello.com/1/cards/${JSON.parse(text).id}/idMembers?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}&value=${member}`,
+  //`https://api.trello.com/1/cards/${JSON.parse(text).id}/idMembers?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}&value=${member}`,
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Task>();
 
+
+  // form.append('file', fs.createReadStream('qrc.png')); 
+  const [sFile, setFile] = useState('')
+  const upload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { target: { files } } = e;
+    //     if (files !== null) {
+    // formData.append("mimeType", "image/jpeg");
+    // formData.append("name", "test");
+    //       formData.append('files', files[0])
+    //     }
+    const key = process.env.REACT_APP_TRELLO_KEY
+    const token = process.env.REACT_APP_TRELLO_TOKEN
+    var formData = new FormData();
+    if (files !== null) {
+      formData.append("mimeType", "image/jpeg");
+      formData.append("name", "test");
+      formData.append('files', files[0])
+    }
+
+    var request = new XMLHttpRequest();
+    request.open("POST", `https://api.trello.com/1/cards/638b641de7e22b006023a5ad/attachments?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}`);
+    request.send(formData);
+
+  }
+
+
+
   const fetchData = (data: Task) => {
-    const { title, logo, startDate, deadline, member } = data
+    const { title, logo, startDate, deadline, member, attachment } = data
     const nwLogo = `**Logo:**  **${logo}**`
-    console.log(data)
-    fetch(`${trelloListUrl}&name=${title}&desc=${nwLogo}&start=${startDate}&due=${deadline}`, {
+    const formData = new FormData();
+    formData.append("file", data.attachment[0]);
+    const options = {
       method: "POST",
       headers: {
         Accept: "application/json",
       },
-    })
+    }
+
+    fetch(`${trelloListUrl}&name=${title}&desc=${nwLogo}&start=${startDate}&due=${deadline}`, options)
       .then((response) => {
         console.log(`Response: ${response.status} ${response.statusText}`);
         return response.text();
       })
       .then((text) => {
-        console.log(JSON.parse(text))
-        fetch(`${trelloCardUrl(JSON.parse(text).id, 'checklists', 'name', 'lista zadań')}`,
-          {
-            method: 'POST',
-            headers: {
-              Accept: "application/json",
-            },
-          }
-        );
-        fetch(`${trelloCardUrl(JSON.parse(text).id, 'idMembers', 'value', member)}`,
-          {
-            method: 'POST',
-            headers: {
-              Accept: "application/json",
-            },
-          }
-        );
+        fetch(`${trelloCardUrl(JSON.parse(text).id, 'checklists', 'name', 'lista zadań')}`, options);
+        fetch(`${trelloCardUrl(JSON.parse(text).id, 'idMembers', 'value', member)}`, options);
+        fetch(`https://api.trello.com/1/cards/${JSON.parse(text).id}/attachments?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}`, {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json'
+          },
+          body: formData
+        });
       })
-      .then((text) => console.log(text))
+      // .then((text) => console.log(text))
       .catch((err) => console.error(err));
+
   };
 
   const handleSubmitForm = (data: Task) => {
@@ -237,6 +261,11 @@ const Tasks: React.FC = () => {
               error={errors.logo}
               {...register("deadline")}
             />
+            <input
+              type="file" 
+              // value={(e: { target: { files: any[]; }; }) => e.target.files[0]}
+              {...register("attachment")}
+              />
             {/* <Select
               label={"Przyjął"}
               options={production}

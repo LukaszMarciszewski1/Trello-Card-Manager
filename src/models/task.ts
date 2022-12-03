@@ -14,4 +14,5 @@ export interface Task {
   size: string
   price: number | null
   member: string
+  attachment: File | any
 }
