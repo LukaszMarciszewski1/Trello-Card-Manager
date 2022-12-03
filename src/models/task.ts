@@ -3,10 +3,9 @@ export interface Task {
   title: string
   logo: string
   test: any
-  traders: string
   materials: string[] | string
   production: string[] | string
-  dateAdmission: Date | any
+  startDate: Date | any
   deadline: Date | any
   fabric: string
   amount: number
@@ -14,4 +13,5 @@ export interface Task {
   height: number
   size: string
   price: number | null
+  member: string
 }

@@ -12,6 +12,7 @@ import { traders, materials, production, sizes } from "data";
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import dayjs from "dayjs";
+// import fetch from 'node-fetch';
 
 const validation = {
   title: {
@@ -49,86 +50,23 @@ const Tasks: React.FC = () => {
   const [activeCardId, setActiveCardId] = useState<null | string>(null);
   const [cardOptions, setCardOptions] = useState<null | any>(null);
 
-  const trelloListUrl = `https://api.trello.com/1/cards?idList=${process.env.REACT_APP_TRELLO_LIST}&key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}`;
-  const cardUrlOptions = (id: string, props: string) => {
-    return `https://api.trello.com/1/cards/${id}/${props}?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}`;
+  const trelloAuthUrl = `key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}`
+  const trelloListUrl = `https://api.trello.com/1/cards?idList=${process.env.REACT_APP_TRELLO_LIST}&${trelloAuthUrl}`;
+  const trelloCardUrl = (id: string, option: string, valueKey: string, value: string) => {
+    return `https://api.trello.com/1/cards/${id}/${option}?${trelloAuthUrl}&${valueKey}=${value}`
   };
-
-  // const trelloCardUrl = `https://api.trello.com/1/cards/${activeCardId}/checklists?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}`;
-
+//`https://api.trello.com/1/cards/${JSON.parse(text).id}/idMembers?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}&value=${member}`,
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Task>();
 
-  const cardId = "6387d0017de8b80591bef2dc";
-
-  //   const params = {
-  //     param1: 'value1',
-  //     param2: 'value2'
-  // };
-  // const options = {
-  //     method: 'POST',
-  //     body: JSON.stringify( params )
-  // };
-  // fetch( 'https://domain.com/path/', options )
-  //     .then( response => response.json() )
-  //     .then( response => {
-  //     } );
-
-  // const fetchData = async (data: any) => {
-  //   fetch(`${trelloListUrl}&name=${data}`, {
-  //     method: "POST",
-  //     headers: {
-  //       Accept: "application/json",
-  //     },
-  //   })
-  //     .then((response) => {
-  //       console.log(`Response: ${response.status} ${response.statusText}`);
-  //       console.log(response)
-  //       return response.text();
-  //     })
-  //     .then((text) => {
-  //       setCardOptions('checklists')
-  //       fetch(`https://api.trello.com/1/cards/${JSON.parse(text).id}?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}`, {
-  //         method: "POST",
-  //         headers: {
-  //           Accept: "application/json",
-  //         },
-  //       })
-  //     })
-  //     .then((text) => console.log(text))
-  //     .catch((err) => console.error(err));
-  // };
-
-  // query = {
-  //   # API credentials
-  //   'key': KEY,
-  //   'token': TOKEN,
-  //   # List to create our card on
-  //   'idList': NEW_APPLICATIONS_LIST_ID,
-  //   # Set the card name to be the applicant's name
-  //   'name': name,
-  //   # Position the new card at the bottom of the list.
-  //   'pos': 'bottom',
-  //   # Add a description to the card containing the email, phone and cover letter
-  //   'desc': f''' Email: {email} Phone: {phone} Cover letter: {cover_letter} '''
-  //  }
-
-  //  response = requests.request(
-  //   'POST',
-  //   url,
-  //   params=query
-  //  )
-
-  const query = {
-    key: process.env.REACT_APP_TRELLO_KEY,
-    token: process.env.REACT_APP_TRELLO_TOKEN,
-  };
-
-  const fetchData = async (data: any) => {
-    fetch(`${trelloListUrl}&name=${data}`, {
+  const fetchData = (data: Task) => {
+    const { title, logo, startDate, deadline, member } = data
+    const nwLogo = `**Logo:**  **${logo}**`
+    console.log(data)
+    fetch(`${trelloListUrl}&name=${title}&desc=${nwLogo}&start=${startDate}&due=${deadline}`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -136,16 +74,21 @@ const Tasks: React.FC = () => {
     })
       .then((response) => {
         console.log(`Response: ${response.status} ${response.statusText}`);
-        console.log(response);
         return response.text();
       })
       .then((text) => {
-        setCardOptions("checklists");
-        fetch(
-          `https://api.trello.com/1/cards/${JSON.parse(text).id}/checklists`,
+        console.log(JSON.parse(text))
+        fetch(`${trelloCardUrl(JSON.parse(text).id, 'checklists', 'name', 'lista zadań')}`,
           {
-            method: "POST",
-            body: JSON.stringify(query),
+            method: 'POST',
+            headers: {
+              Accept: "application/json",
+            },
+          }
+        );
+        fetch(`${trelloCardUrl(JSON.parse(text).id, 'idMembers', 'value', member)}`,
+          {
+            method: 'POST',
             headers: {
               Accept: "application/json",
             },
@@ -157,19 +100,9 @@ const Tasks: React.FC = () => {
   };
 
   const handleSubmitForm = (data: Task) => {
-    setPrice(33)
+    fetchData(data)
     console.log(data);
   };
-
-  console.log(traders);
-  function onSubmitButton(data: any) {
-    console.log(data);
-  }
-  const selectDate = dayjs(new Date()).format("YYYY/MM/DD");
-  const [nowDate, setNowDate] = useState(selectDate);
-
-  console.log(dayjs(new Date()).format("DD/MM/YYYY"));
-  const [price, setPrice] = useState(0)
 
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
@@ -194,9 +127,9 @@ const Tasks: React.FC = () => {
                   key={index}
                   id={trader.initial}
                   type={"radio"}
-                  value={trader.initial}
+                  value={trader.id}
                   label={trader.initial}
-                  {...register("traders")}
+                  {...register("member")}
                 />
               ))}
               {/* Feature: create new component with add new task btn and children checkbox */}
@@ -210,10 +143,10 @@ const Tasks: React.FC = () => {
                 label={"Logo"}
                 type="text"
                 error={errors.logo}
-                {...register("title", { ...validation.logo })}
+                {...register("logo", { ...validation.logo })}
               />
               {titleErrors(errors.logo?.type)}
-              <div className={`${styles.checkboxList} ${styles.wrapper}`}>
+              {/* <div className={`${styles.checkboxList} ${styles.wrapper}`}>
                 <p>Materiał: </p>
                 {materials?.map((material, index) => (
                   <Checkbox
@@ -226,10 +159,10 @@ const Tasks: React.FC = () => {
                     {...register("materials")}
                   />
                 ))}
-              </div>
+              </div> */}
             </div>
             <div className={styles.formGroupColumn}>
-              <Input
+              {/* <Input
                 id={"fabric"}
                 placeholder={"Tkanina"}
                 label={"Tkanina"}
@@ -269,14 +202,12 @@ const Tasks: React.FC = () => {
               />
               <Input
                 id={"price"}
-                // placeholder={"Cena"}
                 label={"Cena"}
                 defaultValue={0}
                 type="number"
-                // disabled={true}
                 error={errors.logo}
                 {...register("price")}
-              />
+              /> */}
             </div>
           </FormSection>
           <Button
@@ -289,22 +220,29 @@ const Tasks: React.FC = () => {
         </div>
         <div className={`${styles.formGroupContainer} ${styles.rightPanel}`}>
           <div className={styles.formGroupColumn}>
-            <Select
+            <Input
+              id={"date-admission"}
+              placeholder={"Data przyjęcia"}
+              label={"Data przyjęcia"}
+              value={new Date().toISOString().slice(0, 10)}
+              type="date"
+              error={errors.logo}
+              {...register("startDate")}
+            />
+            <Input
+              id={"deadline"}
+              placeholder={"Data oddania"}
+              label={"Data oddania"}
+              type="date"
+              error={errors.logo}
+              {...register("deadline")}
+            />
+            {/* <Select
               label={"Przyjął"}
               options={production}
               id={"przyjął"}
               name={"przyjął"}
             />
-            {/* <DatePicker
-              dateFormat="DD/MM/YYYY"
-              timeFormat="hh:mm"
-              locale="pl"
-              selected={null}
-              onChange={(date: Date) => console.log(date)}
-              inline
-              showTimeInput
-              timeInputLabel={`Godzina:`}
-            /> */}
             <Input
               id={"date-admission"}
               placeholder={"Data przyjęcia"}
@@ -321,7 +259,7 @@ const Tasks: React.FC = () => {
               type="date"
               error={errors.logo}
               {...register("deadline")}
-            />
+            /> */}
           </div>
         </div>
       </div>
