@@ -1,17 +1,14 @@
 
 
-interface Description {
-  id: string
+export interface Description {
+  // id: string
   name: string
 }
 
 export interface Task {
   _id: string
   title: string
-  description: {
-    id: string
-    name: string
-  }[]
+  description: Description[]
   materials: string[] | string
   production: string[] | string
   startDate: Date | any

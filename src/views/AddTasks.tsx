@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "./styles.module.scss";
 import { useForm, useFieldArray, useWatch, Control } from "react-hook-form";
 import Input from "components/Input/Input";
-import { Task } from "models/task";
+import { Task, Description } from "models/task";
 import Button from "components/Button/Button";
 import { RiAddLine } from "react-icons/ri";
 import Checkbox from "components/Checkbox/Checkbox";
@@ -46,6 +46,9 @@ const titleErrors = (type: any) => {
       return null;
   }
 };
+const defaultDescriptionValues = {
+  name: ''
+}
 
 const Tasks: React.FC = () => {
   dayjs.locale("pl");
@@ -64,7 +67,7 @@ const Tasks: React.FC = () => {
     formState: { errors },
   } = useForm<Task>({
     defaultValues: {
-      description: [{ name: "test" }]
+      description: [defaultDescriptionValues]
     },
     mode: "onBlur"
   });
@@ -78,7 +81,9 @@ const Tasks: React.FC = () => {
 
   const fetchData = (data: Task) => {
     const { title, description, startDate, deadline, member, attachment } = data
-    const nwLogo = `**Logo:**  **${description}**`
+    // const nwLogo = `**Logo:**  **${description[0].name}**`
+    const nwLogo = description.map(desc => `**Logo:**  **${desc.name}**`)
+    console.log(description)
     const formData = new FormData();
     formData.append("file", data.attachment[0]);
     formData.append("value", member);
@@ -150,60 +155,39 @@ const Tasks: React.FC = () => {
               {/* Feature: create new component with add new task btn and children checkbox */}
             </div>
           </div>
-          <FormSection>
-            <div className={styles.formGroupColumn}>
-              <Input
-                id={"logo"}
-                placeholder={"Logo"}
-                label={"Logo"}
-                type="text"
-                error={errors.description}
-                {...register("description", { ...validation.description })}
-              />
-              {titleErrors(errors.description?.type)}
-            </div>
-            <div className={styles.formGroupColumn}>
-            </div>
-          </FormSection>
-          <FormSection>
-            <div className={styles.formGroupColumn}>
-              {fields.map((field, index) => {
-                {console.log(field)}
-                return (
-                  <div key={index}>
-                    
-                    <section className={"section"} key={field.id}>
-                      <input
-                        placeholder="name"
-                        {...register(`description.${index}.name` as const, {
-                          required: true
-                        })}
-                        defaultValue={field.name}
-                      />
-                      <input
-                        placeholder="quantity"
-                        type="text"
-                        {...register(`description.${index}.name` as const, {
-                          required: true
-                        })}
-                        defaultValue={field.name}
-                      />
-                      <button type="button" onClick={() => remove(index)}>
-                        DELETE
-                      </button>
-                    </section>
-                  </div>
-                );
-              })}
-            </div>
-            <div className={styles.formGroupColumn}>
-            </div>
-          </FormSection>
-          <SectionsList list={sections} />
+          {fields.map((field, index) => {
+            return (
+              <FormSection key={field.id}>
+                <div className={styles.formGroupColumn}>
+                  <Input
+                    id={field.id}
+                    placeholder={"Logo"}
+                    label={"Logo"}
+                    type="text"
+                    error={errors.description}
+                    {...register(`description.${index}.name` as const, {
+                      required: true
+                    })}
+                    defaultValue={field.name}
+                  />
+                </div>
+                <div className={styles.formGroupColumn}>
+                </div>
+                {
+                  fields.length > 1 ? (
+                    <button type="button" onClick={() => remove(index)}>
+                      DELETE
+                    </button>
+                  ) : null
+                }
+
+              </FormSection>
+            );
+          })}
           <Button
             type={"button"}
             title={"Dodaj sekcję"}
-            onClick={handleAddNewSection}
+            onClick={() => append(defaultDescriptionValues)}
             style={{ fontSize: "1.2rem" }}
             icon={<RiAddLine fontSize={"1.5rem"} fontWeight={"bold"} />}
           />
