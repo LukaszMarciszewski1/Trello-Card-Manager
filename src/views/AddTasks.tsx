@@ -54,7 +54,7 @@ const Tasks: React.FC = () => {
   const trelloAuthUrl = `key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}`
   const trelloListUrl = `https://api.trello.com/1/cards?idList=${process.env.REACT_APP_TRELLO_LIST}&${trelloAuthUrl}`;
   const trelloCardUrl = (id: string, option?: string, valueKey?: string, value?: string) => {
-    return `https://api.trello.com/1/cards/${id}/${option}?${trelloAuthUrl}&${valueKey}=${value}`
+    return `https://api.trello.com/1/cards/${id}/${option}?${trelloAuthUrl}`
   };
   //`https://api.trello.com/1/cards/${JSON.parse(text).id}/idMembers?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}&value=${member}`,
   const {
@@ -95,6 +95,7 @@ const Tasks: React.FC = () => {
     const nwLogo = `**Logo:**  **${logo}**`
     const formData = new FormData();
     formData.append("file", data.attachment[0]);
+    formData.append("value", member);
     const options = {
       method: "POST",
       headers: {
@@ -108,9 +109,15 @@ const Tasks: React.FC = () => {
         return response.text();
       })
       .then((text) => {
-        fetch(`${trelloCardUrl(JSON.parse(text).id, 'checklists', 'name', 'lista zadań')}`, options);
-        fetch(`${trelloCardUrl(JSON.parse(text).id, 'idMembers', 'value', member)}`, options);
-        fetch(`https://api.trello.com/1/cards/${JSON.parse(text).id}/attachments?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}`, {
+        // fetch(`${trelloCardUrl(JSON.parse(text).id, 'checklists', 'name', 'lista zadań')}`, options);
+        fetch(`${trelloCardUrl(JSON.parse(text).id, 'idMembers')}`, {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json'
+          },
+          body: formData
+        });
+        fetch(`https://api.trello.com/1/cards/${JSON.parse(text).id}/attachments?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}&setCover=false`, {
           method: 'POST',
           headers: {
             'Accept': 'application/json'
@@ -261,11 +268,14 @@ const Tasks: React.FC = () => {
               error={errors.logo}
               {...register("deadline")}
             />
-            <input
-              type="file" 
-              // value={(e: { target: { files: any[]; }; }) => e.target.files[0]}
+            <Input
+              id={"attachment"}
+              placeholder={"Dodaj załączniki"}
+              label={"Dodaj załączniki"}
+              type="file"
+              error={errors.logo}
               {...register("attachment")}
-              />
+            />
             {/* <Select
               label={"Przyjął"}
               options={production}
