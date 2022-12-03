@@ -10,7 +10,7 @@ const Tabs: React.FC<Props> = ({ children }) => {
   const [selectedTab, setSelectedTab] = useState(0)
 
   return (
-    <div>
+    <div className={styles.layout}>
       <ul className={styles.tabContainer}>
         {children.map((item, index) => (
           <Tab

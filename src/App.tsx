@@ -1,6 +1,6 @@
 import React from "react";
 import logo from "./logo.svg";
-import "./App.css";
+import "./App.scss";
 import Tabs from "components/Tabs/Tabs";
 import TabsContent from "components/Tabs/TabsContent/TabsContent";
 import Tasks from "views/AddTasks";
@@ -10,11 +10,11 @@ function App() {
   return (
     <div className="App">
       <Tabs>
-        <TabsContent title="Lista zleceń">
-          <ListTasks />
-        </TabsContent>
         <TabsContent title="Dodaj zlecenie">
           <Tasks />
+        </TabsContent>
+        <TabsContent title="Lista zleceń">
+          <ListTasks />
         </TabsContent>
       </Tabs>
     </div>

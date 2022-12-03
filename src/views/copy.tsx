@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "./styles.module.scss";
-import { useForm, useFieldArray, useWatch, Control } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import Input from "components/Input/Input";
 import { Task } from "models/task";
 import Button from "components/Button/Button";
@@ -50,24 +50,18 @@ const titleErrors = (type: any) => {
 const Tasks: React.FC = () => {
   dayjs.locale("pl");
   const [sections, setSections] = useState([])
+
   const trelloAuthUrl = `key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}`
   const trelloListUrl = `https://api.trello.com/1/cards?idList=${process.env.REACT_APP_TRELLO_LIST}&${trelloAuthUrl}`;
   const trelloCardUrl = (id: string, option?: string, valueKey?: string, value?: string) => {
     return `https://api.trello.com/1/cards/${id}/${option}?${trelloAuthUrl}&${valueKey}=${value}`
   };
-
   //`https://api.trello.com/1/cards/${JSON.parse(text).id}/idMembers?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}&value=${member}`,
   const {
     register,
-    control,
     handleSubmit,
     formState: { errors },
   } = useForm<Task>();
-
-  const { fields, append, remove } = useFieldArray({
-    name: "description",
-    control
-  });
 
   const fetchData = (data: Task) => {
     const { title, description, startDate, deadline, member, attachment } = data

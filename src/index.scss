@@ -1,8 +1,11 @@
-*, *::after, *::before{
+*,
+*::after,
+*::before {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  color: #67788A;
+  color: #67788a;
+
 }
 
 body {
@@ -12,6 +15,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: rgb(231, 231, 231);
 }
 
 code {
@@ -19,6 +23,6 @@ code {
     monospace;
 }
 
-button{
+button {
   cursor: pointer;
 }
