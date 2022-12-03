@@ -12,6 +12,7 @@ import { traders, materials, production, sizes } from "data";
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import dayjs from "dayjs";
+// import fetch from 'node-fetch';
 
 const validation = {
   title: {
@@ -122,13 +123,25 @@ const Tasks: React.FC = () => {
   //   params=query
   //  )
 
-  const query = {
-    key: process.env.REACT_APP_TRELLO_KEY,
-    token: process.env.REACT_APP_TRELLO_TOKEN,
-  };
+  const bodyData = `{
+    "idModel": "5abbe4b7ddc1b351ef961414",
+    "modelType": "card",
+    "name": "<string>",
+    "type": "checkbox",
+    "options": "<string>",
+    "pos": "top",
+    "display_cardFront": true
+  }`;
 
-  const fetchData = async (data: any) => {
-    fetch(`${trelloListUrl}&name=${data}`, {
+
+  const fetchData = (data: Task) => {
+    const { title, logo, dateAdmission, deadline } = data
+    const nwDate = {
+      "start": "2022-02-01T21:00:00.000Z",
+      "due": "2023-01-02T08:56:00.000Z"
+    }
+    console.log(data)
+    fetch(`${trelloListUrl}&name=${title}&desc=**${logo}**&start=${dateAdmission}&due=${deadline}`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -136,16 +149,14 @@ const Tasks: React.FC = () => {
     })
       .then((response) => {
         console.log(`Response: ${response.status} ${response.statusText}`);
-        console.log(response);
         return response.text();
       })
       .then((text) => {
-        setCardOptions("checklists");
+        console.log(JSON.parse(text))
         fetch(
-          `https://api.trello.com/1/cards/${JSON.parse(text).id}/checklists`,
+          `https://api.trello.com/1/cards/${JSON.parse(text).id}/checklists?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}`,
           {
-            method: "POST",
-            body: JSON.stringify(query),
+            method: 'POST',
             headers: {
               Accept: "application/json",
             },
@@ -157,19 +168,9 @@ const Tasks: React.FC = () => {
   };
 
   const handleSubmitForm = (data: Task) => {
-    setPrice(33)
+    fetchData(data)
     console.log(data);
   };
-
-  console.log(traders);
-  function onSubmitButton(data: any) {
-    console.log(data);
-  }
-  const selectDate = dayjs(new Date()).format("YYYY/MM/DD");
-  const [nowDate, setNowDate] = useState(selectDate);
-
-  console.log(dayjs(new Date()).format("DD/MM/YYYY"));
-  const [price, setPrice] = useState(0)
 
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
@@ -210,10 +211,10 @@ const Tasks: React.FC = () => {
                 label={"Logo"}
                 type="text"
                 error={errors.logo}
-                {...register("title", { ...validation.logo })}
+                {...register("logo", { ...validation.logo })}
               />
               {titleErrors(errors.logo?.type)}
-              <div className={`${styles.checkboxList} ${styles.wrapper}`}>
+              {/* <div className={`${styles.checkboxList} ${styles.wrapper}`}>
                 <p>Materiał: </p>
                 {materials?.map((material, index) => (
                   <Checkbox
@@ -226,10 +227,10 @@ const Tasks: React.FC = () => {
                     {...register("materials")}
                   />
                 ))}
-              </div>
+              </div> */}
             </div>
             <div className={styles.formGroupColumn}>
-              <Input
+              {/* <Input
                 id={"fabric"}
                 placeholder={"Tkanina"}
                 label={"Tkanina"}
@@ -269,14 +270,12 @@ const Tasks: React.FC = () => {
               />
               <Input
                 id={"price"}
-                // placeholder={"Cena"}
                 label={"Cena"}
                 defaultValue={0}
                 type="number"
-                // disabled={true}
                 error={errors.logo}
                 {...register("price")}
-              />
+              /> */}
             </div>
           </FormSection>
           <Button
@@ -289,22 +288,6 @@ const Tasks: React.FC = () => {
         </div>
         <div className={`${styles.formGroupContainer} ${styles.rightPanel}`}>
           <div className={styles.formGroupColumn}>
-            <Select
-              label={"Przyjął"}
-              options={production}
-              id={"przyjął"}
-              name={"przyjął"}
-            />
-            {/* <DatePicker
-              dateFormat="DD/MM/YYYY"
-              timeFormat="hh:mm"
-              locale="pl"
-              selected={null}
-              onChange={(date: Date) => console.log(date)}
-              inline
-              showTimeInput
-              timeInputLabel={`Godzina:`}
-            /> */}
             <Input
               id={"date-admission"}
               placeholder={"Data przyjęcia"}
@@ -322,6 +305,29 @@ const Tasks: React.FC = () => {
               error={errors.logo}
               {...register("deadline")}
             />
+            {/* <Select
+              label={"Przyjął"}
+              options={production}
+              id={"przyjął"}
+              name={"przyjął"}
+            />
+            <Input
+              id={"date-admission"}
+              placeholder={"Data przyjęcia"}
+              label={"Data przyjęcia"}
+              value={new Date().toISOString().slice(0, 10)}
+              type="date"
+              error={errors.logo}
+              {...register("dateAdmission")}
+            />
+            <Input
+              id={"deadline"}
+              placeholder={"Data oddania"}
+              label={"Data oddania"}
+              type="date"
+              error={errors.logo}
+              {...register("deadline")}
+            /> */}
           </div>
         </div>
       </div>
