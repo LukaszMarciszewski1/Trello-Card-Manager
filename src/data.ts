@@ -1,37 +1,37 @@
 export const traders = [
   {
-    id: '6350f5d4c2c662005aa115e2',
+    id: '6368b5afeaaa0400bb987771',
     name: 'Marcin Rzeźnicki',
     initial: 'MR',
     checked: false,
   },
   //6368b5afeaaa0400bb987771 tj
   {
-    id: '6350f5d4c2c662005aa115e2',
+    id: '6368b5afeaaa0400bb987771',
     name: 'Tomasz Jankowski',
     initial: 'TJ',
     checked: false,
   },
   {
-    id: '6350f5d4c2c662005aa115e2',
+    id: '6368b5afeaaa0400bb987771',
     name: 'Paweł Ogonowski',
     initial: 'PO',
     checked: false,
   },
   {
-    id: '6350f5d4c2c662005aa115e2',
+    id: '6368b5afeaaa0400bb987771',
     name: 'MS',
     initial: 'MS',
     checked: false,
   },
   {
-    id: '6350f5d4c2c662005aa115e2',
+    id: '6368b5afeaaa0400bb987771',
     name: 'Justyna Leszczyńska',
     initial: 'JL',
     checked: false,
   },
   {
-    id: '6350f5d4c2c662005aa115e2',
+    id: '6368b5afeaaa0400bb987771',
     name: 'Maciej Witak',
     initial: 'MW',
     checked: false,
@@ -40,13 +40,13 @@ export const traders = [
 
 export const fabric = [
   {
-    title: 'bawełna',
+    name: 'bawełna',
   },
   {
-    title: 'poliester',
+    name: 'poliester',
   },
   {
-    title: 'skóra',
+    name: 'skóra',
   },
 ]
 
@@ -83,5 +83,18 @@ export const sizes = [
   },
   {
     name: 'GIGA',
+  },
+]
+
+export const recipient = [
+  {
+    name: '6350f5d4c2c662005aa115e2',
+    // name: 'Marcin',
+    initial: 'MP',
+  },
+  {
+    name: '6350f5d4c2c662005aa115e2',
+    // name: 'Kasia',
+    initial: 'MP',
   },
 ]
