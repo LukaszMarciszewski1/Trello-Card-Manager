@@ -22,4 +22,5 @@ export interface Task {
   price: number | null
   member: string
   attachment: File | any
+  recipient: string
 }

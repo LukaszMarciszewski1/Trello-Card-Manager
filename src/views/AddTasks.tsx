@@ -8,7 +8,7 @@ import { RiAddLine } from "react-icons/ri";
 import Checkbox from "components/Checkbox/Checkbox";
 import Select from "components/Select/Select";
 import FormSection from "components/Section/FormSection";
-import { traders, fabric, production, sizes } from "data";
+import { traders, fabric, production, sizes, recipient } from "data";
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import dayjs from "dayjs";
@@ -51,7 +51,7 @@ const titleErrors = (type: any) => {
 const defaultDescriptionValues = {
   logo: '',
   amount: 0,
-  fabric: fabric[0].title
+  fabric: fabric[0].name
 }
 
 const Tasks: React.FC = () => {
@@ -59,7 +59,7 @@ const Tasks: React.FC = () => {
   const [sections, setSections] = useState([])
   const trelloAuthUrl = `key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}`
   const trelloListUrl = `https://api.trello.com/1/cards?idList=${process.env.REACT_APP_TRELLO_LIST}&${trelloAuthUrl}`;
-  const trelloCardUrl = (id: string, option?: string, valueKey?: string, value?: string) => {
+  const trelloCardUrl = (id: string, option?: string, valueKey?: string, value?: string | string[]) => {
     return `https://api.trello.com/1/cards/${id}/${option}?${trelloAuthUrl}&${valueKey}=${value}`
   };
 
@@ -83,29 +83,46 @@ const Tasks: React.FC = () => {
 
   const fetchData = (data: Task) => {
     console.log(data)
-    const { title, description, startDate, deadline, member, attachment, fabric } = data
-    // const nwLogo = `**Logo:**  **${description[0].name}**`  
+    const { title, description, startDate, deadline, member, attachment, recipient } = data
+    const nwLogo = `**Logo:**  **${description[0].logo}**`
     // const nwLogo = description.map(desc => `Logo:${desc.name}<br>`) %0D%0A
-    const nwLogo = description.map(desc => `**Logo:  ${desc.logo}**%0D%0AIlość: ${desc.amount}%0D%0ATkanina: ${desc.fabric}%0D%0A%0D%0A`)
-
+    const newMember = [`${member},${recipient}`]
+    // const nwLogo = description.map(desc => formInitialCard.append('desc', `**Logo:  ${desc.logo}**%0D%0AIlość: ${desc.amount}%0D%0ATkanina: ${desc.fabric}%0D%0A%0D%0A`))
     const formData = new FormData();
+    const formInitialCard = new FormData();
+    const descString = description.map((desc, i) => `***Sekcja${i+1}***\n**Logo: ${desc.logo}**\nIlość: ${desc.amount}\nTkanina: ${desc.fabric}\n\n`).toString()
+
+    formInitialCard.append('name', title)
+    formInitialCard.append('desc', descString)
+    formInitialCard.append('start', startDate)
+    formInitialCard.append('due', deadline)
+    formInitialCard.append('idMembers', `${member},${recipient}`)
     formData.append("file", attachment[0]);
-    formData.append("value", member);
+
+    const optionsInit = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+      },
+      body: formInitialCard
+    }
+
+
     const options = {
       method: "POST",
       headers: {
         Accept: "application/json",
       },
     }
-
-    fetch(`${trelloListUrl}&name=${title}&desc=${nwLogo}&start=${startDate}&due=${deadline}`, options)
+    // fetch(`${trelloListUrl}&name=${title}&desc=${nwLogo}&start=${startDate}&due=${deadline}&idMembers=${member},${recipient}`, options)
+    fetch(trelloListUrl, optionsInit)
       .then((response) => {
         console.log(`Response: ${response.status} ${response.statusText}`);
         return response.text();
       })
       .then((text) => {
         fetch(`${trelloCardUrl(JSON.parse(text).id, 'checklists', 'name', 'lista zadań')}`, options);
-        fetch(`${trelloCardUrl(JSON.parse(text).id, 'idMembers', "value", member)}`, options);
+        // fetch(`${trelloCardUrl(JSON.parse(text).id, 'idMembers', "value", newMember)}`, options);
         fetch(`https://api.trello.com/1/cards/${JSON.parse(text).id}/attachments?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}&setCover=false`, {
           method: 'POST',
           headers: {
@@ -123,10 +140,6 @@ const Tasks: React.FC = () => {
     fetchData(data)
     console.log(data);
   };
-
-  const handleAddNewSection = () => {
-    console.log('add new section')
-  }
 
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
@@ -251,6 +264,13 @@ const Tasks: React.FC = () => {
         </div>
         <div className={`${styles.formGroupContainer} ${styles.rightPanel}`}>
           <div className={`${styles.formGroupColumn} ${styles.rightPanelColumn}`}>
+            <Select
+              label={"Przyjął"}
+              options={recipient}
+              id={'recipient'}
+              // defaultValue={field.fabric}
+              {...register("recipient")}
+            />
             <Input
               id={"date-admission"}
               placeholder={"Data przyjęcia"}
