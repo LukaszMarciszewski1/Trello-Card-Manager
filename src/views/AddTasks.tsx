@@ -83,13 +83,13 @@ const Tasks: React.FC = () => {
 
   const fetchData = (data: Task) => {
     console.log(data)
-    const { title, description, startDate, deadline, member, attachment } = data
+    const { title, description, startDate, deadline, member, attachment, fabric } = data
     // const nwLogo = `**Logo:**  **${description[0].name}**`  
     // const nwLogo = description.map(desc => `Logo:${desc.name}<br>`) %0D%0A
-    const nwLogo = description.map(desc => `**Logo:  ${desc.logo}**%0D%0AIlość: ${desc.amount}%0D%0A%0D%0A`)
+    const nwLogo = description.map(desc => `**Logo:  ${desc.logo}**%0D%0AIlość: ${desc.amount}%0D%0ATkanina: ${desc.fabric}%0D%0A%0D%0A`)
 
     const formData = new FormData();
-    formData.append("file", data.attachment[0]);
+    formData.append("file", attachment[0]);
     formData.append("value", member);
     const options = {
       method: "POST",
