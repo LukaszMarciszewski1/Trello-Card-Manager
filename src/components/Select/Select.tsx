@@ -3,7 +3,7 @@ import styles from "./styles.module.scss";
 
 export type SelectProps = {
   id: string;
-  title: string;
+  title?: string;
   label: string;
   name?: any;
   type?: "text" | "email" | "number" | "password";
@@ -48,9 +48,9 @@ const Input: React.FC<SelectProps> = forwardRef<HTMLInputElement, SelectProps>(
           <p>{label}</p>
         </label>
         <select className={styles.select} id={id} name={name} {...props} >
-          {options.map((prod: { title: any }, index: any) => (
-            <option key={index} value={prod.title}>
-              {prod.title}
+          {options.map((prod: { name: any }, index: any) => (
+            <option key={index} value={prod.name}>
+              {prod.name}
             </option>
           ))}
         </select>
