@@ -1,19 +1,21 @@
 import React, { useState } from "react";
 import styles from "./styles.module.scss";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, useFieldArray, useWatch, Control } from "react-hook-form";
 import Input from "components/Input/Input";
-import { Task } from "models/task";
+import { Task, Description } from "models/task";
 import Button from "components/Button/Button";
 import { RiAddLine } from "react-icons/ri";
 import Checkbox from "components/Checkbox/Checkbox";
 import Select from "components/Select/Select";
 import FormSection from "components/Section/FormSection";
-import { traders, materials, production, sizes } from "data";
+import { traders, fabric, production, sizes } from "data";
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import dayjs from "dayjs";
 import fs from 'fs';
 import SectionsList from "components/SectionsList/SectionsList";
+import Tabs from "components/Tabs/Tabs";
+import TabsContent from "components/Tabs/TabsContent/TabsContent";
 // import fetch from 'node-fetch';
 
 const validation = {
@@ -46,26 +48,46 @@ const titleErrors = (type: any) => {
       return null;
   }
 };
+const defaultDescriptionValues = {
+  logo: '',
+  amount: 0,
+  fabric: ''
+}
 
 const Tasks: React.FC = () => {
   dayjs.locale("pl");
   const [sections, setSections] = useState([])
-
   const trelloAuthUrl = `key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}`
   const trelloListUrl = `https://api.trello.com/1/cards?idList=${process.env.REACT_APP_TRELLO_LIST}&${trelloAuthUrl}`;
   const trelloCardUrl = (id: string, option?: string, valueKey?: string, value?: string) => {
     return `https://api.trello.com/1/cards/${id}/${option}?${trelloAuthUrl}&${valueKey}=${value}`
   };
+
   //`https://api.trello.com/1/cards/${JSON.parse(text).id}/idMembers?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}&value=${member}`,
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors },
-  } = useForm<Task>();
+  } = useForm<Task>({
+    defaultValues: {
+      description: [defaultDescriptionValues]
+    },
+    mode: "onBlur"
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    name: "description",
+    control
+  });
 
   const fetchData = (data: Task) => {
+    console.log(data)
     const { title, description, startDate, deadline, member, attachment } = data
-    const nwLogo = `**Logo:**  **${description}**`
+    // const nwLogo = `**Logo:**  **${description[0].name}**`  
+    // const nwLogo = description.map(desc => `Logo:${desc.name}<br>`) %0D%0A
+    const nwLogo = description.map(desc => `**Logo:  ${desc.logo}**%0D%0AIlość: ${desc.amount}%0D%0A%0D%0A`)
+
     const formData = new FormData();
     formData.append("file", data.attachment[0]);
     formData.append("value", member);
@@ -137,47 +159,105 @@ const Tasks: React.FC = () => {
               {/* Feature: create new component with add new task btn and children checkbox */}
             </div>
           </div>
-          <FormSection>
-            <div className={styles.formGroupColumn}>
-              <Input
-                id={"logo"}
-                placeholder={"Logo"}
-                label={"Logo"}
-                type="text"
-                error={errors.description}
-                {...register("description", { ...validation.description })}
-              />
-              {titleErrors(errors.description?.type)}
-            </div>
-            <div className={styles.formGroupColumn}>
-            </div>
-          </FormSection>
-          <FormSection>
-            <div className={styles.formGroupColumn}>
-              <Input
-                id={"description"}
-                placeholder={"description"}
-                label={"description"}
-                type="text"
-                error={errors.description}
-                {...register("description", { ...validation.description })}
-              />
-              {titleErrors(errors.description?.type)}
-            </div>
-            <div className={styles.formGroupColumn}>
-            </div>
-          </FormSection>
-          <SectionsList list={sections}/>
+          {fields.map((field, index) => {
+            return (
+              <FormSection key={field.id}>
+                {/* <div className={styles.tabsContainer}>
+                  <Tabs>
+                    <TabsContent title="Dodaj zlecenie">
+                      <div>lista</div>
+                    </TabsContent>
+                    <TabsContent title="Lista zleceń">
+                      <div>asdasdas</div>
+                    </TabsContent>
+                  </Tabs>
+                </div> */}
+                <div className={styles.formGroupColumn}>
+                  <Input
+                    id={field.id}
+                    placeholder={"Logo"}
+                    label={"Logo"}
+                    type="text"
+                    error={errors.description}
+                    {...register(`description.${index}.logo` as const, {
+                      required: true
+                    })}
+                    defaultValue={field.logo}
+                  />
+                </div>
+                <div className={styles.formGroupColumn}>
+                  <Select
+                    label={"Tkanina"}
+                    options={fabric}
+                    id={field.id}
+                    title={field.id}
+                    defaultValue={field.fabric}
+                    // name={"fabric"}
+                    {...register(`description.${index}.fabric` as const)}
+                  />
+                  <Input
+                    id={field.id}
+                    placeholder={"Ilość"}
+                    label={"Ilość"}
+                    type="number"
+                    {...register(`description.${index}.amount` as const)}
+                  />
+                  <Input
+                    id={"width"}
+                    placeholder={"Szerokość"}
+                    label={"Szerokość (mm)"}
+                    type="number"
+                    step={'0.1'}
+                    {...register("width")}
+                  />
+                  <Input
+                    id={"height"}
+                    placeholder={"Wysokość"}
+                    label={"Wysokość (mm)"}
+                    type="number"
+                    {...register("height")}
+                  />
+                  {/* <Select
+                    label={"Rozmiar"}
+                    options={sizes}
+                    id={"size"}
+                    title={"size"}
+                  /> */}
+                  <Input
+                    id={"price"}
+                    // placeholder={"Cena"}
+                    label={"Cena"}
+                    defaultValue={0}
+                    type="number"
+                    // disabled={true}
+                    {...register("price")}
+                  />
+                </div>
+                {/* delete section ----------------------------> */}
+                {/* {
+                  fields.length > 1 ? (
+                    <Button
+                      type={"button"}
+                      title={"x"}
+                      onClick={() => remove(index)}
+                      style={{ fontSize: "1rem", width: '15px', height: '30px' }}
+                    />
+                  ) : null
+                } */}
+                {/* delete section ----------------------------> */}
+              </FormSection>
+            );
+          })}
           <Button
             type={"button"}
             title={"Dodaj sekcję"}
-            onClick={handleAddNewSection}
+            onClick={() => append(defaultDescriptionValues)}
             style={{ fontSize: "1.2rem" }}
             icon={<RiAddLine fontSize={"1.5rem"} fontWeight={"bold"} />}
           />
         </div>
         <div className={`${styles.formGroupContainer} ${styles.rightPanel}`}>
-          <div className={styles.formGroupColumn}>
+          <div className={`${styles.formGroupColumn} ${styles.rightPanelColumn}`}>
             <Input
               id={"date-admission"}
               placeholder={"Data przyjęcia"}
@@ -208,7 +288,6 @@ const Tasks: React.FC = () => {
               title={"Dodaj zlecenie"}
               onClick={() => console.log("click")}
               style={{ fontSize: "1.2rem" }}
-              icon={<RiAddLine fontSize={"1.5rem"} fontWeight={"bold"} />}
             />
           </div>
         </div>

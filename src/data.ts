@@ -38,15 +38,15 @@ export const traders = [
   },
 ]
 
-export const materials = [
+export const fabric = [
   {
-    name: 'bawełna',
+    title: 'bawełna',
   },
   {
-    name: 'poliester',
+    title: 'poliester',
   },
   {
-    name: 'skóra',
+    title: 'skóra',
   },
 ]
 

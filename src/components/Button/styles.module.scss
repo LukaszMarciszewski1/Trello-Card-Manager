@@ -1,18 +1,26 @@
 @import '../../theme/colors.scss';
 
-.button{
-    width: 100%;
-    border: none;
-    padding: .5rem 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #67788A;
-    background-color: #e7e7e7;
-    margin: 1rem 0;
-    opacity: .9;
-    border-radius: 6px;
-    &:hover{
-        background-color: darken(#e7e7e7, 5%);
-    } 
+.button {
+  width: 100%;
+  border: none;
+  padding: 0.5rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #67788a;
+  background-color: #e7e7e7;
+  margin: 1rem 0;
+  opacity: 0.9;
+  border-radius: 6px;
+  &:hover {
+    background-color: darken(#e7e7e7, 5%);
+  }
+}
+
+.button[type='submit'] {
+  background-color: $blue;
+  color: white;
+  &:hover {
+    background-color: darken($blue, 5%);
+  }
 }

@@ -1,10 +1,11 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useState } from "react";
 import styles from "./styles.module.scss";
 
 export type SelectProps = {
   id: string;
-  name: string;
+  title: string;
   label: string;
+  name?: any;
   type?: "text" | "email" | "number" | "password";
   placeholder?: string;
   disabled?: boolean;
@@ -23,7 +24,7 @@ const Input: React.FC<SelectProps> = forwardRef<HTMLInputElement, SelectProps>(
   (
     {
       id,
-      name,
+      title,
       label,
       type,
       placeholder,
@@ -35,20 +36,22 @@ const Input: React.FC<SelectProps> = forwardRef<HTMLInputElement, SelectProps>(
       maxValue,
       style,
       options,
+      name,
       onChange,
       ...props
     },
     ref
   ) => {
+    const [select, setSelect] = useState(options[0].title)
     return (
-      <div className={styles.container}>
+      <div className={styles.container} ref={ref}>
         <label htmlFor="title">
           <p>{label}</p>
         </label>
-        <select className={styles.select}>
-          {options.map((prod: { name: any }, index: any) => (
-            <option key={index} value={prod.name}>
-              {prod.name}
+        <select className={styles.select} id={id} value={select} name={name} {...props} onChange={e => setSelect(e.target.value)} >
+          {options.map((prod: { title: any }, index: any) => (
+            <option key={index} value={prod.title}>
+              {prod.title}
             </option>
           ))}
         </select>

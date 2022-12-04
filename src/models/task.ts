@@ -1,8 +1,9 @@
 
 
 export interface Description {
-  // id: string
-  name: string
+  logo: string
+  amount: number
+  fabric: string
 }
 
 export interface Task {

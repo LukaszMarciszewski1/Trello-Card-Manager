@@ -1,6 +1,7 @@
 @import 'theme/colors.scss';
 
 .formSection {
+  position: relative;
   width: 100%;
   border: 1px solid $matBlue;
   border-radius: 1rem;

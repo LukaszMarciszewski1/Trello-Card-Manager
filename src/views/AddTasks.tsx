@@ -8,12 +8,14 @@ import { RiAddLine } from "react-icons/ri";
 import Checkbox from "components/Checkbox/Checkbox";
 import Select from "components/Select/Select";
 import FormSection from "components/Section/FormSection";
-import { traders, materials, production, sizes } from "data";
+import { traders, fabric, production, sizes } from "data";
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import dayjs from "dayjs";
 import fs from 'fs';
 import SectionsList from "components/SectionsList/SectionsList";
+import Tabs from "components/Tabs/Tabs";
+import TabsContent from "components/Tabs/TabsContent/TabsContent";
 // import fetch from 'node-fetch';
 
 const validation = {
@@ -47,7 +49,9 @@ const titleErrors = (type: any) => {
   }
 };
 const defaultDescriptionValues = {
-  name: ''
+  logo: '',
+  amount: 0,
+  fabric: fabric[0].title
 }
 
 const Tasks: React.FC = () => {
@@ -77,13 +81,13 @@ const Tasks: React.FC = () => {
     control
   });
 
-  console.log(fields)
-
   const fetchData = (data: Task) => {
+    console.log(data)
     const { title, description, startDate, deadline, member, attachment } = data
-    // const nwLogo = `**Logo:**  **${description[0].name}**`
-    const nwLogo = description.map(desc => `**Logo:**  **${desc.name}**`)
-    console.log(description)
+    // const nwLogo = `**Logo:**  **${description[0].name}**`  
+    // const nwLogo = description.map(desc => `Logo:${desc.name}<br>`) %0D%0A
+    const nwLogo = description.map(desc => `**Logo:  ${desc.logo}**%0D%0AIlość: ${desc.amount}%0D%0A%0D%0A`)
+
     const formData = new FormData();
     formData.append("file", data.attachment[0]);
     formData.append("value", member);
@@ -158,6 +162,16 @@ const Tasks: React.FC = () => {
           {fields.map((field, index) => {
             return (
               <FormSection key={field.id}>
+                {/* <div className={styles.tabsContainer}>
+                  <Tabs>
+                    <TabsContent title="Dodaj zlecenie">
+                      <div>lista</div>
+                    </TabsContent>
+                    <TabsContent title="Lista zleceń">
+                      <div>asdasdas</div>
+                    </TabsContent>
+                  </Tabs>
+                </div> */}
                 <div className={styles.formGroupColumn}>
                   <Input
                     id={field.id}
@@ -165,22 +179,65 @@ const Tasks: React.FC = () => {
                     label={"Logo"}
                     type="text"
                     error={errors.description}
-                    {...register(`description.${index}.name` as const, {
+                    {...register(`description.${index}.logo` as const, {
                       required: true
                     })}
-                    defaultValue={field.name}
+                    defaultValue={field.logo}
                   />
                 </div>
                 <div className={styles.formGroupColumn}>
+                  <Select
+                    label={"Tkanina"}
+                    options={fabric}
+                    id={field.id}
+                    title={field.id}
+                    // defaultValue={field.fabric}
+                    {...register(`description.${index}.fabric` as const)}
+                  />
+                  <Input
+                    id={field.id}
+                    placeholder={"Ilość"}
+                    label={"Ilość"}
+                    type="number"
+                    {...register(`description.${index}.amount` as const)}
+                  />
+                  <Input
+                    id={"width"}
+                    placeholder={"Szerokość"}
+                    label={"Szerokość (mm)"}
+                    type="number"
+                    step={'0.1'}
+                    {...register("width")}
+                  />
+                  <Input
+                    id={"height"}
+                    placeholder={"Wysokość"}
+                    label={"Wysokość (mm)"}
+                    type="number"
+                    {...register("height")}
+                  />
+                  <Input
+                    id={"price"}
+                    // placeholder={"Cena"}
+                    label={"Cena"}
+                    defaultValue={0}
+                    type="number"
+                    // disabled={true}
+                    {...register("price")}
+                  />
                 </div>
-                {
+                {/* delete section ----------------------------> */}
+                {/* {
                   fields.length > 1 ? (
-                    <button type="button" onClick={() => remove(index)}>
-                      DELETE
-                    </button>
+                    <Button
+                      type={"button"}
+                      title={"x"}
+                      onClick={() => remove(index)}
+                      style={{ fontSize: "1rem", width: '15px', height: '30px' }}
+                    />
                   ) : null
-                }
-
+                } */}
+                {/* delete section ----------------------------> */}
               </FormSection>
             );
           })}
@@ -193,7 +250,7 @@ const Tasks: React.FC = () => {
           />
         </div>
         <div className={`${styles.formGroupContainer} ${styles.rightPanel}`}>
-          <div className={styles.formGroupColumn}>
+          <div className={`${styles.formGroupColumn} ${styles.rightPanelColumn}`}>
             <Input
               id={"date-admission"}
               placeholder={"Data przyjęcia"}
@@ -224,7 +281,6 @@ const Tasks: React.FC = () => {
               title={"Dodaj zlecenie"}
               onClick={() => console.log("click")}
               style={{ fontSize: "1.2rem" }}
-              icon={<RiAddLine fontSize={"1.5rem"} fontWeight={"bold"} />}
             />
           </div>
         </div>
