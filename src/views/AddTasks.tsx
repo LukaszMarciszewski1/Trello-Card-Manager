@@ -61,12 +61,7 @@ const Tasks: React.FC = () => {
   const [sections, setSections] = useState([]);
   const trelloAuthUrl = `key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}`;
   const trelloListUrl = `https://api.trello.com/1/cards?idList=${process.env.REACT_APP_TRELLO_LIST}&${trelloAuthUrl}`;
-  const trelloCardUrl = (
-    id: string,
-    option?: string,
-    valueKey?: string,
-    value?: string | string[]
-  ) => {
+  const trelloCardUrl = (id: string, option?: string, valueKey?: string, value?: string | string[]) => {
     return `https://api.trello.com/1/cards/${id}/${option}?${trelloAuthUrl}&${valueKey}=${value}`;
   };
 
@@ -90,27 +85,16 @@ const Tasks: React.FC = () => {
 
   const fetchData = (data: Task) => {
     console.log(data);
-    const {
-      title,
-      description,
-      startDate,
-      deadline,
-      member,
-      attachment,
-      recipient,
-    } = data;
-    const newMember = [`${member},${recipient}`];
+    const { title, description, startDate, deadline, member, attachment, recipient } = data;
     // const nwLogo = description.map(desc => formInitialCard.append('desc', `**Logo:  ${desc.logo}**%0D%0AIlość: ${desc.amount}%0D%0ATkanina: ${desc.fabric}%0D%0A%0D%0A`))
     const formData = new FormData();
     const formInitialCard = new FormData();
     const descPayload = description
       .map(
         (desc, i) =>
-          `***Sekcja${i + 1}***\n**Logo: ${desc.logo}**\nIlość: ${
-            desc.amount
-          }\nTkanina: ${desc.fabric}\nSzerokość: ${desc.width}cm\nWysokość: ${
-            desc.height
-          }cm\n\n-------------------------------------\n`
+          `***Sekcja${i + 1}***\n**Logo: ${desc.logo}**\nIlość: ${desc.amount}\nTkanina: ${desc.fabric}\nSzerokość: ${
+            desc.width
+          }cm\nWysokość: ${desc.height}cm\n\n\=========================\n`
       )
       .toString();
 
@@ -135,7 +119,26 @@ const Tasks: React.FC = () => {
         Accept: "application/json",
       },
     };
-    // fetch(`${trelloListUrl}&name=${title}&desc=${nwLogo}&start=${startDate}&due=${deadline}&idMembers=${member},${recipient}`, options)
+
+    const checklistItem = [
+      {
+        "name": "a",
+        },
+        {
+        "name": "b",
+        }
+    ]
+
+    const formData2 = new FormData();
+    formData2.append("name", 'a');
+
+    const options2 = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+      }
+    };
+
     fetch(trelloListUrl, optionsInit)
       .then((response) => {
         console.log(`Response: ${response.status} ${response.statusText}`);
@@ -143,22 +146,9 @@ const Tasks: React.FC = () => {
       })
       .then((text) => {
         console.log(JSON.parse(text));
-        fetch(
-          `${trelloCardUrl(
-            JSON.parse(text).id,
-            "checklists",
-            "name",
-            "lista zadań"
-          )}`,
-          options
-        );
-        // fetch(`${trelloCardUrl(JSON.parse(text).id, 'idMembers', "value", newMember)}`, options);
-        fetch(
-          `https://api.trello.com/1/cards/${
-            JSON.parse(text).id
-          }/attachments?key=${process.env.REACT_APP_TRELLO_KEY}&token=${
-            process.env.REACT_APP_TRELLO_TOKEN
-          }&setCover=false`,
+        // fetch(`${trelloCardUrl(JSON.parse(text).id, "checklists", "name", "lista zadań")}`, options);
+
+        fetch(`https://api.trello.com/1/cards/${JSON.parse(text).id}/attachments?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}&setCover=false`,
           {
             method: "POST",
             headers: {
@@ -167,6 +157,15 @@ const Tasks: React.FC = () => {
             body: formData,
           }
         );
+        fetch(`https://api.trello.com/1/cards/${JSON.parse(text).id}/checklists?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}`, options2)
+        .then(response => {
+          console.log(`Response: ${response.status} ${response.statusText}`);
+          return response.text();
+        })
+        .then(text => {
+          fetch(`https://api.trello.com/1/checklists/${JSON.parse(text).id}/checkItems?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}&name=name`, options2)
+        })
+        .catch((err) => console.error(err));
       })
       .then((text) => console.log(text))
       .catch((err) => console.error(err));
@@ -196,14 +195,7 @@ const Tasks: React.FC = () => {
             </>
             <div className={styles.checkboxList}>
               {traders?.map((trader, index) => (
-                <Checkbox
-                  key={index}
-                  id={trader.initial}
-                  type={"radio"}
-                  value={trader.id}
-                  label={trader.initial}
-                  {...register("member")}
-                />
+                <Checkbox key={index} id={trader.initial} type={"radio"} value={trader.id} label={trader.initial} {...register("member")} />
               ))}
               {/* Feature: create new component with add new task btn and children checkbox */}
             </div>
@@ -300,15 +292,8 @@ const Tasks: React.FC = () => {
           />
         </div>
         <div className={`${styles.formGroupContainer} ${styles.rightPanel}`}>
-          <div
-            className={`${styles.formGroupColumn} ${styles.rightPanelColumn}`}
-          >
-            <Select
-              label={"Przyjął"}
-              options={recipient}
-              id={"recipient"}
-              {...register("recipient")}
-            />
+          <div className={`${styles.formGroupColumn} ${styles.rightPanelColumn}`}>
+            <Select label={"Przyjął"} options={recipient} id={"recipient"} {...register("recipient")} />
             <Input
               id={"date-admission"}
               placeholder={"Data przyjęcia"}
@@ -336,7 +321,7 @@ const Tasks: React.FC = () => {
                 {...register("attachment")}
               />
               <Input
-                id={'fileSrc'}
+                id={"fileSrc"}
                 placeholder={"Ścieżka do pliku produkcyjnego"}
                 label={"Ścieżka do pliku produkcyjnego"}
                 type="text"
@@ -344,12 +329,7 @@ const Tasks: React.FC = () => {
               />
             </div>
             <div className={styles.buttonContainer}>
-              <Button
-                type={"submit"}
-                title={"Dodaj zlecenie"}
-                onClick={() => console.log("click")}
-                style={{ fontSize: "1.2rem" }}
-              />
+              <Button type={"submit"} title={"Dodaj zlecenie"} onClick={() => console.log("click")} style={{ fontSize: "1.2rem" }} />
             </div>
           </div>
         </div>
