@@ -143,9 +143,6 @@ const Tasks: React.FC = () => {
         return response.text();
       })
       .then((text) => {
-        console.log(JSON.parse(text));
-        // fetch(`${trelloCardUrl(JSON.parse(text).id, "checklists", "name", "lista zadań")}`, options);
-
         fetch(`https://api.trello.com/1/cards/${JSON.parse(text).id}/attachments?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}&setCover=false`,
           {
             method: "POST",
@@ -161,7 +158,7 @@ const Tasks: React.FC = () => {
             return response.text();
           })
           .then(text => {
-            for (let i = 0; i < logoPayload.length; i++) {
+            for (let i = 0; i < logoPayload.length; ++i) {
               fetch(`https://api.trello.com/1/checklists/${JSON.parse(text).id}/checkItems?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}&name=${logoPayload[i]}`, options2)
             }
           })
