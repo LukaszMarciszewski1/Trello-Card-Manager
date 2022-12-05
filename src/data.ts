@@ -13,7 +13,7 @@ export const traders = [
     checked: false,
   },
   {
-    id: '6368b5afeaaa0400bb987771',
+    id: '5fb806726a71580c3b3fdbd4',
     name: 'Paweł Ogonowski',
     initial: 'PO',
     checked: false,
