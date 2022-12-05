@@ -98,6 +98,8 @@ const Tasks: React.FC = () => {
       )
       .toString();
 
+    const sectionName = description.map(section => section.logo)
+
     formInitialCard.append("name", title);
     formInitialCard.append("desc", descPayload);
     formInitialCard.append("start", startDate);
@@ -163,7 +165,7 @@ const Tasks: React.FC = () => {
           return response.text();
         })
         .then(text => {
-          fetch(`https://api.trello.com/1/checklists/${JSON.parse(text).id}/checkItems?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}&name=name`, options2)
+          fetch(`https://api.trello.com/1/checklists/${JSON.parse(text).id}/checkItems?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}&name=${sectionName}`, options2)
         })
         .catch((err) => console.error(err));
       })
