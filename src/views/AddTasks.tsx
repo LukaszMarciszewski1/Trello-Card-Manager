@@ -12,7 +12,7 @@ import { traders, fabric, production, sizes, recipient } from "data";
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import dayjs from "dayjs";
-import fs from 'fs';
+import fs from "fs";
 import SectionsList from "components/SectionsList/SectionsList";
 import Tabs from "components/Tabs/Tabs";
 import TabsContent from "components/Tabs/TabsContent/TabsContent";
@@ -49,20 +49,25 @@ const titleErrors = (type: any) => {
   }
 };
 const defaultDescriptionValues = {
-  logo: '',
+  logo: "",
   amount: 0,
   fabric: fabric[0].name,
   width: 0,
-  height: 0
-}
+  height: 0,
+};
 
 const Tasks: React.FC = () => {
   dayjs.locale("pl");
-  const [sections, setSections] = useState([])
-  const trelloAuthUrl = `key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}`
+  const [sections, setSections] = useState([]);
+  const trelloAuthUrl = `key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}`;
   const trelloListUrl = `https://api.trello.com/1/cards?idList=${process.env.REACT_APP_TRELLO_LIST}&${trelloAuthUrl}`;
-  const trelloCardUrl = (id: string, option?: string, valueKey?: string, value?: string | string[]) => {
-    return `https://api.trello.com/1/cards/${id}/${option}?${trelloAuthUrl}&${valueKey}=${value}`
+  const trelloCardUrl = (
+    id: string,
+    option?: string,
+    valueKey?: string,
+    value?: string | string[]
+  ) => {
+    return `https://api.trello.com/1/cards/${id}/${option}?${trelloAuthUrl}&${valueKey}=${value}`;
   };
 
   //`https://api.trello.com/1/cards/${JSON.parse(text).id}/idMembers?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}&value=${member}`,
@@ -73,30 +78,47 @@ const Tasks: React.FC = () => {
     formState: { errors },
   } = useForm<Task>({
     defaultValues: {
-      description: [defaultDescriptionValues]
+      description: [defaultDescriptionValues],
     },
-    mode: "onBlur"
+    mode: "onBlur",
   });
 
   const { fields, append, remove } = useFieldArray({
     name: "description",
-    control
+    control,
   });
 
   const fetchData = (data: Task) => {
-    console.log(data)
-    const { title, description, startDate, deadline, member, attachment, recipient } = data
-    const newMember = [`${member},${recipient}`]
+    console.log(data);
+    const {
+      title,
+      description,
+      startDate,
+      deadline,
+      member,
+      attachment,
+      recipient,
+    } = data;
+    const newMember = [`${member},${recipient}`];
     // const nwLogo = description.map(desc => formInitialCard.append('desc', `**Logo:  ${desc.logo}**%0D%0AIlość: ${desc.amount}%0D%0ATkanina: ${desc.fabric}%0D%0A%0D%0A`))
     const formData = new FormData();
     const formInitialCard = new FormData();
-    const descPayload = description.map((desc, i) => `***Sekcja${i+1}***\n**Logo: ${desc.logo}**\nIlość: ${desc.amount}\nTkanina: ${desc.fabric}\nSzerokość: ${desc.width}cm\nWysokość: ${desc.height}cm\n\n`).toString()
+    const descPayload = description
+      .map(
+        (desc, i) =>
+          `***Sekcja${i + 1}***\n**Logo: ${desc.logo}**\nIlość: ${
+            desc.amount
+          }\nTkanina: ${desc.fabric}\nSzerokość: ${desc.width}cm\nWysokość: ${
+            desc.height
+          }cm\n\n`
+      )
+      .toString();
 
-    formInitialCard.append('name', title)
-    formInitialCard.append('desc', descPayload)
-    formInitialCard.append('start', startDate)
-    formInitialCard.append('due', deadline)
-    formInitialCard.append('idMembers', `${member},${recipient}`)
+    formInitialCard.append("name", title);
+    formInitialCard.append("desc", descPayload);
+    formInitialCard.append("start", startDate);
+    formInitialCard.append("due", deadline);
+    formInitialCard.append("idMembers", `${member},${recipient}`);
     formData.append("file", attachment[0]);
 
     const optionsInit = {
@@ -104,15 +126,15 @@ const Tasks: React.FC = () => {
       headers: {
         Accept: "application/json",
       },
-      body: formInitialCard
-    }
+      body: formInitialCard,
+    };
 
     const options = {
       method: "POST",
       headers: {
         Accept: "application/json",
       },
-    }
+    };
     // fetch(`${trelloListUrl}&name=${title}&desc=${nwLogo}&start=${startDate}&due=${deadline}&idMembers=${member},${recipient}`, options)
     fetch(trelloListUrl, optionsInit)
       .then((response) => {
@@ -120,23 +142,37 @@ const Tasks: React.FC = () => {
         return response.text();
       })
       .then((text) => {
-        fetch(`${trelloCardUrl(JSON.parse(text).id, 'checklists', 'name', 'lista zadań')}`, options);
+        fetch(
+          `${trelloCardUrl(
+            JSON.parse(text).id,
+            "checklists",
+            "name",
+            "lista zadań"
+          )}`,
+          options
+        );
         // fetch(`${trelloCardUrl(JSON.parse(text).id, 'idMembers', "value", newMember)}`, options);
-        fetch(`https://api.trello.com/1/cards/${JSON.parse(text).id}/attachments?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}&setCover=false`, {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json'
-          },
-          body: formData
-        });
+        fetch(
+          `https://api.trello.com/1/cards/${
+            JSON.parse(text).id
+          }/attachments?key=${process.env.REACT_APP_TRELLO_KEY}&token=${
+            process.env.REACT_APP_TRELLO_TOKEN
+          }&setCover=false`,
+          {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+            },
+            body: formData,
+          }
+        );
       })
       .then((text) => console.log(text))
       .catch((err) => console.error(err));
-
   };
 
   const handleSubmitForm = (data: Task) => {
-    fetchData(data)
+    fetchData(data);
     console.log(data);
   };
 
@@ -192,7 +228,7 @@ const Tasks: React.FC = () => {
                     type="text"
                     error={errors.description}
                     {...register(`description.${index}.logo` as const, {
-                      required: true
+                      required: true,
                     })}
                     defaultValue={field.logo}
                   />
@@ -218,7 +254,7 @@ const Tasks: React.FC = () => {
                     placeholder={"Szerokość"}
                     label={"Szerokość (cm)"}
                     type="number"
-                    step={'0.1'}
+                    step={"0.1"}
                     {...register(`description.${index}.width` as const)}
                   />
                   <Input
@@ -226,7 +262,7 @@ const Tasks: React.FC = () => {
                     placeholder={"Wysokość"}
                     label={"Wysokość (cm)"}
                     type="number"
-                    step={'0.1'}
+                    step={"0.1"}
                     {...register(`description.${index}.height` as const)}
                   />
                   <Input
@@ -263,11 +299,13 @@ const Tasks: React.FC = () => {
           />
         </div>
         <div className={`${styles.formGroupContainer} ${styles.rightPanel}`}>
-          <div className={`${styles.formGroupColumn} ${styles.rightPanelColumn}`}>
+          <div
+            className={`${styles.formGroupColumn} ${styles.rightPanelColumn}`}
+          >
             <Select
               label={"Przyjął"}
               options={recipient}
-              id={'recipient'}
+              id={"recipient"}
               // defaultValue={field.fabric}
               {...register("recipient")}
             />
@@ -288,20 +326,24 @@ const Tasks: React.FC = () => {
               error={errors.description}
               {...register("deadline")}
             />
-            <Input
-              id={"attachment"}
-              placeholder={"Dodaj załączniki"}
-              label={"Dodaj załączniki"}
-              type="file"
-              error={errors.description}
-              {...register("attachment")}
-            />
-            <Button
-              type={"submit"}
-              title={"Dodaj zlecenie"}
-              onClick={() => console.log("click")}
-              style={{ fontSize: "1.2rem" }}
-            />
+            <div className={styles.buttonContainer}>
+              <Input
+                id={"attachment"}
+                placeholder={"Dodaj załączniki"}
+                label={"Dodaj załączniki"}
+                type="file"
+                error={errors.description}
+                {...register("attachment")}
+              />
+            </div>
+            <div className={styles.buttonContainer}>
+              <Button
+                type={"submit"}
+                title={"Dodaj zlecenie"}
+                onClick={() => console.log("click")}
+                style={{ fontSize: "1.2rem" }}
+              />
+            </div>
           </div>
         </div>
       </div>
