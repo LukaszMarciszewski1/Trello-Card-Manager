@@ -25,4 +25,5 @@ export interface Task {
   member: string
   attachment: File | any
   recipient: string
+  fileSrc: string
 }

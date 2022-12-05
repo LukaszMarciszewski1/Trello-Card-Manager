@@ -110,7 +110,7 @@ const Tasks: React.FC = () => {
             desc.amount
           }\nTkanina: ${desc.fabric}\nSzerokość: ${desc.width}cm\nWysokość: ${
             desc.height
-          }cm\n\n`
+          }cm\n\n-------------------------------------\n`
       )
       .toString();
 
@@ -142,6 +142,7 @@ const Tasks: React.FC = () => {
         return response.text();
       })
       .then((text) => {
+        console.log(JSON.parse(text));
         fetch(
           `${trelloCardUrl(
             JSON.parse(text).id,
@@ -306,7 +307,6 @@ const Tasks: React.FC = () => {
               label={"Przyjął"}
               options={recipient}
               id={"recipient"}
-              // defaultValue={field.fabric}
               {...register("recipient")}
             />
             <Input
@@ -329,11 +329,18 @@ const Tasks: React.FC = () => {
             <div className={styles.buttonContainer}>
               <Input
                 id={"attachment"}
-                placeholder={"Dodaj załączniki"}
-                label={"Dodaj załączniki"}
+                placeholder={"Dodaj wizualizację"}
+                label={"Dodaj wizualizację"}
                 type="file"
                 error={errors.description}
                 {...register("attachment")}
+              />
+              <Input
+                id={'fileSrc'}
+                placeholder={"Ścieżka do pliku produkcyjnego"}
+                label={"Ścieżka do pliku produkcyjnego"}
+                type="text"
+                {...register(`fileSrc`)}
               />
             </div>
             <div className={styles.buttonContainer}>
