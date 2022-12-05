@@ -84,28 +84,23 @@ const Tasks: React.FC = () => {
   });
 
   const fetchData = (data: Task) => {
-    console.log(data);
     const { title, description, startDate, deadline, member, attachment, recipient } = data;
-    // const nwLogo = description.map(desc => formInitialCard.append('desc', `**Logo:  ${desc.logo}**%0D%0AIlość: ${desc.amount}%0D%0ATkanina: ${desc.fabric}%0D%0A%0D%0A`))
-    const formData = new FormData();
-    const formInitialCard = new FormData();
     const descPayload = description
       .map(
         (desc, i) =>
-          `***Sekcja${i + 1}***\n**Logo: ${desc.logo}**\nIlość: ${desc.amount}\nTkanina: ${desc.fabric}\nSzerokość: ${
-            desc.width
+          `***Sekcja${i + 1}***\n**Logo: ${desc.logo}**\nIlość: ${desc.amount}\nTkanina: ${desc.fabric}\nSzerokość: ${desc.width
           }cm\nWysokość: ${desc.height}cm\n\n\=========================\n`
       )
       .toString();
 
-    const sectionName = description.map(section => section.logo)
-
+    const formDataFile = new FormData();
+    const formInitialCard = new FormData();
     formInitialCard.append("name", title);
     formInitialCard.append("desc", descPayload);
     formInitialCard.append("start", startDate);
     formInitialCard.append("due", deadline);
     formInitialCard.append("idMembers", `${member},${recipient}`);
-    formData.append("file", attachment[0]);
+    formDataFile.append("file", attachment[0]);
 
     const optionsInit = {
       method: "POST",
@@ -115,24 +110,16 @@ const Tasks: React.FC = () => {
       body: formInitialCard,
     };
 
-    const options = {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-      },
-    };
-
-    const checklistItem = [
-      {
-        "name": "a",
-        },
-        {
-        "name": "b",
-        }
-    ]
+    const logoPayload = description.map(desc => desc.logo)
+    console.log(logoPayload.length)
 
     const formData2 = new FormData();
-    formData2.append("name", 'a');
+
+    for (let i = 0; i < logoPayload.length; i++) {
+      formData2.append("name", logoPayload[i]);
+      console.log(logoPayload[i])
+    }
+    // const el = { "name": "TESTsa" }
 
     const options2 = {
       method: "POST",
@@ -140,6 +127,15 @@ const Tasks: React.FC = () => {
         Accept: "application/json",
       }
     };
+    const options3 = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+      },
+      body: formData2
+    };
+
+    console.log(options3)
 
     fetch(trelloListUrl, optionsInit)
       .then((response) => {
@@ -156,18 +152,20 @@ const Tasks: React.FC = () => {
             headers: {
               Accept: "application/json",
             },
-            body: formData,
+            body: formDataFile,
           }
         );
         fetch(`https://api.trello.com/1/cards/${JSON.parse(text).id}/checklists?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}`, options2)
-        .then(response => {
-          console.log(`Response: ${response.status} ${response.statusText}`);
-          return response.text();
-        })
-        .then(text => {
-          fetch(`https://api.trello.com/1/checklists/${JSON.parse(text).id}/checkItems?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}&name=${sectionName}`, options2)
-        })
-        .catch((err) => console.error(err));
+          .then(response => {
+            console.log(`Response: ${response.status} ${response.statusText}`);
+            return response.text();
+          })
+          .then(text => {
+            for (let i = 0; i < logoPayload.length; i++) {
+              fetch(`https://api.trello.com/1/checklists/${JSON.parse(text).id}/checkItems?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}&name=${logoPayload[i]}`, options2)
+            }
+          })
+          .catch((err) => console.error(err));
       })
       .then((text) => console.log(text))
       .catch((err) => console.error(err));
