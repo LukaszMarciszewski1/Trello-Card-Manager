@@ -51,7 +51,9 @@ const titleErrors = (type: any) => {
 const defaultDescriptionValues = {
   logo: '',
   amount: 0,
-  fabric: fabric[0].name
+  fabric: fabric[0].name,
+  width: 0,
+  height: 0
 }
 
 const Tasks: React.FC = () => {
@@ -84,16 +86,14 @@ const Tasks: React.FC = () => {
   const fetchData = (data: Task) => {
     console.log(data)
     const { title, description, startDate, deadline, member, attachment, recipient } = data
-    const nwLogo = `**Logo:**  **${description[0].logo}**`
-    // const nwLogo = description.map(desc => `Logo:${desc.name}<br>`) %0D%0A
     const newMember = [`${member},${recipient}`]
     // const nwLogo = description.map(desc => formInitialCard.append('desc', `**Logo:  ${desc.logo}**%0D%0AIlość: ${desc.amount}%0D%0ATkanina: ${desc.fabric}%0D%0A%0D%0A`))
     const formData = new FormData();
     const formInitialCard = new FormData();
-    const descString = description.map((desc, i) => `***Sekcja${i+1}***\n**Logo: ${desc.logo}**\nIlość: ${desc.amount}\nTkanina: ${desc.fabric}\n\n`).toString()
+    const descPayload = description.map((desc, i) => `***Sekcja${i+1}***\n**Logo: ${desc.logo}**\nIlość: ${desc.amount}\nTkanina: ${desc.fabric}\nSzerokość: ${desc.width}cm\nWysokość: ${desc.height}cm\n\n`).toString()
 
     formInitialCard.append('name', title)
-    formInitialCard.append('desc', descString)
+    formInitialCard.append('desc', descPayload)
     formInitialCard.append('start', startDate)
     formInitialCard.append('due', deadline)
     formInitialCard.append('idMembers', `${member},${recipient}`)
@@ -106,7 +106,6 @@ const Tasks: React.FC = () => {
       },
       body: formInitialCard
     }
-
 
     const options = {
       method: "POST",
@@ -215,19 +214,20 @@ const Tasks: React.FC = () => {
                     {...register(`description.${index}.amount` as const)}
                   />
                   <Input
-                    id={"width"}
+                    id={field.id}
                     placeholder={"Szerokość"}
-                    label={"Szerokość (mm)"}
+                    label={"Szerokość (cm)"}
                     type="number"
                     step={'0.1'}
-                    {...register("width")}
+                    {...register(`description.${index}.width` as const)}
                   />
                   <Input
-                    id={"height"}
+                    id={field.id}
                     placeholder={"Wysokość"}
-                    label={"Wysokość (mm)"}
+                    label={"Wysokość (cm)"}
                     type="number"
-                    {...register("height")}
+                    step={'0.1'}
+                    {...register(`description.${index}.height` as const)}
                   />
                   <Input
                     id={"price"}

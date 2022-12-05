@@ -2,8 +2,10 @@
 
 export interface Description {
   logo: string
-  amount: number
   fabric: string
+  amount: number
+  width: number
+  height: number
 }
 
 export interface Task {
