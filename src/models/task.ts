@@ -6,6 +6,7 @@ export interface Description {
   amount: number
   width: number
   height: number
+  additionalDesc: string
 }
 
 export interface Task {

@@ -16,6 +16,8 @@ import fs from "fs";
 import SectionsList from "components/SectionsList/SectionsList";
 import Tabs from "components/Tabs/Tabs";
 import TabsContent from "components/Tabs/TabsContent/TabsContent";
+import TextareaAutosize from 'react-textarea-autosize';
+import Textarea from "components/Textarea/Textarea";
 // import fetch from 'node-fetch';
 
 const validation = {
@@ -54,6 +56,7 @@ const defaultDescriptionValues = {
   fabric: fabric[0].value,
   width: 0,
   height: 0,
+  additionalDesc: ''
 };
 
 const Tasks: React.FC = () => {
@@ -89,7 +92,7 @@ const Tasks: React.FC = () => {
       .map(
         (desc, i) =>
           `***Sekcja${i + 1}***\n**Logo: ${desc.logo}**\nIlość: ${desc.amount}\nTkanina: ${desc.fabric}\nSzerokość: ${desc.width
-          }cm\nWysokość: ${desc.height}cm\n\n\=========================\n`
+          }cm\nWysokość: ${desc.height}cm\n\n Dodatkowy opis: ${desc.additionalDesc}\n\n\=========================\n`
       )
       .toString();
 
@@ -202,6 +205,11 @@ const Tasks: React.FC = () => {
                       required: true,
                     })}
                     defaultValue={field.logo}
+                  />
+                  <Textarea
+                    id={field.id}
+                    label={'Dodatkowy opis'}
+                    {...register(`description.${index}.additionalDesc` as const)}
                   />
                 </div>
                 <div className={styles.formGroupColumn}>

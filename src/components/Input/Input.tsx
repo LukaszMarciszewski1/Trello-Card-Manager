@@ -57,6 +57,7 @@ const Input: React.FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
           disabled={disabled}
           className={styles.input}
           style={style}
+          onFocus={(e) => e.target.select()}
           {...props}
         />
       </div>
