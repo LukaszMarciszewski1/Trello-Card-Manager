@@ -3,18 +3,10 @@ import styles from "./styles.module.scss";
 
 export type SelectProps = {
   id: string;
-  title?: string;
   label: string;
-  name?: any;
-  type?: "text" | "email" | "number" | "password";
-  placeholder?: string;
-  disabled?: boolean;
   onChange?: (value: any) => void;
   error?: {} | undefined | ((value: any) => void);
-  value?: number | string | any;
-  step?: string;
-  minValue?: number;
-  maxValue?: number;
+  value?: number | string;
   defaultValue?: string | number;
   style?: {};
   options: any;
@@ -24,19 +16,11 @@ const Input: React.FC<SelectProps> = forwardRef<HTMLInputElement, SelectProps>(
   (
     {
       id,
-      title,
       label,
-      type,
-      placeholder,
-      disabled,
       value,
       defaultValue,
-      step,
-      minValue,
-      maxValue,
       style,
       options,
-      name,
       onChange,
       ...props
     },
@@ -47,10 +31,10 @@ const Input: React.FC<SelectProps> = forwardRef<HTMLInputElement, SelectProps>(
         <label htmlFor="title">
           <p>{label}</p>
         </label>
-        <select className={styles.select} id={id} name={name} {...props} >
-          {options.map((prod: { name: any }, index: any) => (
-            <option key={index} value={prod.name}>
-              {prod.name}
+        <select className={styles.select} id={id} {...props} >
+          {options.map((prod: { value: string | number; label: string }, index: React.Key | null | undefined) => (
+            <option key={index} value={prod.value}>
+              {prod.label}
             </option>
           ))}
         </select>

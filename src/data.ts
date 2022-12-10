@@ -40,22 +40,16 @@ export const traders = [
 
 export const fabric = [
   {
-    name: 'bawełna',
+    label: 'bawełna',
+    value: 'bawełna',
   },
   {
-    name: 'poliester',
+    label: 'poliester',
+    value: 'poliester',
   },
   {
-    name: 'skóra',
-  },
-]
-
-export const production = [
-  {
-    name: 'MARCIN',
-  },
-  {
-    name: 'KASIA',
+    label: 'skóra',
+    value: 'skóra',
   },
 ]
 
@@ -88,12 +82,14 @@ export const sizes = [
 
 export const recipient = [
   {
-    name: '6350f5d4c2c662005aa115e2',
+    label: 'MARCIN',
+    value: '6350f5d4c2c662005aa115e2',
     // name: 'Marcin',
     initial: 'MP',
   },
   {
-    name: '6350f5d4c2c662005aa115e2',
+    label: 'MARCIN',
+    value: '6350f5d4c2c662005aa115e2',
     // name: 'Kasia',
     initial: 'MP',
   },

@@ -8,7 +8,7 @@ import { RiAddLine } from "react-icons/ri";
 import Checkbox from "components/Checkbox/Checkbox";
 import Select from "components/Select/Select";
 import FormSection from "components/Section/FormSection";
-import { traders, fabric, production, sizes, recipient } from "data";
+import { traders, fabric, sizes, recipient } from "data";
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import dayjs from "dayjs";
@@ -51,7 +51,7 @@ const titleErrors = (type: any) => {
 const defaultDescriptionValues = {
   logo: "",
   amount: 0,
-  fabric: fabric[0].name,
+  fabric: fabric[0].value,
   width: 0,
   height: 0,
 };
@@ -151,6 +151,7 @@ const Tasks: React.FC = () => {
 
   const handleSubmitForm = (data: Task) => {
     fetchData(data);
+    console.log(data)
   };
 
   return (
@@ -208,8 +209,7 @@ const Tasks: React.FC = () => {
                     label={"Tkanina"}
                     options={fabric}
                     id={field.id}
-                    title={field.id}
-                    // defaultValue={field.fabric}
+                    defaultValue={field.fabric}
                     {...register(`description.${index}.fabric` as const)}
                   />
                   <Input
