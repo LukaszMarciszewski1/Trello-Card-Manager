@@ -39,12 +39,13 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  max-width: 600px;
+  max-width: 660px;
 }
 
 .checkboxList {
   display: flex;
   align-items: center;
+  margin-left: 30px;
 }
 
 .wrapper {

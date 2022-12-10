@@ -23,7 +23,7 @@ const Textarea: React.FC<TextareaProps> = forwardRef<HTMLInputElement, TextareaP
           id={id}
           maxRows={30}
           className={styles.textarea}
-          autoFocus={true}
+          // autoFocus={true}
           {...props}
         />
       </div>

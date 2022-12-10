@@ -1,3 +1,4 @@
+@import 'theme/colors.scss';
 .container {
     width: 100%;
     max-width: 600px;
@@ -12,10 +13,14 @@
     padding: 10px;
     border-radius: 10px;
     margin: 6px 0 0;
-    background-color: rgb(253, 253, 253);
+    background-color: $lightGrey;
     border: 1px solid #67788a;
     font-size: 14px;
     &:disabled {
       opacity: 0.8;
+    }
+    &:focus {
+      border: 1px solid $blue;
+      background-color: $focusBg;
     }
   }
