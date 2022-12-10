@@ -1,5 +1,3 @@
-
-
 export interface Description {
   logo: string
   fabric: string
@@ -7,6 +5,8 @@ export interface Description {
   width: number
   height: number
   additionalDesc: string
+  price: number
+  material: string 
 }
 
 export interface Task {

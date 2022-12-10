@@ -30,9 +30,17 @@
 
 .formGroupRow {
   display: flex;
-  justify-content: space-between;
+  // justify-content: space-between;
   align-items: flex-end;
   margin-bottom: 2rem;
+}
+
+.materialsContainer {
+  display: flex;
+  align-items: center;
+  span {
+    margin-right: 1rem;
+  }
 }
 
 .formGroupColumn {

@@ -4,7 +4,7 @@ import styles from './styles.module.scss'
 export type InputProps = {
   id: string;
   name: string;
-  label: string;
+  label?: string;
   type?: 'text' | 'email' | 'number' | 'password' | 'date' | 'file';
   placeholder?: string
   disabled?: boolean

@@ -18,6 +18,8 @@ import Tabs from "components/Tabs/Tabs";
 import TabsContent from "components/Tabs/TabsContent/TabsContent";
 import TextareaAutosize from 'react-textarea-autosize';
 import Textarea from "components/Textarea/Textarea";
+import OptionBox from "components/LabelBox/LabelBox";
+import LabelBox from "components/LabelBox/LabelBox";
 // import fetch from 'node-fetch';
 
 const validation = {
@@ -56,8 +58,14 @@ const defaultDescriptionValues = {
   fabric: fabric[0].value,
   width: 0,
   height: 0,
-  additionalDesc: ''
+  additionalDesc: '',
+  price: 0,
+  material: 'Flex HI5 white'
 };
+
+const defaultDescriptionMaterialsValues = {
+  material: ''
+}
 
 const Tasks: React.FC = () => {
   dayjs.locale("pl");
@@ -92,7 +100,7 @@ const Tasks: React.FC = () => {
       .map(
         (desc, i) =>
           `***Sekcja${i + 1}***\n**Logo: ${desc.logo}**\nIlość: ${desc.amount}\nTkanina: ${desc.fabric}\nSzerokość: ${desc.width
-          }cm\nWysokość: ${desc.height}cm\n\n Dodatkowy opis: ${desc.additionalDesc}\n\n\=========================\n`
+          }cm\nWysokość: ${desc.height}cm\nMateriał: ${desc.material}\nCena: ${desc.price}\n\n Dodatkowy opis: ${desc.additionalDesc}\n\n\=========================\n`
       )
       .toString();
 
@@ -206,6 +214,30 @@ const Tasks: React.FC = () => {
                     })}
                     defaultValue={field.logo}
                   />
+                  <div className={styles.materialsContainer}>
+                    <span>Materiał:</span>
+                    <div className={styles.materialList}>
+                      {/* <LabelBox label={'Flex HI5 white'} /> */}
+                      {/* {fields.map((field, index) => {
+                        return (
+                          <Input
+                            id={field.id}
+                            defaultValue={field.material}
+                            type="text"
+                            style={{ margin: '0 10px 0 0', width: 'auto' }}
+                            {...register(`description.${index}.material` as const)}
+                          />
+                        )
+                      })} */}
+                    </div>
+                    <Button
+                      type={"button"}
+                      title={""}
+                      onClick={() => append(defaultDescriptionValues)}
+                      style={{ fontSize: "1.2rem", width: '40px' }}
+                      icon={<RiAddLine fontSize={"1.5rem"} fontWeight={"bold"} />}
+                    />
+                  </div>
                   <Textarea
                     id={field.id}
                     label={'Dodatkowy opis'}
@@ -249,7 +281,7 @@ const Tasks: React.FC = () => {
                     label={"Cena"}
                     defaultValue={0}
                     type="number"
-                    // disabled={true}
+                    disabled={true}
                     {...register("price")}
                   />
                 </div>
