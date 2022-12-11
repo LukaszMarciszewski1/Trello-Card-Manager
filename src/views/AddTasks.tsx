@@ -8,7 +8,7 @@ import { RiAddLine } from "react-icons/ri";
 import Checkbox from "components/Checkbox/Checkbox";
 import Select from "components/Select/Select";
 import FormSection from "components/Section/FormSection";
-import { traders, fabric, sizes, recipient } from "data";
+import { traders, fabric, sizes, recipient, material } from "data";
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import dayjs from "dayjs";
@@ -20,6 +20,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import Textarea from "components/Textarea/Textarea";
 import OptionBox from "components/LabelBox/LabelBox";
 import LabelBox from "components/LabelBox/LabelBox";
+import Nested from "./Nested";
 // import fetch from 'node-fetch';
 
 const validation = {
@@ -60,12 +61,8 @@ const defaultDescriptionValues = {
   height: 0,
   additionalDesc: '',
   price: 0,
-  material: 'Flex HI5 white'
+  material: []
 };
-
-const defaultDescriptionMaterialsValues = {
-  material: ''
-}
 
 const Tasks: React.FC = () => {
   dayjs.locale("pl");
@@ -93,6 +90,11 @@ const Tasks: React.FC = () => {
     name: "description",
     control,
   });
+
+
+  const handleAddMaterialToForm = (data: any) => {
+    data.push('sadasd')
+  }
 
   const fetchData = (data: Task) => {
     const { title, description, startDate, deadline, member, attachment, recipient } = data;
@@ -161,7 +163,7 @@ const Tasks: React.FC = () => {
   };
 
   const handleSubmitForm = (data: Task) => {
-    fetchData(data);
+    // fetchData(data);
     console.log(data)
   };
 
@@ -190,18 +192,9 @@ const Tasks: React.FC = () => {
             </div>
           </div>
           {fields.map((field, index) => {
+            { console.log(fields) }
             return (
               <FormSection key={field.id}>
-                {/* <div className={styles.tabsContainer}>
-                  <Tabs>
-                    <TabsContent title="Dodaj zlecenie">
-                      <div>lista</div>
-                    </TabsContent>
-                    <TabsContent title="Lista zleceń">
-                      <div>asdasdas</div>
-                    </TabsContent>
-                  </Tabs>
-                </div> */}
                 <div className={styles.formGroupColumn}>
                   <Input
                     id={field.id}
@@ -217,23 +210,21 @@ const Tasks: React.FC = () => {
                   <div className={styles.materialsContainer}>
                     <span>Materiał:</span>
                     <div className={styles.materialList}>
-                      {/* <LabelBox label={'Flex HI5 white'} /> */}
-                      {/* {fields.map((field, index) => {
-                        return (
-                          <Input
-                            id={field.id}
-                            defaultValue={field.material}
-                            type="text"
-                            style={{ margin: '0 10px 0 0', width: 'auto' }}
-                            {...register(`description.${index}.material` as const)}
-                          />
-                        )
-                      })} */}
+                      {/* {material?.map((field: { value: string; }, index: number) => (
+                        <Checkbox
+                          key={index}
+                          id={field.value}
+                          type={"checkbox"}
+                          value={field.value}
+                          label={field.value}
+                        />
+                      ))} */}
+                      <Nested nestIndex={index} {...{ control, register }} />
                     </div>
                     <Button
                       type={"button"}
                       title={""}
-                      onClick={() => append(defaultDescriptionValues)}
+                      onClick={() => console.log('click')}
                       style={{ fontSize: "1.2rem", width: '40px' }}
                       icon={<RiAddLine fontSize={"1.5rem"} fontWeight={"bold"} />}
                     />
@@ -356,3 +347,18 @@ const Tasks: React.FC = () => {
 };
 
 export default Tasks;
+
+
+{/* {fields[index].material.map((field: { id: string; }, index: any) => {
+                        { console.log(field) }
+                        return (
+                          <div key={field.id}>
+                            <Input
+                              id={field.id}
+                              type="text"
+                              style={{ margin: '0 10px 0 0', width: 'auto' }}
+                              {...register(`description.${index}.material` as const)}
+                            />
+                          </div>
+                        )
+                      })} */}

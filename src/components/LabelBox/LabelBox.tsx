@@ -5,9 +5,9 @@ interface LabelBoxProps {
   label: string
 }
 
-const LabelBox: React.FC<LabelBoxProps> = ({ label }) => {
+const LabelBox: React.FC<LabelBoxProps> = ({ label, ...props }) => {
   return (
-    <div className={styles.container}>{label}</div>
+    <div className={styles.container} {...props}>{label}</div>
   )
 }
 

@@ -94,3 +94,12 @@ export const recipient = [
     initial: 'MP',
   },
 ]
+
+export const material = [
+  {
+    value: 'material1',
+  },
+  {
+    value: 'material2',
+  },
+]

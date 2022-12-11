@@ -6,7 +6,7 @@ export interface Description {
   height: number
   additionalDesc: string
   price: number
-  material: string 
+  material: any
 }
 
 export interface Task {
