@@ -5,8 +5,10 @@ interface CheckboxProps {
   type: string
   label: string
   value?: string
+  name?: string
   style?: {}
   onChange?: (e: any) => void
+  checked?: any
 }
 
 const Checkbox: React.FC<CheckboxProps> = forwardRef<HTMLInputElement, CheckboxProps>(
@@ -17,6 +19,8 @@ const Checkbox: React.FC<CheckboxProps> = forwardRef<HTMLInputElement, CheckboxP
       label,
       value,
       style,
+      name,
+      checked,
       onChange,
       ...props
     },
@@ -30,6 +34,8 @@ const Checkbox: React.FC<CheckboxProps> = forwardRef<HTMLInputElement, CheckboxP
           ref={ref}
           type={type}
           value={value}
+          name={name}
+          checked={checked}
           onChange={onChange}
           {...props}
         />

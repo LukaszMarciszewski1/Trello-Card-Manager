@@ -101,7 +101,7 @@ const Tasks: React.FC = () => {
           const materials = desc.material.filter((item: any) => item)
           return (
             `***Sekcja${i + 1}***\n**Logo: ${desc.logo}**\nIlość: ${desc.amount}\nTkanina: ${desc.fabric}\nSzerokość: ${desc.width
-            }cm\nWysokość: ${desc.height}cm\nMateriał: ${materials}\nCena: ${desc.price}\n\n Dodatkowy opis: ${desc.additionalDesc}\n\n\=========================\n`
+            }cm\nWysokość: ${desc.height}cm\nMateriał: ${desc.material}\nCena: ${desc.price}\n\n Dodatkowy opis: ${desc.additionalDesc}\n\n\=========================\n`
           )
         }
       )
@@ -211,7 +211,7 @@ const Tasks: React.FC = () => {
                   <Nested
                     register={register}
                     // field={field}
-                    // nestedIndex={index}
+                    nestedIndex={index}
                     registerName={`description[${index}].material`}
                     options={material}
                   />

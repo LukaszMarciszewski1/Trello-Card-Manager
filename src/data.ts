@@ -97,15 +97,23 @@ export const recipient = [
 
 export const material = [
   {
+    name: 'material1',
     value: 'material1',
+    checked: true 
   },
   {
+    name: 'material2',
     value: 'material2',
+    checked: false          
   },
   {
+    name: 'material3',
     value: 'material3',
+    checked: false
   },
   {
+    name: 'material4',
     value: 'material4',
+    checked: false
   },
 ]
