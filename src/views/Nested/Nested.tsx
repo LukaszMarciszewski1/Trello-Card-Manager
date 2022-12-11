@@ -9,18 +9,19 @@ import Button from 'components/Button/Button';
 import { RiAddLine } from 'react-icons/ri';
 import e from 'express';
 import LabelBox from 'components/LabelBox/LabelBox';
+import Input from 'components/Input/Input';
 
 interface NestedProps {
   register: any
   registerName: any
   options: any
+  field?: any
   // nestedIndex: any
 }
 
-const Nested: React.FC<NestedProps> = ({ register, registerName, options }) => {
+const Nested: React.FC<NestedProps> = ({ register, registerName, options, field }) => {
   const [trigger, setTrigger] = useState(false)
   const [isChecked, setIsChecked] = useState(false)
-  console.log(options)
 
   const handleChecked = (e: any) => {
     console.log('okk')
@@ -32,26 +33,36 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, options }) => {
       {
         options.map((option: { value: string; }, index: number) => (
           <LabelBox key={index} label={option.value} />
+          // <Input
+          //   key={index}
+          //   id={option.value}
+          //   value={option.value}
+          //   label={option.value}
+          //   type="text"
+          //   {...register(`description.${index}.amount` as const)}
+          // />
         ))
       }
-
       <Popup
         title={'Dodaj wycenę'}
         trigger={trigger}
         closePopup={() => setTrigger(false)}
       >
         <div className={styles.checkboxContainer}>
-          {options?.map((trader: { value: string | undefined }, index: number) => (
-            <Checkbox
-              key={index}
-              id={trader.value}
-              type={"checkbox"}
-              label={trader.value}
-              value={trader.value}
-              {...register(`${registerName}[${index}]` as const)}
-            // , { onChange: (e: { target: { value: any; }; }) => console.log(e.target.value) }
-            />
-          ))}
+          {options?.map((trader: { value: string }, index: number) => {
+            return (
+              <Checkbox
+                key={index}
+                id={trader.value}
+                type={"checkbox"}
+                label={trader.value}
+                value={trader.value}
+                // checked={field.value}
+                {...register(`${registerName}[${index}]` as const)}
+              // , { onChange: (e: { target: { value: any; }; }) => console.log(e.target.value) }
+              />
+            )
+          })}
         </div>
       </Popup>
       <Button
