@@ -93,20 +93,15 @@ const Tasks: React.FC = () => {
     control,
   });
 
-
-  const handleAddMaterialToForm = (data: any) => {
-    data.push('sadasd')
-  }
-
   const fetchData = (data: Task) => {
     const { title, description, startDate, deadline, member, attachment, recipient } = data;
     const descPayload = description
       .map(
         (desc, i) => {
-          console.log(desc.material)
+          const materials = desc.material.filter((item: any) => item)
           return (
             `***Sekcja${i + 1}***\n**Logo: ${desc.logo}**\nIlość: ${desc.amount}\nTkanina: ${desc.fabric}\nSzerokość: ${desc.width
-            }cm\nWysokość: ${desc.height}cm\nMateriał: ${desc.material ? desc.material : null}\nCena: ${desc.price}\n\n Dodatkowy opis: ${desc.additionalDesc}\n\n\=========================\n`
+            }cm\nWysokość: ${desc.height}cm\nMateriał: ${materials}\nCena: ${desc.price}\n\n Dodatkowy opis: ${desc.additionalDesc}\n\n\=========================\n`
           )
         }
       )
@@ -169,7 +164,7 @@ const Tasks: React.FC = () => {
   };
 
   const handleSubmitForm = (data: Task) => {
-    // fetchData(data);
+    fetchData(data);
     console.log(data)
   };
 
@@ -213,7 +208,12 @@ const Tasks: React.FC = () => {
                     })}
                     defaultValue={field.logo}
                   />
-                  <Nested nestIndex={index} {...{ control, register }} />
+                  <Nested
+                    register={register}
+                    // nestedIndex={index}
+                    registerName={`description[${index}].material`}
+                    options={material}
+                  />
                   <Textarea
                     id={field.id}
                     label={'Dodatkowy opis'}

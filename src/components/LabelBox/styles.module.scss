@@ -1,8 +1,9 @@
 @import 'theme/colors.scss';
 .container {
   background-color: $lightGrey;
-  padding: 0.5rem;
+  padding: 0.3rem;
   border-radius: 6px;
-  margin-right: 1rem;
+  margin-right: .5rem;
+  font-size: 14px;
   border: 1px solid $matBlue;
 }

@@ -7,41 +7,49 @@ import { el } from 'date-fns/locale';
 import Popup from 'components/Popup/Popup';
 import Button from 'components/Button/Button';
 import { RiAddLine } from 'react-icons/ri';
+import e from 'express';
+import LabelBox from 'components/LabelBox/LabelBox';
 
 interface NestedProps {
-  nestIndex: any
-  control: any
   register: any
+  registerName: any
+  options: any
+  // nestedIndex: any
 }
 
-const Nested: React.FC<NestedProps> = ({ nestIndex, control, register }) => {
+const Nested: React.FC<NestedProps> = ({ register, registerName, options }) => {
   const [trigger, setTrigger] = useState(false)
+  const [isChecked, setIsChecked] = useState(false)
+  console.log(options)
 
-  // const { fields, remove, append } = useFieldArray({
-  //   control,
-  //   name: `description[${nestIndex}].material`
-  // });
-
+  const handleChecked = (e: any) => {
+    console.log('okk')
+  }
 
   return (
     <div className={styles.materialsList}>
       <span>Materiał:</span>
+      {
+        options.map((option: { value: string; }, index: number) => (
+          <LabelBox key={index} label={option.value} />
+        ))
+      }
+
       <Popup
         title={'Dodaj wycenę'}
         trigger={trigger}
         closePopup={() => setTrigger(false)}
       >
-        {/* {fields.map((item, k) => {
-          return ( */}
         <div className={styles.checkboxContainer}>
-          {material?.map((trader, index) => (
+          {options?.map((trader: { value: string | undefined }, index: number) => (
             <Checkbox
               key={index}
               id={trader.value}
               type={"checkbox"}
               label={trader.value}
               value={trader.value}
-              {...register(`description[${nestIndex}].material[${index}]` as const)}
+              {...register(`${registerName}[${index}]` as const)}
+            // , { onChange: (e: { target: { value: any; }; }) => console.log(e.target.value) }
             />
           ))}
         </div>
