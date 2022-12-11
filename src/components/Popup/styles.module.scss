@@ -1,0 +1,32 @@
+// @import 'assets/styles/theme.scss';
+
+.popup {
+  max-width: 700px;
+  min-width: 150px;
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  padding: 8px 16px 16px;
+  background-color: white;
+  border: 1px solid grey;
+  border-radius: 4px;
+  z-index: 200;
+}
+
+.header {
+  min-width: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid grey;
+  padding-bottom: 8px;
+  h4 {
+    width: 100%;
+    text-align: center;
+    color: blue;
+  }
+}
+
+.popupContent {
+  margin-top: 8px;
+}

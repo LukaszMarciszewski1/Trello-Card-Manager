@@ -20,7 +20,8 @@ import TextareaAutosize from 'react-textarea-autosize';
 import Textarea from "components/Textarea/Textarea";
 import OptionBox from "components/LabelBox/LabelBox";
 import LabelBox from "components/LabelBox/LabelBox";
-import Nested from "./Nested";
+import Nested from "./Nested/Nested";
+import Popup from "components/Popup/Popup";
 // import fetch from 'node-fetch';
 
 const validation = {
@@ -65,6 +66,7 @@ const defaultDescriptionValues = {
 };
 
 const Tasks: React.FC = () => {
+  const [trigger, setTrigger] = useState(false)
   dayjs.locale("pl");
   const [sections, setSections] = useState([]);
   const trelloAuthUrl = `key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}`;
@@ -100,9 +102,13 @@ const Tasks: React.FC = () => {
     const { title, description, startDate, deadline, member, attachment, recipient } = data;
     const descPayload = description
       .map(
-        (desc, i) =>
-          `***Sekcja${i + 1}***\n**Logo: ${desc.logo}**\nIlość: ${desc.amount}\nTkanina: ${desc.fabric}\nSzerokość: ${desc.width
-          }cm\nWysokość: ${desc.height}cm\nMateriał: ${desc.material}\nCena: ${desc.price}\n\n Dodatkowy opis: ${desc.additionalDesc}\n\n\=========================\n`
+        (desc, i) => {
+          console.log(desc.material)
+          return (
+            `***Sekcja${i + 1}***\n**Logo: ${desc.logo}**\nIlość: ${desc.amount}\nTkanina: ${desc.fabric}\nSzerokość: ${desc.width
+            }cm\nWysokość: ${desc.height}cm\nMateriał: ${desc.material ? desc.material : null}\nCena: ${desc.price}\n\n Dodatkowy opis: ${desc.additionalDesc}\n\n\=========================\n`
+          )
+        }
       )
       .toString();
 
@@ -207,28 +213,7 @@ const Tasks: React.FC = () => {
                     })}
                     defaultValue={field.logo}
                   />
-                  <div className={styles.materialsContainer}>
-                    <span>Materiał:</span>
-                    <div className={styles.materialList}>
-                      {/* {material?.map((field: { value: string; }, index: number) => (
-                        <Checkbox
-                          key={index}
-                          id={field.value}
-                          type={"checkbox"}
-                          value={field.value}
-                          label={field.value}
-                        />
-                      ))} */}
-                      <Nested nestIndex={index} {...{ control, register }} />
-                    </div>
-                    <Button
-                      type={"button"}
-                      title={""}
-                      onClick={() => console.log('click')}
-                      style={{ fontSize: "1.2rem", width: '40px' }}
-                      icon={<RiAddLine fontSize={"1.5rem"} fontWeight={"bold"} />}
-                    />
-                  </div>
+                  <Nested nestIndex={index} {...{ control, register }} />
                   <Textarea
                     id={field.id}
                     label={'Dodatkowy opis'}
