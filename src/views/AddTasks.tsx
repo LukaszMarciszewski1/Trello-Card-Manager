@@ -140,27 +140,27 @@ const Tasks: React.FC = () => {
       body: formDataFile
     };
 
-    // fetch(trelloListUrl, optionsInit)
-    //   .then((response) => {
-    //     console.log(`Response: ${response.status} ${response.statusText}`);
-    //     return response.text();
-    //   })
-    //   .then((text) => {
-    //     fetch(`https://api.trello.com/1/cards/${JSON.parse(text).id}/attachments?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}&setCover=false`, attachmentOption);
-    //     fetch(`https://api.trello.com/1/cards/${JSON.parse(text).id}/checklists?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}`, options2)
-    //       .then(response => {
-    //         console.log(`Response: ${response.status} ${response.statusText}`);
-    //         return response.text();
-    //       })
-    //       .then(text => {
-    //         for (let i = 0; i < logoPayload.length; i++) {
-    //           fetch(`https://api.trello.com/1/checklists/${JSON.parse(text).id}/checkItems?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}&name=${logoPayload[i]}`, options2)
-    //         }
-    //       })
-    //       .catch((err) => console.error(err));
-    //   })
-    //   .then((text) => console.log(text))
-    //   .catch((err) => console.error(err));
+    fetch(trelloListUrl, optionsInit)
+      .then((response) => {
+        console.log(`Response: ${response.status} ${response.statusText}`);
+        return response.text();
+      })
+      .then((text) => {
+        fetch(`https://api.trello.com/1/cards/${JSON.parse(text).id}/attachments?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}&setCover=false`, attachmentOption);
+        fetch(`https://api.trello.com/1/cards/${JSON.parse(text).id}/checklists?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}`, options2)
+          .then(response => {
+            console.log(`Response: ${response.status} ${response.statusText}`);
+            return response.text();
+          })
+          .then(text => {
+            for (let i = 0; i < logoPayload.length; i++) {
+              fetch(`https://api.trello.com/1/checklists/${JSON.parse(text).id}/checkItems?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}&name=${logoPayload[i]}`, options2)
+            }
+          })
+          .catch((err) => console.error(err));
+      })
+      .then((text) => console.log(text))
+      .catch((err) => console.error(err));
   };
 
   const handleSubmitForm = (data: Task) => {
@@ -210,7 +210,7 @@ const Tasks: React.FC = () => {
                   />
                   <Nested
                     // register={register}
-                    {...{ control, register }} 
+                    {...{ control, register }}
                     // field={field}
                     nestIndex={index}
                     registerName={`description[${index}].material`}
