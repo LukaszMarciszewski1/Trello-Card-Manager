@@ -15,20 +15,20 @@ interface NestedProps {
   register: any
   registerName: any
   options: any
-  nestedIndex?: any
+  nestIndex?: any
+  control?: any
 }
 
-const Nested: React.FC<NestedProps> = ({ register, registerName, options, nestedIndex }) => {
+const Nested: React.FC<NestedProps> = ({ register, registerName, options, nestIndex, control }) => {
   const [trigger, setTrigger] = useState(false)
   const [isChecked, setIsChecked] = useState(false)
   const [checkboxes, setCheckboxes] = useState(material)
 
-  const handleChange = (event: any) => {
-    const newCheckboxes = [...checkboxes];
-    newCheckboxes[event.target.dataset.action].checked = event.target.checked;
-    setCheckboxes(newCheckboxes)
-    console.log(newCheckboxes[event.target.dataset.action])
-  }
+  const { fields, remove, append } = useFieldArray({
+    control,
+    name: `description[${nestIndex}].material`
+  });
+
 
   const selectedMaterials = [...checkboxes].filter(checkbox => checkbox.checked !== false)
   console.log(selectedMaterials)
@@ -36,7 +36,7 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, options, nested
   return (
     <div className={styles.materialsList}>
       <span>Materiał:</span>
-      {
+      {/* {
         selectedMaterials.map((option: { value: string, checked: boolean; }, index: number) => (
           <Checkbox
             key={index}
@@ -48,7 +48,23 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, options, nested
             {...register(`${registerName}[${index}]` as const)}
           />
         ))
-      }
+      } */}
+      {fields.map((item, k) => {
+        console.log(item)
+        return (
+          <div key={item.id} style={{ margin: '0 5px 0 0' }}>
+            <Input
+              style={{ marginTop: 0 }}
+              id={item.id}
+              // value={'fdfsf'}
+              disabled
+              type="text"
+              {...register(`${registerName}[${k}].field` as const)}
+            // {...register(`${registerName}[${k}]` as const)}
+            />
+          </div>
+        );
+      })}
       <Popup
         title={'Dodaj wycenę'}
         trigger={trigger}
@@ -62,10 +78,10 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, options, nested
               type={"checkbox"}
               data-action={index}
               label={trader.value}
-              name={trader.name}
-              checked={trader.checked}
+              // name={trader.name}
+              // checked={trader.checked}
               value={trader.value}
-              onChange={handleChange}
+              onChange={() => append({ field: trader.value })}
             />
           ))}
         </div>

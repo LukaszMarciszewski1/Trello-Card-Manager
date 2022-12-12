@@ -209,9 +209,10 @@ const Tasks: React.FC = () => {
                     defaultValue={field.logo}
                   />
                   <Nested
-                    register={register}
+                    // register={register}
+                    {...{ control, register }} 
                     // field={field}
-                    nestedIndex={index}
+                    nestIndex={index}
                     registerName={`description[${index}].material`}
                     options={material}
                   />
