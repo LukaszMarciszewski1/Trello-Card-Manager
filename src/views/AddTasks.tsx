@@ -98,10 +98,11 @@ const Tasks: React.FC = () => {
     const descPayload = description
       .map(
         (desc, i) => {
-          const materials = desc.material.filter((item: any) => item)
+          const materials = desc.material.map((item: { field: any; }) => item.field)
+          // console.log(desc.material)
           return (
-            `***Sekcja${i + 1}***\n**Logo: ${desc.logo}**\nIlość: ${desc.amount}\nTkanina: ${desc.fabric}\nSzerokość: ${desc.width
-            }cm\nWysokość: ${desc.height}cm\nMateriał: ${desc.material}\nCena: ${desc.price}\n\n Dodatkowy opis: ${desc.additionalDesc}\n\n\=========================\n`
+            `***Sekcja${i + 1}***\n**Logo: ${desc.logo}**\n- Ilość: ${desc.amount}\n- Tkanina: ${desc.fabric}\n- Szerokość: ${desc.width
+            }cm\n-Wysokość: ${desc.height}cm\n- Materiał: ${materials}\n- Cena: ${desc.price}\n\n- Dodatkowy opis: ${desc.additionalDesc}\n\n\=========================\n`
           )
         }
       )

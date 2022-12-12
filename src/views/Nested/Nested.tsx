@@ -31,7 +31,7 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, options, nestIn
 
 
   const selectedMaterials = [...checkboxes].filter(checkbox => checkbox.checked !== false)
-  console.log(selectedMaterials)
+
 
   return (
     <div className={styles.materialsList}>
@@ -50,11 +50,10 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, options, nestIn
         ))
       } */}
       {fields.map((item, k) => {
-        console.log(item)
         return (
-          <div key={item.id} style={{ margin: '0 5px 0 0' }}>
+          <div key={item.id} style={{ margin: '0 3px 0 0' }}>
             <Input
-              style={{ marginTop: 0 }}
+              style={{ marginTop: 0, maxWidth: 80}}
               id={item.id}
               // value={'fdfsf'}
               disabled
