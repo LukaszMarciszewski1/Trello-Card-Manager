@@ -7,6 +7,7 @@ export interface Description {
   additionalDesc: string
   price: number
   material: any
+  size: string
 }
 
 export interface Task {
@@ -26,5 +27,5 @@ export interface Task {
   member: string
   attachment: File | any
   recipient: string
-  fileSrc: string
+  filePath: string
 }

@@ -53,30 +53,38 @@ export const fabric = [
   },
 ]
 
-export const sizes = [
+export const size = [
   {
-    name: 'MINI',
+    label: 'MINI',
+    value: 'MINI',
   },
   {
-    name: 'MAŁY',
+    label: 'MAŁY',
+    value: 'MAŁY',
   },
   {
-    name: 'ŚREDNI',
+    label: 'ŚREDNI',
+    value: 'ŚREDNI',
   },
   {
-    name: 'WIĘKSZY',
+    label: 'WIĘKSZY',
+    value: 'WIĘKSZY',
   },
   {
-    name: 'DUŻY',
+    label: 'DUŻY',
+    value: 'DUŻY',
   },
   {
-    name: 'MAXI',
+    label: 'MAXI',
+    value: 'MAXI',
   },
   {
-    name: 'MEGA',
+    label: 'MEGA',
+    value: 'MEGA',
   },
   {
-    name: 'GIGA',
+    label: 'GIGA',
+    value: 'GIGA',
   },
 ]
 
@@ -99,21 +107,21 @@ export const material = [
   {
     name: 'material1',
     value: 'material1',
-    checked: true 
+    checked: true,
   },
   {
     name: 'material2',
     value: 'material2',
-    checked: false          
+    checked: false,
   },
   {
     name: 'material3',
     value: 'material3',
-    checked: false
+    checked: false,
   },
   {
     name: 'material4',
     value: 'material4',
-    checked: false
+    checked: false,
   },
 ]

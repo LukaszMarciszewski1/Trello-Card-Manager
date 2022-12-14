@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styles from "./styles.module.scss";
 import { useForm, useFieldArray, useWatch, Control } from "react-hook-form";
 import Input from "components/Input/Input";
@@ -8,7 +8,7 @@ import { RiAddLine } from "react-icons/ri";
 import Checkbox from "components/Checkbox/Checkbox";
 import Select from "components/Select/Select";
 import FormSection from "components/Section/FormSection";
-import { traders, fabric, sizes, recipient, material } from "data";
+import { traders, fabric, recipient, material, size } from "data";
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import dayjs from "dayjs";
@@ -58,6 +58,7 @@ const defaultDescriptionValues = {
   logo: "",
   amount: 0,
   fabric: fabric[0].value,
+  size: size[0].value,
   width: 0,
   height: 0,
   additionalDesc: '',
@@ -93,29 +94,40 @@ const Tasks: React.FC = () => {
     control,
   });
 
+
   const fetchData = (data: Task) => {
-    const { title, description, startDate, deadline, member, attachment, recipient } = data;
-    const descPayload = description
-      .map(
-        (desc, i) => {
-          const materials = desc.material.map((item: { field: any; }) => item.field)
-          // console.log(desc.material)
-          return (
-            `***Sekcja${i + 1}***\n**Logo: ${desc.logo}**\n- Ilość: ${desc.amount}\n- Tkanina: ${desc.fabric}\n- Szerokość: ${desc.width
-            }cm\n-Wysokość: ${desc.height}cm\n- Materiał: ${materials}\n- Cena: ${desc.price}\n\n- Dodatkowy opis: ${desc.additionalDesc}\n\n\=========================\n`
-          )
-        }
+    const { title, description, startDate, deadline, member, attachment, recipient, filePath } = data;
+    const descData = description
+      .map((desc, i) => {
+        const materials = desc.material.map((item: { field: any; }) => item.field)
+        return (
+          `***Sekcja${i + 1}***\n
+            **Logo: ${desc.logo}**\n
+            - Ilość: ${desc.amount}\n
+            - Tkanina: ${desc.fabric}\n
+            - Szerokość: ${desc.width}cm\n
+            - Wysokość: ${desc.height}cm\n
+            - Materiał: ${materials}\n
+            - Rozmiar: ${desc.size}\n
+            - Cena: ${desc.price}\n\n
+            - Dodatkowy opis: ${desc.additionalDesc}\n\n\
+            - Plik produkcyjny: ${filePath}\n\n\
+            =========================\n`
+        )
+      }
       )
       .toString();
 
     const formDataFile = new FormData();
     const formInitialCard = new FormData();
     formInitialCard.append("name", title);
-    formInitialCard.append("desc", descPayload);
+    formInitialCard.append("desc", descData);
     formInitialCard.append("start", startDate);
     formInitialCard.append("due", deadline);
     formInitialCard.append("idMembers", `${member},${recipient}`);
     formDataFile.append("file", attachment[0]);
+
+    console.log(attachment)
 
     const optionsInit = {
       method: "POST",
@@ -147,14 +159,14 @@ const Tasks: React.FC = () => {
         return response.text();
       })
       .then((text) => {
-        fetch(`https://api.trello.com/1/cards/${JSON.parse(text).id}/attachments?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}&setCover=false`, attachmentOption);
+        attachment.length && fetch(`https://api.trello.com/1/cards/${JSON.parse(text).id}/attachments?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}&setCover=false`, attachmentOption);
         fetch(`https://api.trello.com/1/cards/${JSON.parse(text).id}/checklists?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}`, options2)
           .then(response => {
             console.log(`Response: ${response.status} ${response.statusText}`);
             return response.text();
           })
           .then(text => {
-            for (let i = 0; i < logoPayload.length; i++) {
+            for (let i = 0; i < logoPayload.length; ++i) {
               fetch(`https://api.trello.com/1/checklists/${JSON.parse(text).id}/checkItems?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}&name=${logoPayload[i]}`, options2)
             }
           })
@@ -254,15 +266,21 @@ const Tasks: React.FC = () => {
                     step={"0.1"}
                     {...register(`description.${index}.height` as const)}
                   />
-                  <Input
+                  <Select
+                    label={"Rozmiar"}
+                    options={size}
+                    id={field.id}
+                    defaultValue={field.size}
+                    {...register(`description.${index}.size` as const)}
+                  />
+                  {/* <Input
                     id={"price"}
-                    // placeholder={"Cena"}
                     label={"Cena"}
                     defaultValue={0}
                     type="number"
                     disabled={true}
                     {...register("price")}
-                  />
+                  /> */}
                 </div>
                 {/* delete section ----------------------------> */}
                 {/* {
@@ -317,11 +335,11 @@ const Tasks: React.FC = () => {
                 {...register("attachment")}
               />
               <Input
-                id={"fileSrc"}
-                placeholder={"Ścieżka do pliku produkcyjnego"}
+                id={"filePath"}
+                placeholder={"Wklej sciężkę pliku..."}
                 label={"Ścieżka do pliku produkcyjnego"}
                 type="text"
-                {...register(`fileSrc`)}
+                {...register(`filePath`)}
               />
             </div>
             <div className={styles.buttonContainer}>

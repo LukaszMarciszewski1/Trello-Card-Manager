@@ -3,7 +3,7 @@
   width: 100%;
   // max-width: 600px;
   margin-right: 10px;
-  // margin-top: 10px;
+  margin-top: 12px;
 }
 
 .input {
@@ -17,7 +17,7 @@
   border: 1px solid #67788a;
   font-size: 14px;
   min-height: 40px;
-  margin-top: 0.5rem;
+  margin-top: 5px;
   &:disabled {
     opacity: 0.8;
     background-color: $focusBg;
