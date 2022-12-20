@@ -29,16 +29,16 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, options, nestIn
     name: `description[${nestIndex}].material`
   });
 
-  const handleChecked = (e: any) => {
-    let updatedList = [...checkboxes]
+  const handleChecked = (e: any, field: any) => {
+    let updatedList = () => [...checkboxes].map(item => { return {...item, checked: e.target.id === item.name ? !item.checked : item.checked}});
     if (e.target.checked) {
-      updatedList = [...checkboxes].map(item => { return {...item, checked: !item.checked}});
-      console.log(updatedList)
+      append({field})
+      updatedList()
     } else {
-      updatedList = [...checkboxes].map(item => { return {...item, checked: e.target.id === item.name ? !item.checked : item.checked}});
-      // updatedList.splice(isChecked.indexOf(e.target.value), 1);
+      updatedList()
+      remove(e.target.id)
     }
-    setCheckboxes(updatedList);
+    setCheckboxes(updatedList());
   }
 
 
@@ -75,9 +75,9 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, options, nestIn
               checked={trader.checked}
               value={trader.value}
               onChange={(e) => {
-                handleChecked(e)
+                handleChecked(e, trader.value)
                 // setIsChecked(true)
-                append({ field: trader.value })
+                
               }}
             />
           ))}

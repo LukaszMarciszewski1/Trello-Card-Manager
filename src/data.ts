@@ -107,7 +107,7 @@ export const material = [
   {
     name: 'material1',
     value: 'material1',
-    checked: true,
+    checked: false,
   },
   {
     name: 'material2',
