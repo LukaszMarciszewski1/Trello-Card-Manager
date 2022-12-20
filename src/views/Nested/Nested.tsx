@@ -32,9 +32,10 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, options, nestIn
   const handleChecked = (e: any) => {
     let updatedList = [...checkboxes]
     if (e.target.checked) {
-      updatedList = [...checkboxes].map(item => { return {...item, checked: e.target.id === item.name ? !item.checked : item.checked}});
+      updatedList = [...checkboxes].map(item => { return {...item, checked: !item.checked}});
       console.log(updatedList)
     } else {
+      updatedList = [...checkboxes].map(item => { return {...item, checked: e.target.id === item.name ? !item.checked : item.checked}});
       // updatedList.splice(isChecked.indexOf(e.target.value), 1);
     }
     setCheckboxes(updatedList);
