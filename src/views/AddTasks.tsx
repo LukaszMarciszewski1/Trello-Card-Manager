@@ -101,22 +101,24 @@ const Tasks: React.FC = () => {
       .map((desc, i) => {
         const materials = desc.material.map((item: { field: any; }) => item.field)
         return (
-          `***Sekcja${i + 1}***\n
-            **Logo: ${desc.logo}**\n
-            - Ilość: ${desc.amount}\n
-            - Tkanina: ${desc.fabric}\n
-            - Szerokość: ${desc.width}cm\n
-            - Wysokość: ${desc.height}cm\n
-            - Materiał: ${materials}\n
-            - Rozmiar: ${desc.size}\n
-            - Cena: ${desc.price}\n\n
-            - Dodatkowy opis: ${desc.additionalDesc}\n\n\
-            - Plik produkcyjny: ${filePath}\n\n\
-            =========================\n`
+          `
+          \n\
+          \n***Sekcja${i + 1}***
+          \n>**Logo: ${desc.logo}**
+          \n>Ilość: ${desc.amount}
+          \n>Tkanina: ${desc.fabric}
+          \n>Szerokość: ${desc.width}cm
+          \n>Wysokość: ${desc.height}cm
+          \n>Materiał:  ${materials}
+          \n>Rozmiar: ${desc.size}
+          \n>Cena: ${desc.price}
+          \n\n>Plik produkcyjny: ${filePath}
+          \n\n>Dodatkowy opis: ${desc.additionalDesc}
+          \n>\n\n\n\
+          `
         )
       }
-      )
-      .toString();
+      ).join('').toString();
 
     const formDataFile = new FormData();
     const formInitialCard = new FormData();
