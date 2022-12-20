@@ -29,37 +29,31 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, options, nestIn
     name: `description[${nestIndex}].material`
   });
 
-
-  const selectedMaterials = [...checkboxes].filter(checkbox => checkbox.checked !== false)
+  const handleChecked = (e: any, field: any) => {
+    let updatedList = () => [...checkboxes].map(item => { return {...item, checked: e.target.id === item.name ? !item.checked : item.checked}});
+    if (e.target.checked) {
+      append({field})
+      updatedList()
+    } else {
+      updatedList()
+      remove(e.target.id)
+    }
+    setCheckboxes(updatedList());
+  }
 
 
   return (
     <div className={styles.materialsList}>
       <span>Materiał:</span>
-      {/* {
-        selectedMaterials.map((option: { value: string, checked: boolean; }, index: number) => (
-          <Checkbox
-            key={index}
-            id={option.value}
-            type={"checkbox"}
-            label={option.value}
-            value={option.value}
-            checked
-            {...register(`${registerName}[${index}]` as const)}
-          />
-        ))
-      } */}
       {fields.map((item, k) => {
         return (
           <div key={item.id} style={{ margin: '0 3px 0 0' }}>
             <Input
               style={{ marginTop: 0, maxWidth: 80}}
               id={item.id}
-              // value={'fdfsf'}
               disabled
               type="text"
               {...register(`${registerName}[${k}].field` as const)}
-            // {...register(`${registerName}[${k}]` as const)}
             />
           </div>
         );
@@ -70,17 +64,21 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, options, nestIn
         closePopup={() => setTrigger(false)}
       >
         <div className={styles.checkboxContainer} >
-          {options.map((trader: { value: string; name: string, checked: any; }, index: number) => (
+          {checkboxes.map((trader: { value: string; name: string, checked: any; }, index: number) => (
             <Checkbox
               key={index}
               id={trader.name}
               type={"checkbox"}
-              data-action={index}
+              // data-action={index}
               label={trader.value}
               // name={trader.name}
-              // checked={trader.checked}
+              checked={trader.checked}
               value={trader.value}
-              onChange={() => append({ field: trader.value })}
+              onChange={(e) => {
+                handleChecked(e, trader.value)
+                // setIsChecked(true)
+                
+              }}
             />
           ))}
         </div>
@@ -97,20 +95,3 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, options, nestIn
 }
 
 export default Nested
-
-
-{/* <div className={styles.checkboxContainer}>
-{options?.map((trader: { value: string }, index: number) => {
-  return (
-    <Checkbox
-      key={index}
-      id={trader.value}
-      type={"checkbox"}
-      label={trader.value}
-      value={trader.value}
-      {...register(`${registerName}[${index}]` as const)}
-      />
-      )
-    })}
-</div> */}
-    // , { onChange: (e: { target: { value: any; }; }) => console.log(e.target.value) }
