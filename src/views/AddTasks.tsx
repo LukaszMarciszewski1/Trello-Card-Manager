@@ -103,18 +103,18 @@ const Tasks: React.FC = () => {
         return (
           `
           \n\
-          \n***Sekcja${i + 1}***
+          \n***Sekcja${i + 1} >>>>>>>>>>>>>>>>>>>>>***
           \n>**Logo: ${desc.logo}**
           \n>Ilość: ${desc.amount}
           \n>Tkanina: ${desc.fabric}
           \n>Szerokość: ${desc.width}cm
           \n>Wysokość: ${desc.height}cm
-          \n>Materiał:  ${materials}
+          \n>Materiał: ${materials.join(', ')}
           \n>Rozmiar: ${desc.size}
           \n>Cena: ${desc.price}
           \n\n>Plik produkcyjny: ${filePath}
           \n\n>Dodatkowy opis: ${desc.additionalDesc}
-          \n>\n\n\n\
+          \n-\n\n\n\
           `
         )
       }
