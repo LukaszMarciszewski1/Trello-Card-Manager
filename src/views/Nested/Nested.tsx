@@ -1,42 +1,50 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import styles from './styles.module.scss'
 import { useFieldArray } from "react-hook-form";
 import Checkbox from 'components/Checkbox/Checkbox';
-import { material } from 'data';
+import { materials } from 'data';
 import Popup from 'components/Popup/Popup';
 import Button from 'components/Button/Button';
 import { RiAddLine } from 'react-icons/ri';
+import { AiOutlineAppstoreAdd } from 'react-icons/ai';
 import Input from 'components/Input/Input';
+import LabelBox from 'components/LabelBox/LabelBox';
 
 interface NestedProps {
   register: any
   registerName: any
   options: any
-  nestIndex?: any
+  index?: any
   control?: any
 }
 
-const Nested: React.FC<NestedProps> = ({ register, registerName, options, nestIndex, control }) => {
+interface CheckedItems {
+  [key: string]: boolean;
+}
+
+const Nested: React.FC<NestedProps> = ({ register, registerName, options, index, control }) => {
   const [trigger, setTrigger] = useState(false)
-  const [isChecked, setIsChecked] = useState(false)
-  const [checkboxes, setCheckboxes] = useState(material)
+  const [checkedItems, setCheckedItems] = useState<string[]>([]);
 
   const { fields, remove, append } = useFieldArray({
     control,
-    name: `description[${nestIndex}].material`
+    name: `description[${index}].material`
   });
 
-  const handleChecked = (e: any, field: any) => {
-    let updatedList = () => [...checkboxes].map(item => { return {...item, checked: e.target.id === item.name ? !item.checked : item.checked}});
-    if (e.target.checked) {
-      append({field})
-      updatedList()
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = e.target
+    let updatedList = [...checkedItems];
+    if (checked) {
+      updatedList = [...checkedItems, name];
+      append({ field: name })
     } else {
-      updatedList()
-      remove(e.target.id)
+      updatedList.splice(checkedItems.indexOf(name), 1);
+      remove(checkedItems.indexOf(name))
     }
-    setCheckboxes(updatedList());
+    setCheckedItems(updatedList);
   }
+
+  const isChecked = (item: string) => checkedItems.includes(item) ? true : false;
 
   return (
     <div className={styles.materialsList}>
@@ -45,7 +53,7 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, options, nestIn
         return (
           <div key={item.id} style={{ margin: '-12px 3px 0 0' }}>
             <Input
-              style={{ marginTop: 0, maxWidth: 80}}
+              style={{ marginTop: 0, maxWidth: 120, width: 'auto' }}
               id={item.id}
               disabled
               type="text"
@@ -60,28 +68,34 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, options, nestIn
         closePopup={() => setTrigger(false)}
       >
         <div className={styles.checkboxContainer} >
-          {checkboxes.map((trader: { value: string; name: string, checked: any; }, index: number) => (
+          {options.map((option: { name: string  }, index: number) => (
             <Checkbox
               key={index}
-              id={trader.name}
+              id={option.name}
               type={"checkbox"}
-              // data-action={index}
-              label={trader.value}
-              // name={trader.name}
-              style={{width: 'auto'}}
-              checked={trader.checked}
-              value={trader.value}
-              onChange={(e) => handleChecked(e, trader.value)}
-            />
+              label={option.name}
+              name={option.name}
+              style={{ width: 80, height: 'auto', padding: '5px', fontSize: '12px' }}
+              checked={isChecked(option.name)}
+              onChange={handleChange}
+            >
+              <div style={{
+                width: '100%',
+                padding: '10px',
+                height: '35px',
+                backgroundColor: 'red',
+                marginBottom: '5px',
+              }}
+              />
+            </Checkbox>
           ))}
         </div>
       </Popup>
       <Button
         type={"button"}
-        title={""}
         onClick={() => setTrigger(true)}
-        style={{ fontSize: "1.2rem", width: '40px' }}
-        icon={<RiAddLine fontSize={"1.5rem"} fontWeight={"bold"} />}
+        style={{ width: '40px' }}
+        icon={<AiOutlineAppstoreAdd fontSize={"1.5rem"} fontWeight={"bold"} />}
       />
     </div>
   )

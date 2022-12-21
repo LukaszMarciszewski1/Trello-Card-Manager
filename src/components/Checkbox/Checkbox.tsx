@@ -3,12 +3,13 @@ import styles from './styles.module.scss'
 interface CheckboxProps {
   id: string
   type: string
-  label: string
+  label?: string
   value?: string
   name?: string
   style?: {}
   onChange?: (e: any) => void
   checked?: any
+  children?: any
 }
 
 const Checkbox: React.FC<CheckboxProps> = forwardRef<HTMLInputElement, CheckboxProps>(
@@ -22,6 +23,7 @@ const Checkbox: React.FC<CheckboxProps> = forwardRef<HTMLInputElement, CheckboxP
       name,
       checked,
       onChange,
+      children,
       ...props
     },
     ref
@@ -43,6 +45,7 @@ const Checkbox: React.FC<CheckboxProps> = forwardRef<HTMLInputElement, CheckboxP
           htmlFor={id}
           style={style}
           className={styles.label}>
+          {children}
           {label}
         </label>
       </>

@@ -6,12 +6,12 @@ export interface Description {
   height: number
   additionalDesc: string
   price: number
-  material: any
+  materials: any
   size: string
 }
 
 export interface Card {
-  _id: string
+  _id: string | number
   title: string
   description: Description[]
   materials: string[] | string

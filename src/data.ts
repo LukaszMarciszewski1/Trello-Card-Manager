@@ -103,25 +103,23 @@ export const recipient = [
   },
 ]
 
-export const material = [
+export const materials = [
   {
-    name: 'material1',
-    value: 'material1',
-    checked: false,
+    name: 'A0001 White',
+    value: 'A0001 White',
+    color: '',
   },
   {
-    name: 'material2',
-    value: 'material2',
-    checked: false,
+    name: 'SU0061 Barca yellow',
+    value: 'SU0061 Barca yellow',
+    color: '',
   },
   {
-    name: 'material3',
-    value: 'material3',
-    checked: false,
+    name: 'A0003 Lemon',
+    value: 'A0003 Lemon',
   },
   {
-    name: 'material4',
-    value: 'material4',
-    checked: false,
+    name: 'A0002 Cream',
+    value: 'A0002 Cream',
   },
 ]

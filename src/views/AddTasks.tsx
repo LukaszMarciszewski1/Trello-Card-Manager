@@ -1,29 +1,21 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import styles from "./styles.module.scss";
-import { useForm, useFieldArray, useWatch, Control } from "react-hook-form";
+import axios from "axios";
+import dayjs from "dayjs";
+
+import { traders, fabric, recipient, materials, size } from "data";
+import { useForm, useFieldArray } from "react-hook-form";
+import { Card } from "models/card";
+
 import Input from "components/Input/Input";
-import { Card, Description } from "models/card";
 import Button from "components/Button/Button";
-import { RiAddLine } from "react-icons/ri";
 import Checkbox from "components/Checkbox/Checkbox";
 import Select from "components/Select/Select";
 import FormSection from "components/Section/FormSection";
-import { traders, fabric, recipient, material, size } from "data";
-import DatePicker, { registerLocale } from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import dayjs from "dayjs";
-import fs from "fs";
-import SectionsList from "components/SectionsList/SectionsList";
-import Tabs from "components/Tabs/Tabs";
-import TabsContent from "components/Tabs/TabsContent/TabsContent";
-import TextareaAutosize from 'react-textarea-autosize';
 import Textarea from "components/Textarea/Textarea";
-import OptionBox from "components/LabelBox/LabelBox";
-import LabelBox from "components/LabelBox/LabelBox";
 import Nested from "./Nested/Nested";
-import Popup from "components/Popup/Popup";
-import axios from "axios";
-// import fetch from 'node-fetch';
+import { RiAddLine } from "react-icons/ri";
+
 
 const validation = {
   title: {
@@ -64,20 +56,13 @@ const defaultDescriptionValues = {
   height: 0,
   additionalDesc: '',
   price: 0,
-  material: []
+  materials: []
 };
 
 const Tasks: React.FC = () => {
   const [trigger, setTrigger] = useState(false)
   dayjs.locale("pl");
-  const [sections, setSections] = useState([]);
-  const trelloAuthUrl = `key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}`;
-  const trelloListUrl = `https://api.trello.com/1/cards?idList=${process.env.REACT_APP_TRELLO_LIST}&${trelloAuthUrl}`;
-  const trelloCardUrl = (id: string, option?: string, valueKey?: string, value?: string | string[]) => {
-    return `https://api.trello.com/1/cards/${id}/${option}?${trelloAuthUrl}&${valueKey}=${value}`;
-  };
 
-  //`https://api.trello.com/1/cards/${JSON.parse(text).id}/idMembers?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}&value=${member}`,
   const {
     register,
     control,
@@ -94,90 +79,6 @@ const Tasks: React.FC = () => {
     name: "description",
     control,
   });
-
-
-  const fetchData = (data: Card) => {
-    const { title, description, startDate, deadline, member, attachment, recipient, filePath } = data;
-    const descData = description
-      .map((desc, i) => {
-        const materials = desc.material.map((item: { field: any; }) => item.field)
-        return (
-          `
-          \n\
-          \n***Sekcja${i + 1} >>>>>>>>>>>>>>>>>>>>>***
-          \n>**Logo: ${desc.logo}**
-          \n>Ilość: ${desc.amount}
-          \n>Tkanina: ${desc.fabric}
-          \n>Szerokość: ${desc.width}cm
-          \n>Wysokość: ${desc.height}cm
-          \n>Materiał: ${materials.join(', ')}
-          \n>Rozmiar: ${desc.size}
-          \n>Cena: ${desc.price}
-          \n\n>Plik produkcyjny: ${filePath}
-          \n\n>Dodatkowy opis: ${desc.additionalDesc}
-          \n-\n\n\n\
-          `
-        )
-      }
-      ).join('').toString();
-
-    const formDataFile = new FormData();
-    const formInitialCard = new FormData();
-    formInitialCard.append("name", title);
-    formInitialCard.append("desc", descData);
-    formInitialCard.append("start", startDate);
-    formInitialCard.append("due", deadline);
-    formInitialCard.append("idMembers", `${member},${recipient}`);
-    formDataFile.append("file", attachment[0]);
-
-    console.log(attachment)
-
-    const optionsInit = {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-      },
-      body: formInitialCard,
-    };
-
-    const logoPayload = description.map(desc => desc.logo)
-
-    const options2 = {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-      }
-    };
-    const attachmentOption = {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-      },
-      body: formDataFile
-    };
-
-    fetch(trelloListUrl, optionsInit)
-      .then((response) => {
-        console.log(`Response: ${response.status} ${response.statusText}`);
-        return response.text();
-      })
-      .then((text) => {
-        attachment.length && fetch(`https://api.trello.com/1/cards/${JSON.parse(text).id}/attachments?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}&setCover=false`, attachmentOption);
-        fetch(`https://api.trello.com/1/cards/${JSON.parse(text).id}/checklists?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}`, options2)
-          .then(response => {
-            console.log(`Response: ${response.status} ${response.statusText}`);
-            return response.text();
-          })
-          .then(text => {
-            for (let i = 0; i < logoPayload.length; ++i) {
-              fetch(`https://api.trello.com/1/checklists/${JSON.parse(text).id}/checkItems?key=${process.env.REACT_APP_TRELLO_KEY}&token=${process.env.REACT_APP_TRELLO_TOKEN}&name=${logoPayload[i]}`, options2)
-            }
-          })
-          .catch((err) => console.error(err));
-      })
-      .then((text) => console.log(text))
-      .catch((err) => console.error(err));
-  };
 
   const AddCardForm = async (data: Card) => {
     const {
@@ -207,7 +108,7 @@ const Tasks: React.FC = () => {
     const sectionName = `Sekcja:`
 
     const descData = description.map((desc, i) => {
-      const materials = desc.material.map((item: { field: any; }) => item.field)
+      const materials = desc.materials.map((item: { field: any; }) => item.field)
       return (
         `
         \n\
@@ -260,12 +161,12 @@ const Tasks: React.FC = () => {
         formChecklistDataCard,
         config
       )
-      
+
       await Promise.all(
-        description.map(async (desc, i) => {
+        description.map(async (desc) => {
           await axios.post(`${trelloUrl}/checklists/${checklistRes.data.id}/checkItems`,
             {
-              name: `${sectionName}${i + 1}`,
+              name: desc.logo,
               checked: false
             },
             config)
@@ -276,7 +177,8 @@ const Tasks: React.FC = () => {
   };
 
   const handleSubmitForm = (data: Card) => {
-    AddCardForm(data);
+    // AddCardForm(data);
+    console.log(data)
   };
 
   return (
@@ -298,9 +200,15 @@ const Tasks: React.FC = () => {
             </>
             <div className={styles.checkboxList}>
               {traders?.map((trader, index) => (
-                <Checkbox key={index} id={trader.initial} type={"radio"} value={trader.id} label={trader.initial} {...register("member")} />
+                <Checkbox
+                  key={index}
+                  id={trader.initial}
+                  type={"radio"}
+                  value={trader.id}
+                  label={trader.initial}
+                  {...register("member")}
+                />
               ))}
-              {/* Feature: create new component with add new task btn and children checkbox */}
             </div>
           </div>
           {fields.map((field, index) => {
@@ -321,9 +229,9 @@ const Tasks: React.FC = () => {
                   />
                   <Nested
                     {...{ control, register }}
-                    nestIndex={index}
+                    index={index}
                     registerName={`description[${index}].material`}
-                    options={material}
+                    options={materials}
                   />
                   <Textarea
                     id={field.id}
