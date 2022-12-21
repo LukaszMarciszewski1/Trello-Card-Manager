@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import styles from "./styles.module.scss";
 import { useForm, useFieldArray, useWatch, Control } from "react-hook-form";
 import Input from "components/Input/Input";
-import { Task, Description } from "models/task";
+import { Card, Description } from "models/card";
 import Button from "components/Button/Button";
 import { RiAddLine } from "react-icons/ri";
 import Checkbox from "components/Checkbox/Checkbox";
@@ -22,6 +22,7 @@ import OptionBox from "components/LabelBox/LabelBox";
 import LabelBox from "components/LabelBox/LabelBox";
 import Nested from "./Nested/Nested";
 import Popup from "components/Popup/Popup";
+import axios from "axios";
 // import fetch from 'node-fetch';
 
 const validation = {
@@ -39,7 +40,7 @@ const validation = {
 
 interface TaskFormProps {
   title: string;
-  handleSubmitForm: (data: Task) => void;
+  handleSubmitForm: (data: Card) => void;
 }
 
 const titleErrors = (type: any) => {
@@ -82,7 +83,7 @@ const Tasks: React.FC = () => {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<Task>({
+  } = useForm<Card>({
     defaultValues: {
       description: [defaultDescriptionValues],
     },
@@ -95,7 +96,7 @@ const Tasks: React.FC = () => {
   });
 
 
-  const fetchData = (data: Task) => {
+  const fetchData = (data: Card) => {
     const { title, description, startDate, deadline, member, attachment, recipient, filePath } = data;
     const descData = description
       .map((desc, i) => {
@@ -178,9 +179,104 @@ const Tasks: React.FC = () => {
       .catch((err) => console.error(err));
   };
 
-  const handleSubmitForm = (data: Task) => {
-    fetchData(data);
-    console.log(data)
+  const AddCardForm = async (data: Card) => {
+    const {
+      title,
+      description,
+      startDate,
+      deadline,
+      member,
+      attachment,
+      recipient,
+      filePath
+    } = data;
+
+    const trelloUrl = 'https://api.trello.com/1'
+
+    const config = {
+      params: {
+        key: process.env.REACT_APP_TRELLO_KEY,
+        token: process.env.REACT_APP_TRELLO_TOKEN,
+      },
+      headers: {
+        Accept: "application/json",
+        'Content-Type': 'multipart/form-data',
+      },
+    }
+
+    const sectionName = `Sekcja:`
+
+    const descData = description.map((desc, i) => {
+      const materials = desc.material.map((item: { field: any; }) => item.field)
+      return (
+        `
+        \n\
+        \n***${sectionName}${i + 1} >>>>>>>>>>>>>>>>>>>>>***
+        \n>**Logo: ${desc.logo}**
+        \n>Ilość: ${desc.amount}
+        \n>Tkanina: ${desc.fabric}
+        \n>Szerokość: ${desc.width}cm
+        \n>Wysokość: ${desc.height}cm
+        \n>Materiał: ${materials.join(', ')}
+        \n>Rozmiar: ${desc.size}
+        \n>Cena: ${desc.price}
+        \n\n>Plik produkcyjny: ${filePath}
+        \n\n>Dodatkowy opis: ${desc.additionalDesc}
+        \n-\n\n\n\
+        `
+      )
+    }).join('').toString();
+
+    const formInitialDataCard = new FormData();
+    formInitialDataCard.append("idList", `${process.env.REACT_APP_TRELLO_LIST}`);
+    formInitialDataCard.append("name", title);
+    formInitialDataCard.append("desc", descData);
+    formInitialDataCard.append("start", startDate);
+    formInitialDataCard.append("due", deadline);
+    formInitialDataCard.append("idMembers", `${member},${recipient}`);
+
+    const formFileDataCard = new FormData();
+    formFileDataCard.append("file", attachment[0]);
+    formFileDataCard.append("setCover", 'false');
+
+    const formChecklistDataCard = new FormData();
+    formChecklistDataCard.append("name", title);
+
+    try {
+      const res = await axios.post(
+        `${trelloUrl}/cards`,
+        formInitialDataCard,
+        config,
+      )
+
+      if (attachment.length) {
+        await axios.post(`${trelloUrl}/cards/${res.data.id}/attachments`,
+          formFileDataCard,
+          config
+        )
+      }
+
+      const checklistRes = await axios.post(`${trelloUrl}/cards/${res.data.id}/checklists`,
+        formChecklistDataCard,
+        config
+      )
+      
+      await Promise.all(
+        description.map(async (desc, i) => {
+          await axios.post(`${trelloUrl}/checklists/${checklistRes.data.id}/checkItems`,
+            {
+              name: `${sectionName}${i + 1}`,
+              checked: false
+            },
+            config)
+        }))
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleSubmitForm = (data: Card) => {
+    AddCardForm(data);
   };
 
   return (
@@ -224,9 +320,7 @@ const Tasks: React.FC = () => {
                     defaultValue={field.logo}
                   />
                   <Nested
-                    // register={register}
                     {...{ control, register }}
-                    // field={field}
                     nestIndex={index}
                     registerName={`description[${index}].material`}
                     options={material}
@@ -355,18 +449,3 @@ const Tasks: React.FC = () => {
 };
 
 export default Tasks;
-
-
-{/* {fields[index].material.map((field: { id: string; }, index: any) => {
-                        { console.log(field) }
-                        return (
-                          <div key={field.id}>
-                            <Input
-                              id={field.id}
-                              type="text"
-                              style={{ margin: '0 10px 0 0', width: 'auto' }}
-                              {...register(`description.${index}.material` as const)}
-                            />
-                          </div>
-                        )
-                      })} */}

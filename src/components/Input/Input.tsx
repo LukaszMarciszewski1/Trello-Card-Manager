@@ -40,7 +40,7 @@ const Input: React.FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
   ) => {
     return (
       <div className={styles.container}>
-        <label htmlFor={id}><p>{label}</p></label>
+        <label className={styles.label} htmlFor={id}><p>{label}</p></label>
         <input
           id={id}
           ref={ref}

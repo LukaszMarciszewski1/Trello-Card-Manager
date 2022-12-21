@@ -10,7 +10,7 @@ export interface Description {
   size: string
 }
 
-export interface Task {
+export interface Card {
   _id: string
   title: string
   description: Description[]

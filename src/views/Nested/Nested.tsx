@@ -3,12 +3,9 @@ import styles from './styles.module.scss'
 import { useFieldArray } from "react-hook-form";
 import Checkbox from 'components/Checkbox/Checkbox';
 import { material } from 'data';
-import { el } from 'date-fns/locale';
 import Popup from 'components/Popup/Popup';
 import Button from 'components/Button/Button';
 import { RiAddLine } from 'react-icons/ri';
-import e from 'express';
-import LabelBox from 'components/LabelBox/LabelBox';
 import Input from 'components/Input/Input';
 
 interface NestedProps {
@@ -41,13 +38,12 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, options, nestIn
     setCheckboxes(updatedList());
   }
 
-
   return (
     <div className={styles.materialsList}>
       <span>Materiał:</span>
       {fields.map((item, k) => {
         return (
-          <div key={item.id} style={{ margin: '0 3px 0 0' }}>
+          <div key={item.id} style={{ margin: '-12px 3px 0 0' }}>
             <Input
               style={{ marginTop: 0, maxWidth: 80}}
               id={item.id}
@@ -59,7 +55,7 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, options, nestIn
         );
       })}
       <Popup
-        title={'Dodaj wycenę'}
+        title={'Dodaj materiał'}
         trigger={trigger}
         closePopup={() => setTrigger(false)}
       >
@@ -72,13 +68,10 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, options, nestIn
               // data-action={index}
               label={trader.value}
               // name={trader.name}
+              style={{width: 'auto'}}
               checked={trader.checked}
               value={trader.value}
-              onChange={(e) => {
-                handleChecked(e, trader.value)
-                // setIsChecked(true)
-                
-              }}
+              onChange={(e) => handleChecked(e, trader.value)}
             />
           ))}
         </div>
