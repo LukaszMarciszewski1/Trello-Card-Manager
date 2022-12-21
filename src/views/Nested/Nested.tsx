@@ -28,7 +28,7 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, options, index,
 
   const { fields, remove, append } = useFieldArray({
     control,
-    name: `description[${index}].material`
+    name: `description[${index}].materials`
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
