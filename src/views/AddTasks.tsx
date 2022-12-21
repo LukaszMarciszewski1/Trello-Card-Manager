@@ -177,7 +177,7 @@ const Tasks: React.FC = () => {
   };
 
   const handleSubmitForm = (data: Card) => {
-    // AddCardForm(data);
+    AddCardForm(data);
     console.log(data)
   };
 
