@@ -1,4 +1,11 @@
-export interface Description {
+interface Materials {
+  field: {
+    name: string
+    value: string
+    color: string
+  }
+}
+interface Description {
   logo: string
   fabric: string
   amount: number
@@ -6,7 +13,7 @@ export interface Description {
   height: number
   additionalDesc: string
   price: number
-  materials: any
+  materials: Materials[]
   size: string
 }
 
@@ -14,16 +21,8 @@ export interface Card {
   _id: string | number
   title: string
   description: Description[]
-  materials: string[] | string
-  production: string[] | string
   startDate: Date | any
-  deadline: Date | any
-  fabric: string
-  amount: number
-  width: number
-  height: number
-  size: string
-  price: number | null
+  endDate: Date | any
   member: string
   attachment: File | any
   recipient: string

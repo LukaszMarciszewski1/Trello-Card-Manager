@@ -85,7 +85,7 @@ const Tasks: React.FC = () => {
       title,
       description,
       startDate,
-      deadline,
+      endDate,
       member,
       attachment,
       recipient,
@@ -133,7 +133,7 @@ const Tasks: React.FC = () => {
     formInitialDataCard.append("name", title);
     formInitialDataCard.append("desc", descData);
     formInitialDataCard.append("start", startDate);
-    formInitialDataCard.append("due", deadline);
+    formInitialDataCard.append("due", endDate);
     formInitialDataCard.append("idMembers", `${member},${recipient}`);
 
     const formFileDataCard = new FormData();
@@ -322,12 +322,12 @@ const Tasks: React.FC = () => {
               {...register("startDate")}
             />
             <Input
-              id={"deadline"}
+              id={"endDate"}
               placeholder={"Data oddania"}
               label={"Data oddania"}
               type="date"
               error={errors.description}
-              {...register("deadline")}
+              {...register("endDate")}
             />
             <div className={styles.buttonContainer}>
               <Input
