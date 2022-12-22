@@ -1,7 +1,9 @@
 .materialsList {
-  position: relative;
+  // position: relative;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
+  margin-top: 0.5rem;
   span {
     margin-right: 1rem;
   }

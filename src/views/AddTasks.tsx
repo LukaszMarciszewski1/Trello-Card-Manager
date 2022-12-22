@@ -13,7 +13,7 @@ import Checkbox from "components/Checkbox/Checkbox";
 import Select from "components/Select/Select";
 import FormSection from "components/Section/FormSection";
 import Textarea from "components/Textarea/Textarea";
-import Nested from "./Nested/Nested";
+import NestedMaterials from "./NestedMaterials/NestedMaterials";
 import { RiAddLine } from "react-icons/ri";
 
 
@@ -181,6 +181,7 @@ const Tasks: React.FC = () => {
     console.log(data)
   };
 
+
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
       <div className={styles.formContainer}>
@@ -212,7 +213,6 @@ const Tasks: React.FC = () => {
             </div>
           </div>
           {fields.map((field, index) => {
-            // { console.log(fields) }
             return (
               <FormSection key={field.id}>
                 <div className={styles.formGroupColumn}>
@@ -227,11 +227,11 @@ const Tasks: React.FC = () => {
                     })}
                     defaultValue={field.logo}
                   />
-                  <Nested
+                  <NestedMaterials
                     {...{ control, register }}
-                    index={index}
+                    // index={index}
                     registerName={`description[${index}].materials`}
-                    options={materials}
+                    materials={materials}
                   />
                   <Textarea
                     id={field.id}
@@ -356,4 +356,4 @@ const Tasks: React.FC = () => {
   );
 };
 
-export default Tasks;
+export default React.memo(Tasks);

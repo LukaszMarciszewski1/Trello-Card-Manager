@@ -38,6 +38,7 @@ const Input: React.FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
     },
     ref
   ) => {
+    console.log(`render: ${label}`)
     return (
       <div className={styles.container}>
         <label className={styles.label} htmlFor={id}><p>{label}</p></label>
@@ -48,7 +49,7 @@ const Input: React.FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
           type={type}
           value={value}
           defaultValue={defaultValue}
-          aria-label={label}
+          // aria-label={label}
           placeholder={placeholder}
           step={step}
           min={minValue}
@@ -65,4 +66,4 @@ const Input: React.FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
   }
 )
 
-export default Input
+export default React.memo(Input)
