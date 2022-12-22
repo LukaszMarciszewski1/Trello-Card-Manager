@@ -177,7 +177,7 @@ const Tasks: React.FC = () => {
   };
 
   const handleSubmitForm = (data: Card) => {
-    AddCardForm(data);
+    // AddCardForm(data);
     console.log(data)
   };
 
@@ -230,7 +230,7 @@ const Tasks: React.FC = () => {
                   <Nested
                     {...{ control, register }}
                     index={index}
-                    registerName={`description[${index}].material`}
+                    registerName={`description[${index}].materials`}
                     options={materials}
                   />
                   <Textarea

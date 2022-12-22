@@ -105,20 +105,24 @@ export const recipient = [
 
 export const materials = [
   {
+    type: 'P.S.Film',
     name: 'A0001 White',
     value: 'A0001 White',
     color: '',
   },
   {
+    type: 'P.S.Film',
     name: 'SU0061 Barca yellow',
     value: 'SU0061 Barca yellow',
     color: '',
   },
   {
+    type: 'P.S.Film',
     name: 'A0003 Lemon',
     value: 'A0003 Lemon',
   },
   {
+    type: 'P.S.Film Extra',
     name: 'A0002 Cream',
     value: 'A0002 Cream',
   },

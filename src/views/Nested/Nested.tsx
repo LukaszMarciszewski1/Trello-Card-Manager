@@ -9,6 +9,8 @@ import { RiAddLine } from 'react-icons/ri';
 import { AiOutlineAppstoreAdd } from 'react-icons/ai';
 import Input from 'components/Input/Input';
 import LabelBox from 'components/LabelBox/LabelBox';
+import Tabs from 'components/Tabs/Tabs';
+import TabsContent from 'components/Tabs/TabsContent/TabsContent';
 
 interface NestedProps {
   register: any
@@ -28,7 +30,7 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, options, index,
 
   const { fields, remove, append } = useFieldArray({
     control,
-    name: `description[${index}].materials`
+    name: registerName
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,6 +47,15 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, options, index,
   }
 
   const isChecked = (item: string) => checkedItems.includes(item) ? true : false;
+
+
+  const set = new Set();
+  for (const option of options) {
+    set.add(option.type);
+  }
+  const optionsTabContent = Array.from(set) as string[];
+
+  console.log(optionsTabContent)
 
   return (
     <div className={styles.materialsList}>
@@ -67,29 +78,39 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, options, index,
         trigger={trigger}
         closePopup={() => setTrigger(false)}
       >
+
         <div className={styles.checkboxContainer} >
-          {options.map((option: { name: string  }, index: number) => (
-            <Checkbox
-              key={index}
-              id={option.name}
-              type={"checkbox"}
-              label={option.name}
-              name={option.name}
-              style={{ width: 80, height: 'auto', padding: '5px', fontSize: '12px' }}
-              checked={isChecked(option.name)}
-              onChange={handleChange}
-            >
-              <div style={{
-                width: '100%',
-                padding: '10px',
-                height: '35px',
-                backgroundColor: 'red',
-                marginBottom: '5px',
-              }}
-              />
-            </Checkbox>
-          ))}
+          <Tabs>
+            {optionsTabContent.map((type, index) => (
+              <TabsContent title={type} key={index}>
+                {options
+                  .filter((option: { type: string; }) => option.type === type)
+                  .map((option: { name: string }, index: number) => (
+                    <Checkbox
+                      key={index}
+                      id={option.name}
+                      type={"checkbox"}
+                      label={option.name}
+                      name={option.name}
+                      style={{ width: 80, height: 'auto', padding: '5px', fontSize: '12px' }}
+                      checked={isChecked(option.name)}
+                      onChange={handleChange}
+                    >
+                      <div style={{
+                        width: '100%',
+                        padding: '10px',
+                        height: '35px',
+                        backgroundColor: 'red',
+                        marginBottom: '5px',
+                      }}
+                      />
+                    </Checkbox>
+                  ))}
+              </TabsContent>
+            ))}
+          </Tabs>
         </div>
+
       </Popup>
       <Button
         type={"button"}
