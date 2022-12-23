@@ -34,7 +34,7 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, materials, cont
     name: registerName
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCheckedMaterial = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = e.target
     let updatedList = [...checkedItems];
     if (checked) {
@@ -44,10 +44,20 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, materials, cont
       updatedList.splice(checkedItems.indexOf(name), 1);
       remove(checkedItems.indexOf(name))
     }
+    console.log(updatedList)
     setCheckedItems(updatedList);
   }
 
-  console.log(checkedItems)
+  const handleRemoveMaterial = (name: string) => {
+    let updatedList = [...checkedItems];
+    updatedList.splice(checkedItems.indexOf(name), 1);
+    remove(checkedItems.indexOf(name))
+    setCheckedItems(updatedList);
+  }
+
+  const filteredArray = [...materials].filter(material => [...checkedItems].includes(material.name));
+
+  console.log(filteredArray)
 
   return (
     <div className={styles.materialsList}>
@@ -73,15 +83,15 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, materials, cont
           <div className={styles.selectedMaterials}>
             <p>Wybrane materiały:</p>
             {
-              checkedItems.map((item: string, index: number) => (
-                <span key={index}>{item}<button >X</button></span>
+              filteredArray.map((item: any, index: number) => (
+                <span key={index}><strong>{item.type}</strong> {item.name}<button type='button' onClick={() => handleRemoveMaterial(item.name)}>X</button></span>
               ))
             }
           </div>
           <MaterialsList
             options={materials}
             checkedItems={checkedItems}
-            handleChange={handleChange}
+            handleChange={handleCheckedMaterial}
           />
         </div>
       </Popup>
