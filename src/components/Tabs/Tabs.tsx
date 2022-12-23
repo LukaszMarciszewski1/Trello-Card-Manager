@@ -1,7 +1,6 @@
 import React, { ReactElement, useState } from "react"
 import Tab from "./Tab/Tab"
 import styles from './styles.module.scss'
-// import ScrollableTabs from 'react-scrollable-tabs';
 
 type Props = {
   children: ReactElement[]

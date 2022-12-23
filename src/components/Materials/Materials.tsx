@@ -3,6 +3,7 @@ import styles from './styles.module.scss'
 import Tabs from 'components/Tabs/Tabs'
 import TabsContent from 'components/Tabs/TabsContent/TabsContent'
 import React, { useState } from 'react'
+import TabsScrollable from 'components/TabsScrollable/TabsScrollable'
 
 interface MaterialsProps {
   options: any
@@ -33,7 +34,8 @@ const Materials: React.FC<MaterialsProps> = ({ options, checkedItems, handleChan
           ))
         }
       </div>
-      <Tabs>
+      <TabsScrollable />
+      {/* <Tabs>
         {optionsTabContent.map((type, index) => (
           <TabsContent title={type} key={index}>
             <div className={styles.contentContainer}>
@@ -50,7 +52,6 @@ const Materials: React.FC<MaterialsProps> = ({ options, checkedItems, handleChan
                     checked={isChecked(option.name)}
                     onChange={handleChange}
                   >
-                    {/* ewentualnie dodać reset */}
                     <div style={{
                       width: '100%',
                       padding: '10px',
@@ -65,7 +66,7 @@ const Materials: React.FC<MaterialsProps> = ({ options, checkedItems, handleChan
             </div>
           </TabsContent>
         ))}
-      </Tabs>
+      </Tabs> */}
     </div>
   )
 }
