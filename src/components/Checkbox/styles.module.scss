@@ -29,7 +29,6 @@
   user-select: none;
   backface-visibility: hidden;
   &:hover {
-    background-color: $lightBlue;
     background-color: darken($focusBg, 3%);
     cursor: pointer;
   }

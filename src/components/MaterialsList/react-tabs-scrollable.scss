@@ -1,7 +1,10 @@
 /* created at 5:39 AM at 11/04/2022*/
 /* react tabs scrollable */
+
+@import 'theme/colors.scss';
+
 :root {
-  --rts-primary-color: #a6b9ce;
+  --rts-primary-color: #dbdde6;
   --rts-gray-color: #ddd;
   --rts-white-color: #fff;
 }
@@ -68,14 +71,16 @@
   cursor: pointer;
   background-color: transparent;
   border-radius: 40px;
-  border: 2px solid var(--rts-gray-color);
-  /* transition: 0.3s all linear; */
+  border: 1px solid $matBlue;
+  transition: 0.2s all linear; 
+}
+.rts___btn:hover {
+  background-color: $primary-gray;
 }
 .rts___tab___selected {
-  background-color: var(--rts-primary-color);
-
-  color: var(--rts-white-color);
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  background-color: $primary-gray;
+  color: $matBlue;
+  // box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 .rts___nav___btn {
   color: rgba(0, 0, 0, 0.6);
@@ -86,11 +91,11 @@
   align-items: center;
 }
 .rts___nav___btn:hover {
-  background-color: var(--rts-primary-color);
-  transition: 0.5s all;
+  background-color: $primary-gray;
+  transition: 0.3s all;
 }
 .rts___nav___btn:hover > svg {
-  stroke: var(--rts-white-color);
+  // stroke: var(--rts-white-color);
 }
 @media (max-width: 767.98px) {
   .rts___nav___btn > svg {
@@ -106,9 +111,4 @@ button[disabled].rts___btn {
 button:disabled.rts___btn,
 button[disabled].rts___btn svg {
   stroke: var(--rts-gray-color);
-}
-
-.rts___right___nav___btn {
-}
-.rts___left___nav___btn {
 }

@@ -13,7 +13,7 @@ import Checkbox from "components/Checkbox/Checkbox";
 import Select from "components/Select/Select";
 import FormSection from "components/Section/FormSection";
 import Textarea from "components/Textarea/Textarea";
-import NestedMaterials from "./NestedMaterials/NestedMaterials";
+import MaterialsForm from "./MaterialsForm/MaterialsForm";
 import { RiAddLine } from "react-icons/ri";
 
 
@@ -227,9 +227,8 @@ const Tasks: React.FC = () => {
                     })}
                     defaultValue={field.logo}
                   />
-                  <NestedMaterials
+                  <MaterialsForm
                     {...{ control, register }}
-                    // index={index}
                     registerName={`description[${index}].materials`}
                     materials={materials}
                   />

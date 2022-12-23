@@ -1,12 +1,24 @@
 @import 'theme/colors.scss';
 
+.materialsList {
+  // position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 0.5rem;
+  span {
+    margin-right: 1rem;
+  }
+}
+
 .contentContainer {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  margin-top: 1rem;
 }
 
-.selectedContainer {
+.selectedMaterials {
   padding: 0.5rem;
   display: flex;
   flex-wrap: wrap;
@@ -23,12 +35,7 @@
     padding: 0.3rem;
     border-radius: 4px;
     font-size: 14px;
-    background-color: $lightBlue;
+    background-color: $lightGrey;
+    border: 1px solid darken($lightBlue, 2%);
   }
 }
-
-$blue: #0d6192;
-$matBlue: #67788a;
-$lightBlue: #dbdde6;
-$lightGrey: #fdfdfd;
-$focusBg: #f4f5fa;

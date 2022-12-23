@@ -2,16 +2,17 @@ import React, { useEffect, useState, useCallback } from 'react'
 import styles from './styles.module.scss'
 import { useFieldArray } from "react-hook-form";
 import Checkbox from 'components/Checkbox/Checkbox';
-import { materials } from 'data';
 import Popup from 'components/Popup/Popup';
 import Button from 'components/Button/Button';
 import { RiAddLine } from 'react-icons/ri';
 import { AiOutlineAppstoreAdd } from 'react-icons/ai';
 import Input from 'components/Input/Input';
 import LabelBox from 'components/LabelBox/LabelBox';
-import Tabs from 'components/Tabs/Tabs';
+// import Tabs from 'components/Tabs/Tabs';
 import TabsContent from 'components/Tabs/TabsContent/TabsContent';
-import Materials from 'components/Materials/Materials';
+import MaterialsList from 'components/MaterialsList/MaterialsList';
+import { Tabs, Tab } from 'react-tabs-scrollable'
+// import './react-tabs-scrollable.scss';
 
 interface NestedProps {
   register: any
@@ -46,9 +47,7 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, materials, cont
     setCheckedItems(updatedList);
   }
 
-  const handleRemoveSelectedItem = () => {
-    console.log('okk')
-  }
+  console.log(checkedItems)
 
   return (
     <div className={styles.materialsList}>
@@ -70,12 +69,21 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, materials, cont
         trigger={popupTrigger}
         closePopup={() => setPopupTrigger(false)}
       >
-        <Materials
-          options={materials}
-          checkedItems={checkedItems}
-          handleChange={handleChange}
-          removeItem={handleRemoveSelectedItem}
-        />
+        <div>
+          <div className={styles.selectedMaterials}>
+            <p>Wybrane materiały:</p>
+            {
+              checkedItems.map((item: string, index: number) => (
+                <span key={index}>{item}<button >X</button></span>
+              ))
+            }
+          </div>
+          <MaterialsList
+            options={materials}
+            checkedItems={checkedItems}
+            handleChange={handleChange}
+          />
+        </div>
       </Popup>
       <Button
         type={"button"}
