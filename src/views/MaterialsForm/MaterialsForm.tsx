@@ -56,7 +56,6 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, materials, cont
 
   const filteredArray = [...materials].filter(material => [...checkedItems].includes(material.value));
 
-  console.log(checkedItems)
   //width: (checkedItems[k].length + 2) + 'ch' }
   return (
     <div className={styles.materialsList}>

@@ -5,7 +5,7 @@ interface Materials {
     color: string
   }
 }
-interface Description {
+export interface Description {
   logo: string
   fabric: string
   amount: number
@@ -26,5 +26,6 @@ export interface Card {
   member: string
   attachment: File | any
   recipient: string
+  price: number
   filePath: string
 }

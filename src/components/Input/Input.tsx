@@ -41,7 +41,7 @@ const Input: React.FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
     // console.log(`render: ${label}`)
     return (
       <div className={styles.container} >
-        <label className={styles.label} htmlFor={id}><p>{label}</p></label>
+        <label htmlFor={id}>{label}</label>
         <input
           id={id}
           ref={ref}
@@ -57,7 +57,6 @@ const Input: React.FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
           style={style}
           onChange={onChange}
           disabled={disabled}
-          className={styles.input}
           onFocus={(e) => e.target.select()}
           {...props}
         />

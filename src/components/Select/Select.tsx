@@ -28,10 +28,8 @@ const Input: React.FC<SelectProps> = forwardRef<HTMLInputElement, SelectProps>(
   ) => {
     return (
       <div className={styles.container} ref={ref}>
-        <label htmlFor="title">
-          <p>{label}</p>
-        </label>
-        <select className={styles.select} id={id} {...props} >
+        <label htmlFor="title">{label}</label>
+        <select id={id} {...props} onChange={onChange}>
           {options.map((prod: { value: string | number; label: string }, index: React.Key | null | undefined) => (
             <option key={index} value={prod.value}>
               {prod.label}

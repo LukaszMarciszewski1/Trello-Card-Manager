@@ -2,11 +2,11 @@
 @import 'theme/mixins.scss';
 .container {
   width: 100%;
-  // max-width: 600px;
   margin-right: 10px;
-  // margin-top: 12px;
-}
-
-.input {
-  @include input;
+  label {
+    @include label;
+  }
+  input {
+    @include input;
+  }
 }
