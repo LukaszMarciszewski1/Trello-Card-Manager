@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 import React, { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 import axios from "axios";
@@ -15,7 +16,7 @@ import FormSection from "components/Section/FormSection";
 import Textarea from "components/Textarea/Textarea";
 import MaterialsForm from "./MaterialsForm/MaterialsForm";
 import { RiAddLine } from "react-icons/ri";
-import { calculator } from "calculation/calculator";
+import { calculator, getPrice } from "calculation/calculator";
 
 
 const validation = {
@@ -235,55 +236,47 @@ const Tasks: React.FC = () => {
     items: []
   });
 
-  const array = [
-    {
-      amount: 2,
-      size: 23,
-      fabric: "skóra",
-    },
-    {
-      amount: 12,
-      size: 25,
-      fabric: "bawełna",
-    }
-  ]
-
-  type IArray = {
-    amount: number;
-    size: string;
-    fabric: string
-  };
+  // const array = [
+  //   {
+  //     amount: 2,
+  //     size: 23,
+  //     fabric: "skóra",
+  //   },
+  //   {
+  //     amount: 12,
+  //     size: 25,
+  //     fabric: "bawełna",
+  //   }
+  // ]
 
   const [result, setResult] = useState(66)
-  const watchChangesDescription = watch('description');
+  let watchChangesDescription = watch('description');
 
   const [descriptionValues, setDescriptionValues] = useState<Description[]>([])
-  const [el, setEl] = useState<IArray[]>([])
-  // console.log(descriptionValues)
 
   useEffect(() => {
     setDescriptionValues(watchChangesDescription)
   }, [watchChangesDescription])
 
-  const handleChangePrice = (e: any, index: number) => {
-    const updateDescription = [...descriptionValues]
+  // const calculation = () => {
+  //   const updateDescription = [...descriptionValues]
+  //   let price: number[] = []
+  //   const newPrice = updateDescription.map((item) => {
+  //     const material = (item.materials.length ? item.materials[0].field : '').toString()
+  //     if (!item.materials.length) {
+  //       price.push(0)
+  //     } else {
+  //       price.push(calculator(Number(item.amount), item.size, material));
+  //     }
+  //   });
+  //   const sum = price.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+  //   console.log(price)
+  //   console.log(sum)
+  // }
 
-  }
-  const updatedArray = array.map((item) => {
-    return { ...item, price: item.size + item.amount };
-  });
-  console.log(updatedArray);
-  // console.log(fields)
+  // calculation()
 
-  const [state, setState] = useState([
-    {
-      name: '',
-      age: ''
-    }
-  ]);
-
-
-
+  // const array = [4, 9]
 
 
   return (
@@ -385,7 +378,7 @@ const Tasks: React.FC = () => {
                     options={size}
                     id={field.id}
                     defaultValue={field.size}
-                    {...register(`description.${index}.size` as const, { onChange: (e) => handleChangePrice(e, index) })}
+                    {...register(`description.${index}.size` as const)}
                   />
                   {/* <Input
                     id={field.id}
@@ -458,10 +451,9 @@ const Tasks: React.FC = () => {
               <Input
                 id={'price'}
                 label={"Cena"}
-                // defaultValue={0}
-                value={result}
+                value={getPrice(descriptionValues)}
                 type="number"
-                // disabled
+                disabled
                 {...register(`price`)}
               />
             </div>

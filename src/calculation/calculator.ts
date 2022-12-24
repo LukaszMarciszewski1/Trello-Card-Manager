@@ -1,4 +1,5 @@
 import { materials, size } from 'data'
+import { Description } from 'models/card'
 
 export const calculator = (
   amount: number,
@@ -12,31 +13,27 @@ export const calculator = (
     (item: { value: string }) => item.value === selectSize
   )
 
-  return ((filterSelectedMaterial[0].price + filterSelectedSize[0].price) * amount)
-  // switch (size) {
-  //   case 1:
-  //     console.log('Poniedziałek');
-  //     break;
-  //   case 2:
-  //     console.log('Wtorek');
-  //     break;
-  //   case 3:
-  //     console.log('Środa');
-  //     break;
-  //   case 4:
-  //     console.log('Czwartek');
-  //     break;
-  //   case 5:
-  //     console.log('Piątek');
-  //     break;
-  //   case 6:
-  //     console.log('Sobota');
-  //     break;
-  //   case 7:
-  //     console.log('Niedziela');
-  //     break;
-  //   default:
-  //     console.log('Niepoprawna wartość');
-  // }
-  // console.log(value)
+  return (
+    ((filterSelectedMaterial[0] ? filterSelectedMaterial[0].price : 0) +
+      filterSelectedSize[0].price) * amount
+  )
+}
+
+export const getPrice = (descriptionValues: Description[]) => {
+  const updateDescription = [...descriptionValues]
+  let price: number[] = []
+
+  updateDescription.map((item) => {
+    const material = (
+      item.materials.length ? item.materials[0].field : ''
+    ).toString()
+    if (!item.materials.length) {
+      price.push(0)
+    } else {
+      price.push(calculator(Number(item.amount), item.size, material))
+    }
+  })
+
+  const sum = price.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+  return sum
 }

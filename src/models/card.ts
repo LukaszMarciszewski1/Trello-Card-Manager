@@ -1,4 +1,4 @@
-interface Materials {
+export interface Materials {
   field: {
     name: string
     value: string
@@ -8,11 +8,11 @@ interface Materials {
 export interface Description {
   logo: string
   fabric: string
-  amount: number
+  amount: number | string
   width: number
   height: number
   additionalDesc: string
-  price: number
+  price: number | string
   materials: Materials[]
   size: string
 }
