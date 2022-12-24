@@ -354,7 +354,7 @@ export const materials = [
   {
     type: 'P.S. Stretch6',
     name: 'A0065 Chiaro',
-    value: 'A0065 Chiaro',
+    value: 'P.S. Stretch6 A0065 Chiaro',
     color: 'yellow',
   },
   {

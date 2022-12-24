@@ -51,9 +51,10 @@ const Materials: React.FC<MaterialsProps> = ({ options, checkedItems, handleChan
                 id={option.name}
                 type={"checkbox"}
                 label={option.name}
+                value={option.value}
                 name={option.name}
                 style={{ width: 80, height: 'auto', padding: '5px', fontSize: '12px', margin: '0 10px 10px 0' }}
-                checked={isChecked(option.name)}
+                checked={isChecked(option.value)}
                 onChange={handleChange}
               >
                 <div style={{

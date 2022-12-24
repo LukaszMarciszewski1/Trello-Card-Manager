@@ -194,7 +194,7 @@ const Tasks: React.FC = () => {
                 label={"Kontrachent"}
                 type="text"
                 error={errors.title}
-                style={{ padding: "15px" }}
+                style={{ padding: "10px", height: 48, fontSize: 17 }}
                 {...register("title", { ...validation.title })}
               />
               {titleErrors(errors.title?.type)}

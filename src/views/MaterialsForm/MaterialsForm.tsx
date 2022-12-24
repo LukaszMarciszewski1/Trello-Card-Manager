@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState, useCallback, useRef } from 'react'
 import styles from './styles.module.scss'
 import { useFieldArray } from "react-hook-form";
 import Checkbox from 'components/Checkbox/Checkbox';
@@ -35,38 +35,37 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, materials, cont
   });
 
   const handleCheckedMaterial = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, checked } = e.target
+    const { value, checked } = e.target
     let updatedList = [...checkedItems];
     if (checked) {
-      updatedList = [...checkedItems, name];
-      append({ field: name })
+      updatedList = [...checkedItems, value];
+      append({ field: value })
     } else {
-      updatedList.splice(checkedItems.indexOf(name), 1);
-      remove(checkedItems.indexOf(name))
+      updatedList.splice(checkedItems.indexOf(value), 1);
+      remove(checkedItems.indexOf(value))
     }
-    console.log(updatedList)
     setCheckedItems(updatedList);
   }
 
-  const handleRemoveMaterial = (name: string) => {
+  const handleRemoveMaterial = (value: string) => {
     let updatedList = [...checkedItems];
-    updatedList.splice(checkedItems.indexOf(name), 1);
-    remove(checkedItems.indexOf(name))
+    updatedList.splice(checkedItems.indexOf(value), 1);
+    remove(checkedItems.indexOf(value))
     setCheckedItems(updatedList);
   }
 
-  const filteredArray = [...materials].filter(material => [...checkedItems].includes(material.name));
+  const filteredArray = [...materials].filter(material => [...checkedItems].includes(material.value));
 
-  console.log(filteredArray)
-
+  console.log(checkedItems)
+  //width: (checkedItems[k].length + 2) + 'ch' }
   return (
     <div className={styles.materialsList}>
       <span>Materiał:</span>
       {fields.map((item, k) => (
-        <div key={item.id} style={{ margin: '-12px 3px 0 0' }}>
+        <div key={item.id} style={{ margin: '0 0 0 0', width: (checkedItems[k].length + 1) + 'ch' }}>
           <Input
             key={item.id}
-            style={{ marginTop: 0, maxWidth: 120, width: 'auto' }}
+            style={{ marginTop: 0, textAlign: 'center' }}
             id={item.id}
             disabled
             type="text"
@@ -84,7 +83,7 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, materials, cont
             <p>Wybrane materiały:</p>
             {
               filteredArray.map((item: any, index: number) => (
-                <span key={index}><strong>{item.type}</strong> {item.name}<button type='button' onClick={() => handleRemoveMaterial(item.name)}>X</button></span>
+                <span key={index}>{item.value}<button type='button' onClick={() => handleRemoveMaterial(item.value)}>X</button></span>
               ))
             }
           </div>

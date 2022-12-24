@@ -36,6 +36,13 @@
   margin-bottom: 2rem;
 }
 
+.formGroupColumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 660px;
+}
+
 .materialsContainer {
   display: flex;
   align-items: center;
@@ -44,12 +51,6 @@
   }
 }
 
-.formGroupColumn {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  max-width: 660px;
-}
 
 .checkboxList {
   display: flex;

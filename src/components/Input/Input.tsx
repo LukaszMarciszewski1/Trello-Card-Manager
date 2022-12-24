@@ -38,9 +38,9 @@ const Input: React.FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
     },
     ref
   ) => {
-    console.log(`render: ${label}`)
+    // console.log(`render: ${label}`)
     return (
-      <div className={styles.container}>
+      <div className={styles.container} >
         <label className={styles.label} htmlFor={id}><p>{label}</p></label>
         <input
           id={id}
@@ -54,10 +54,10 @@ const Input: React.FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
           step={step}
           min={minValue}
           max={maxValue}
+          style={style}
           onChange={onChange}
           disabled={disabled}
           className={styles.input}
-          style={style}
           onFocus={(e) => e.target.select()}
           {...props}
         />
