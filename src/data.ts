@@ -53,41 +53,6 @@ export const fabric = [
   },
 ]
 
-export const size = [
-  {
-    label: 'MINI',
-    value: 'MINI',
-  },
-  {
-    label: 'MAŁY',
-    value: 'MAŁY',
-  },
-  {
-    label: 'ŚREDNI',
-    value: 'ŚREDNI',
-  },
-  {
-    label: 'WIĘKSZY',
-    value: 'WIĘKSZY',
-  },
-  {
-    label: 'DUŻY',
-    value: 'DUŻY',
-  },
-  {
-    label: 'MAXI',
-    value: 'MAXI',
-  },
-  {
-    label: 'MEGA',
-    value: 'MEGA',
-  },
-  {
-    label: 'GIGA',
-    value: 'GIGA',
-  },
-]
-
 export const recipient = [
   {
     label: 'MARCIN',
@@ -103,23 +68,77 @@ export const recipient = [
   },
 ]
 
+export const size = [
+  {
+    label: 'MINI',
+    value: 'MINI',
+    name: 'MINI',
+    price: 50,
+  },
+  {
+    label: 'MAŁY',
+    value: 'MAŁY',
+    name: 'MAŁY',
+    price: 100,
+  },
+  {
+    label: 'ŚREDNI',
+    value: 'ŚREDNI',
+    name: 'ŚREDNI',
+    price: 150,
+  },
+  {
+    label: 'WIĘKSZY',
+    value: 'WIĘKSZY',
+    name: 'WIĘKSZY',
+    price: 250,
+  },
+  {
+    label: 'DUŻY',
+    value: 'DUŻY',
+    name: 'DUŻY',
+    price: 300,
+  },
+  {
+    label: 'MAXI',
+    value: 'MAXI',
+    name: 'MAXI',
+    price: 400,
+  },
+  {
+    label: 'MEGA',
+    value: 'MEGA',
+    name: 'MEGA',
+    price: 625,
+  },
+  {
+    label: 'GIGA',
+    value: 'GIGA',
+    name: 'GIGA',
+    price: 800,
+  },
+]
+
 export const materials = [
   {
+    type: 'P.S.Film',
     name: 'A0001 White',
     value: 'A0001 White',
-    color: '',
+    color: 'white',
+    price: 3,
   },
   {
+    type: 'P.S.Film',
     name: 'SU0061 Barca yellow',
     value: 'SU0061 Barca yellow',
-    color: '',
+    color: 'yellow',
+    price: 3,
   },
   {
+    type: 'P.S.Film',
     name: 'A0003 Lemon',
     value: 'A0003 Lemon',
-  },
-  {
-    name: 'A0002 Cream',
-    value: 'A0002 Cream',
+    color: 'orange',
+    price: 3,
   },
 ]

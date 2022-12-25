@@ -1,0 +1,41 @@
+@import 'theme/colors.scss';
+
+.materialsList {
+  // position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 0.5rem;
+  span {
+    margin-right: 1rem;
+  }
+}
+
+.contentContainer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.selectedMaterials {
+  padding: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  background-color: white;
+  border: 1px solid $lightBlue;
+  p {
+    padding: 0.5rem;
+  }
+  span {
+    margin-right: 10px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    padding: 0.3rem;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: $lightGrey;
+    border: 1px solid darken($lightBlue, 2%);
+  }
+}

@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+/* eslint-disable no-useless-escape */
+import React, { useCallback, useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 import axios from "axios";
 import dayjs from "dayjs";
 
 import { traders, fabric, recipient, materials, size } from "data";
 import { useForm, useFieldArray } from "react-hook-form";
-import { Card } from "models/card";
+import { Card, Description } from "models/card";
 
 import Input from "components/Input/Input";
 import Button from "components/Button/Button";
@@ -13,8 +14,10 @@ import Checkbox from "components/Checkbox/Checkbox";
 import Select from "components/Select/Select";
 import FormSection from "components/Section/FormSection";
 import Textarea from "components/Textarea/Textarea";
-import Nested from "./Nested/Nested";
+import MaterialsForm from "./MaterialsForm/MaterialsForm";
 import { RiAddLine } from "react-icons/ri";
+import { calculator, getPrice } from "calculation/calculator";
+import { BsChevronCompactLeft } from "react-icons/bs";
 
 
 const validation = {
@@ -32,7 +35,7 @@ const validation = {
 
 interface TaskFormProps {
   title: string;
-  handleSubmitForm: (data: Card) => void;
+  // handleSubmitForm: (data: Card) => void;
 }
 
 const titleErrors = (type: any) => {
@@ -55,30 +58,35 @@ const defaultDescriptionValues = {
   width: 0,
   height: 0,
   additionalDesc: '',
-  price: 0,
   materials: []
 };
 
 const Tasks: React.FC = () => {
-  const [trigger, setTrigger] = useState(false)
   dayjs.locale("pl");
+  const [trigger, setTrigger] = useState(false)
+  const [result, setResult] = useState(0)
 
   const {
     register,
     control,
     handleSubmit,
     formState: { errors },
+    watch,
+    reset,
+    setValue
   } = useForm<Card>({
     defaultValues: {
       description: [defaultDescriptionValues],
+      // price: 0
     },
-    mode: "onBlur",
+    // mode: "onBlur",
   });
 
   const { fields, append, remove } = useFieldArray({
     name: "description",
     control,
   });
+
 
   const AddCardForm = async (data: Card) => {
     const {
@@ -89,7 +97,8 @@ const Tasks: React.FC = () => {
       member,
       attachment,
       recipient,
-      filePath
+      filePath,
+      price
     } = data;
 
     const trelloUrl = 'https://api.trello.com/1'
@@ -120,7 +129,6 @@ const Tasks: React.FC = () => {
         \n>Wysokość: ${desc.height}cm
         \n>Materiał: ${materials.join(', ')}
         \n>Rozmiar: ${desc.size}
-        \n>Cena: ${desc.price}
         \n\n>Plik produkcyjny: ${filePath}
         \n\n>Dodatkowy opis: ${desc.additionalDesc}
         \n-\n\n\n\
@@ -128,10 +136,11 @@ const Tasks: React.FC = () => {
       )
     }).join('').toString();
 
+
     const formInitialDataCard = new FormData();
     formInitialDataCard.append("idList", `${process.env.REACT_APP_TRELLO_LIST}`);
     formInitialDataCard.append("name", title);
-    formInitialDataCard.append("desc", descData);
+    formInitialDataCard.append("desc", `${descData} Plik produkcyjny:${filePath}\n cena: ${price}`);
     formInitialDataCard.append("start", startDate);
     formInitialDataCard.append("due", endDate);
     formInitialDataCard.append("idMembers", `${member},${recipient}`);
@@ -176,10 +185,28 @@ const Tasks: React.FC = () => {
     }
   };
 
+
+  let watchChangesDescription = watch('description');
+  const [descriptionValues, setDescriptionValues] = useState<Description[]>([])
+
+  useEffect(() => {
+    setDescriptionValues(watchChangesDescription)
+  }, [watchChangesDescription])
+
+  useEffect(() => {
+    setResult(getPrice(descriptionValues))
+  }, [getPrice(descriptionValues)])
+
+  useEffect(() => {
+    setValue('price', result)
+  }, [result])
+
+  console.log(result)
+
   const handleSubmitForm = (data: Card) => {
-    AddCardForm(data);
+    // AddCardForm(data);
     console.log(data)
-  };
+  }
 
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
@@ -189,11 +216,11 @@ const Tasks: React.FC = () => {
             <>
               <Input
                 id={"title"}
-                placeholder={"Kontrahent"}
+                placeholder={""}
                 label={"Kontrachent"}
                 type="text"
                 error={errors.title}
-                style={{ padding: "15px" }}
+                style={{ padding: "10px", height: 48, fontSize: 17 }}
                 {...register("title", { ...validation.title })}
               />
               {titleErrors(errors.title?.type)}
@@ -212,13 +239,12 @@ const Tasks: React.FC = () => {
             </div>
           </div>
           {fields.map((field, index) => {
-            // { console.log(fields) }
             return (
               <FormSection key={field.id}>
                 <div className={styles.formGroupColumn}>
                   <Input
                     id={field.id}
-                    placeholder={"Logo"}
+                    // placeholder={"Logo"}
                     label={"Logo"}
                     type="text"
                     error={errors.description}
@@ -227,11 +253,10 @@ const Tasks: React.FC = () => {
                     })}
                     defaultValue={field.logo}
                   />
-                  <Nested
+                  <MaterialsForm
                     {...{ control, register }}
-                    index={index}
-                    registerName={`description[${index}].material`}
-                    options={materials}
+                    registerName={`description[${index}].materials`}
+                    materials={materials}
                   />
                   <Textarea
                     id={field.id}
@@ -252,6 +277,7 @@ const Tasks: React.FC = () => {
                     placeholder={"Ilość"}
                     label={"Ilość"}
                     type="number"
+                    step={"1"}
                     {...register(`description.${index}.amount` as const)}
                   />
                   <Input
@@ -278,12 +304,12 @@ const Tasks: React.FC = () => {
                     {...register(`description.${index}.size` as const)}
                   />
                   {/* <Input
-                    id={"price"}
+                    id={field.id}
                     label={"Cena"}
-                    defaultValue={0}
+                    defaultValue={66}
                     type="number"
-                    disabled={true}
-                    {...register("price")}
+                    disabled
+                    {...register(`description.${index}.price` as const)}
                   /> */}
                 </div>
                 {/* delete section ----------------------------> */}
@@ -311,7 +337,12 @@ const Tasks: React.FC = () => {
         </div>
         <div className={`${styles.formGroupContainer} ${styles.rightPanel}`}>
           <div className={`${styles.formGroupColumn} ${styles.rightPanelColumn}`}>
-            <Select label={"Przyjął"} options={recipient} id={"recipient"} {...register("recipient")} />
+            <Select
+              label={"Przyjął"}
+              options={recipient}
+              id={"recipient"}
+              {...register("recipient")}
+            />
             <Input
               id={"date-admission"}
               placeholder={"Data przyjęcia"}
@@ -345,6 +376,15 @@ const Tasks: React.FC = () => {
                 type="text"
                 {...register(`filePath`)}
               />
+              <Input
+                id={'price'}
+                label={"Cena"}
+                style={{ userSelect: 'none', backgroundColor: '#f4f5fa' }}
+                type="number"
+                value={result}
+                {...register(`price`)}
+                readOnly
+              />
             </div>
             <div className={styles.buttonContainer}>
               <Button type={"submit"} title={"Dodaj zlecenie"} onClick={() => console.log("click")} style={{ fontSize: "1.2rem" }} />
@@ -356,4 +396,4 @@ const Tasks: React.FC = () => {
   );
 };
 
-export default Tasks;
+export default React.memo(Tasks);

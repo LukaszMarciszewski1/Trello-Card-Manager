@@ -1,22 +1,25 @@
 @import 'theme/colors.scss';
+@import 'theme/mixins.scss';
 
 .container {
   margin: 2rem 0 0;
   justify-self: flex-end;
-}
-.textarea {
-  width: 100%;
-  min-height: 160px;
-  margin-top: 0.5rem;
-  resize: none;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  border: 1px solid $lightBlue;
-  border: 1px solid #67788a;
-  background-color: $lightGrey;
-  &:focus {
-    outline: none;
-    border: 1px solid $blue;
-    background-color: $focusBg;
+  label {
+    @include label;
+  }
+  .textarea {
+    width: 100%;
+    min-height: 160px;
+    resize: none;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid $lightBlue;
+    border: 1px solid #67788a;
+    background-color: $lightGrey;
+    &:focus {
+      outline: none;
+      border: 1px solid $blue;
+      background-color: $focusBg;
+    }
   }
 }

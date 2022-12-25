@@ -27,4 +27,4 @@ const Tabs: React.FC<Props> = ({ children }) => {
   )
 }
 
-export default Tabs
+export default React.memo(Tabs)

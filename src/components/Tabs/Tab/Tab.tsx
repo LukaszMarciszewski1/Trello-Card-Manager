@@ -17,6 +17,7 @@ const Tab: React.FC<Props> = ({ title, setSelectedTab, active, index }) => {
   return (
     <li>
       <button
+        type="button"
         className={
           `${styles.tab} ${index === active ? styles.active : styles.tab}`
         }
@@ -27,4 +28,4 @@ const Tab: React.FC<Props> = ({ title, setSelectedTab, active, index }) => {
   )
 }
 
-export default Tab
+export default React.memo(Tab)

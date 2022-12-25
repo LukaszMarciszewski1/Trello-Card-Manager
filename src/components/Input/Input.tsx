@@ -16,6 +16,7 @@ export type InputProps = {
   maxValue?: number
   defaultValue?: string | number
   style?: {}
+  readOnly?: boolean
 }
 
 const Input: React.FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
@@ -33,14 +34,16 @@ const Input: React.FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
       minValue,
       maxValue,
       style,
+      readOnly,
       onChange,
       ...props
     },
     ref
   ) => {
+    // console.log(`render: ${label}`)
     return (
-      <div className={styles.container}>
-        <label className={styles.label} htmlFor={id}><p>{label}</p></label>
+      <div className={styles.container} >
+        <label htmlFor={id}>{label}</label>
         <input
           id={id}
           ref={ref}
@@ -48,15 +51,15 @@ const Input: React.FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
           type={type}
           value={value}
           defaultValue={defaultValue}
-          aria-label={label}
+          // aria-label={label}
           placeholder={placeholder}
           step={step}
           min={minValue}
           max={maxValue}
+          style={style}
           onChange={onChange}
           disabled={disabled}
-          className={styles.input}
-          style={style}
+          readOnly={readOnly}
           onFocus={(e) => e.target.select()}
           {...props}
         />
@@ -65,4 +68,4 @@ const Input: React.FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
   }
 )
 
-export default Input
+export default React.memo(Input)
