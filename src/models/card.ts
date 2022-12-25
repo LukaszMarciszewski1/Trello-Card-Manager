@@ -12,7 +12,7 @@ export interface Description {
   width: number
   height: number
   additionalDesc: string
-  price: number | string
+  // price: number | string
   materials: Materials[]
   size: string
 }
@@ -26,6 +26,6 @@ export interface Card {
   member: string
   attachment: File | any
   recipient: string
-  price: number
+  price: number | string
   filePath: string
 }

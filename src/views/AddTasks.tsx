@@ -1,5 +1,5 @@
 /* eslint-disable no-useless-escape */
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 import axios from "axios";
 import dayjs from "dayjs";
@@ -17,6 +17,7 @@ import Textarea from "components/Textarea/Textarea";
 import MaterialsForm from "./MaterialsForm/MaterialsForm";
 import { RiAddLine } from "react-icons/ri";
 import { calculator, getPrice } from "calculation/calculator";
+import { BsChevronCompactLeft } from "react-icons/bs";
 
 
 const validation = {
@@ -57,26 +58,28 @@ const defaultDescriptionValues = {
   width: 0,
   height: 0,
   additionalDesc: '',
-  price: 0,
   materials: []
 };
 
 const Tasks: React.FC = () => {
   dayjs.locale("pl");
   const [trigger, setTrigger] = useState(false)
-
+  const [result, setResult] = useState(0)
 
   const {
     register,
     control,
     handleSubmit,
     formState: { errors },
-    watch
+    watch,
+    reset,
+    setValue
   } = useForm<Card>({
     defaultValues: {
       description: [defaultDescriptionValues],
+      // price: 0
     },
-    mode: "onBlur",
+    // mode: "onBlur",
   });
 
   const { fields, append, remove } = useFieldArray({
@@ -126,7 +129,6 @@ const Tasks: React.FC = () => {
         \n>Wysokość: ${desc.height}cm
         \n>Materiał: ${materials.join(', ')}
         \n>Rozmiar: ${desc.size}
-        \n>Cena: ${desc.price}
         \n\n>Plik produkcyjny: ${filePath}
         \n\n>Dodatkowy opis: ${desc.additionalDesc}
         \n-\n\n\n\
@@ -183,101 +185,28 @@ const Tasks: React.FC = () => {
     }
   };
 
-  const handleSubmitForm = (data: Card) => {
-    const { description } = data
-    // AddCardForm(data);
-    console.log(data)
-  };
 
-  // const [state, setState] = useState({ fName: "", lName: "" });
-  // const handleChange = e => {
-  //   const { name, value } = e.target;
-  //   setState(prevState => ({
-  //     ...prevState,
-  //     [name]: value
-  //   }));
-  // };
-
-  // const value1 = watch('description');
-  // type Item = {
-  //   amount: number;
-  //   size: string;
-  //   material: string
-  // };
-  // const [items, setItems] = useState<Item>({
-  //   amount: 0,
-  //   size: '',
-  //   material: 'string'
-  // });
-
-  // const handleChangePrice = (e: any, index: number) => {
-  //   console.log(e.target.value)
-  //   console.log(index)
-  //   setItems(prevState => ({
-  //     ...prevState,
-  //     amount: e.target.value
-  //   }));
-  // }
-
-  // console.log(items)
-
-
-
-  type Item = {
-    amount: number;
-    size: string;
-    material: string
-    price: number
-  };
-  interface IState {
-    items: Item[];
-  }
-  const [itemsState, setItems] = useState<IState>({
-    items: []
-  });
-
-  // const array = [
-  //   {
-  //     amount: 2,
-  //     size: 23,
-  //     fabric: "skóra",
-  //   },
-  //   {
-  //     amount: 12,
-  //     size: 25,
-  //     fabric: "bawełna",
-  //   }
-  // ]
-
-  const [result, setResult] = useState(66)
   let watchChangesDescription = watch('description');
-
   const [descriptionValues, setDescriptionValues] = useState<Description[]>([])
 
   useEffect(() => {
     setDescriptionValues(watchChangesDescription)
   }, [watchChangesDescription])
 
-  // const calculation = () => {
-  //   const updateDescription = [...descriptionValues]
-  //   let price: number[] = []
-  //   const newPrice = updateDescription.map((item) => {
-  //     const material = (item.materials.length ? item.materials[0].field : '').toString()
-  //     if (!item.materials.length) {
-  //       price.push(0)
-  //     } else {
-  //       price.push(calculator(Number(item.amount), item.size, material));
-  //     }
-  //   });
-  //   const sum = price.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
-  //   console.log(price)
-  //   console.log(sum)
-  // }
+  useEffect(() => {
+    setResult(getPrice(descriptionValues))
+  }, [getPrice(descriptionValues)])
 
-  // calculation()
+  useEffect(() => {
+    setValue('price', result)
+  }, [result])
 
-  // const array = [4, 9]
+  console.log(result)
 
+  const handleSubmitForm = (data: Card) => {
+    // AddCardForm(data);
+    console.log(data)
+  }
 
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
@@ -349,13 +278,7 @@ const Tasks: React.FC = () => {
                     label={"Ilość"}
                     type="number"
                     step={"1"}
-                    {...register(`description.${index}.amount` as const, {
-                      onChange: (e) =>
-                        setItems(prevState => ({
-                          ...prevState,
-                          amount: e.target.value,
-                        }))
-                    })}
+                    {...register(`description.${index}.amount` as const)}
                   />
                   <Input
                     id={field.id}
@@ -414,7 +337,12 @@ const Tasks: React.FC = () => {
         </div>
         <div className={`${styles.formGroupContainer} ${styles.rightPanel}`}>
           <div className={`${styles.formGroupColumn} ${styles.rightPanelColumn}`}>
-            <Select label={"Przyjął"} options={recipient} id={"recipient"} {...register("recipient")} />
+            <Select
+              label={"Przyjął"}
+              options={recipient}
+              id={"recipient"}
+              {...register("recipient")}
+            />
             <Input
               id={"date-admission"}
               placeholder={"Data przyjęcia"}
@@ -451,10 +379,11 @@ const Tasks: React.FC = () => {
               <Input
                 id={'price'}
                 label={"Cena"}
-                value={getPrice(descriptionValues)}
+                style={{ userSelect: 'none', backgroundColor: '#f4f5fa' }}
                 type="number"
-                disabled
+                value={result}
                 {...register(`price`)}
+                readOnly
               />
             </div>
             <div className={styles.buttonContainer}>

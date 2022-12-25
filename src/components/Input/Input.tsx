@@ -16,6 +16,7 @@ export type InputProps = {
   maxValue?: number
   defaultValue?: string | number
   style?: {}
+  readOnly?: boolean
 }
 
 const Input: React.FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
@@ -33,6 +34,7 @@ const Input: React.FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
       minValue,
       maxValue,
       style,
+      readOnly,
       onChange,
       ...props
     },
@@ -57,6 +59,7 @@ const Input: React.FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
           style={style}
           onChange={onChange}
           disabled={disabled}
+          readOnly={readOnly}
           onFocus={(e) => e.target.select()}
           {...props}
         />
