@@ -2,7 +2,7 @@
 @import 'theme/mixins.scss';
 
 .container {
-  margin: 2rem 0 0;
+  margin: 1rem 0 0;
   justify-self: flex-end;
   label {
     @include label;

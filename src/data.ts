@@ -79,19 +79,19 @@ export const size = [
     label: 'MAŁY',
     value: 'MAŁY',
     name: 'MAŁY',
-    price: 100,
+    price: 57.196,
   },
   {
     label: 'ŚREDNI',
     value: 'ŚREDNI',
     name: 'ŚREDNI',
-    price: 150,
+    price: 64.436,
   },
   {
     label: 'WIĘKSZY',
     value: 'WIĘKSZY',
     name: 'WIĘKSZY',
-    price: 250,
+    price: 71.676,
   },
   {
     label: 'DUŻY',
@@ -125,20 +125,20 @@ export const materials = [
     name: 'A0001 White',
     value: 'A0001 White',
     color: 'white',
-    price: 3,
+    price: 7.246376811594203
   },
   {
     type: 'P.S.Film',
     name: 'SU0061 Barca yellow',
     value: 'SU0061 Barca yellow',
     color: 'yellow',
-    price: 3,
+    price: 7.246376811594203
   },
   {
     type: 'P.S.Film',
     name: 'A0003 Lemon',
     value: 'A0003 Lemon',
     color: 'orange',
-    price: 3,
+    price: 7.246376811594203
   },
 ]
