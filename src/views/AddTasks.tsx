@@ -63,8 +63,6 @@ const defaultDescriptionValues = {
 
 const Tasks: React.FC = () => {
   dayjs.locale("pl");
-  const [trigger, setTrigger] = useState(false)
-  const [result, setResult] = useState(0)
 
   const {
     register,
@@ -72,14 +70,13 @@ const Tasks: React.FC = () => {
     handleSubmit,
     formState: { errors },
     watch,
-    reset,
-    setValue
+    setValue,
+    reset
   } = useForm<Card>({
     defaultValues: {
       description: [defaultDescriptionValues],
-      // price: 0
     },
-    // mode: "onBlur",
+    mode: "onBlur",
   });
 
   const { fields, append, remove } = useFieldArray({
@@ -87,6 +84,23 @@ const Tasks: React.FC = () => {
     control,
   });
 
+  const watchChangesDescription = watch('description');
+
+  const [trigger, setTrigger] = useState(false)
+  const [result, setResult] = useState(0)
+  const [descriptionValues, setDescriptionValues] = useState<Description[]>([])
+
+  useEffect(() => {
+    setDescriptionValues(watchChangesDescription)
+  }, [watchChangesDescription])
+
+  useEffect(() => {
+    setResult(getPrice(descriptionValues))
+  }, [getPrice(descriptionValues)])
+
+  useEffect(() => {
+    setValue('price', result)
+  }, [result])
 
   const AddCardForm = async (data: Card) => {
     const {
@@ -185,27 +199,10 @@ const Tasks: React.FC = () => {
     }
   };
 
-
-  let watchChangesDescription = watch('description');
-  const [descriptionValues, setDescriptionValues] = useState<Description[]>([])
-
-  useEffect(() => {
-    setDescriptionValues(watchChangesDescription)
-  }, [watchChangesDescription])
-
-  useEffect(() => {
-    setResult(getPrice(descriptionValues))
-  }, [getPrice(descriptionValues)])
-
-  useEffect(() => {
-    setValue('price', result)
-  }, [result])
-
-  console.log(result)
-
   const handleSubmitForm = (data: Card) => {
     // AddCardForm(data);
     console.log(data)
+    // reset()
   }
 
   return (

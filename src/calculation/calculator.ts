@@ -3,44 +3,52 @@ import { Description } from 'models/card'
 
 export const calculator = (
   amount: number,
-  selectSize: string,
-  selectMaterial: string
+  selectedSize: string,
+  selectedMaterial: string
 ) => {
-  const filterSelectedMaterial = materials.filter(
-    (item) => item.value === selectMaterial
+  const filteredSelectedMaterial = materials.filter(
+    (item) => item.value === selectedMaterial
   )
-  const filterSelectedSize = size.filter(
-    (item: { value: string }) => item.value === selectSize
+  const filteredSelectedSize = size.filter(
+    (item: { value: string }) => item.value === selectedSize
   )
 
-  return (
-    ((filterSelectedMaterial[0] ? filterSelectedMaterial[0].price : 0) +
-      filterSelectedSize[0].price) *
-    amount
-  )
+  const priceCalculations = ((filteredSelectedSize[0].price * (filteredSelectedMaterial[0] ? filteredSelectedMaterial[0].price : 0)) * amount)
+
+  let amountModifier = 1
+
+  switch (true) {
+    case (amount >= 1 && amount <= 10):
+      amountModifier = 1;
+      break;
+    case (amount >= 11 && amount <= 30):
+      amountModifier = 0.7101449275362319;
+      break;
+    default:
+      amountModifier = 1;
+  }
+
+  const price = (priceCalculations * amountModifier)
+
+  return price
 }
 
 export const getPrice = (descriptionValues: Description[]) => {
   const updateDescription = [...descriptionValues]
   let price: number[] = []
-  // console.log(updateDescription)
 
   updateDescription.map((item) => {
-    // console.log(item)
-    // const material = (
-    //   item.materials.length ? item.materials[0].field : ''
-    // ).toString()
-    // if (!item.materials.length) {
-    //   price.push(0)
-    // } else {
-    //   price.push(calculator(Number(item.amount), item.size, material))
-    // }
-    price.push(calculator(Number(item.amount), item.size, 'SU0061 Barca yellow'))
+    const material = (
+      item.materials.length ? item.materials[0].field : ''
+    ).toString()
+    if (!item.materials.length) {
+      price.push(0)
+    } else {
+      price.push(calculator(Number(item.amount), item.size, material))
+    }
   })
 
-  const sum = price.reduce(
-    (accumulator, currentValue) => accumulator + currentValue,
-    0
-  )
+  const sum = Number(price.reduce((accumulator, currentValue) => accumulator + currentValue, 0).toFixed(1))
+  console.log(sum)
   return sum
 }
