@@ -3,20 +3,32 @@ import { Description } from 'models/card'
 
 export const calculator = (
   amount: number,
-  selectSize: string,
-  selectMaterial: string
+  selectedSize: string,
+  selectedMaterial: string
 ) => {
-  const filterSelectedMaterial = materials.filter(
-    (item) => item.value === selectMaterial
+  const filteredSelectedMaterial = materials.filter(
+    (item) => item.value === selectedMaterial
   )
-  const filterSelectedSize = size.filter(
-    (item: { value: string }) => item.value === selectSize
+  const filteredSelectedSize = size.filter(
+    (item: { value: string }) => item.value === selectedSize
   )
 
-  const price =
-    (filterSelectedSize[0].price /
-      (filterSelectedMaterial[0] ? filterSelectedMaterial[0].price : 0)) *
-    amount
+  const priceCalculations = ((filteredSelectedSize[0].price * (filteredSelectedMaterial[0] ? filteredSelectedMaterial[0].price : 0)) * amount)
+
+  let amountModifier = 1
+
+  switch (true) {
+    case (amount >= 1 && amount <= 10):
+      amountModifier = 1;
+      break;
+    case (amount >= 11 && amount <= 30):
+      amountModifier = 0.7101449275362319;
+      break;
+    default:
+      amountModifier = 1;
+  }
+
+  const price = (priceCalculations * amountModifier)
 
   return price
 }
@@ -24,7 +36,6 @@ export const calculator = (
 export const getPrice = (descriptionValues: Description[]) => {
   const updateDescription = [...descriptionValues]
   let price: number[] = []
-  // console.log(updateDescription)
 
   updateDescription.map((item) => {
     const material = (
