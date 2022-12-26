@@ -60,9 +60,12 @@ const Materials: React.FC<MaterialsProps> = ({ options, checkedItems, handleChan
                 <div style={{
                   width: '100%',
                   padding: '10px',
-                  height: '35px',
-                  backgroundColor: option.color,
-                  marginBottom: '5px',
+                  height: '40px',
+                  backgroundColor: option.src ? '' : option.color,
+                  backgroundImage: option.src ? `url(${option.src})` : '',
+                  backgroundPosition: 'center',
+                  backgroundSize: 'cover',
+                  marginBottom: '4px',
                   border: '1px solid grey'
                 }}
                 />
