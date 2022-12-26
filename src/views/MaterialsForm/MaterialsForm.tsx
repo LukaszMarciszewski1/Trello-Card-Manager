@@ -61,7 +61,7 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, materials, cont
     <div className={styles.materialsList}>
       <span>Materiał:</span>
       {fields.map((item, k) => (
-        <div key={item.id} style={{ margin: '0 0 0 0', width: (checkedItems[k].length + 1) + 'ch' }}>
+        <div key={item.id} style={{ margin: '0 10px 0 0', width: (checkedItems[k].length + 1) + 'ch' }}>
           <Input
             key={item.id}
             style={{ marginTop: 0, textAlign: 'center' }}

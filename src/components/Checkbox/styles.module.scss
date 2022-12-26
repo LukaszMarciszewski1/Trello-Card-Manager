@@ -28,6 +28,7 @@
   background: $lightGrey;
   user-select: none;
   backface-visibility: hidden;
+  transition: all 0.2s;
   &:hover {
     background-color: darken($focusBg, 3%);
     cursor: pointer;

@@ -130,7 +130,7 @@ const Tasks: React.FC = () => {
 
     const sectionName = `Sekcja:`
 
-    const descData = description.map((desc, i) => {
+    const descSectionArray = description.map((desc, i) => {
       const materials = desc.materials.map((item: { field: any; }) => item.field)
       return (
         `
@@ -150,11 +150,17 @@ const Tasks: React.FC = () => {
       )
     }).join('').toString();
 
+    const descData = `
+      ${descSectionArray} 
+      \n>Plik produkcyjny: **${filePath}**
+      \n>cena: **${price}**
+
+    `
 
     const formInitialDataCard = new FormData();
     formInitialDataCard.append("idList", `${process.env.REACT_APP_TRELLO_LIST}`);
     formInitialDataCard.append("name", title);
-    formInitialDataCard.append("desc", `${descData} Plik produkcyjny:${filePath}\n cena: ${price}`);
+    formInitialDataCard.append("desc", descData);
     formInitialDataCard.append("start", startDate);
     formInitialDataCard.append("due", endDate);
     formInitialDataCard.append("idMembers", `${member},${recipient}`);
@@ -200,7 +206,7 @@ const Tasks: React.FC = () => {
   };
 
   const handleSubmitForm = (data: Card) => {
-    // AddCardForm(data);
+    AddCardForm(data);
     console.log(data)
     // reset()
   }
@@ -334,55 +340,65 @@ const Tasks: React.FC = () => {
         </div>
         <div className={`${styles.formGroupContainer} ${styles.rightPanel}`}>
           <div className={`${styles.formGroupColumn} ${styles.rightPanelColumn}`}>
-            <Select
-              label={"Przyjął"}
-              options={recipient}
-              id={"recipient"}
-              {...register("recipient")}
-            />
-            <Input
-              id={"date-admission"}
-              placeholder={"Data przyjęcia"}
-              label={"Data przyjęcia"}
-              value={new Date().toISOString().slice(0, 10)}
-              type="date"
-              error={errors.description}
-              {...register("startDate")}
-            />
-            <Input
-              id={"endDate"}
-              placeholder={"Data oddania"}
-              label={"Data oddania"}
-              type="date"
-              error={errors.description}
-              {...register("endDate")}
-            />
-            <div className={styles.buttonContainer}>
-              <Input
-                id={"attachment"}
-                placeholder={"Dodaj wizualizację"}
-                label={"Dodaj wizualizację"}
-                type="file"
-                error={errors.description}
-                {...register("attachment")}
-              />
-              <Input
-                id={"filePath"}
-                placeholder={"Wklej sciężkę pliku..."}
-                label={"Ścieżka do pliku produkcyjnego"}
-                type="text"
-                {...register(`filePath`)}
-              />
-              <Input
-                id={'price'}
-                label={"Cena"}
-                style={{ userSelect: 'none', backgroundColor: '#f4f5fa' }}
-                type="number"
-                value={result}
-                {...register(`price`)}
-                readOnly
+            <div className={styles.inputContainer}>
+              <Select
+                label={"Przyjął"}
+                options={recipient}
+                id={"recipient"}
+                {...register("recipient")}
               />
             </div>
+            <div className={styles.inputContainer}>
+              <Input
+                id={"date-admission"}
+                placeholder={"Data przyjęcia"}
+                label={"Data przyjęcia"}
+                value={new Date().toISOString().slice(0, 10)}
+                type="date"
+                error={errors.description}
+                {...register("startDate")}
+              />
+            </div>
+            <div className={styles.inputContainer}>
+              <Input
+                id={"endDate"}
+                placeholder={"Data oddania"}
+                label={"Data oddania"}
+                type="date"
+                error={errors.description}
+                {...register("endDate")}
+              />
+            </div>
+            <div className={styles.buttonContainer}>
+              <div className={styles.inputContainer}>
+                <Input
+                  id={"attachment"}
+                  placeholder={"Dodaj wizualizację"}
+                  label={"Dodaj wizualizację"}
+                  type="file"
+                  error={errors.description}
+                  {...register("attachment")}
+                />
+              </div>
+              <div className={styles.inputContainer}>
+                <Input
+                  id={"filePath"}
+                  placeholder={"Wklej sciężkę pliku..."}
+                  label={"Ścieżka do pliku produkcyjnego"}
+                  type="text"
+                  {...register(`filePath`)}
+                />
+              </div>
+            </div>
+            <Input
+              id={'price'}
+              label={"Cena"}
+              style={{ userSelect: 'none', backgroundColor: '#f4f5fa' }}
+              type="number"
+              value={result}
+              {...register(`price`)}
+              readOnly
+            />
             <div className={styles.buttonContainer}>
               <Button type={"submit"} title={"Dodaj zlecenie"} onClick={() => console.log("click")} style={{ fontSize: "1.2rem" }} />
             </div>

@@ -53,16 +53,19 @@ const Materials: React.FC<MaterialsProps> = ({ options, checkedItems, handleChan
                 label={option.name}
                 value={option.value}
                 name={option.name}
-                style={{ width: 80, height: 'auto', padding: '5px', fontSize: '12px', margin: '0 10px 10px 0' }}
+                style={{ width: 80, height: '100px', padding: '3px', fontSize: '12px', margin: '0 10px 10px 0', justifyContent: 'flex-start' }}
                 checked={isChecked(option.value)}
                 onChange={handleChange}
               >
                 <div style={{
                   width: '100%',
                   padding: '10px',
-                  height: '35px',
-                  backgroundColor: option.color,
-                  marginBottom: '5px',
+                  height: '40px',
+                  backgroundColor: option.src ? '' : option.color,
+                  backgroundImage: option.src ? `url(${option.src})` : '',
+                  backgroundPosition: 'center',
+                  backgroundSize: 'cover',
+                  marginBottom: '4px',
                   border: '1px solid grey'
                 }}
                 />
