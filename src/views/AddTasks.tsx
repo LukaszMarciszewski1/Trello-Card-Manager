@@ -143,7 +143,6 @@ const Tasks: React.FC = () => {
         \n>Wysokość: ${desc.height}cm
         \n>Materiał: ${materials.join(', ')}
         \n>Rozmiar: ${desc.size}
-        \n\n>Plik produkcyjny: ${filePath}
         \n\n>Dodatkowy opis: ${desc.additionalDesc}
         \n-\n\n\n\
         `
@@ -152,9 +151,9 @@ const Tasks: React.FC = () => {
 
     const descData = `
       ${descSectionArray} 
+      \n***Dane dodatkowe >>>>>>>>>>>>>>>>***
       \n>Plik produkcyjny: **${filePath}**
       \n>cena: **${price}**
-
     `
 
     const formInitialDataCard = new FormData();
