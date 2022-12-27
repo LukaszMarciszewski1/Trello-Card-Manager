@@ -39,3 +39,10 @@
     border: 1px solid darken($lightBlue, 2%);
   }
 }
+
+.buttonContainer{
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}

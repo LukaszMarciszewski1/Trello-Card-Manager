@@ -92,6 +92,15 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, materials, cont
             handleChange={handleCheckedMaterial}
           />
         </div>
+        <div className={styles.buttonContainer}>
+          <Button
+            type={"button"}
+            title={"ok"}
+            onClick={() => setPopupTrigger(false)}
+            style={{ fontSize: "1.2rem", margin: '0.5rem 0' }}
+          // icon={<RiAddLine fontSize={"1.5rem"} fontWeight={"bold"} />}
+          />
+        </div>
       </Popup>
       <Button
         type={"button"}
