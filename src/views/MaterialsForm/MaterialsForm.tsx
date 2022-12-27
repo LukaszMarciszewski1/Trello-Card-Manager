@@ -102,12 +102,14 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, materials, cont
           />
         </div>
       </Popup>
-      <Button
-        type={"button"}
-        onClick={() => setPopupTrigger(true)}
-        style={{ width: '40px' }}
-        icon={<AiOutlineAppstoreAdd fontSize={"1.5rem"} fontWeight={"bold"} />}
-      />
+      <div title='materiały'>
+        <Button
+          type={"button"}
+          onClick={() => setPopupTrigger(true)}
+          style={{ width: '40px' }}
+          icon={<AiOutlineAppstoreAdd fontSize={"1.5rem"} fontWeight={"bold"} />}
+        />
+      </div>
     </div>
   )
 }

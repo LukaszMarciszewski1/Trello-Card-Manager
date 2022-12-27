@@ -11,7 +11,7 @@ interface ButtonProps {
 
 const Button: React.FC<ButtonProps> = ({ title, onClick, style, icon, type }) => {
   return (
-    <button onClick={onClick} className={styles.button} style={style} type={type}>
+    <button onClick={onClick} className={styles.button} style={style} type={type} title={title}>
       {icon} {title}
     </button>
   );

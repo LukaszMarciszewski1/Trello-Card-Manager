@@ -44,6 +44,7 @@ const Checkbox: React.FC<CheckboxProps> = forwardRef<HTMLInputElement, CheckboxP
         <label
           htmlFor={id}
           style={style}
+          title={name}
           className={styles.label}>
           {children}
           {label}

@@ -7,6 +7,8 @@ import dayjs from "dayjs";
 import { traders, fabric, recipient, materials, size } from "data";
 import { useForm, useFieldArray } from "react-hook-form";
 import { Card, Description } from "models/card";
+import Tabs from "components/Tabs/Tabs";
+import TabsContent from "components/Tabs/TabsContent/TabsContent";
 
 import Input from "components/Input/Input";
 import Button from "components/Button/Button";
@@ -18,7 +20,6 @@ import MaterialsForm from "./MaterialsForm/MaterialsForm";
 import { RiAddLine } from "react-icons/ri";
 import { calculator, getTotalPrice, getPriceForSection } from "calculation/calculator";
 import { BsChevronCompactLeft } from "react-icons/bs";
-
 
 const validation = {
   title: {
@@ -85,15 +86,15 @@ const Tasks: React.FC = () => {
     control,
   });
 
-  const watchForChangesInDescriptions = watch('description');
+  const watchForChangesInSectionForms = watch('description');
 
   const [trigger, setTrigger] = useState(false)
   const [result, setResult] = useState(0)
-  const [descriptions, setDescriptions] = useState<Description[]>([])
+  const [sectionForms, setSectionForms] = useState<Description[]>([])
 
   useEffect(() => {
-    setDescriptions(watchForChangesInDescriptions)
-  }, [watchForChangesInDescriptions])
+    setSectionForms(watchForChangesInSectionForms)
+  }, [watchForChangesInSectionForms])
 
   // useEffect(() => {
   //   setResult(getTotalPrice(descriptionValues))
@@ -107,14 +108,11 @@ const Tasks: React.FC = () => {
   // }, [result])
 
   useEffect(() => {
-    setValue('price', getTotalPrice(descriptions))
+    setValue('price', getTotalPrice(sectionForms))
     fields.map((item, index) => {
-      setValue(`description.${index}.price`, getPriceForSection(descriptions, index))
+      setValue(`description.${index}.price`, getPriceForSection(sectionForms, index))
     })
-  }, [getTotalPrice(descriptions)])
-
-  console.log(getTotalPrice(descriptions))
-
+  }, [getTotalPrice(sectionForms)])
 
   const AddCardForm = async (data: Card) => {
     const {
@@ -299,22 +297,24 @@ const Tasks: React.FC = () => {
                     step={"1"}
                     {...register(`description.${index}.amount` as const)}
                   />
-                  <Input
-                    id={field.id}
-                    placeholder={"Szerokość"}
-                    label={"Szerokość (cm)"}
-                    type="number"
-                    step={"0.1"}
-                    {...register(`description.${index}.width` as const)}
-                  />
-                  <Input
-                    id={field.id}
-                    placeholder={"Wysokość"}
-                    label={"Wysokość (cm)"}
-                    type="number"
-                    step={"0.1"}
-                    {...register(`description.${index}.height` as const)}
-                  />
+                  <div className={styles.rowContainer}>
+                    <Input
+                      id={field.id}
+                      placeholder={"Szerokość"}
+                      label={"Szerokość (cm)"}
+                      type="number"
+                      step={"0.1"}
+                      {...register(`description.${index}.width` as const)}
+                    />
+                    <Input
+                      id={field.id}
+                      placeholder={"Wysokość"}
+                      label={"Wysokość (cm)"}
+                      type="number"
+                      step={"0.1"}
+                      {...register(`description.${index}.height` as const)}
+                    />
+                  </div>
                   <Select
                     id={field.id}
                     label={"Rozmiar"}
@@ -425,7 +425,7 @@ const Tasks: React.FC = () => {
               readOnly
             />
             <div className={styles.buttonContainer}>
-              <Button type={"submit"} title={"Dodaj zlecenie"} onClick={() => console.log("click")} style={{ fontSize: "1.2rem" }} />
+              <Button type={"submit"} title={"Dodaj zlecenie"} onClick={() => console.log("click")}/>
             </div>
           </div>
         </div>

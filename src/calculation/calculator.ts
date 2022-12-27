@@ -33,7 +33,7 @@ export const calculator = (
   return price
 }
 
-const pricesArray = (data: Description[]) => {
+const priceArray = (data: Description[]) => {
   let prices: number[] = []
 
   data.map((item) => {
@@ -49,15 +49,14 @@ const pricesArray = (data: Description[]) => {
   return prices
 }
 
-export const getPriceForSection = (descriptionValues: Description[], index: number) => {
-  const updateDescription = [...descriptionValues]
-  console.log(updateDescription)
-  const sum = Number(pricesArray(updateDescription)[index]).toFixed(1)
+export const getPriceForSection = (data: Description[], index: number) => {
+  const sectionForms = [...data]
+  const sum = Number(priceArray(sectionForms)[index]).toFixed(1)
   return sum
 }
 
-export const getTotalPrice = (descriptionValues: Description[]) => {
-  const updateDescription = [...descriptionValues]
-  const sum = Number(pricesArray(updateDescription).reduce((accumulator, currentValue) => accumulator + currentValue, 0).toFixed(1))
+export const getTotalPrice = (data: Description[]) => {
+  const sectionForms = [...data]
+  const sum = Number(priceArray(sectionForms).reduce((accumulator, currentValue) => accumulator + currentValue, 0).toFixed(1))
   return sum
 }
