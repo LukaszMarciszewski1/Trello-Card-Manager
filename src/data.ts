@@ -1683,14 +1683,6 @@ export const materials = [
   },
   {
     type: 'Glitter',
-    name: 'G0009-GRASS',
-    value: 'Glitter G0009-GRASS',
-    color: '',
-    src: 'https://www.siser.com/wp-content/uploads/2022/04/G0009-GRASS-495x400.jpg',
-    price: 0.138,
-  },
-  {
-    type: 'Glitter',
     name: 'G0011-AQUA',
     value: 'Glitter G0011-AQUA',
     color: '',

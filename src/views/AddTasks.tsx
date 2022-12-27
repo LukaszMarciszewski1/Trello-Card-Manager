@@ -16,7 +16,7 @@ import FormSection from "components/Section/FormSection";
 import Textarea from "components/Textarea/Textarea";
 import MaterialsForm from "./MaterialsForm/MaterialsForm";
 import { RiAddLine } from "react-icons/ri";
-import { calculator, getPrice } from "calculation/calculator";
+import { calculator, getTotalPrice, getPriceForSection } from "calculation/calculator";
 import { BsChevronCompactLeft } from "react-icons/bs";
 
 
@@ -57,6 +57,7 @@ const defaultDescriptionValues = {
   size: size[0].value,
   width: 0,
   height: 0,
+  price: 0,
   additionalDesc: '',
   materials: []
 };
@@ -84,23 +85,36 @@ const Tasks: React.FC = () => {
     control,
   });
 
-  const watchChangesDescription = watch('description');
+  const watchForChangesInDescriptions = watch('description');
 
   const [trigger, setTrigger] = useState(false)
   const [result, setResult] = useState(0)
-  const [descriptionValues, setDescriptionValues] = useState<Description[]>([])
+  const [descriptions, setDescriptions] = useState<Description[]>([])
 
   useEffect(() => {
-    setDescriptionValues(watchChangesDescription)
-  }, [watchChangesDescription])
+    setDescriptions(watchForChangesInDescriptions)
+  }, [watchForChangesInDescriptions])
+
+  // useEffect(() => {
+  //   setResult(getTotalPrice(descriptionValues))
+  // }, [getTotalPrice(descriptionValues)])
+
+  // useEffect(() => {
+  //   setValue('price', result)
+  //   fields.map((item, index) => {
+  //     setValue(`description.${index}.price`, getPriceForSection(descriptionValues, index)) 
+  //   })
+  // }, [result])
 
   useEffect(() => {
-    setResult(getPrice(descriptionValues))
-  }, [getPrice(descriptionValues)])
+    setValue('price', getTotalPrice(descriptions))
+    fields.map((item, index) => {
+      setValue(`description.${index}.price`, getPriceForSection(descriptions, index))
+    })
+  }, [getTotalPrice(descriptions)])
 
-  useEffect(() => {
-    setValue('price', result)
-  }, [result])
+  console.log(getTotalPrice(descriptions))
+
 
   const AddCardForm = async (data: Card) => {
     const {
@@ -143,6 +157,7 @@ const Tasks: React.FC = () => {
         \n>Wysokość: ${desc.height}cm
         \n>Materiał: ${materials.join(', ')}
         \n>Rozmiar: ${desc.size}
+        \n>Cena: ${desc.price}
         \n\n>Dodatkowy opis: ${desc.additionalDesc}
         \n-\n\n\n\
         `
@@ -209,6 +224,8 @@ const Tasks: React.FC = () => {
     console.log(data)
     // reset()
   }
+
+  // console.log(fields)
 
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
@@ -299,11 +316,20 @@ const Tasks: React.FC = () => {
                     {...register(`description.${index}.height` as const)}
                   />
                   <Select
+                    id={field.id}
                     label={"Rozmiar"}
                     options={size}
-                    id={field.id}
                     defaultValue={field.size}
                     {...register(`description.${index}.size` as const)}
+                  />
+                  <Input
+                    id={field.id}
+                    label={"Cena"}
+                    style={{ userSelect: 'none', backgroundColor: '#f4f5fa' }}
+                    type="number"
+                    // value={getPriceForSection(descriptionValues, index)}
+                    {...register(`description.${index}.price` as const)}
+                    readOnly
                   />
                   {/* <Input
                     id={field.id}
@@ -394,7 +420,7 @@ const Tasks: React.FC = () => {
               label={"Cena"}
               style={{ userSelect: 'none', backgroundColor: '#f4f5fa' }}
               type="number"
-              value={result}
+              // value={result}
               {...register(`price`)}
               readOnly
             />
