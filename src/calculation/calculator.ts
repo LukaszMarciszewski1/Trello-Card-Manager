@@ -232,6 +232,38 @@ const priceObj = [
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>50
 ]
 
+const priceModifier = [
+  {
+    name: 'STANDARD',
+    modifier: 1
+  },
+  {
+    name: 'PS EXTRA',
+    modifier: 1.1
+  },
+  {
+    name: 'FLUO',
+    modifier: 1.2
+  },
+  {
+    name: 'GLITTER',
+    modifier: 1.5
+  },
+  {
+    name: 'PS SUBLI',
+    modifier: 1.15
+  },
+
+  {
+    name: 'ELECTRIC',
+    modifier: 1.15
+  },
+  {
+    name: 'BRICK',
+    modifier: 1.5
+  },
+]
+
 const getSizeModifier = (width: number, height: number) => {
   let size = 0
 
@@ -260,6 +292,9 @@ const getSizeModifier = (width: number, height: number) => {
     case ((width * height) > 500 && (width * height) <= 650):
       size = 650;
       break;
+      case ((width * height) > 650):
+        console.log('jest wieksze')
+        break;
     default:
       size = 0;
   }
@@ -289,30 +324,19 @@ const getSelectedMaterialPrice = (selectedType: string | undefined, size: number
   const comparisonOfType = priceObj.filter((item: any) => item.type === selectedType)
   const typePrice = comparisonOfType.filter(item => ((item.size === size) && (item.amount >= amount)))[0]
   if(!typePrice) return 0;
-  const price = (typePrice.price * typePrice.modifier)
-  console.log(price)
-  console.log(typePrice)
-  console.log(amount)
-  return price
+  const price = typePrice.price
+  // console.log(price)
+  // console.log(typePrice)
+  // console.log(amount)
+  return typePrice.price
 }
 
-const getMaterialPriceModifier = (materialPrice: number, amount : number) => {
-  let modifier = 1
-
-  switch (true) {
-    case (amount >= 1 && amount <= 10):
-      modifier = 1;
-      break;
-    case (amount >= 11 && amount <= 30):
-      modifier = 0.7101449275362319;
-      break;
-    default:
-      modifier = 1;
+const getModifier = (value: any) => {
+  if(value) {
+    return priceModifier.filter(item => item.name === value)[0].modifier
+  } else {
+    return 1
   }
-
-  const price = (modifier * materialPrice)
-
-  return price
 }
 
 export const calculator = (
@@ -322,22 +346,26 @@ export const calculator = (
   width: number,
   height: number
 ) => {
-  const filteredSelectedMaterial = materials.filter(
-    (item) => item.value === selectedMaterial
-  )
+  const filteredSelectedMaterial = materials
+    .filter((item) => item.value === selectedMaterial)
+
       const numberWidth = Number(width)
       const numberHeight = Number(height)
       const numberAmount = Number(amount)
 
   if(!filteredSelectedMaterial[0]) return 0;   
-
+  if(numberWidth * numberHeight === 0) return 0
+  
+  const modifier = getModifier(filteredSelectedMaterial[0].priceModifier)
+  console.log(filteredSelectedMaterial[0])
+  
   const price = getSelectedMaterialPrice(
     filteredSelectedMaterial[0].priceType, 
     getSizeModifier(numberWidth, numberHeight),
     numberAmount
   )
 
-  const priceCalculations = (price * numberAmount)
+  const priceCalculations = ((price * modifier) * numberAmount)
 
   return priceCalculations
 }

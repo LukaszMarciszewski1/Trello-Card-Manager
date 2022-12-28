@@ -55,7 +55,8 @@ const defaultDescriptionValues = {
   logo: "",
   amount: 0,
   fabric: fabric[0].value,
-  size: sizes[0].value,
+  // size: sizes[0].value,
+  size: 'Tu będzie się wyświetlał rozmiar',
   width: 0,
   height: 0,
   price: 0,
@@ -218,7 +219,7 @@ const Tasks: React.FC = () => {
   };
 
   const handleSubmitForm = (data: Card) => {
-    // AddCardForm(data);
+    AddCardForm(data);
     console.log(data)
     // reset()
   }
@@ -315,11 +316,12 @@ const Tasks: React.FC = () => {
                       {...register(`description.${index}.height` as const)}
                     />
                   </div>
-                  <Select
+                  <Input
                     id={field.id}
                     label={"Rozmiar"}
-                    options={sizes}
-                    // defaultValue={field.size}
+                    type="text"
+                    readOnly
+                    // options={sizes}
                     {...register(`description.${index}.size` as const)}
                   />
                   <Input
