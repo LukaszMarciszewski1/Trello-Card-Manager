@@ -6,20 +6,230 @@ const priceObj = [
     type: 'FLEX',
     size: 50,
     price: 6.9,
-    amount: 10
+    amount: 10,
+    modifier: 1
   },
   {
     type: 'FLEX',
     size: 100,
     price: 7.9,
-    amount: 10
+    amount: 10,
+    modifier: 1
+  },
+  {
+    type: 'FLEX',
+    size: 150,
+    price: 8.9,
+    amount: 10,
+    modifier: 1
+  },
+  {
+    type: 'FLEX',
+    size: 250,
+    price: 9.9,
+    amount: 10,
+    modifier: 1
+  },
+  {
+    type: 'FLEX',
+    size: 300,
+    price: 10.9,
+    amount: 10,
+    modifier: 1
+  },
+  {
+    type: 'FLEX',
+    size: 400,
+    price: 12.9,
+    amount: 10,
+    modifier: 1
+  },
+  {
+    type: 'FLEX',
+    size: 500,
+    price: 14.9,
+    amount: 10,
+    modifier: 1
+  },
+  {
+    type: 'FLEX',
+    size: 625,
+    price: 16.9,
+    amount: 10,
+    modifier: 1
+  },
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>10
+  {
+    type: 'FLEX',
+    size: 50,
+    price: 4.9,
+    amount: 30,
+    modifier: 1
   },
   {
     type: 'FLEX',
     size: 100,
     price: 5.9,
-    amount: 20
+    amount: 30,
+    modifier: 1
   },
+  {
+    type: 'FLEX',
+    size: 150,
+    price: 6.9,
+    amount: 30,
+    modifier: 1
+  },
+  {
+    type: 'FLEX',
+    size: 250,
+    price: 7.9,
+    amount: 30,
+    modifier: 1
+  },
+  {
+    type: 'FLEX',
+    size: 300,
+    price: 8.9,
+    amount: 30,
+    modifier: 1
+  },
+  {
+    type: 'FLEX',
+    size: 400,
+    price: 10.9,
+    amount: 30,
+    modifier: 1
+  },
+  {
+    type: 'FLEX',
+    size: 500,
+    price: 12.4,
+    amount: 30,
+    modifier: 1
+  },
+  {
+    type: 'FLEX',
+    size: 625,
+    price: 13.9,
+    amount: 30,
+    modifier: 1
+  },
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>30
+{
+  type: 'FLEX',
+  size: 50,
+  price: 3.9,
+  amount: 50,
+  modifier: 1
+},
+{
+  type: 'FLEX',
+  size: 100,
+  price: 4.4,
+  amount: 50,
+  modifier: 1
+},
+{
+  type: 'FLEX',
+  size: 150,
+  price: 4.9,
+  amount: 50,
+  modifier: 1
+},
+{
+  type: 'FLEX',
+  size: 250,
+  price: 5.9,
+  amount: 50,
+  modifier: 1
+},
+{
+  type: 'FLEX',
+  size: 300,
+  price: 6.9,
+  amount: 50,
+  modifier: 1
+},
+{
+  type: 'FLEX',
+  size: 400,
+  price: 7.9,
+  amount: 50,
+  modifier: 1
+},
+{
+  type: 'FLEX',
+  size: 500,
+  price: 8.9,
+  amount: 50,
+  modifier: 1
+},
+{
+  type: 'FLEX',
+  size: 625,
+  price: 10.9,
+  amount: 50,
+  modifier: 1
+},
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>50
+{
+  type: 'FLEX',
+  size: 50,
+  price: 3,
+  amount: Infinity,
+  modifier: 1
+},
+{
+  type: 'FLEX',
+  size: 100,
+  price: 3.4,
+  amount: Infinity,
+  modifier: 1
+},
+{
+  type: 'FLEX',
+  size: 150,
+  price: 3.8,
+  amount: Infinity,
+  modifier: 1
+},
+{
+  type: 'FLEX',
+  size: 250,
+  price: 4.5,
+  amount: Infinity,
+  modifier: 1
+},
+{
+  type: 'FLEX',
+  size: 300,
+  price: 5.5,
+  amount: Infinity,
+  modifier: 1
+},
+{
+  type: 'FLEX',
+  size: 400,
+  price: 6.1,
+  amount: Infinity,
+  modifier: 1
+},
+{
+  type: 'FLEX',
+  size: 500,
+  price: 6.6,
+  amount: Infinity,
+  modifier: 1
+},
+{
+  type: 'FLEX',
+  size: 625,
+  price: 7.1,
+  amount: Infinity,
+  modifier: 1
+},
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>50
 ]
 
 const getSizeModifier = (width: number, height: number) => {
@@ -74,11 +284,16 @@ const getAmountModifier = (amount: number) => {
   return modifier
 }
 
-const getSelectedMaterialType = (selectedType: string | undefined, size: number) => {
+const getSelectedMaterialPrice = (selectedType: string | undefined, size: number, amount: number) => {
   if(!selectedType) return 0;
   const comparisonOfType = priceObj.filter((item: any) => item.type === selectedType)
-  const typePrice = comparisonOfType.filter(item => item.size === size)[0]
-  return typePrice.price
+  const typePrice = comparisonOfType.filter(item => ((item.size === size) && (item.amount >= amount)))[0]
+  if(!typePrice) return 0;
+  const price = (typePrice.price * typePrice.modifier)
+  console.log(price)
+  console.log(typePrice)
+  console.log(amount)
+  return price
 }
 
 const getMaterialPriceModifier = (materialPrice: number, amount : number) => {
@@ -110,23 +325,17 @@ export const calculator = (
   const filteredSelectedMaterial = materials.filter(
     (item) => item.value === selectedMaterial
   )
-  const materialType = materials.filter(
-    (item) => item.value === selectedMaterial
-    )
-    const filteredSelectedSize = sizes.filter(
-      (item: { value: string }) => item.value === selectedSize
-      )
       const numberWidth = Number(width)
       const numberHeight = Number(height)
       const numberAmount = Number(amount)
 
   if(!filteredSelectedMaterial[0]) return 0;   
 
-  const price = getSelectedMaterialType(filteredSelectedMaterial[0].priceType, getSizeModifier(numberWidth, numberHeight))
-  console.log(price)
-
-  const sizeModifier = getSizeModifier(numberWidth, numberHeight)
-  const materialModifier = filteredSelectedMaterial[0] ? getMaterialPriceModifier(filteredSelectedMaterial[0].price, numberAmount) : 0
+  const price = getSelectedMaterialPrice(
+    filteredSelectedMaterial[0].priceType, 
+    getSizeModifier(numberWidth, numberHeight),
+    numberAmount
+  )
 
   const priceCalculations = (price * numberAmount)
 

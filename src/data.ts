@@ -74,56 +74,48 @@ export const sizes = [
     value: 'MINI',
     name: 'MINI',
     size: 50,
-    price: 50,
   },
   {
     label: 'MAŁY',
     value: 'MAŁY',
     name: 'MAŁY',
     size: 100,
-    price: 57.2463768115942,
   },
   {
     label: 'ŚREDNI',
     value: 'ŚREDNI',
     name: 'ŚREDNI',
     size: 150,
-    price: 64.49275362318841,
   },
   {
     label: 'WIĘKSZY',
     value: 'WIĘKSZY',
     name: 'WIĘKSZY',
     size: 250,
-    price: 71.73913043478261,
   },
   {
     label: 'DUŻY',
     value: 'DUŻY',
     name: 'DUŻY',
     size: 300,
-    price: 78.98550724637681,
   },
   {
     label: 'MAXI',
     value: 'MAXI',
     name: 'MAXI',
     size: 400,
-    price: 93.47826086956522,
   },
   {
     label: 'MEGA',
     value: 'MEGA',
     name: 'MEGA',
     size: 500,
-    price: 107.9710144927536,
   },
   {
     label: 'GIGA',
     value: 'GIGA',
     name: 'GIGA',
     size: 650,
-    price: 122.463768115942,
   },
 ]
 
@@ -134,7 +126,6 @@ export const materials = [
     name: 'H50001-WHITE',
     value: 'Hi-5 H50001-WHITE',
     color: 'white',
-    price: 1,
     priceType: 'FLEX'
   },
   {
@@ -142,7 +133,6 @@ export const materials = [
     name: 'H50003-LEMON',
     value: 'Hi-5 H50003-LEMON',
     color: '#f3ea21',
-    price: 1,
     priceType: 'FLEX'
   },
   {
@@ -150,7 +140,6 @@ export const materials = [
     name: 'H50004-YELLOW',
     value: 'Hi-5 H50004-YELLOW',
     color: '#fecb10',
-    price: 1,
     priceType: 'FLEX'
   },
   {
@@ -158,245 +147,245 @@ export const materials = [
     name: 'H50006-ORANGE',
     value: 'Hi-5 H50006-ORANGE',
     color: '#ef8122',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'Hi-5',
     name: 'H50028-BRIGHT-RED',
     value: 'Hi-5 H50028-BRIGHT-RED',
     color: '#ec2626',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'Hi-5',
     name: 'H50007-RED',
     value: 'Hi-5 H50007-RED',
     color: '#cc2129',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'Hi-5',
     name: 'H50008-PINK',
     value: 'Hi-5 H50008-PINK',
     color: '#f05376',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'Hi-5',
     name: 'H50011-SKY-BLUE',
     value: 'Hi-5 H50011-SKY-BLUE',
     color: '#1696d3',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'Hi-5',
     name: 'H50013-ROYAL-BLUE',
     value: 'Hi-5 H50013-ROYAL-BLUE',
     color: '#204282',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'Hi-5',
     name: 'H50014-NAVY-BLUE',
     value: 'Hi-5 H50014-NAVY-BLUE',
     color: '#182045',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'Hi-5',
     name: 'H50058-APPLE-GREEN',
     value: 'Hi-5 H50058-APPLE-GREEN',
     color: '#91bf45',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'Hi-5',
     name: 'H50009-GREEN',
     value: 'Hi-5 H50009-GREEN',
     color: '#14703d',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'Hi-5',
     name: 'H50018-GREY',
     value: 'Hi-5 H50018-GREY',
     color: '#96979b',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'Hi-5',
     name: 'H50019-BLACK',
     value: 'Hi-5 H50019-BLACK',
     color: '#010101',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'Hi-5',
     name: 'H50020-GOLD',
     value: 'Hi-5 H50020-GOLD',
     color: '#b09f61',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'Hi-5',
     name: 'H50021-SILVER',
     value: 'Hi-5 H50021-SILVER',
     color: '#c3c2c5',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'Hi-5',
     name: 'H50047-COPPER',
     value: 'Hi-5 H50047-COPPER',
     color: '#937140',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'Hi-5',
     name: 'H50086-CHOCOLATE',
     value: 'Hi-5 H50086-CHOCOLATE',
     color: '#594930',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'Hi-5',
     name: 'H50092-ROSE-GOLD',
     value: 'Hi-5 H50092-ROSE-GOLD',
     color: '#ac9588',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'Hi-5',
     name: 'H50116-CORAL',
     value: 'Hi-5 H50116-CORAL',
     color: '#fe756b',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'Hi-5',
     name: 'H50117-IVORY',
     value: 'Hi-5 H50117-IVORY',
     color: '#eadac1',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'Hi-5',
     name: 'H50115-PISTACHIO',
     value: 'Hi-5 H50115-PISTACHIO',
     color: '#99c764',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'Hi-5',
     name: 'H50118-ECRU',
     value: 'Hi-5 H50118-ECRU',
     color: '#ccd3b1',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'Hi-5',
     name: 'H50119-TIFFANY',
     value: 'Hi-5 H50119-TIFFANY',
     color: '#0abab7',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'Hi-5',
     name: 'H50120-SWEET-MINT',
     value: 'Hi-5 H50120-SWEET-MINT',
     color: '#8cebc5',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'Hi-5',
     name: 'H50122-PALE-PURPLE',
     value: 'Hi-5 H50122-PALE-PURPLE',
     color: '#6f5b96',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'Hi-5',
     name: 'H50121-DARK-GREY',
     value: 'Hi-5 H50121-DARK-GREY',
     color: '#626a74',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'Hi-5',
     name: 'H50016-BURGUNDY',
     value: 'Hi-5 H50016-BURGUNDY',
     color: '#7b324d',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'Hi-5',
     name: 'H50074-BUBBLE-GUM',
     value: 'Hi-5 H50074-BUBBLE-GUM',
     color: '#e08aad',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'Hi-5',
     name: 'H50005-SUN',
     value: 'Hi-5 H50005-SUN',
     color: '#ffa63e',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'Hi-5',
     name: 'H50031-LIGHT-PINK',
     value: 'Hi-5 H50031-LIGHT-PINK',
     color: '#e4bcc7',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'Hi-5',
     name: 'H50051-PALE-BLUE',
     value: 'Hi-5 H50051-PALE-BLUE',
     color: '#a9cbe6',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'Hi-5',
     name: 'H50022-YELLOW-FLUO',
     value: 'Hi-5 H50022-YELLOW-FLUO',
     color: '#f2e904',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'Hi-5',
     name: 'H50023-ORANGE-FLUO',
     value: 'Hi-5 H50023-ORANGE-FLUO',
     color: '#f89722',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'Hi-5',
     name: 'H0024-PINK-FLUO',
     value: 'Hi-5 H0024-PINK-FLUO',
     color: '#df92c0',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'Hi-5',
     name: 'H50026-GREEN-FLUO',
     value: 'Hi-5 H50026-GREEN-FLUO',
     color: '#8ac640',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'Hi-5',
     name: 'H50025-RASPBERRY-FLUO',
-    value: 'Hi-5 H50025-NEON-RASPBERRY-FLUO',
+    value: 'Hi-5 H50025-RASPBERRY-FLUO',
     color: '#e84d79',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'Hi-5',
     name: 'H50027-BLUE-FLUO',
-    value: 'Hi-5 H50027-NEON-BLUE-FLUO',
+    value: 'Hi-5 H50027-BLUE-FLUO',
     color: '#2d6eca',
-    price: 0.138,
+    priceType: 'FLEX'
   },
 
   //P.S. Film – EasyWeed
@@ -405,168 +394,168 @@ export const materials = [
     name: 'A0001-WHITE',
     value: 'P.S. Film A0001-WHITE',
     color: '#ffffff',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0003-LEMON',
     value: 'P.S. Film A0003-LEMON',
     color: '#f3ea21',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0002-CREAM',
     value: 'P.S. Film A0002-CREAM',
     color: '#f9d986',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0004-YELLOW',
     value: 'P.S. Film A0004-YELLOW',
     color: '#fecb10',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0005-SUN',
     value: 'P.S. Film A0005-SUN',
     color: '#f8b119',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0006-ORANGE',
     value: 'P.S. Film A0006-ORANGE',
     color: '#ef8122',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0060-HIBISCUS',
     value: 'P.S. Film A0060-HIBISCUS',
     color: '#f15153',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0028-BRIGHT-RED',
     value: 'P.S. Film A0028-BRIGHT-RED',
     color: '#ec2626',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0007-RED',
     value: 'P.S. Film A0007-RED',
     color: '#cc2129',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0016-BURGUNDY',
     value: 'P.S. Film A0016-BURGUNDY',
     color: '#9f1c3b',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0092-ROSE-GOLD',
     value: 'P.S. Film A0092-ROSE-GOLD',
     color: '#d1948f',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0031-LIGHT-PINK',
     value: 'P.S. Film A0031-LIGHT-PINK',
     color: '#facfd9',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0074-MEDIUM-PINK',
     value: 'P.S. Film A0074-MEDIUM-PINK',
     color: '#e77cb2',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0008-PINK',
     value: 'P.S. Film A0008-PINK',
     color: '#f05376',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0062-RADIANT-ORCHID',
     value: 'P.S. Film A0062-RADIANT-ORCHID',
     color: '#b164a8',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0059-LILAC',
     value: 'P.S. Film A0059-LILAC',
     color: '#cfb4d3',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0065-LIGHT-PURPLE"',
     value: 'P.S. Film A0065-LIGHT-PURPLE"',
     color: '#502c84',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0015-PURPLE',
     value: 'P.S. Film A0015-PURPLE',
     color: '#482851',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0085-MEDIUM-BLUE',
     value: 'P.S. Film A0085-MEDIUM-BLUE',
     color: '#4d5890',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0014-NAVY-BLUE',
     value: 'P.S. Film A0014-NAVY-BLUE',
     color: '#182045',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0013-ROYAL-BLUE',
     value: 'P.S. Film A0013-ROYAL-BLUE',
     color: '#204282',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0011-SKY-BLUE',
     value: 'P.S. Film A0011-SKY-BLUE',
     color: '#1696d3',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0099-COLUMBIA-BLUE',
     value: 'P.S. Film A0099-COLUMBIA-BLUE',
     color: '#3b6ca4',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0051-PALE-BLUE',
     value: 'P.S. Film A0051-PALE-BLUE',
     color: '#99daf6',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
@@ -580,49 +569,49 @@ export const materials = [
     name: 'A0066-OCEAN-BLUE',
     value: 'P.S. Film A0066-OCEAN-BLUE',
     color: '#09b5cb',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0012-TURQUOISE',
     value: 'P.S. Film A0012-TURQUOISE',
     color: '#15525c',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0070-AQUA-GREEN',
     value: 'P.S. Film A0070-AQUA-GREEN',
     color: '#6dc3d2',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0094-VEGAS-GOLD"',
     value: 'P.S. Film A0094-VEGAS-GOLD"',
     color: '#a4a562',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0020-GOLD',
     value: 'P.S. Film A0020-GOLD',
     color: '#b09f61',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0073-TAN',
     value: 'P.S. Film A0073-TAN',
     color: '#be9368',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0101-TEXAS-ORANGE',
     value: 'P.S. Film A0101-TEXAS-ORANGE',
     color: '#a05230',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
@@ -636,161 +625,161 @@ export const materials = [
     name: 'A0017-BROWN',
     value: 'P.S. Film A0017-BROWN',
     color: '#4c201f',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0010-DARK-GREEN',
     value: 'P.S. Film A0010-DARK-GREEN',
     color: '#023c24',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0009-GREEN',
     value: 'P.S. Film A0009-GREEN',
     color: '#14703d',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0058-APPLE-GREEN',
     value: 'P.S. Film A0058-APPLE-GREEN',
     color: '#91bf45',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0030-LIME',
     value: 'P.S. Film A0030-LIME',
     color: '#c8da30',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0068-MINT',
     value: 'P.S. Film A0068-MINT',
     color: '#c4e4cc',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0037-SAND',
     value: 'P.S. Film A0037-SAND',
     color: '#cbb38f',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0038-PEARL',
     value: 'P.S. Film A0038-PEARL',
     color: '#edd3b2',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0021-SILVER',
     value: 'P.S. Film A0021-SILVER',
     color: '#c3c2c5',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0018-GREY',
     value: 'P.S. Film A0018-GREY',
     color: '#96979b',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0071-LILAC-GRAY',
     value: 'P.S. Film A0071-LILAC-GRAY',
     color: '#807e93',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0061-ANTHRACITE',
     value: 'P.S. Film A0061-ANTHRACITE',
     color: '#393939',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0114-MUSTARD',
     value: 'P.S. Film A0114-MUSTARD',
     color: '#d6a549',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0019-BLACK',
     value: 'P.S. Film A0019-BLACK',
     color: '#010101',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0022-YELLOW-FLUO',
     value: 'P.S. Film A0022-YELLOW-FLUO',
     color: '#f2e904',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0023-ORANGE-FLUO',
     value: 'P.S. Film A0023-ORANGE-FLUO',
     color: '#f89722',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0067-CORAL-FLUO',
     value: 'P.S. Film A0067-CORAL-FLUO',
     color: '#ee4037',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0024-PINK-FLUO',
     value: 'P.S. Film A0024-PINK-FLUO',
     color: '#df92c0',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0025-RASPBERRY-FLUO',
     value: 'P.S. Film A0025-RASPBERRY-FLUO',
     color: '#ea3d96',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0072-PURPLE-FLUO',
     value: 'P.S. Film A0072-PURPLE-FLUO',
     color: '#8e3996',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0026-GREEN-FLUO',
     value: 'P.S. Film A0026-GREEN-FLUO',
     color: '#8ac640',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0097-PASSION-PINK-FLUO',
     value: 'P.S. Film A0097-PASSION-PINK-FLUO',
     color: '#b43075',
-    price: 0.138,
+    priceType: 'FLEX'
   },
   {
     type: 'P.S. Film',
     name: 'A0027-BLUE-FLUO',
     value: 'P.S. Film A0027-BLUE-FLUO',
     color: '#346ab3',
-    price: 0.138,
+    priceType: 'FLEX'
   },
 
   //P.S. Film – Extra
@@ -800,13 +789,15 @@ export const materials = [
     value: 'P.S. Extra N0001-WHITE',
     color: '#ffffff',
     price: 0.138,
+    priceType: 'PS EXTRA'
   },
   {
     type: 'P.S. Extra',
     name: 'N0003-LEMON',
     value: 'P.S. Extra N0003-LEMON',
     color: '#f3ea21',
-    price: 0.138,
+    price: 1,
+    priceType: 'PS EXTRA'
   },
   {
     type: 'P.S. Extra',
