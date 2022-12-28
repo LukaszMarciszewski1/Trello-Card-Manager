@@ -4,7 +4,7 @@ import styles from "./styles.module.scss";
 import axios from "axios";
 import dayjs from "dayjs";
 
-import { traders, fabric, recipient, materials, size } from "data";
+import { traders, fabric, recipient, materials, sizes } from "data";
 import { useForm, useFieldArray } from "react-hook-form";
 import { Card, Description } from "models/card";
 import Tabs from "components/Tabs/Tabs";
@@ -55,7 +55,7 @@ const defaultDescriptionValues = {
   logo: "",
   amount: 0,
   fabric: fabric[0].value,
-  size: size[0].value,
+  size: sizes[0].value,
   width: 0,
   height: 0,
   price: 0,
@@ -218,7 +218,7 @@ const Tasks: React.FC = () => {
   };
 
   const handleSubmitForm = (data: Card) => {
-    AddCardForm(data);
+    // AddCardForm(data);
     console.log(data)
     // reset()
   }
@@ -318,8 +318,8 @@ const Tasks: React.FC = () => {
                   <Select
                     id={field.id}
                     label={"Rozmiar"}
-                    options={size}
-                    defaultValue={field.size}
+                    options={sizes}
+                    // defaultValue={field.size}
                     {...register(`description.${index}.size` as const)}
                   />
                   <Input

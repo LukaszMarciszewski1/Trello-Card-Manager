@@ -68,53 +68,61 @@ export const recipient = [
   },
 ]
 
-export const size = [
+export const sizes = [
   {
     label: 'MINI',
     value: 'MINI',
     name: 'MINI',
+    size: 50,
     price: 50,
   },
   {
     label: 'MAŁY',
     value: 'MAŁY',
     name: 'MAŁY',
+    size: 100,
     price: 57.2463768115942,
   },
   {
     label: 'ŚREDNI',
     value: 'ŚREDNI',
     name: 'ŚREDNI',
+    size: 150,
     price: 64.49275362318841,
   },
   {
     label: 'WIĘKSZY',
     value: 'WIĘKSZY',
     name: 'WIĘKSZY',
+    size: 250,
     price: 71.73913043478261,
   },
   {
     label: 'DUŻY',
     value: 'DUŻY',
     name: 'DUŻY',
+    size: 300,
     price: 78.98550724637681,
   },
   {
     label: 'MAXI',
     value: 'MAXI',
     name: 'MAXI',
+    size: 400,
     price: 93.47826086956522,
   },
   {
     label: 'MEGA',
     value: 'MEGA',
     name: 'MEGA',
+    size: 500,
     price: 107.9710144927536,
   },
   {
     label: 'GIGA',
     value: 'GIGA',
     name: 'GIGA',
+    size: 650,
     price: 122.463768115942,
   },
 ]

@@ -1,9 +1,13 @@
+$layoutBg: #fdfdfd;
+
 $blue: #0d6192;
-$lightBlue:#0d6ea5;
+$lightBlue:#62b0de;
 $matBlue: #67788a;
 $lightBlue: #dbdde6;
-$lightGrey: #fdfdfd;
 $focusBg: #f4f5fa;
+
+$lightGrey: darken($layoutBg, 1%);
+$inputBg: lighten(#fdfdfd, 1%);
 
 $primary-gray: darken($focusBg, 3%);
 $secondary-gray: darken($focusBg, 2%);
