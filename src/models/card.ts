@@ -12,7 +12,7 @@ export interface Description {
   width: number
   height: number
   additionalDesc: string
-  // price: number | string
+  price: number | string
   materials: Materials[]
   size: string
 }

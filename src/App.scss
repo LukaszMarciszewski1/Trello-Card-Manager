@@ -1,9 +1,10 @@
+@import 'theme/colors.scss';
 .App {
-  padding: 2rem;
-  max-width: 1560px;
+  padding: 2rem 4rem;
+  max-width: 1600px;
   margin: 0 auto;
   // height: 100vh;
-  background-color: white;
+  background-color: $layoutBg;
 }
 
 @media (prefers-reduced-motion: no-preference) {

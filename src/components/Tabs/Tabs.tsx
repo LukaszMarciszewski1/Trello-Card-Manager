@@ -4,14 +4,15 @@ import styles from './styles.module.scss'
 
 type Props = {
   children: ReactElement[]
+  subcategory?: boolean
 }
 
-const Tabs: React.FC<Props> = ({ children }) => {
+const Tabs: React.FC<Props> = ({ children, subcategory }) => {
   const [selectedTab, setSelectedTab] = useState(0)
 
   return (
     <div className={styles.layout}>
-      <ul className={styles.tabContainer}>
+      <ul className={`${subcategory ? styles.subcategoryContainer : styles.mainContainer}`}>
         {children.map((item, index) => (
           <Tab
             key={index}
@@ -19,6 +20,7 @@ const Tabs: React.FC<Props> = ({ children }) => {
             index={index}
             setSelectedTab={setSelectedTab}
             active={selectedTab}
+            subcategory={subcategory}
           />
         ))}
       </ul>

@@ -4,9 +4,11 @@ import styles from "./styles.module.scss";
 import axios from "axios";
 import dayjs from "dayjs";
 
-import { traders, fabric, recipient, materials, size } from "data";
+import { traders, fabric, recipient, materials, sizes } from "data";
 import { useForm, useFieldArray } from "react-hook-form";
 import { Card, Description } from "models/card";
+import Tabs from "components/Tabs/Tabs";
+import TabsContent from "components/Tabs/TabsContent/TabsContent";
 
 import Input from "components/Input/Input";
 import Button from "components/Button/Button";
@@ -16,9 +18,8 @@ import FormSection from "components/Section/FormSection";
 import Textarea from "components/Textarea/Textarea";
 import MaterialsForm from "./MaterialsForm/MaterialsForm";
 import { RiAddLine } from "react-icons/ri";
-import { calculator, getPrice } from "calculation/calculator";
+import { calculator, getTotalPrice, getPriceForSection } from "calculation/calculator";
 import { BsChevronCompactLeft } from "react-icons/bs";
-
 
 const validation = {
   title: {
@@ -54,9 +55,10 @@ const defaultDescriptionValues = {
   logo: "",
   amount: 0,
   fabric: fabric[0].value,
-  size: size[0].value,
+  size: sizes[0].value,
   width: 0,
   height: 0,
+  price: 0,
   additionalDesc: '',
   materials: []
 };
@@ -84,23 +86,33 @@ const Tasks: React.FC = () => {
     control,
   });
 
-  const watchChangesDescription = watch('description');
+  const watchForChangesInSectionForms = watch('description');
 
   const [trigger, setTrigger] = useState(false)
   const [result, setResult] = useState(0)
-  const [descriptionValues, setDescriptionValues] = useState<Description[]>([])
+  const [sectionForms, setSectionForms] = useState<Description[]>([])
 
   useEffect(() => {
-    setDescriptionValues(watchChangesDescription)
-  }, [watchChangesDescription])
+    setSectionForms(watchForChangesInSectionForms)
+  }, [watchForChangesInSectionForms])
+
+  // useEffect(() => {
+  //   setResult(getTotalPrice(descriptionValues))
+  // }, [getTotalPrice(descriptionValues)])
+
+  // useEffect(() => {
+  //   setValue('price', result)
+  //   fields.map((item, index) => {
+  //     setValue(`description.${index}.price`, getPriceForSection(descriptionValues, index)) 
+  //   })
+  // }, [result])
 
   useEffect(() => {
-    setResult(getPrice(descriptionValues))
-  }, [getPrice(descriptionValues)])
-
-  useEffect(() => {
-    setValue('price', result)
-  }, [result])
+    setValue('price', getTotalPrice(sectionForms))
+    fields.map((item, index) => {
+      setValue(`description.${index}.price`, getPriceForSection(sectionForms, index))
+    })
+  }, [getTotalPrice(sectionForms)])
 
   const AddCardForm = async (data: Card) => {
     const {
@@ -143,6 +155,7 @@ const Tasks: React.FC = () => {
         \n>Wysokość: ${desc.height}cm
         \n>Materiał: ${materials.join(', ')}
         \n>Rozmiar: ${desc.size}
+        \n>Cena: ${desc.price}
         \n\n>Dodatkowy opis: ${desc.additionalDesc}
         \n-\n\n\n\
         `
@@ -205,10 +218,12 @@ const Tasks: React.FC = () => {
   };
 
   const handleSubmitForm = (data: Card) => {
-    AddCardForm(data);
+    // AddCardForm(data);
     console.log(data)
     // reset()
   }
+
+  // console.log(fields)
 
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
@@ -282,28 +297,39 @@ const Tasks: React.FC = () => {
                     step={"1"}
                     {...register(`description.${index}.amount` as const)}
                   />
-                  <Input
-                    id={field.id}
-                    placeholder={"Szerokość"}
-                    label={"Szerokość (cm)"}
-                    type="number"
-                    step={"0.1"}
-                    {...register(`description.${index}.width` as const)}
-                  />
-                  <Input
-                    id={field.id}
-                    placeholder={"Wysokość"}
-                    label={"Wysokość (cm)"}
-                    type="number"
-                    step={"0.1"}
-                    {...register(`description.${index}.height` as const)}
-                  />
+                  <div className={styles.rowContainer}>
+                    <Input
+                      id={field.id}
+                      placeholder={"Szerokość"}
+                      label={"Szerokość (cm)"}
+                      type="number"
+                      step={"0.1"}
+                      {...register(`description.${index}.width` as const)}
+                    />
+                    <Input
+                      id={field.id}
+                      placeholder={"Wysokość"}
+                      label={"Wysokość (cm)"}
+                      type="number"
+                      step={"0.1"}
+                      {...register(`description.${index}.height` as const)}
+                    />
+                  </div>
                   <Select
-                    label={"Rozmiar"}
-                    options={size}
                     id={field.id}
-                    defaultValue={field.size}
+                    label={"Rozmiar"}
+                    options={sizes}
+                    // defaultValue={field.size}
                     {...register(`description.${index}.size` as const)}
+                  />
+                  <Input
+                    id={field.id}
+                    label={"Cena"}
+                    style={{ userSelect: 'none', backgroundColor: '#f4f5fa' }}
+                    type="number"
+                    // value={getPriceForSection(descriptionValues, index)}
+                    {...register(`description.${index}.price` as const)}
+                    readOnly
                   />
                   {/* <Input
                     id={field.id}
@@ -394,12 +420,12 @@ const Tasks: React.FC = () => {
               label={"Cena"}
               style={{ userSelect: 'none', backgroundColor: '#f4f5fa' }}
               type="number"
-              value={result}
+              // value={result}
               {...register(`price`)}
               readOnly
             />
             <div className={styles.buttonContainer}>
-              <Button type={"submit"} title={"Dodaj zlecenie"} onClick={() => console.log("click")} style={{ fontSize: "1.2rem" }} />
+              <Button type={"submit"} title={"Dodaj zlecenie"} onClick={() => console.log("click")}/>
             </div>
           </div>
         </div>
