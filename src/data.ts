@@ -134,21 +134,24 @@ export const materials = [
     name: 'H50001-WHITE',
     value: 'Hi-5 H50001-WHITE',
     color: 'white',
-    price: 0.138,
+    price: 1,
+    priceType: 'FLEX'
   },
   {
     type: 'Hi-5',
     name: 'H50003-LEMON',
     value: 'Hi-5 H50003-LEMON',
     color: '#f3ea21',
-    price: 0.138,
+    price: 1,
+    priceType: 'FLEX'
   },
   {
     type: 'Hi-5',
     name: 'H50004-YELLOW',
     value: 'Hi-5 H50004-YELLOW',
     color: '#fecb10',
-    price: 0.138,
+    price: 1,
+    priceType: 'FLEX'
   },
   {
     type: 'Hi-5',

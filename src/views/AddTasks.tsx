@@ -425,7 +425,7 @@ const Tasks: React.FC = () => {
               readOnly
             />
             <div className={styles.buttonContainer}>
-              <Button type={"submit"} title={"Dodaj zlecenie"} onClick={() => console.log("click")}/>
+              <Button type={"submit"} title={"Dodaj zlecenie"} onClick={() => console.log("click")} />
             </div>
           </div>
         </div>
