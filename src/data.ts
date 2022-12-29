@@ -1671,168 +1671,192 @@ export const materials = [
     name: 'S0001-WHITE',
     value: 'Flock S0001-WHITE',
     color: '#ffffff',
-    price: 0.138,
+    priceType: 'FLOCK',
+    priceModifier: 'STANDARD'
   },
   {
     type: 'Flock',
     name: 'S0003-LEMON',
     value: 'Flock S0003-LEMON',
     color: '#f3ea21',
-    price: 0.138,
+    priceType: 'FLOCK',
+    priceModifier: 'STANDARD'
   },
   {
     type: 'Flock',
     name: 'S0004-YELLOW',
     value: 'Flock S0004-YELLOW',
     color: '#fecb10',
-    price: 0.138,
+    priceType: 'FLOCK',
+    priceModifier: 'STANDARD'
   },
   {
     type: 'Flock',
     name: 'S0006-ORANGE',
     value: 'Flock S0006-ORANGE',
     color: '#ef8122',
-    price: 0.138,
+    priceType: 'FLOCK',
+    priceModifier: 'STANDARD'
   },
   {
     type: 'Flock',
     name: 'TE0007-RED',
     value: 'Flock TE0007-RED',
     color: '#cc2129',
-    price: 0.138,
+    priceType: 'FLOCK',
+    priceModifier: 'STANDARD'
   },
   {
     type: 'Flock',
     name: 'S0008-PINK',
     value: 'Flock S0008-PINK',
     color: '#f05376',
-    price: 0.138,
+    priceType: 'FLOCK',
+    priceModifier: 'STANDARD'
   },
   {
     type: 'Flock',
     name: 'S0009-GREEN',
     value: 'Flock S0009-GREEN',
     color: '#14703d',
-    price: 0.138,
+    priceType: 'FLOCK',
+    priceModifier: 'STANDARD'
   },
   {
     type: 'Flock',
     name: 'S0012-TURQUOISE',
     value: 'Flock S0012-TURQUOISE',
     color: '#00acc7',
-    price: 0.138,
+    priceType: 'FLOCK',
+    priceModifier: 'STANDARD'
   },
   {
     type: 'Flock',
     name: 'S0013-ROYAL-BLUE',
     value: 'Flock S0013-ROYAL-BLUE',
     color: '#204282',
-    price: 0.138,
+    priceType: 'FLOCK',
+    priceModifier: 'STANDARD'
   },
   {
     type: 'Flock',
     name: 'S0014-NAVY-BLUE',
     value: 'Flock S0014-NAVY-BLUE',
     color: '#182045',
-    price: 0.138,
+    priceType: 'FLOCK',
+    priceModifier: 'STANDARD'
   },
   {
     type: 'Flock',
     name: 'S0015-PURPLE',
     value: 'Flock S0015-PURPLE',
     color: '#482851',
-    price: 0.138,
+    priceType: 'FLOCK',
+    priceModifier: 'STANDARD'
   },
   {
     type: 'Flock',
     name: 'S0016-BORDEAUX',
     value: 'Flock S0016-BORDEAUX',
     color: '#340005',
-    price: 0.138,
+    priceType: 'FLOCK',
+    priceModifier: 'STANDARD'
   },
   {
     type: 'Flock',
     name: 'S0017-BROWN',
     value: 'Flock S0017-BROWN',
     color: '#4c201f',
-    price: 0.138,
+    priceType: 'FLOCK',
+    priceModifier: 'STANDARD'
   },
   {
     type: 'Flock',
     name: 'S0018-GREY',
     value: 'Flock S0018-GREY',
     color: '#96979b',
-    price: 0.138,
+    priceType: 'FLOCK',
+    priceModifier: 'STANDARD'
   },
   {
     type: 'Flock',
     name: 'S0028-BRIGHT-RED',
     value: 'Flock S0028-BRIGHT-RED',
     color: '#ec2626',
-    price: 0.138,
+    priceType: 'FLOCK',
+    priceModifier: 'STANDARD'
   },
   {
     type: 'Flock',
     name: 'S0031-LIGHT-PINK',
     value: 'Flock S0031-LIGHT-PINK',
     color: '#e4bcc7',
-    price: 0.138,
+    priceType: 'FLOCK',
+    priceModifier: 'STANDARD'
   },
   {
     type: 'Flock',
     name: 'S0051-PALE-BLUE',
     value: 'Flock S0051-PALE-BLUE',
     color: '#99daf6',
-    price: 0.138,
+    priceType: 'FLOCK',
+    priceModifier: 'STANDARD'
   },
   {
     type: 'Flock',
     name: 'S0061-ANTRACHITE',
     value: 'Flock S0061-ANTRACHITE',
     color: '#1b1e1d',
-    price: 0.138,
+    priceType: 'FLOCK',
+    priceModifier: 'STANDARD'
   },
   {
     type: 'Flock',
     name: 'S0019-BLACK',
     value: 'Flock S0019-BLACK',
     color: '#010101',
-    price: 0.138,
+    priceType: 'FLOCK',
+    priceModifier: 'STANDARD'
   },
   {
     type: 'Flock',
     name: 'S0022-YELLOW-FLUO',
     value: 'Flock S0022-YELLOW-FLUO',
     color: '#f9ed05',
-    price: 0.138,
+    priceType: 'FLOCK',
+    priceModifier: 'STANDARD'
   },
   {
     type: 'Flock',
     name: 'S0023-ORANGE-FLUO',
     value: 'Flock S0023-ORANGE-FLUO',
     color: '#ff9b2f',
-    price: 0.138,
+    priceType: 'FLOCK',
+    priceModifier: 'STANDARD'
   },
   {
     type: 'Flock',
     name: 'S0024-PINK-FLUO',
     value: 'Flock S0024-PINK-FLUO',
     color: '#ff6bc9',
-    price: 0.138,
+    priceType: 'FLOCK',
+    priceModifier: 'STANDARD'
   },
   {
     type: 'Flock',
     name: 'S0026-GREEN-FLUO',
     value: 'Flock S0026-GREEN-FLUO',
     color: '#6deb2f',
-    price: 0.138,
+    priceType: 'FLOCK',
+    priceModifier: 'STANDARD'
   },
   {
     type: 'Flock',
     name: 'S0067-CORAL-FLUO',
     value: 'Flock S0067-CORAL-FLUO',
     color: '#ee4037',
-    price: 0.138,
+    priceType: 'FLOCK',
+    priceModifier: 'STANDARD'
   },
 
   //Glitter

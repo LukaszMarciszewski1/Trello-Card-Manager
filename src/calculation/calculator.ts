@@ -230,6 +230,234 @@ const priceObj = [
   modifier: 1
 },
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>50
+//FLOCK//////////////////////////////////////////////////////////////////
+{
+  type: 'FLOCK',
+  size: 50,
+  price: 7.7,
+  amount: 10,
+  modifier: 1
+},
+{
+  type: 'FLOCK',
+  size: 100,
+  price: 8.7,
+  amount: 10,
+  modifier: 1
+},
+{
+  type: 'FLOCK',
+  size: 150,
+  price: 9.7,
+  amount: 10,
+  modifier: 1
+},
+{
+  type: 'FLOCK',
+  size: 250,
+  price: 11.7,
+  amount: 10,
+  modifier: 1
+},
+{
+  type: 'FLOCK',
+  size: 300,
+  price: 12.7,
+  amount: 10,
+  modifier: 1
+},
+{
+  type: 'FLOCK',
+  size: 400,
+  price: 14.7,
+  amount: 10,
+  modifier: 1
+},
+{
+  type: 'FLOCK',
+  size: 500,
+  price: 16.7,
+  amount: 10,
+  modifier: 1
+},
+{
+  type: 'FLOCK',
+  size: 625,
+  price: 19.2,
+  amount: 10,
+  modifier: 1
+},
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>10
+{
+  type: 'FLOCK',
+  size: 50,
+  price: 5.5,
+  amount: 30,
+  modifier: 1
+},
+{
+  type: 'FLOCK',
+  size: 100,
+  price: 6.5,
+  amount: 30,
+  modifier: 1
+},
+{
+  type: 'FLOCK',
+  size: 150,
+  price: 7.5,
+  amount: 30,
+  modifier: 1
+},
+{
+  type: 'FLOCK',
+  size: 250,
+  price: 9.5,
+  amount: 30,
+  modifier: 1
+},
+{
+  type: 'FLOCK',
+  size: 300,
+  price: 10.5,
+  amount: 30,
+  modifier: 1
+},
+{
+  type: 'FLOCK',
+  size: 400,
+  price: 11.9,
+  amount: 30,
+  modifier: 1
+},
+{
+  type: 'FLOCK',
+  size: 500,
+  price: 12.9,
+  amount: 30,
+  modifier: 1
+},
+{
+  type: 'FLOCK',
+  size: 625,
+  price: 14.9,
+  amount: 30,
+  modifier: 1
+},
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>30
+{
+  type: 'FLOCK',
+  size: 50,
+  price: 4.5,
+  amount: 50,
+  modifier: 1
+},
+{
+  type: 'FLOCK',
+  size: 100,
+  price: 5.5,
+  amount: 50,
+  modifier: 1
+},
+{
+  type: 'FLOCK',
+  size: 150,
+  price: 6.5,
+  amount: 50,
+  modifier: 1
+},
+{
+  type: 'FLOCK',
+  size: 250,
+  price: 7.9,
+  amount: 50,
+  modifier: 1
+},
+{
+  type: 'FLOCK',
+  size: 300,
+  price: 8.9,
+  amount: 50,
+  modifier: 1
+},
+{
+  type: 'FLOCK',
+  size: 400,
+  price: 9.9,
+  amount: 50,
+  modifier: 1
+},
+{
+  type: 'FLOCK',
+  size: 500,
+  price: 10.9,
+  amount: 50,
+  modifier: 1
+},
+{
+  type: 'FLOCK',
+  size: 625,
+  price: 11.9,
+  amount: 50,
+  modifier: 1
+},
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>50
+{
+  type: 'FLOCK',
+  size: 50,
+  price: 3.5,
+  amount: Infinity,
+  modifier: 1
+},
+{
+  type: 'FLOCK',
+  size: 100,
+  price: 4.3,
+  amount: Infinity,
+  modifier: 1
+},
+{
+  type: 'FLOCK',
+  size: 150,
+  price: 5,
+  amount: Infinity,
+  modifier: 1
+},
+{
+  type: 'FLOCK',
+  size: 250,
+  price: 6,
+  amount: Infinity,
+  modifier: 1
+},
+{
+  type: 'FLOCK',
+  size: 300,
+  price: 7,
+  amount: Infinity,
+  modifier: 1
+},
+{
+  type: 'FLOCK',
+  size: 400,
+  price: 8,
+  amount: Infinity,
+  modifier: 1
+},
+{
+  type: 'FLOCK',
+  size: 500,
+  price: 9,
+  amount: Infinity,
+  modifier: 1
+},
+{
+  type: 'FLOCK',
+  size: 625,
+  price: 10.5,
+  amount: Infinity,
+  modifier: 1
+},
 ]
 
 const priceModifier = [
@@ -289,11 +517,11 @@ const getSizeModifier = (width: number, height: number) => {
     case ((width * height) > 400 && (width * height) <= 500):
       size = 500;
       break;
-    case ((width * height) > 500 && (width * height) <= 650):
-      size = 650;
+    case ((width * height) > 500 && (width * height) <= 625):
+      size = 625;
       break;
-      case ((width * height) > 650):
-        console.log('jest wieksze')
+      case ((width * height) > 625):
+        console.log('jest większe od giga')
         break;
     default:
       size = 0;
@@ -325,7 +553,7 @@ const getSelectedMaterialPrice = (selectedType: string | undefined, size: number
   const typePrice = comparisonOfType.filter(item => ((item.size === size) && (item.amount >= amount)))[0]
   if(!typePrice) return 0;
   const price = typePrice.price
-  // console.log(price)
+
   // console.log(typePrice)
   // console.log(amount)
   return typePrice.price
@@ -357,14 +585,13 @@ export const calculator = (
   if(numberWidth * numberHeight === 0) return 0
   
   const modifier = getModifier(filteredSelectedMaterial[0].priceModifier)
-  console.log(filteredSelectedMaterial[0])
   
   const price = getSelectedMaterialPrice(
     filteredSelectedMaterial[0].priceType, 
     getSizeModifier(numberWidth, numberHeight),
     numberAmount
   )
-
+  console.log(`cena za 1 szt: ${(price * modifier).toFixed(2)} zł`)
   const priceCalculations = ((price * modifier) * numberAmount)
 
   return priceCalculations

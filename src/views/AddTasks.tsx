@@ -97,17 +97,6 @@ const Tasks: React.FC = () => {
     setSectionForms(watchForChangesInSectionForms)
   }, [watchForChangesInSectionForms])
 
-  // useEffect(() => {
-  //   setResult(getTotalPrice(descriptionValues))
-  // }, [getTotalPrice(descriptionValues)])
-
-  // useEffect(() => {
-  //   setValue('price', result)
-  //   fields.map((item, index) => {
-  //     setValue(`description.${index}.price`, getPriceForSection(descriptionValues, index)) 
-  //   })
-  // }, [result])
-
   useEffect(() => {
     setValue('price', getTotalPrice(sectionForms))
     fields.map((item, index) => {
@@ -296,6 +285,7 @@ const Tasks: React.FC = () => {
                     label={"Ilość"}
                     type="number"
                     step={"1"}
+                    min={0}
                     {...register(`description.${index}.amount` as const)}
                   />
                   <div className={styles.rowContainer}>
@@ -305,6 +295,7 @@ const Tasks: React.FC = () => {
                       label={"Szerokość (cm)"}
                       type="number"
                       step={"0.1"}
+                      min={0}
                       {...register(`description.${index}.width` as const)}
                     />
                     <Input
@@ -313,6 +304,7 @@ const Tasks: React.FC = () => {
                       label={"Wysokość (cm)"}
                       type="number"
                       step={"0.1"}
+                      min={0}
                       {...register(`description.${index}.height` as const)}
                     />
                   </div>
