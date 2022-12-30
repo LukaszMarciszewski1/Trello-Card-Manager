@@ -116,8 +116,6 @@ const Tasks: React.FC = () => {
     })
   }, [getTotalPrice(sectionForms)])
 
-  customPriceArray(sectionForms)
-
 
 
 

@@ -604,20 +604,22 @@ export const calculator = (
   return priceCalculations
 }
 
-export const customPriceArray = (data: Description[]) => {
+export const customPriceArray = (data: Description[], onlyForOnePiece: boolean) => {
   const sectionForms = [...data]
-  let array: number[] = []
+  let pricesArray: number[] = []
+  let onePieceArray: number[] = []
   sectionForms
     .filter(item => item.customPrice === true)
-    .map(item => array.push(Number(item.price)))
-  const dataPrises = array.reduce((accumulator, currentValue) => Number(accumulator) + Number(currentValue), 0)
-  return array
+    .map(item => {
+       onePieceArray.push(Number(item.priceForOnePiece))
+       pricesArray.push(Number(item.price))
+    })
+  return onlyForOnePiece ? onePieceArray : pricesArray
 }
 
 const calculatorPriceArray = (data: Description[], onlyForOnePiece: boolean) => {
   let prices: number[] = []
   data.map((item) => {
-   
     const material = (
       item.materials.length ? item.materials[0].field : ''
     ).toString()
@@ -643,15 +645,17 @@ export const isMoreThanMaximumSize = (data: Description[], index: number) => {
 
 export const getPriceForOnePieceOfSection = (data: Description[], index: number) => {
   const sectionForms = [...data]
-  const sum = Number(calculatorPriceArray(sectionForms, true)[index]).toFixed(1)
+  const sum = isMoreThanMaximumSize(sectionForms, index) ? 
+    customPriceArray(sectionForms, true)[index] :
+    Number(calculatorPriceArray(sectionForms, true)[index]).toFixed(1)
   return sum
 }
 
 export const getPriceForSection = (data: Description[], index: number) => {
   const sectionForms = [...data]
   const sum = isMoreThanMaximumSize(sectionForms, index) ? 
-  customPriceArray(sectionForms)[index] : 
-  Number(calculatorPriceArray(sectionForms, false)[index]).toFixed(1)
+    customPriceArray(sectionForms, false)[index] : 
+    Number(calculatorPriceArray(sectionForms, false)[index]).toFixed(1)
   return sum
 }
 
@@ -659,7 +663,7 @@ export const getTotalPrice = (data: Description[]) => {
   const sectionForms = [...data]
   
   const calculatorPrice = Number(calculatorPriceArray(sectionForms, false).reduce((accumulator, currentValue) => accumulator + currentValue, 0).toFixed(1))
-  const customPrice = Number(customPriceArray(sectionForms).reduce((accumulator, currentValue) => Number(accumulator) + Number(currentValue), 0).toFixed(1))
+  const customPrice = Number(customPriceArray(sectionForms, false).reduce((accumulator, currentValue) => Number(accumulator) + Number(currentValue), 0).toFixed(1))
   const sum = calculatorPrice + customPrice
   return sum
 }
