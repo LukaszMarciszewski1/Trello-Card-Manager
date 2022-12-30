@@ -8,12 +8,12 @@ export interface Materials {
 export interface Description {
   logo: string
   fabric: string
-  amount: number | string
+  amount: number
   width: number
   height: number
   additionalDesc: string
-  priceForOnePiece: number | string
-  price: number | string
+  priceForOnePiece: number
+  price: number
   customPrice: boolean
   materials: Materials[]
   size: string
@@ -28,6 +28,6 @@ export interface Card {
   member: string
   attachment: File | any
   recipient: string
-  price: number | string
+  price: number
   filePath: string
 }

@@ -21,10 +21,20 @@
     border: 1px solid $blue;
     background-color: $focusBg;
   }
-  // &:read-only{
-  //   opacity: 0.8;
-  //   background-color: $focusBg;
-  // }
+  &:read-only{
+    background-color: rgb(239, 239, 239);
+  }
+}
+
+@mixin select {
+  @include input();
+  &:read-only{
+    background-color: $lightGrey;
+  }
+  &:focus {
+    border: 1px solid $blue;
+    background-color: $focusBg;
+  }
 }
 
 @mixin label {

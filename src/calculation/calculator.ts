@@ -492,7 +492,7 @@ const priceModifier = [
   },
 ]
 
-const getSizeModifier = (width: number, height: number) => {
+const getSizeModifier = (width: number, height: number) : number => {
   let size = 0
 
   switch (true) {
@@ -533,24 +533,7 @@ const getSizeModifier = (width: number, height: number) => {
   return size
 }
 
-const getAmountModifier = (amount: number) => {
-  let modifier = 1
-
-  switch (true) {
-    case (amount >= 1 && amount <= 10):
-      modifier = 1;
-      break;
-    case (amount >= 11 && amount <= 30):
-      modifier = 0.7101449275362319;
-      break;
-    default:
-      modifier = 1;
-  }
-
-  return modifier
-}
-
-const getSelectedMaterialPrice = (selectedType: string | undefined, size: number, amount: number) => {
+const getSelectedMaterialPrice = (selectedType: string | undefined, size: number, amount: number) : number => {
   if(!selectedType) return 0;
   const comparisonOfType = priceObj.filter((item: any) => item.type === selectedType)
   const typePrice = comparisonOfType.filter(item => ((item.size === size) && (item.amount >= amount)))[0]
@@ -558,7 +541,7 @@ const getSelectedMaterialPrice = (selectedType: string | undefined, size: number
   return typePrice.price
 }
 
-const getMaterialModifier = (value: any) => {
+const getMaterialModifier = (value: string | undefined) : number => {
   if(value) {
     return priceModifier.filter(item => item.name === value)[0].modifier
   } else {
@@ -566,7 +549,7 @@ const getMaterialModifier = (value: any) => {
   }
 }
 
-export const observeForm = (data: Description[]) => {
+export const observeForm = (data: Description[]) : number => {
   const sectionForms = [...data]
   const dataPrises = sectionForms
     .map(item => item.price)
@@ -587,7 +570,8 @@ export const calculator = (
       const numberHeight = Number(height)
       const numberAmount = Number(amount)
 
-  if(!filteredSelectedMaterial[0]) return 0;   
+  if(!filteredSelectedMaterial[0]) return 0;  
+  if(amount === 0) return 0 
   if(numberWidth * numberHeight === 0) return 0
   
   const modifier = getMaterialModifier(filteredSelectedMaterial[0].priceModifier)
@@ -597,14 +581,13 @@ export const calculator = (
     getSizeModifier(numberWidth, numberHeight),
     numberAmount
   )
-
   // console.log(`cena za 1 szt: ${(price * modifier).toFixed(2)} zł`)
   const priceCalculations = (((price * modifier) * numberAmount))
 
   return priceCalculations
 }
 
-export const customPriceArray = (data: Description[], onlyForOnePiece: boolean) => {
+export const customPriceArray = (data: Description[], onlyForOnePiece: boolean) : number[] => {
   const sectionForms = [...data]
   let pricesArray: number[] = []
   let onePieceArray: number[] = []
@@ -617,7 +600,7 @@ export const customPriceArray = (data: Description[], onlyForOnePiece: boolean) 
   return onlyForOnePiece ? onePieceArray : pricesArray
 }
 
-const calculatorPriceArray = (data: Description[], onlyForOnePiece: boolean) => {
+const calculatorPriceArray = (data: Description[], onlyForOnePiece: boolean) : number[] => {
   let prices: number[] = []
   data.map((item) => {
     const material = (
@@ -634,7 +617,7 @@ const calculatorPriceArray = (data: Description[], onlyForOnePiece: boolean) => 
   return prices
 }
 
-export const isMoreThanMaximumSize = (data: Description[], index: number) => {
+export const isMoreThanMaximumSize = (data: Description[], index: number) : boolean => {
   const sectionForm = [...data][index]
   let isMaxSize: boolean = false
   if((sectionForm?.width * sectionForm?.height) > 625){
@@ -643,31 +626,50 @@ export const isMoreThanMaximumSize = (data: Description[], index: number) => {
   return isMaxSize
 }
 
-export const getPriceForOnePieceOfSection = (data: Description[], index: number) => {
+export const getPriceForOnePieceOfSection = (data: Description[], index: number) : number => {
   const sectionForms = [...data]
   const sum = isMoreThanMaximumSize(sectionForms, index) ? 
     customPriceArray(sectionForms, true)[index] :
-    Number(calculatorPriceArray(sectionForms, true)[index]).toFixed(1)
-  return sum
+    calculatorPriceArray(sectionForms, true)[index]
+  let price = Number(sum)
+
+  //initial form section
+  if (isNaN(price)) {
+    price = 0;
+  }
+  return price
 }
 
-export const getPriceForSection = (data: Description[], index: number) => {
+export const getPriceForSection = (data: Description[], index: number) : number => {
   const sectionForms = [...data]
+  let amount = sectionForms[index]?.amount ?  Number(sectionForms[index].amount) : 0
   const sum = isMoreThanMaximumSize(sectionForms, index) ? 
-    customPriceArray(sectionForms, false)[index] : 
-    Number(calculatorPriceArray(sectionForms, false)[index]).toFixed(1)
-  return sum
+   (customPriceArray(sectionForms, true)[index] * amount)
+    //  customPriceArray(sectionForms, false)[index] 
+     : 
+    //  (customPriceArray(sectionForms, true)[index] * sectionForms[index].amount)
+     calculatorPriceArray(sectionForms, false)[index]
+  let price = Number(sum)
+  
+  //initial form section
+  if (isNaN(price)) {
+    price = 0;
+  }
+
+  return price
 }
 
-export const getTotalPrice = (data: Description[]) => {
+export const getTotalPrice = (data: Description[]) : number => {
   const sectionForms = [...data]
   
-  const calculatorPrice = Number(calculatorPriceArray(sectionForms, false).reduce((accumulator, currentValue) => accumulator + currentValue, 0).toFixed(1))
-  const customPrice = Number(customPriceArray(sectionForms, false).reduce((accumulator, currentValue) => Number(accumulator) + Number(currentValue), 0).toFixed(1))
-  const sum = calculatorPrice + customPrice
+  const calculatorPrice = Number(calculatorPriceArray(sectionForms, false)
+    .reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+    .toFixed(1))
+
+  const customPrice = Number(customPriceArray(sectionForms, false)
+    .reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+    .toFixed(1))
+
+  const sum = customPrice > 0 ? (calculatorPrice + customPrice) : calculatorPrice
   return sum
-}
-
-export const getMaxSizeForSection = (data: Description[]) => {
-
 }

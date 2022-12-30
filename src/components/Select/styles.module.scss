@@ -9,7 +9,7 @@
     @include label
   }
   select {
-    @include input;
+    @include select;
   }
 }
 

@@ -107,6 +107,9 @@ const Tasks: React.FC = () => {
   }, [watchForChangesInSectionForms])
 
   const [result, setResult] = useState(observeForm(sectionForms))
+  const [watchCustomPrice, setWatchCustomPrice] = useState('')
+  // console.log(watchCustomPriceIndex)
+
   useEffect(() => {
     setValue('price', getTotalPrice(sectionForms))
     fields.map((item, index) => {
@@ -114,10 +117,12 @@ const Tasks: React.FC = () => {
       setValue(`description.${index}.priceForOnePiece`, getPriceForOnePieceOfSection(sectionForms, index))
       setValue(`description.${index}.customPrice`, isMoreThanMaximumSize(sectionForms, index))
     })
-  }, [getTotalPrice(sectionForms)])
+  }, [getTotalPrice(sectionForms), watchCustomPrice])
 
 
-
+const handleWatchCustomPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
+  setWatchCustomPrice(e.target.value)
+}
 
   const AddCardForm = async (data: Card) => {
     const {
@@ -302,7 +307,7 @@ const Tasks: React.FC = () => {
                     type="number"
                     step={"1"}
                     min={0}
-                    {...register(`description.${index}.amount` as const)}
+                    {...register(`description.${index}.amount` as const, { onChange: handleWatchCustomPrice })}
                   />
                   <div className={styles.rowContainer}>
                     <Input
@@ -328,7 +333,7 @@ const Tasks: React.FC = () => {
                     id={field.id}
                     label={"Rozmiar"}
                     type="text"
-                    style={{ userSelect: 'none', backgroundColor: '#f4f5fa' }}
+                    // style={{ userSelect: 'none', backgroundColor: '#f4f5fa' }}
                     {...register(`description.${index}.size` as const)}
                     readOnly
                   />
@@ -336,28 +341,30 @@ const Tasks: React.FC = () => {
                     {
                       isMoreThanMaximumSize(sectionForms, index) ? (
                         <>
-                          <div style={{ width: 140, marginRight: 10 }}>
+                          <div style={{ width: 120, marginRight: 15 }}>
                             <Input
                               id={field.id}
                               label={"Cena 1szt."}
                               type="number"
-                              {...register(`description.${index}.priceForOnePiece` as const)}
+                              {...register(`description.${index}.priceForOnePiece` as const, { onChange: handleWatchCustomPrice })}
                             />
                           </div>
                           <Input
                             id={field.id}
                             label={"Łączna cena sekcji"}
+                            // style={{ userSelect: 'none', backgroundColor: '#f4f5fa' }}
                             type="number"
                             {...register(`description.${index}.price` as const)}
+                            readOnly
                           />
                         </>
                       ) : (
                         <>
-                          <div style={{ width: 140, marginRight: 10 }}>
+                          <div style={{ width: 120, marginRight: 15 }}>
                             <Input
                               id={field.id}
                               label={"Cena 1szt."}
-                              style={{ userSelect: 'none', backgroundColor: '#f4f5fa' }}
+                              // style={{ userSelect: 'none', backgroundColor: '#f4f5fa' }}
                               type="number"
                               {...register(`description.${index}.priceForOnePiece` as const)}
                               readOnly
@@ -366,7 +373,7 @@ const Tasks: React.FC = () => {
                           <Input
                             id={field.id}
                             label={"Łączna cena sekcji"}
-                            style={{ userSelect: 'none', backgroundColor: '#f4f5fa' }}
+                            // style={{ userSelect: 'none', backgroundColor: '#f4f5fa' }}
                             type="number"
                             {...register(`description.${index}.price` as const)}
                             readOnly
@@ -463,6 +470,7 @@ const Tasks: React.FC = () => {
                 <Input
                   id={"attachment"}
                   placeholder={"Dodaj wizualizację"}
+                  style={{ backgroundColor: '#fdfdfd' }}
                   label={"Dodaj wizualizację"}
                   type="file"
                   error={errors.description}
@@ -482,7 +490,7 @@ const Tasks: React.FC = () => {
             <Input
               id={'price'}
               label={"Cena"}
-              style={{ userSelect: 'none', backgroundColor: '#f4f5fa' }}
+              // style={{ userSelect: 'none', backgroundColor: '#f4f5fa' }}
               type="number"
               // value={result}
               {...register(`price`)}

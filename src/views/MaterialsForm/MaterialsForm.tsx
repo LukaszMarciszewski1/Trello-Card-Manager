@@ -64,9 +64,9 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, materials, cont
         <div key={item.id} style={{ margin: '0 10px 0 0', width: (checkedItems[k].length + 1) + 'ch' }}>
           <Input
             key={item.id}
-            style={{ marginTop: 0, textAlign: 'center' }}
+            style={{ marginTop: 0, textAlign: 'center', backgroundColor: '#f4f5fa' }}
             id={item.id}
-            disabled
+            readOnly
             type="text"
             {...register(`${registerName}[${k}].field` as const)}
           />
