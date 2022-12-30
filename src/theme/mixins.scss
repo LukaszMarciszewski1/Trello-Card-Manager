@@ -21,6 +21,10 @@
     border: 1px solid $blue;
     background-color: $focusBg;
   }
+  // &:read-only{
+  //   opacity: 0.8;
+  //   background-color: $focusBg;
+  // }
 }
 
 @mixin label {

@@ -12,7 +12,9 @@ export interface Description {
   width: number
   height: number
   additionalDesc: string
+  priceForOnePiece: number | string
   price: number | string
+  customPrice: boolean
   materials: Materials[]
   size: string
 }

@@ -18,7 +18,14 @@ import FormSection from "components/Section/FormSection";
 import Textarea from "components/Textarea/Textarea";
 import MaterialsForm from "./MaterialsForm/MaterialsForm";
 import { RiAddLine } from "react-icons/ri";
-import { calculator, getTotalPrice, getPriceForSection } from "calculation/calculator";
+import {
+  getPriceForOnePieceOfSection,
+  getTotalPrice,
+  getPriceForSection,
+  isMoreThanMaximumSize,
+  observeForm,
+  customPriceArray
+} from "calculation/calculator";
 import { BsChevronCompactLeft } from "react-icons/bs";
 
 const validation = {
@@ -60,6 +67,8 @@ const defaultDescriptionValues = {
   width: 0,
   height: 0,
   price: 0,
+  priceForOnePiece: 0,
+  customPrice: false,
   additionalDesc: '',
   materials: []
 };
@@ -90,19 +99,27 @@ const Tasks: React.FC = () => {
   const watchForChangesInSectionForms = watch('description');
 
   const [trigger, setTrigger] = useState(false)
-  const [result, setResult] = useState(0)
   const [sectionForms, setSectionForms] = useState<Description[]>([])
+  const [isMaxSize, setIsMaxSize] = useState(false)
 
   useEffect(() => {
     setSectionForms(watchForChangesInSectionForms)
   }, [watchForChangesInSectionForms])
 
+  const [result, setResult] = useState(observeForm(sectionForms))
   useEffect(() => {
     setValue('price', getTotalPrice(sectionForms))
     fields.map((item, index) => {
       setValue(`description.${index}.price`, getPriceForSection(sectionForms, index))
+      setValue(`description.${index}.priceForOnePiece`, getPriceForOnePieceOfSection(sectionForms, index))
+      setValue(`description.${index}.customPrice`, isMoreThanMaximumSize(sectionForms, index))
     })
   }, [getTotalPrice(sectionForms)])
+
+  customPriceArray(sectionForms)
+
+
+
 
   const AddCardForm = async (data: Card) => {
     const {
@@ -209,7 +226,7 @@ const Tasks: React.FC = () => {
   };
 
   const handleSubmitForm = (data: Card) => {
-    AddCardForm(data);
+    // AddCardForm(data);
     console.log(data)
     // reset()
   }
@@ -313,19 +330,73 @@ const Tasks: React.FC = () => {
                     id={field.id}
                     label={"Rozmiar"}
                     type="text"
-                    readOnly
-                    // options={sizes}
-                    {...register(`description.${index}.size` as const)}
-                  />
-                  <Input
-                    id={field.id}
-                    label={"Cena"}
                     style={{ userSelect: 'none', backgroundColor: '#f4f5fa' }}
-                    type="number"
-                    // value={getPriceForSection(descriptionValues, index)}
-                    {...register(`description.${index}.price` as const)}
+                    {...register(`description.${index}.size` as const)}
                     readOnly
                   />
+                  <div className={styles.rowContainer}>
+                    {
+                      isMoreThanMaximumSize(sectionForms, index) ? (
+                        <>
+                          <div style={{ width: 140, marginRight: 10 }}>
+                            <Input
+                              id={field.id}
+                              label={"Cena 1szt."}
+                              type="number"
+                              {...register(`description.${index}.priceForOnePiece` as const)}
+                            />
+                          </div>
+                          <Input
+                            id={field.id}
+                            label={"Łączna cena sekcji"}
+                            type="number"
+                            {...register(`description.${index}.price` as const)}
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <div style={{ width: 140, marginRight: 10 }}>
+                            <Input
+                              id={field.id}
+                              label={"Cena 1szt."}
+                              style={{ userSelect: 'none', backgroundColor: '#f4f5fa' }}
+                              type="number"
+                              {...register(`description.${index}.priceForOnePiece` as const)}
+                              readOnly
+                            />
+                          </div>
+                          <Input
+                            id={field.id}
+                            label={"Łączna cena sekcji"}
+                            style={{ userSelect: 'none', backgroundColor: '#f4f5fa' }}
+                            type="number"
+                            {...register(`description.${index}.price` as const)}
+                            readOnly
+                          />
+                        </>
+                      )
+                    }
+                  </div>
+                  {/* <div className={styles.rowContainer}>
+                    <div style={{ width: 140, marginRight: 10 }}>
+                      <Input
+                        id={field.id}
+                        label={"Cena 1szt."}
+                        style={{ userSelect: 'none', backgroundColor: '#f4f5fa' }}
+                        type="number"
+                        {...register(`description.${index}.priceForOnePiece` as const)}
+                        readOnly
+                      />
+                    </div>
+                    <Input
+                      id={field.id}
+                      label={"Łączna cena sekcji"}
+                      style={{ userSelect: 'none', backgroundColor: '#f4f5fa' }}
+                      type="number"
+                      {...register(`description.${index}.price` as const)}
+                      readOnly
+                    />
+                  </div> */}
                   {/* <Input
                     id={field.id}
                     label={"Cena"}

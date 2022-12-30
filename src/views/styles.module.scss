@@ -69,7 +69,7 @@
   margin-top: 16px;
   padding-top: 16px;
   border-top: 1px solid darken($focusBg, 8%);
-  &:last-child{
+  &:last-child {
     margin-top: 32px;
   }
 }
@@ -78,10 +78,10 @@
   position: relative;
 }
 
-.inputContainer{
+.inputContainer {
   margin-bottom: 12px;
 }
 
-.rowContainer{
+.rowContainer {
   display: flex;
 }
