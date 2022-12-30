@@ -559,7 +559,7 @@ const getSelectedMaterialPrice = (selectedType: string | undefined, size: number
   return typePrice.price
 }
 
-const getModifier = (value: any) => {
+const getMaterialModifier = (value: any) => {
   if(value) {
     return priceModifier.filter(item => item.name === value)[0].modifier
   } else {
@@ -584,7 +584,7 @@ export const calculator = (
   if(!filteredSelectedMaterial[0]) return 0;   
   if(numberWidth * numberHeight === 0) return 0
   
-  const modifier = getModifier(filteredSelectedMaterial[0].priceModifier)
+  const modifier = getMaterialModifier(filteredSelectedMaterial[0].priceModifier)
   
   const price = getSelectedMaterialPrice(
     filteredSelectedMaterial[0].priceType, 
