@@ -1,5 +1,5 @@
 /* eslint-disable no-useless-escape */
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 import axios from "axios";
 import dayjs from "dayjs";
@@ -40,11 +40,6 @@ const validation = {
   },
 };
 
-interface TaskFormProps {
-  title: string;
-  // handleSubmitForm: (data: Card) => void;
-}
-
 const titleErrors = (type: any) => {
   switch (type) {
     case "required":
@@ -61,8 +56,7 @@ const defaultDescriptionValues = {
   logo: "",
   amount: 0,
   fabric: fabric[0].value,
-  // size: sizes[0].value,
-  size: 'Tu będzie się wyświetlał rozmiar',
+  size: 'WYBIERZ ROZMIAR',
   width: 0,
   height: 0,
   price: 0,
@@ -96,8 +90,6 @@ const Tasks: React.FC = () => {
   });
 
   const watchForChangesInSectionForms = watch('description');
-
-  const [trigger, setTrigger] = useState(false)
   const [sectionForms, setSectionForms] = useState<Description[]>([])
   const [watchCustomPrice, setWatchCustomPrice] = useState('')
   const [watchFormSizeWidth, setWatchFormSizeWidth] = useState('')
@@ -119,7 +111,6 @@ const Tasks: React.FC = () => {
   useEffect(() => {
     fields.map((item, index) => {
       setValue(`description.${index}.size`, getSelectedSizeName(sectionForms, index))
-      // console.log(getSelectedSizeName(sectionForms, index))
     })
   }, [watchFormSizeWidth, watchFormSizeHeight])
 
@@ -244,8 +235,6 @@ const Tasks: React.FC = () => {
     // reset()
   }
 
-  // console.log(fields)
-
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
       <div className={styles.formContainer}>
@@ -282,7 +271,6 @@ const Tasks: React.FC = () => {
                 <div className={styles.formGroupColumn}>
                   <Input
                     id={field.id}
-                    // placeholder={"Logo"}
                     label={"Logo"}
                     type="text"
                     error={errors.description}
@@ -317,7 +305,9 @@ const Tasks: React.FC = () => {
                     type="number"
                     step={"1"}
                     min={0}
-                    {...register(`description.${index}.amount` as const, { onChange: handleWatchCustomPriceValue })}
+                    {...register(`description.${index}.amount` as const,
+                      { onChange: handleWatchCustomPriceValue })
+                    }
                   />
                   <div className={styles.rowContainer}>
                     <Input
@@ -327,7 +317,9 @@ const Tasks: React.FC = () => {
                       type="number"
                       step={"0.1"}
                       min={0}
-                      {...register(`description.${index}.width` as const, { onChange: handleWatchFormSizeWidthValue })}
+                      {...register(`description.${index}.width` as const,
+                        { onChange: handleWatchFormSizeWidthValue })
+                      }
                     />
                     <Input
                       id={field.id}
@@ -336,14 +328,15 @@ const Tasks: React.FC = () => {
                       type="number"
                       step={"0.1"}
                       min={0}
-                      {...register(`description.${index}.height` as const, { onChange: handleWatchFormSizeHeightValue })}
+                      {...register(`description.${index}.height` as const,
+                        { onChange: handleWatchFormSizeHeightValue })
+                      }
                     />
                   </div>
                   <Input
                     id={field.id}
                     label={"Rozmiar"}
                     type="text"
-                    // style={{ userSelect: 'none', backgroundColor: '#f4f5fa' }}
                     {...register(`description.${index}.size` as const)}
                     readOnly
                   />
@@ -356,13 +349,14 @@ const Tasks: React.FC = () => {
                               id={field.id}
                               label={"Cena 1szt."}
                               type="number"
-                              {...register(`description.${index}.priceForOnePiece` as const, { onChange: handleWatchCustomPriceValue })}
+                              {...register(`description.${index}.priceForOnePiece` as const,
+                                { onChange: handleWatchCustomPriceValue })
+                              }
                             />
                           </div>
                           <Input
                             id={field.id}
                             label={"Łączna cena sekcji"}
-                            // style={{ userSelect: 'none', backgroundColor: '#f4f5fa' }}
                             type="number"
                             {...register(`description.${index}.price` as const)}
                             readOnly
@@ -374,7 +368,6 @@ const Tasks: React.FC = () => {
                             <Input
                               id={field.id}
                               label={"Cena 1szt."}
-                              // style={{ userSelect: 'none', backgroundColor: '#f4f5fa' }}
                               type="number"
                               {...register(`description.${index}.priceForOnePiece` as const)}
                               readOnly
@@ -383,7 +376,6 @@ const Tasks: React.FC = () => {
                           <Input
                             id={field.id}
                             label={"Łączna cena sekcji"}
-                            // style={{ userSelect: 'none', backgroundColor: '#f4f5fa' }}
                             type="number"
                             {...register(`description.${index}.price` as const)}
                             readOnly
@@ -392,34 +384,6 @@ const Tasks: React.FC = () => {
                       )
                     }
                   </div>
-                  {/* <div className={styles.rowContainer}>
-                    <div style={{ width: 140, marginRight: 10 }}>
-                      <Input
-                        id={field.id}
-                        label={"Cena 1szt."}
-                        style={{ userSelect: 'none', backgroundColor: '#f4f5fa' }}
-                        type="number"
-                        {...register(`description.${index}.priceForOnePiece` as const)}
-                        readOnly
-                      />
-                    </div>
-                    <Input
-                      id={field.id}
-                      label={"Łączna cena sekcji"}
-                      style={{ userSelect: 'none', backgroundColor: '#f4f5fa' }}
-                      type="number"
-                      {...register(`description.${index}.price` as const)}
-                      readOnly
-                    />
-                  </div> */}
-                  {/* <Input
-                    id={field.id}
-                    label={"Cena"}
-                    defaultValue={66}
-                    type="number"
-                    disabled
-                    {...register(`description.${index}.price` as const)}
-                  /> */}
                 </div>
                 {/* delete section ----------------------------> */}
                 {/* {
@@ -500,9 +464,7 @@ const Tasks: React.FC = () => {
             <Input
               id={'price'}
               label={"Cena"}
-              // style={{ userSelect: 'none', backgroundColor: '#f4f5fa' }}
               type="number"
-              // value={result}
               {...register(`price`)}
               readOnly
             />
