@@ -496,7 +496,7 @@ const getSizeModifier = (width: number, height: number) : number => {
   let size = 0
 
   switch (true) {
-    case ((width * height) === 0):
+    case ((width * height) == 0):
       size = 0
       break;
     case ((width * height) <= 50):
@@ -549,15 +549,7 @@ const getMaterialModifier = (value: string | undefined) : number => {
   }
 }
 
-export const observeForm = (data: Description[]) : number => {
-  const sectionForms = [...data]
-  const dataPrises = sectionForms
-    .map(item => item.price)
-    .reduce((accumulator, currentValue) => Number(accumulator) + Number(currentValue), 0)
-  return dataPrises
-}
-
-export const calculator = (
+const calculator = (
   amount: number,
   selectedMaterial: string,
   width: number,
@@ -573,9 +565,8 @@ export const calculator = (
   if(!filteredSelectedMaterial[0]) return 0;  
   if(amount === 0) return 0 
   if(numberWidth * numberHeight === 0) return 0
-  
+
   const modifier = getMaterialModifier(filteredSelectedMaterial[0].priceModifier)
-  
   const price = getSelectedMaterialPrice(
     filteredSelectedMaterial[0].priceType, 
     getSizeModifier(numberWidth, numberHeight),
@@ -587,7 +578,7 @@ export const calculator = (
   return priceCalculations
 }
 
-export const customPriceArray = (data: Description[], onlyForOnePiece: boolean) : number[] => {
+const customPriceArray = (data: Description[], onlyForOnePiece: boolean) : number[] => {
   const sectionForms = [...data]
   let pricesArray: number[] = []
   let onePieceArray: number[] = []
@@ -626,6 +617,22 @@ export const isMoreThanMaximumSize = (data: Description[], index: number) : bool
   return isMaxSize
 }
 
+export const getSelectedSizeName = (data: Description[], index: number) : string => {
+  const sectionForms = [...data][index]
+  const sizesOptions = [...sizes]
+  const maxValue = Math.max(...sizesOptions.map(obj => obj.size))
+  
+  if(!sectionForms?.width && !sectionForms?.height) return 'WYBIERZ ROZMIAR'
+  if(sectionForms?.width * sectionForms?.height > maxValue) return 'ROZMIAR NIESTANDARDOWY'
+
+  const selectedSize = sizesOptions.find(option => option.size === getSizeModifier(sectionForms.width, sectionForms.height))
+  let formSize = selectedSize === undefined ? 'WYBIERZ ROZMIAR' : selectedSize.name
+  console.log(sectionForms.width, sectionForms.height) 
+
+  return formSize
+}
+  
+
 export const getPriceForOnePieceOfSection = (data: Description[], index: number) : number => {
   const sectionForms = [...data]
   const sum = isMoreThanMaximumSize(sectionForms, index) ? 
@@ -637,26 +644,25 @@ export const getPriceForOnePieceOfSection = (data: Description[], index: number)
   if (isNaN(price)) {
     price = 0;
   }
-  return price
+  return Number(price.toFixed(1))
 }
 
 export const getPriceForSection = (data: Description[], index: number) : number => {
   const sectionForms = [...data]
-  let amount = sectionForms[index]?.amount ?  Number(sectionForms[index].amount) : 0
+  let amount = sectionForms[index]?.amount ? Number(sectionForms[index].amount) : 0
   const sum = isMoreThanMaximumSize(sectionForms, index) ? 
    (customPriceArray(sectionForms, true)[index] * amount)
     //  customPriceArray(sectionForms, false)[index] 
      : 
-    //  (customPriceArray(sectionForms, true)[index] * sectionForms[index].amount)
      calculatorPriceArray(sectionForms, false)[index]
   let price = Number(sum)
-  
+
   //initial form section
   if (isNaN(price)) {
     price = 0;
   }
 
-  return price
+  return Number(price.toFixed(1))
 }
 
 export const getTotalPrice = (data: Description[]) : number => {
@@ -670,6 +676,6 @@ export const getTotalPrice = (data: Description[]) : number => {
     .reduce((accumulator, currentValue) => accumulator + currentValue, 0)
     .toFixed(1))
 
-  const sum = customPrice > 0 ? (calculatorPrice + customPrice) : calculatorPrice
-  return sum
+  const price = customPrice > 0 ? (calculatorPrice + customPrice) : calculatorPrice
+  return Number(price.toFixed(1))
 }

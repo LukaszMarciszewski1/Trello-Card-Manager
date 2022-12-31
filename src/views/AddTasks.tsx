@@ -23,8 +23,7 @@ import {
   getTotalPrice,
   getPriceForSection,
   isMoreThanMaximumSize,
-  observeForm,
-  customPriceArray
+  getSelectedSizeName
 } from "calculation/calculator";
 import { BsChevronCompactLeft } from "react-icons/bs";
 
@@ -100,15 +99,13 @@ const Tasks: React.FC = () => {
 
   const [trigger, setTrigger] = useState(false)
   const [sectionForms, setSectionForms] = useState<Description[]>([])
-  const [isMaxSize, setIsMaxSize] = useState(false)
+  const [watchCustomPrice, setWatchCustomPrice] = useState('')
+  const [watchFormSizeWidth, setWatchFormSizeWidth] = useState('')
+  const [watchFormSizeHeight, setWatchFormSizeHeight] = useState('')
 
   useEffect(() => {
     setSectionForms(watchForChangesInSectionForms)
   }, [watchForChangesInSectionForms])
-
-  const [result, setResult] = useState(observeForm(sectionForms))
-  const [watchCustomPrice, setWatchCustomPrice] = useState('')
-  // console.log(watchCustomPriceIndex)
 
   useEffect(() => {
     setValue('price', getTotalPrice(sectionForms))
@@ -119,10 +116,23 @@ const Tasks: React.FC = () => {
     })
   }, [getTotalPrice(sectionForms), watchCustomPrice])
 
+  useEffect(() => {
+    fields.map((item, index) => {
+      setValue(`description.${index}.size`, getSelectedSizeName(sectionForms, index))
+      // console.log(getSelectedSizeName(sectionForms, index))
+    })
+  }, [watchFormSizeWidth, watchFormSizeHeight])
 
-const handleWatchCustomPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
-  setWatchCustomPrice(e.target.value)
-}
+
+  const handleWatchCustomPriceValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setWatchCustomPrice(e.target.value)
+  }
+  const handleWatchFormSizeWidthValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setWatchFormSizeWidth(e.target.value)
+  }
+  const handleWatchFormSizeHeightValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setWatchFormSizeHeight(e.target.value)
+  }
 
   const AddCardForm = async (data: Card) => {
     const {
@@ -307,7 +317,7 @@ const handleWatchCustomPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
                     type="number"
                     step={"1"}
                     min={0}
-                    {...register(`description.${index}.amount` as const, { onChange: handleWatchCustomPrice })}
+                    {...register(`description.${index}.amount` as const, { onChange: handleWatchCustomPriceValue })}
                   />
                   <div className={styles.rowContainer}>
                     <Input
@@ -317,7 +327,7 @@ const handleWatchCustomPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
                       type="number"
                       step={"0.1"}
                       min={0}
-                      {...register(`description.${index}.width` as const)}
+                      {...register(`description.${index}.width` as const, { onChange: handleWatchFormSizeWidthValue })}
                     />
                     <Input
                       id={field.id}
@@ -326,7 +336,7 @@ const handleWatchCustomPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
                       type="number"
                       step={"0.1"}
                       min={0}
-                      {...register(`description.${index}.height` as const)}
+                      {...register(`description.${index}.height` as const, { onChange: handleWatchFormSizeHeightValue })}
                     />
                   </div>
                   <Input
@@ -346,7 +356,7 @@ const handleWatchCustomPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
                               id={field.id}
                               label={"Cena 1szt."}
                               type="number"
-                              {...register(`description.${index}.priceForOnePiece` as const, { onChange: handleWatchCustomPrice })}
+                              {...register(`description.${index}.priceForOnePiece` as const, { onChange: handleWatchCustomPriceValue })}
                             />
                           </div>
                           <Input

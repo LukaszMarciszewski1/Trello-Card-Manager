@@ -8,7 +8,7 @@
   border-radius: 10px;
   // margin: 0.4rem 0 0;
   background-color: $lightGrey;
-  // background-color: $inputBg;
+  background-color: $inputBg;
   border: 1px solid #67788a;
   font-size: 14px;
   min-height: 40px;
@@ -22,14 +22,14 @@
     background-color: $focusBg;
   }
   &:read-only{
-    background-color: rgb(239, 239, 239);
+    background-color: rgb(242, 242, 242);
   }
 }
 
 @mixin select {
   @include input();
   &:read-only{
-    background-color: $lightGrey;
+    background-color: $inputBg;
   }
   &:focus {
     border: 1px solid $blue;

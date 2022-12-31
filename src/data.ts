@@ -115,7 +115,7 @@ export const sizes = [
     label: 'GIGA',
     value: 'GIGA',
     name: 'GIGA',
-    size: 650,
+    size: 625,
   },
 ]
 
