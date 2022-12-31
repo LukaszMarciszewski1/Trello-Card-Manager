@@ -104,16 +104,15 @@ const Tasks: React.FC = () => {
     fields.map((item, index) => {
       setValue(`description.${index}.price`, getPriceForSection(sectionForms, index))
       setValue(`description.${index}.priceForOnePiece`, getPriceForOnePieceOfSection(sectionForms, index))
-      setValue(`description.${index}.customPrice`, isMoreThanMaximumSize(sectionForms, index))
     })
-  }, [getTotalPrice(sectionForms), watchCustomPrice])
-
+  }, [getTotalPrice(sectionForms)])
+  
   useEffect(() => {
     fields.map((item, index) => {
+      setValue(`description.${index}.customPrice`, isMoreThanMaximumSize(sectionForms, index))
       setValue(`description.${index}.size`, getSelectedSizeName(sectionForms, index))
     })
   }, [watchFormSizeWidth, watchFormSizeHeight])
-
 
   const handleWatchCustomPriceValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setWatchCustomPrice(e.target.value)
@@ -306,7 +305,8 @@ const Tasks: React.FC = () => {
                     step={"1"}
                     min={0}
                     {...register(`description.${index}.amount` as const,
-                      { onChange: handleWatchCustomPriceValue })
+                      // { onChange: handleWatchCustomPriceValue }
+                      )
                     }
                   />
                   <div className={styles.rowContainer}>
@@ -350,7 +350,8 @@ const Tasks: React.FC = () => {
                               label={"Cena 1szt."}
                               type="number"
                               {...register(`description.${index}.priceForOnePiece` as const,
-                                { onChange: handleWatchCustomPriceValue })
+                                // { onChange: handleWatchCustomPriceValue }
+                                )
                               }
                             />
                           </div>
