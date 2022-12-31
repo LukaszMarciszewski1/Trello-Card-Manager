@@ -535,7 +535,7 @@ const getSizeModifier = (width: number, height: number) : number => {
 
 const getSelectedMaterialPrice = (selectedType: string | undefined, size: number, amount: number) : number => {
   if(!selectedType) return 0;
-  const comparisonOfType = priceObj.filter((item: any) => item.type === selectedType)
+  const comparisonOfType = [...priceObj].filter((item: any) => item.type === selectedType)
   const typePrice = comparisonOfType.filter(item => ((item.size === size) && (item.amount >= amount)))[0]
   if(!typePrice) return 0;
   return typePrice.price
@@ -627,7 +627,6 @@ export const getSelectedSizeName = (data: Description[], index: number) : string
 
   const selectedSize = sizesOptions.find(option => option.size === getSizeModifier(sectionForms.width, sectionForms.height))
   let formSize = selectedSize === undefined ? 'WYBIERZ ROZMIAR' : selectedSize.name
-  console.log(sectionForms.width, sectionForms.height) 
 
   return formSize
 }
