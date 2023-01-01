@@ -13,7 +13,6 @@ export interface Description {
   height: number
   additionalDesc: string
   priceForOnePiece: number
-  // customPriceForOnePiece: number
   price: number
   customPrice: boolean
   materials: Materials[]

@@ -165,7 +165,8 @@ const Tasks: React.FC = () => {
         \n>Wysokość: ${desc.height}cm
         \n>Materiał: ${materials.join(', ')}
         \n>Rozmiar: ${desc.size}
-        \n>Cena: ${desc.price}
+        \n>Cena za 1 szt: ${desc.priceForOnePiece}
+        \n>Cena sekcji: ${desc.price}
         \n\n>Dodatkowy opis: ${desc.additionalDesc}
         \n-\n\n\n\
         `
@@ -176,7 +177,7 @@ const Tasks: React.FC = () => {
       ${descSectionArray} 
       \n***Dane dodatkowe >>>>>>>>>>>>>>>>***
       \n>Plik produkcyjny: **${filePath}**
-      \n>cena: **${price}**
+      \n>Cena zlecenia: **${price}**
     `
 
     const formInitialDataCard = new FormData();
@@ -229,12 +230,10 @@ const Tasks: React.FC = () => {
   };
 
   const handleSubmitForm = (data: Card) => {
-    // AddCardForm(data);
+    AddCardForm(data);
     console.log(data)
     // reset()
   }
-
-  const [trigger, setTrigger] = useState(false)
 
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
