@@ -94,7 +94,6 @@ const Tasks: React.FC = () => {
   const [watchCustomPrice, setWatchCustomPrice] = useState('')
   const [watchFormSizeWidth, setWatchFormSizeWidth] = useState('')
   const [watchFormSizeHeight, setWatchFormSizeHeight] = useState('')
-  const [currentIndex, setCurrentIndex] = useState(0)
 
   useEffect(() => {
     setSectionForms(watchForChangesInSectionForms)
@@ -106,12 +105,7 @@ const Tasks: React.FC = () => {
       setValue(`description.${index}.price`, getPriceForSection(sectionForms, index))
       setValue(`description.${index}.priceForOnePiece`, getPriceForOnePieceOfSection(sectionForms, index))
     })
-  }, [getTotalPrice(sectionForms), currentIndex])
-
-  useEffect(() => {
-    // const el = sectionForms.map((item, index) => setValue(`description.${currentIndex}.priceForOnePiece`, Number(item.priceForOnePiece)))
-
-  }, [currentIndex])
+  }, [getTotalPrice(sectionForms), watchCustomPrice])
 
   useEffect(() => {
     fields.map((item, index) => {
@@ -120,7 +114,6 @@ const Tasks: React.FC = () => {
     })
   }, [watchFormSizeWidth, watchFormSizeHeight])
 
-  // console.log(sectionForms.length)
   const handleWatchCustomPriceValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setWatchCustomPrice(e.target.value)
   }
@@ -358,7 +351,7 @@ const Tasks: React.FC = () => {
                               label={"Cena 1szt."}
                               type="number"
                               {...register(`description.${index}.priceForOnePiece` as const,
-                                { onChange: (e) => setCurrentIndex(Number(e.target.value)) })
+                                { onChange: handleWatchCustomPriceValue })
                               }
                             />
                           </div>

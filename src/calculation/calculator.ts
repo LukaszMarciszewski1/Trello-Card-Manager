@@ -577,34 +577,18 @@ const calculator = (
   return priceCalculations
 }
 
-// const customPriceArray = (data: Description[], onlyForOnePiece: boolean) : number[] => {
-//   const sectionForms = [...data]
-//   const sectionPriceArray: number[] = []
-//   const onePieceArray: number[] = []
-//   sectionForms
-//     .filter(item => item.customPrice === true)
-//     .map(item => {
-//       onePieceArray.push(Number(item.priceForOnePiece))
-//       sectionPriceArray.push(Number(item.price))
-//     })
-//   return onlyForOnePiece ? onePieceArray : sectionPriceArray
-// }
-
-const customPriceArray = (data: Description[], onlyForOnePiece: boolean, index: number) : number[] => {
+const customPriceArray = (data: Description[], onlyForOnePiece: boolean) : number[] => {
   const sectionForms = [...data]
-  const sectionPriceArray: number[] = [0]
+  const sectionPriceArray: number[] = []
   let onePieceArray: number[] = []
   sectionForms
     .filter(item => item.customPrice === true)
     .map(item => {
-      // return {...item, customPrice: item.customPrice}
       onePieceArray.push(Number(item.priceForOnePiece))
       sectionPriceArray.push(Number(item.price))
     })
 
-    console.log([...data][index]?.priceForOnePiece)
-
-  return onlyForOnePiece ? onePieceArray : sectionPriceArray
+  return sectionPriceArray
 }
 
 const calculatorPriceArray = (data: Description[], onlyForOnePiece: boolean) : number[] => {
@@ -636,43 +620,31 @@ export const isMoreThanMaximumSize = (data: Description[], index: number) : bool
 export const getPriceForOnePieceOfSection = (data: Description[], index: number) : number => {
   const sectionForms = [...data]
 
-    const sum = isMoreThanMaximumSize(sectionForms, index) ? 
+  const sum = isMoreThanMaximumSize(sectionForms, index) ? 
     sectionForms[index]?.priceForOnePiece :
     calculatorPriceArray(sectionForms, true)[index]
+
   let price = Number(sum)
 
   if (isNaN(price)) {
     price = 0;
   }
  
-
-  return Number(price.toFixed(1))
-}
-
-export const getCustomPriceForOnePieceOfSection = (data: Description[], index: number) : number => {
-  const sectionForms = [...data]
-  const sum = customPriceArray(sectionForms, true, index)
-  let price = Number(sum)
-
-  if (isNaN(price)) {
-    price = 0;
-  }
-
   return Number(price.toFixed(1))
 }
 
 export const getPriceForSection = (data: Description[], index: number) : number => {
   const sectionForms = [...data]
-  let amount = sectionForms[index]?.amount ? Number(sectionForms[index].amount) : 0
-    const sum = isMoreThanMaximumSize(sectionForms, index) ? 
+
+  const sum = isMoreThanMaximumSize(sectionForms, index) ? 
     (sectionForms[index]?.priceForOnePiece * sectionForms[index]?.amount) : 
     calculatorPriceArray(sectionForms, false)[index]
+
   let price = Number(sum)
 
   if (isNaN(price)) {
     price = 0;
   }
-  // console.log(customPriceArray(sectionForms, true)[index])
 
   return Number(price.toFixed(1))
 }
@@ -697,7 +669,7 @@ export const getTotalPrice = (data: Description[]) : number => {
   const calculatorPrice = Number(calculatorPriceArray(sectionForms, false)
     .reduce((accumulator, currentValue) => accumulator + currentValue, 0))
 
-  const customPrice = Number(customPriceArray(sectionForms, false, 0)
+  const customPrice = Number(customPriceArray(sectionForms, false)
     .reduce((accumulator, currentValue) => accumulator + currentValue, 0))
 
   const price = customPrice > 0 ? (calculatorPrice + customPrice) : calculatorPrice
