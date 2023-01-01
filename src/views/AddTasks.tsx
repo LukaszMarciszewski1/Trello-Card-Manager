@@ -104,16 +104,15 @@ const Tasks: React.FC = () => {
     fields.map((item, index) => {
       setValue(`description.${index}.price`, getPriceForSection(sectionForms, index))
       setValue(`description.${index}.priceForOnePiece`, getPriceForOnePieceOfSection(sectionForms, index))
-      setValue(`description.${index}.customPrice`, isMoreThanMaximumSize(sectionForms, index))
     })
   }, [getTotalPrice(sectionForms), watchCustomPrice])
 
   useEffect(() => {
     fields.map((item, index) => {
+      setValue(`description.${index}.customPrice`, isMoreThanMaximumSize(sectionForms, index))
       setValue(`description.${index}.size`, getSelectedSizeName(sectionForms, index))
     })
   }, [watchFormSizeWidth, watchFormSizeHeight])
-
 
   const handleWatchCustomPriceValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setWatchCustomPrice(e.target.value)
@@ -166,7 +165,8 @@ const Tasks: React.FC = () => {
         \n>Wysokość: ${desc.height}cm
         \n>Materiał: ${materials.join(', ')}
         \n>Rozmiar: ${desc.size}
-        \n>Cena: ${desc.price}
+        \n>Cena za 1 szt: ${desc.priceForOnePiece}
+        \n>Cena sekcji: ${desc.price}
         \n\n>Dodatkowy opis: ${desc.additionalDesc}
         \n-\n\n\n\
         `
@@ -177,7 +177,7 @@ const Tasks: React.FC = () => {
       ${descSectionArray} 
       \n***Dane dodatkowe >>>>>>>>>>>>>>>>***
       \n>Plik produkcyjny: **${filePath}**
-      \n>cena: **${price}**
+      \n>Cena zlecenia: **${price}**
     `
 
     const formInitialDataCard = new FormData();
@@ -230,7 +230,7 @@ const Tasks: React.FC = () => {
   };
 
   const handleSubmitForm = (data: Card) => {
-    // AddCardForm(data);
+    AddCardForm(data);
     console.log(data)
     // reset()
   }
