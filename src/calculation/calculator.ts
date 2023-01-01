@@ -577,14 +577,12 @@ const calculator = (
   return priceCalculations
 }
 
-const customPriceArray = (data: Description[], onlyForOnePiece: boolean) : number[] => {
+const customPriceArray = (data: Description[]) : number[] => {
   const sectionForms = [...data]
   const sectionPriceArray: number[] = []
-  let onePieceArray: number[] = []
   sectionForms
     .filter(item => item.customPrice === true)
     .map(item => {
-      onePieceArray.push(Number(item.priceForOnePiece))
       sectionPriceArray.push(Number(item.price))
     })
 
@@ -669,7 +667,7 @@ export const getTotalPrice = (data: Description[]) : number => {
   const calculatorPrice = Number(calculatorPriceArray(sectionForms, false)
     .reduce((accumulator, currentValue) => accumulator + currentValue, 0))
 
-  const customPrice = Number(customPriceArray(sectionForms, false)
+  const customPrice = Number(customPriceArray(sectionForms)
     .reduce((accumulator, currentValue) => accumulator + currentValue, 0))
 
   const price = customPrice > 0 ? (calculatorPrice + customPrice) : calculatorPrice
