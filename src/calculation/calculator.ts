@@ -229,6 +229,7 @@ const materialsCalculatorData = [
   amount: Infinity,
   modifier: 1
 },
+
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>50
 //FLOCK//////////////////////////////////////////////////////////////////
 {
@@ -474,6 +475,18 @@ const priceModifierData = [
     modifier: 1.2
   },
   {
+    name: 'REFLEX',
+    modifier: 1.75
+  },
+  {
+    name: 'LUMEN',
+    modifier: 1.5
+  },
+  {
+    name: 'FOIL',
+    modifier: 1.35
+  },
+  {
     name: 'GLITTER',
     modifier: 1.5
   },
@@ -490,6 +503,7 @@ const priceModifierData = [
     name: 'BRICK',
     modifier: 1.5
   },
+
 ]
 
 const getSizeModifier = (width: number, height: number) : number => {
@@ -571,7 +585,8 @@ const calculator = (
     filteredSelectedMaterial[0].priceType, 
     getSizeModifier(numberWidth, numberHeight),
     numberAmount
-  )
+  ) 
+
   const priceCalculations = (((price * modifier) * numberAmount))
 
   return priceCalculations
@@ -599,7 +614,7 @@ const calculatorPriceArray = (data: Description[], onlyForOnePiece: boolean) : n
       prices.push(0)
     } else {
       onlyForOnePiece ? 
-      prices.push(calculator(1, material, item.width, item.height)) : 
+      prices.push(calculator(Number(item.amount), material, item.width, item.height) / Number(item.amount)) : 
       prices.push(calculator(Number(item.amount), material, item.width, item.height))
     }
   })
@@ -623,6 +638,7 @@ export const getPriceForOnePieceOfSection = (data: Description[], index: number)
     calculatorPriceArray(sectionForms, true)[index]
 
   let price = Number(sum)
+
 
   if (isNaN(price)) {
     price = 0;
@@ -651,12 +667,13 @@ export const getSelectedSizeName = (data: Description[], index: number) : string
   const sectionForms = [...data][index]
   const sizesOptions = [...sizes]
   const maxValue = Math.max(...sizesOptions.map(obj => obj.size))
+  const EMPTY_SIZE = 'WYBIERZ ROZMIAR'
   
-  if(!sectionForms?.width && !sectionForms?.height) return 'WYBIERZ ROZMIAR'
+  if(!sectionForms?.width && !sectionForms?.height) return EMPTY_SIZE
   if(sectionForms?.width * sectionForms?.height > maxValue) return 'ROZMIAR NIESTANDARDOWY'
 
   const selectedSize = sizesOptions.find(option => option.size === getSizeModifier(sectionForms.width, sectionForms.height))
-  let formSize = selectedSize === undefined ? 'WYBIERZ ROZMIAR' : selectedSize.name
+  let formSize = selectedSize === undefined ? EMPTY_SIZE : selectedSize.name
 
   return formSize
 }

@@ -33,4 +33,7 @@
     background-color: darken($focusBg, 3%);
     cursor: pointer;
   }
+  &:first-child{
+    margin: 0;
+  }
 }

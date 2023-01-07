@@ -3,7 +3,7 @@ import styles from "./styles.module.scss";
 
 export type SelectProps = {
   id: string;
-  label: string;
+  label?: string;
   onChange?: (value: any) => void;
   error?: {} | undefined | ((value: any) => void);
   value?: number | string;
@@ -27,7 +27,7 @@ const Input: React.FC<SelectProps> = forwardRef<HTMLInputElement, SelectProps>(
     ref
   ) => {
     return (
-      <div className={styles.container} ref={ref}>
+      <div className={styles.container} ref={ref} style={style}>
         <label htmlFor="title">{label}</label>
         <select id={id} {...props} onChange={onChange}>
           {options.map((prod: { value: string | number; label: string }, index: React.Key | null | undefined) => (

@@ -12,6 +12,8 @@ import LabelBox from 'components/LabelBox/LabelBox';
 import TabsContent from 'components/Tabs/TabsContent/TabsContent';
 import MaterialsList from 'components/MaterialsList/MaterialsList';
 import { Tabs, Tab } from 'react-tabs-scrollable'
+import Select from "components/Select/Select";
+import { applications } from 'data';
 // import './react-tabs-scrollable.scss';
 
 interface NestedProps {
@@ -52,26 +54,48 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, materials, cont
     updatedList.splice(checkedItems.indexOf(value), 1);
     remove(checkedItems.indexOf(value))
     setCheckedItems(updatedList);
+    console.log(value)
   }
 
   const filteredArray = [...materials].filter(material => [...checkedItems].includes(material.value));
 
-  //width: (checkedItems[k].length + 2) + 'ch' }
+  useEffect(() => {
+    // setCheckedItems([])
+    // fields.map((item, index) => {
+    //   console.log(item)
+    // })
+  }, [materials])
+
+  const inputWidth = (index: number) => {
+    if (checkedItems[index]) {
+      return ((checkedItems[index].length + 1) + 'ch')
+    }
+    else return 0
+  }
+
+  console.log(registerName)
+
   return (
     <div className={styles.materialsList}>
       <span>Materiał:</span>
-      {fields.map((item, k) => (
-        <div key={item.id} style={{ margin: '0 10px 0 0', width: (checkedItems[k].length + 1) + 'ch' }}>
-          <Input
-            key={item.id}
-            style={{ marginTop: 0, textAlign: 'center', backgroundColor: '#f4f5fa' }}
-            id={item.id}
-            readOnly
-            type="text"
-            {...register(`${registerName}[${k}].field` as const)}
-          />
-        </div>
-      ))}
+      {
+        checkedItems.length ? (
+          <>
+            {fields.map((item, k) => (
+              <div key={item.id} style={{ margin: '0 10px 0 0', width: inputWidth(k) }}>
+                <Input
+                  key={item.id}
+                  style={{ marginTop: 0, textAlign: 'center', backgroundColor: '#f4f5fa' }}
+                  id={item.id}
+                  readOnly
+                  type="text"
+                  {...register(`${registerName}[${k}].field` as const)}
+                />
+              </div>
+            ))}
+          </>
+        ) : null
+      }
       <Popup
         title={'Dodaj materiał'}
         trigger={popupTrigger}
@@ -82,7 +106,13 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, materials, cont
             <p>Wybrane materiały:</p>
             {
               filteredArray.map((item: any, index: number) => (
-                <span key={index}>{item.value}<button type='button' onClick={() => handleRemoveMaterial(item.value)}>X</button></span>
+                <span key={index}> {item.value}
+                  <button
+                    type='button'
+                    onClick={() => handleRemoveMaterial(item.value)}>
+                    X
+                  </button>
+                </span>
               ))
             }
           </div>
@@ -98,7 +128,6 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, materials, cont
             title={"ok"}
             onClick={() => setPopupTrigger(false)}
             style={{ fontSize: "1.2rem", margin: '0.5rem 0' }}
-          // icon={<RiAddLine fontSize={"1.5rem"} fontWeight={"bold"} />}
           />
         </div>
       </Popup>

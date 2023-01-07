@@ -4,7 +4,7 @@ import styles from "./styles.module.scss";
 import axios from "axios";
 import dayjs from "dayjs";
 
-import { traders, fabric, recipient, materials, sizes } from "data";
+import { traders, fabric, recipient, materials, applications } from "data";
 import { useForm, useFieldArray } from "react-hook-form";
 import { Card, Description } from "models/card";
 import Tabs from "components/Tabs/Tabs";
@@ -52,7 +52,9 @@ const titleErrors = (type: any) => {
       return null;
   }
 };
-const defaultDescriptionValues = {
+
+const defaultSectionValues = {
+  title: applications[0].value,
   logo: "",
   amount: 0,
   fabric: fabric[0].value,
@@ -79,7 +81,7 @@ const Tasks: React.FC = () => {
     reset
   } = useForm<Card>({
     defaultValues: {
-      description: [defaultDescriptionValues],
+      description: [defaultSectionValues],
     },
     mode: "onBlur",
   });
@@ -94,6 +96,8 @@ const Tasks: React.FC = () => {
   const [watchCustomPrice, setWatchCustomPrice] = useState('')
   const [watchFormSizeWidth, setWatchFormSizeWidth] = useState('')
   const [watchFormSizeHeight, setWatchFormSizeHeight] = useState('')
+  const [materialsType, setMaterialsType] = useState<any[]>([])
+  const [watchMaterials, setWatchMaterials] = useState('')
 
   useEffect(() => {
     setSectionForms(watchForChangesInSectionForms)
@@ -105,7 +109,7 @@ const Tasks: React.FC = () => {
       setValue(`description.${index}.price`, getPriceForSection(sectionForms, index))
       setValue(`description.${index}.priceForOnePiece`, getPriceForOnePieceOfSection(sectionForms, index))
     })
-  }, [getTotalPrice(sectionForms), watchCustomPrice])
+  }, [getTotalPrice(sectionForms), watchCustomPrice, watchFormSizeWidth, watchFormSizeHeight])
 
   useEffect(() => {
     fields.map((item, index) => {
@@ -113,6 +117,11 @@ const Tasks: React.FC = () => {
       setValue(`description.${index}.size`, getSelectedSizeName(sectionForms, index))
     })
   }, [watchFormSizeWidth, watchFormSizeHeight])
+
+  useEffect(() => {
+    const filteredMaterials = materials.filter(material => material.application === applications[0].application)
+    setMaterialsType(filteredMaterials)
+  }, [])
 
   const handleWatchCustomPriceValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setWatchCustomPrice(e.target.value)
@@ -166,7 +175,7 @@ const Tasks: React.FC = () => {
         \n>Materiał: ${materials.join(', ')}
         \n>Rozmiar: ${desc.size}
         \n>Cena za 1 szt: ${desc.priceForOnePiece}
-        \n>Cena sekcji: ${desc.price}
+        \n>Wartość sekcji: ${desc.price}
         \n\n>Dodatkowy opis: ${desc.additionalDesc}
         \n-\n\n\n\
         `
@@ -177,7 +186,7 @@ const Tasks: React.FC = () => {
       ${descSectionArray} 
       \n***Dane dodatkowe >>>>>>>>>>>>>>>>***
       \n>Plik produkcyjny: **${filePath}**
-      \n>Cena zlecenia: **${price}**
+      \n>Wartość zlecenia: **${price}**
     `
 
     const formInitialDataCard = new FormData();
@@ -230,10 +239,18 @@ const Tasks: React.FC = () => {
   };
 
   const handleSubmitForm = (data: Card) => {
-    AddCardForm(data);
+    // AddCardForm(data);
     console.log(data)
     // reset()
   }
+
+  const filteredCategoryMaterials = (materials: any[], index: number) => {
+    const sectionApplicationName = applications.filter(item => item.name === sectionForms[index]?.title)[0]?.application
+    const filteredMaterials = materials.filter(material => material.application === sectionApplicationName)
+    return filteredMaterials
+  }
+
+  // console.log(filteredCategoryMaterials(materials, 0))
 
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
@@ -268,125 +285,156 @@ const Tasks: React.FC = () => {
           {fields.map((field, index) => {
             return (
               <FormSection key={field.id}>
-                <div className={styles.formGroupColumn}>
-                  <Input
-                    id={field.id}
-                    label={"Logo"}
-                    type="text"
-                    error={errors.description}
-                    {...register(`description.${index}.logo` as const, {
-                      required: true,
-                    })}
-                    defaultValue={field.logo}
-                  />
-                  <MaterialsForm
-                    {...{ control, register }}
-                    registerName={`description[${index}].materials`}
-                    materials={materials}
-                  />
-                  <Textarea
-                    id={field.id}
-                    label={'Dodatkowy opis'}
-                    {...register(`description.${index}.additionalDesc` as const)}
-                  />
-                </div>
-                <div className={styles.formGroupColumn}>
-                  <Select
-                    label={"Tkanina"}
-                    options={fabric}
-                    id={field.id}
-                    defaultValue={field.fabric}
-                    {...register(`description.${index}.fabric` as const)}
-                  />
-                  <Input
-                    id={field.id}
-                    placeholder={"Ilość"}
-                    label={"Ilość"}
-                    type="number"
-                    step={"1"}
-                    min={0}
-                    {...register(`description.${index}.amount` as const,
-                      { onChange: handleWatchCustomPriceValue })
-                    }
-                  />
-                  <div className={styles.rowContainer}>
+                <div className={styles.sectionContent}>
+                  <div className={styles.formGroupColumn}>
                     <Input
                       id={field.id}
-                      placeholder={"Szerokość"}
-                      label={"Szerokość (cm)"}
-                      type="number"
-                      step={"0.1"}
-                      min={0}
-                      {...register(`description.${index}.width` as const,
-                        { onChange: handleWatchFormSizeWidthValue })
-                      }
+                      label={"Logo"}
+                      type="text"
+                      error={errors.description}
+                      {...register(`description.${index}.logo` as const, {
+                        required: true,
+                      })}
+                      defaultValue={field.logo}
                     />
-                    <Input
+                    <div style={{ width: '100%', display: 'flex', alignItems: 'flex-end', marginTop: 5, }}>
+                      <Select
+                        style={{ maxWidth: 250 }}
+                        options={applications}
+                        label={"Typ materiału"}
+                        id={field.id}
+                        defaultValue={field.title}
+                        {...register(`description.${index}.title` as const, {
+                          onChange: () => setValue(`description.${index}.materials`, [])
+                        })}
+                      />
+                      {/* <Checkbox
+                        id={field.id}
+                        style={{ width: 80, height: 40, fontSize: 12 }}
+                        type={"checkbox"}
+                        label={"Pakowanie"}
+                        {...register("member")}
+                      /> */}
+                    </div>
+                    <MaterialsForm
+                      {...{ control, register }}
+                      registerName={`description[${index}].materials`}
+                      materials={filteredCategoryMaterials(materials, index)}
+                    />
+                    <Textarea
                       id={field.id}
-                      placeholder={"Wysokość"}
-                      label={"Wysokość (cm)"}
-                      type="number"
-                      step={"0.1"}
-                      min={0}
-                      {...register(`description.${index}.height` as const,
-                        { onChange: handleWatchFormSizeHeightValue })
-                      }
+                      label={'Dodatkowy opis'}
+                      {...register(`description.${index}.additionalDesc` as const)}
                     />
                   </div>
-                  <Input
-                    id={field.id}
-                    label={"Rozmiar"}
-                    type="text"
-                    {...register(`description.${index}.size` as const)}
-                    readOnly
-                  />
-                  <div className={styles.rowContainer}>
-                    {
-                      isMoreThanMaximumSize(sectionForms, index) ? (
-                        <>
-                          <div style={{ width: 120, marginRight: 15 }}>
+                  <div className={styles.formGroupColumn}>
+                    <Select
+                      label={"Tkanina"}
+                      options={fabric}
+                      id={field.id}
+                      defaultValue={field.fabric}
+                      {...register(`description.${index}.fabric` as const)}
+                    />
+                    <Input
+                      id={field.id}
+                      placeholder={"Ilość"}
+                      label={"Ilość"}
+                      type="number"
+                      step={"1"}
+                      min={0}
+                      {...register(`description.${index}.amount` as const,
+                        { onChange: handleWatchCustomPriceValue })
+                      }
+                    />
+                    <div className={styles.rowContainer}>
+                      <Input
+                        id={field.id}
+                        placeholder={"Szerokość"}
+                        label={"Szerokość (cm)"}
+                        type="number"
+                        step={"0.1"}
+                        min={0}
+                        {...register(`description.${index}.width` as const,
+                          { onChange: handleWatchFormSizeWidthValue })
+                        }
+                      />
+                      <Input
+                        id={field.id}
+                        placeholder={"Wysokość"}
+                        label={"Wysokość (cm)"}
+                        type="number"
+                        step={"0.1"}
+                        min={0}
+                        {...register(`description.${index}.height` as const,
+                          { onChange: handleWatchFormSizeHeightValue })
+                        }
+                      />
+                    </div>
+                    <Input
+                      id={field.id}
+                      label={"Rozmiar"}
+                      type="text"
+                      {...register(`description.${index}.size` as const)}
+                      readOnly
+                    />
+                    <div className={styles.rowContainer}>
+                      {
+                        isMoreThanMaximumSize(sectionForms, index) ? (
+                          <>
+                            <div style={{ width: 120, marginRight: 15 }}>
+                              <Input
+                                id={field.id}
+                                label={"Cena 1szt."}
+                                style={{ border: '2px solid green' }}
+                                type="number"
+                                {...register(`description.${index}.priceForOnePiece` as const,
+                                  { onChange: handleWatchCustomPriceValue })
+                                }
+                              />
+                            </div>
                             <Input
                               id={field.id}
-                              label={"Cena 1szt."}
+                              label={"Wartość sekcji"}
                               type="number"
-                              {...register(`description.${index}.priceForOnePiece` as const,
-                                { onChange: handleWatchCustomPriceValue })
-                              }
-                            />
-                          </div>
-                          <Input
-                            id={field.id}
-                            label={"Łączna cena sekcji"}
-                            type="number"
-                            {...register(`description.${index}.price` as const)}
-                            readOnly
-                          />
-                        </>
-                      ) : (
-                        <>
-                          <div style={{ width: 120, marginRight: 15 }}>
-                            <Input
-                              id={field.id}
-                              label={"Cena 1szt."}
-                              type="number"
-                              {...register(`description.${index}.priceForOnePiece` as const)}
+                              {...register(`description.${index}.price` as const)}
                               readOnly
                             />
-                          </div>
-                          <Input
-                            id={field.id}
-                            label={"Łączna cena sekcji"}
-                            type="number"
-                            {...register(`description.${index}.price` as const)}
-                            readOnly
-                          />
-                        </>
-                      )
-                    }
+                          </>
+                        ) : (
+                          <>
+                            <div style={{ width: 120, marginRight: 15 }}>
+                              <Input
+                                id={field.id}
+                                label={"Cena 1szt."}
+                                type="number"
+                                {...register(`description.${index}.priceForOnePiece` as const)}
+                                readOnly
+                              />
+                            </div>
+                            <Input
+                              id={field.id}
+                              label={"Wartość sekcji"}
+                              type="number"
+                              {...register(`description.${index}.price` as const)}
+                              readOnly
+                            />
+                          </>
+                        )
+                      }
+                    </div>
+                    <Button
+                      type={"button"}
+                      title={"Usuń sekcję"}
+                      onClick={() => console.log(`description.${index}.title`)}
+                      style={{ margin: '20px 0 0' }}
+                    />
                   </div>
                 </div>
-                {/* delete section ----------------------------> */}
-                {/* {
+              </FormSection>
+            );
+          })}
+          {/* delete section ----------------------------> */}
+          {/* {
                   fields.length > 1 ? (
                     <Button
                       type={"button"}
@@ -396,14 +444,11 @@ const Tasks: React.FC = () => {
                     />
                   ) : null
                 } */}
-                {/* delete section ----------------------------> */}
-              </FormSection>
-            );
-          })}
+          {/* delete section ----------------------------> */}
           <Button
             type={"button"}
             title={"Dodaj sekcję"}
-            onClick={() => append(defaultDescriptionValues)}
+            onClick={() => append(defaultSectionValues)}
             style={{ fontSize: "1.2rem" }}
             icon={<RiAddLine fontSize={"1.5rem"} fontWeight={"bold"} />}
           />
@@ -417,8 +462,6 @@ const Tasks: React.FC = () => {
                 id={"recipient"}
                 {...register("recipient")}
               />
-            </div>
-            <div className={styles.inputContainer}>
               <Input
                 id={"date-admission"}
                 placeholder={"Data przyjęcia"}
@@ -428,8 +471,6 @@ const Tasks: React.FC = () => {
                 error={errors.description}
                 {...register("startDate")}
               />
-            </div>
-            <div className={styles.inputContainer}>
               <Input
                 id={"endDate"}
                 placeholder={"Data oddania"}
@@ -450,8 +491,6 @@ const Tasks: React.FC = () => {
                   error={errors.description}
                   {...register("attachment")}
                 />
-              </div>
-              <div className={styles.inputContainer}>
                 <Input
                   id={"filePath"}
                   placeholder={"Wklej sciężkę pliku..."}
@@ -463,7 +502,7 @@ const Tasks: React.FC = () => {
             </div>
             <Input
               id={'price'}
-              label={"Cena"}
+              label={"Wartość zlecenia"}
               type="number"
               {...register(`price`)}
               readOnly
