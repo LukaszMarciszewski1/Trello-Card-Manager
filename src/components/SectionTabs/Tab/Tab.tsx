@@ -1,4 +1,4 @@
-import React, { useCallback } from "react"
+import React, { useCallback, useState } from "react"
 import styles from './styles.module.scss'
 
 type Props = {
@@ -6,13 +6,13 @@ type Props = {
   index: number
   active: number
   setSelectedTab: (index: number) => void
-  subcategory?: boolean
+  setTabTitle: any
 }
 
-const Tab: React.FC<Props> = ({ title, setSelectedTab, active, index, subcategory}) => {
-
+const Tab: React.FC<Props> = ({ title, setSelectedTab, active, index, setTabTitle }) => {
   const onClick = useCallback(() => {
     setSelectedTab(index)
+    setTabTitle(title)
   }, [setSelectedTab, index])
 
   return (

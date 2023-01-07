@@ -54,7 +54,7 @@ const titleErrors = (type: any) => {
 };
 
 const defaultSectionValues = {
-  title: applications[0].value,
+  materialType: applications[0].value,
   logo: "",
   amount: 0,
   fabric: fabric[0].value,
@@ -243,21 +243,23 @@ const Tasks: React.FC = () => {
     console.log(data)
     // reset()
   }
+console.log(sectionForms[0]?.materialType)
 
-
-  const filteredCategoryMaterials = (materials: any[], index: number) => {
-    const sectionApplicationName = applications.filter(item => item.name === sectionForms[index]?.title)[0]?.application
-    const filteredMaterials = materials.filter(material => material.application === sectionApplicationName)
-    return filteredMaterials
-  }
+  // const filteredCategoryMaterials = (materials: any[], index: number) => {
+  //   const sectionApplicationName = applications.filter(item => item.name === sectionForms[index]?.title)[0]?.application
+  //   const filteredMaterials = materials.filter(material => material.application === sectionApplicationName)
+  //   return filteredMaterials
+  // }
 
   const cuttingMaterials = () => {
-    const filteredMaterials = materials.filter(material => material.application === applications[0].application)
-    return filteredMaterials
+    return materials.filter(material => material.application === applications[0].application)
   }
-  const pritingMaterials = () => {
-    const filteredMaterials = materials.filter(material => material.application === applications[1].application)
-    return filteredMaterials
+  const solventMaterials = () => {
+    return materials.filter(material => material.application === applications[1].application)
+
+  }
+  const sublimationMaterials = () => {
+    return materials.filter(material => material.application === applications[2].application)
   }
 
   // console.log(filteredCategoryMaterials(materials, 0))
@@ -308,58 +310,36 @@ const Tasks: React.FC = () => {
                       defaultValue={field.logo}
                     />
                     <div className={styles.sectionTabsContainer}>
-                      {/* <p>Typ materiału:</p> */}
-                      <SectionTabs tabLabel={'Wybierz typ materiału:'}>
+                      <SectionTabs tabLabel={'Wybierz typ materiału:'} setTabTitle={(e: string) => setValue(`description.${index}.materialType`, e)}>
                         <SectionTabsContent title="Flex/Flock">
                           <MaterialsForm
                             {...{ control, register }}
                             registerName={`description[${index}].materials`}
                             materials={cuttingMaterials()}
                             dataForm={sectionForms[index]}
+                            materialsType={sectionForms[index]?.materialType}
                           />
                         </SectionTabsContent>
                         <SectionTabsContent title="Solwent">
                           <MaterialsForm
                             {...{ control, register }}
                             registerName={`description[${index}].materials`}
-                            materials={cuttingMaterials()}
+                            materials={solventMaterials()}
                             dataForm={sectionForms[index]}
+                            materialsType={sectionForms[index]?.materialType}
                           />
                         </SectionTabsContent>
                         <SectionTabsContent title="Sublimacja">
-                          <div>
-                            <MaterialsForm
-                              {...{ control, register }}
-                              registerName={`description[${index}].materials`}
-                              materials={pritingMaterials()}
-                              dataForm={sectionForms[index]}
-                            />
-                          </div>
+                          <MaterialsForm
+                            {...{ control, register }}
+                            registerName={`description[${index}].materials`}
+                            materials={sublimationMaterials()}
+                            dataForm={sectionForms[index]}
+                            materialsType={sectionForms[index]?.materialType}
+                          />
                         </SectionTabsContent>
                       </SectionTabs>
-                      {/* <Select
-                        style={{ maxWidth: 250 }}
-                        options={applications}
-                        label={"Typ materiału"}
-                        id={field.id}
-                        defaultValue={field.title}
-                        {...register(`description.${index}.title` as const, {
-                          onChange: () => setValue(`description.${index}.materials`, [])
-                        })}
-                      /> */}
-                      {/* <Checkbox
-                        id={field.id}
-                        style={{ width: 80, height: 40, fontSize: 12 }}
-                        type={"checkbox"}
-                        label={"Pakowanie"}
-                        {...register("member")}
-                      /> */}
                     </div>
-                    {/* <MaterialsForm
-                      {...{ control, register }}
-                      registerName={`description[${index}].materials`}
-                      materials={filteredCategoryMaterials(materials, index)}
-                    /> */}
                     <Textarea
                       id={field.id}
                       label={'Dodatkowy opis'}

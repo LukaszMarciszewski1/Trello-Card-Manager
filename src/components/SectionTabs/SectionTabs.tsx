@@ -5,9 +5,10 @@ import styles from './styles.module.scss'
 type Props = {
   children: ReactElement[]
   tabLabel: string
+  setTabTitle: any
 }
 
-const Tabs: React.FC<Props> = ({ children, tabLabel }) => {
+const Tabs: React.FC<Props> = ({ children, tabLabel, setTabTitle }) => {
   const [selectedTab, setSelectedTab] = useState(0)
 
   return (
@@ -20,6 +21,7 @@ const Tabs: React.FC<Props> = ({ children, tabLabel }) => {
             title={item.props.title}
             index={index}
             setSelectedTab={setSelectedTab}
+            setTabTitle={setTabTitle}
             active={selectedTab}
           />
         ))}

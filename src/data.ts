@@ -15,7 +15,7 @@ export const applications = [
     name: 'Sublimacja',
     label: 'Sublimacja',
     value: 'Sublimacja',
-    application: 'printing',
+    application: 'sublimation',
   },
 ]
 
@@ -3688,7 +3688,7 @@ export const materials = [
     color: 'white',
     priceType: 'SUBLIMATION',
     priceModifier: 'STANDARD',
-    application: 'printing',
+    application: 'sublimation',
   },
   {
     type: 'Solvent',

@@ -22,15 +22,17 @@ interface NestedProps {
   materials: any
   control?: any
   dataForm?: any
+  materialsType?: string
 }
 
 interface CheckedItems {
   [key: string]: boolean;
 }
 
-const Nested: React.FC<NestedProps> = ({ register, registerName, materials, control, dataForm }) => {
+const Nested: React.FC<NestedProps> = ({ register, registerName, materials, control, dataForm, materialsType }) => {
   const [popupTrigger, setPopupTrigger] = useState(false)
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
+  const [materialType, setMaterialType] = useState('')
 
   const { fields, remove, append } = useFieldArray({
     control,
@@ -57,12 +59,15 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, materials, cont
     setCheckedItems(updatedList);
   }
 
+  
   useEffect(() => {
-    if(dataForm){
+    if (dataForm) {
       dataForm.materials.map((item: any, index: number) => remove(index))
     }
-  }, [dataForm])
-
+  }, [materialsType])
+  
+  console.log(materialType)
+  
   const filteredArray = [...materials].filter(material => [...checkedItems].includes(material.value));
 
   const inputWidth = (index: number) => {
