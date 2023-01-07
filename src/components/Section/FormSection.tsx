@@ -9,7 +9,6 @@ interface FormSectionProps {
 
 const FormSection: React.FC<FormSectionProps> = ({ children }) => {
   return (
-    // <div className={styles.formSection}>{children}</div>
   <div className={styles.formSection} >                  
     {children}
   </div>

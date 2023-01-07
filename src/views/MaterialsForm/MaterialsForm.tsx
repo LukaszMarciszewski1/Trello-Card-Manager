@@ -9,9 +9,9 @@ import { AiOutlineAppstoreAdd } from 'react-icons/ai';
 import Input from 'components/Input/Input';
 import LabelBox from 'components/LabelBox/LabelBox';
 // import Tabs from 'components/Tabs/Tabs';
-import TabsContent from 'components/Tabs/TabsContent/TabsContent';
 import MaterialsList from 'components/MaterialsList/MaterialsList';
-import { Tabs, Tab } from 'react-tabs-scrollable'
+import Tabs from 'components/Tabs/Tabs'
+import TabsContent from 'components/Tabs/TabsContent/TabsContent'
 import Select from "components/Select/Select";
 import { applications } from 'data';
 // import './react-tabs-scrollable.scss';
@@ -21,13 +21,14 @@ interface NestedProps {
   registerName: any
   materials: any
   control?: any
+  dataForm?: any
 }
 
 interface CheckedItems {
   [key: string]: boolean;
 }
 
-const Nested: React.FC<NestedProps> = ({ register, registerName, materials, control }) => {
+const Nested: React.FC<NestedProps> = ({ register, registerName, materials, control, dataForm }) => {
   const [popupTrigger, setPopupTrigger] = useState(false)
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
 
@@ -54,17 +55,15 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, materials, cont
     updatedList.splice(checkedItems.indexOf(value), 1);
     remove(checkedItems.indexOf(value))
     setCheckedItems(updatedList);
-    console.log(value)
   }
 
-  const filteredArray = [...materials].filter(material => [...checkedItems].includes(material.value));
-
   useEffect(() => {
-    // setCheckedItems([])
-    // fields.map((item, index) => {
-    //   console.log(item)
-    // })
-  }, [materials])
+    if(dataForm){
+      dataForm.materials.map((item: any, index: number) => remove(index))
+    }
+  }, [dataForm])
+
+  const filteredArray = [...materials].filter(material => [...checkedItems].includes(material.value));
 
   const inputWidth = (index: number) => {
     if (checkedItems[index]) {
@@ -72,8 +71,6 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, materials, cont
     }
     else return 0
   }
-
-  console.log(registerName)
 
   return (
     <div className={styles.materialsList}>

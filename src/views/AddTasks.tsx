@@ -7,8 +7,8 @@ import dayjs from "dayjs";
 import { traders, fabric, recipient, materials, applications } from "data";
 import { useForm, useFieldArray } from "react-hook-form";
 import { Card, Description } from "models/card";
-import Tabs from "components/Tabs/Tabs";
-import TabsContent from "components/Tabs/TabsContent/TabsContent";
+import SectionTabs from "components/SectionTabs/SectionTabs";
+import SectionTabsContent from 'components/SectionTabs/TabsContent/TabsContent'
 
 import Input from "components/Input/Input";
 import Button from "components/Button/Button";
@@ -244,9 +244,19 @@ const Tasks: React.FC = () => {
     // reset()
   }
 
+
   const filteredCategoryMaterials = (materials: any[], index: number) => {
     const sectionApplicationName = applications.filter(item => item.name === sectionForms[index]?.title)[0]?.application
     const filteredMaterials = materials.filter(material => material.application === sectionApplicationName)
+    return filteredMaterials
+  }
+
+  const cuttingMaterials = () => {
+    const filteredMaterials = materials.filter(material => material.application === applications[0].application)
+    return filteredMaterials
+  }
+  const pritingMaterials = () => {
+    const filteredMaterials = materials.filter(material => material.application === applications[1].application)
     return filteredMaterials
   }
 
@@ -297,8 +307,37 @@ const Tasks: React.FC = () => {
                       })}
                       defaultValue={field.logo}
                     />
-                    <div style={{ width: '100%', display: 'flex', alignItems: 'flex-end', marginTop: 5, }}>
-                      <Select
+                    <div className={styles.sectionTabsContainer}>
+                      {/* <p>Typ materiału:</p> */}
+                      <SectionTabs tabLabel={'Wybierz typ materiału:'}>
+                        <SectionTabsContent title="Flex/Flock">
+                          <MaterialsForm
+                            {...{ control, register }}
+                            registerName={`description[${index}].materials`}
+                            materials={cuttingMaterials()}
+                            dataForm={sectionForms[index]}
+                          />
+                        </SectionTabsContent>
+                        <SectionTabsContent title="Solwent">
+                          <MaterialsForm
+                            {...{ control, register }}
+                            registerName={`description[${index}].materials`}
+                            materials={cuttingMaterials()}
+                            dataForm={sectionForms[index]}
+                          />
+                        </SectionTabsContent>
+                        <SectionTabsContent title="Sublimacja">
+                          <div>
+                            <MaterialsForm
+                              {...{ control, register }}
+                              registerName={`description[${index}].materials`}
+                              materials={pritingMaterials()}
+                              dataForm={sectionForms[index]}
+                            />
+                          </div>
+                        </SectionTabsContent>
+                      </SectionTabs>
+                      {/* <Select
                         style={{ maxWidth: 250 }}
                         options={applications}
                         label={"Typ materiału"}
@@ -307,7 +346,7 @@ const Tasks: React.FC = () => {
                         {...register(`description.${index}.title` as const, {
                           onChange: () => setValue(`description.${index}.materials`, [])
                         })}
-                      />
+                      /> */}
                       {/* <Checkbox
                         id={field.id}
                         style={{ width: 80, height: 40, fontSize: 12 }}
@@ -316,11 +355,11 @@ const Tasks: React.FC = () => {
                         {...register("member")}
                       /> */}
                     </div>
-                    <MaterialsForm
+                    {/* <MaterialsForm
                       {...{ control, register }}
                       registerName={`description[${index}].materials`}
                       materials={filteredCategoryMaterials(materials, index)}
-                    />
+                    /> */}
                     <Textarea
                       id={field.id}
                       label={'Dodatkowy opis'}

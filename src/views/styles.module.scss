@@ -86,7 +86,7 @@
   display: flex;
 }
 
-.sectionHeader{
+.sectionHeader {
   // position: absolute;
   // left: 0;
   // top: 0;
@@ -99,7 +99,7 @@
   // background-color: rgb(239, 239, 239);
 }
 
-.headerTabs{
+.headerTabs {
   width: 100%;
   display: flex;
   align-items: center;
@@ -124,8 +124,15 @@
   // }
 }
 
-.sectionContent{
+.sectionContent {
   display: grid;
   grid-template-columns: 1fr 280px;
   gap: 2rem;
+}
+
+.sectionTabsContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 1rem;
 }
