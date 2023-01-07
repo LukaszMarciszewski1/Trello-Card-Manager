@@ -14,6 +14,8 @@ import Tabs from 'components/Tabs/Tabs'
 import TabsContent from 'components/Tabs/TabsContent/TabsContent'
 import Select from "components/Select/Select";
 import { applications } from 'data';
+import SectionTabs from "components/SectionTabs/SectionTabs";
+import SectionTabsContent from 'components/SectionTabs/TabsContent/TabsContent'
 // import './react-tabs-scrollable.scss';
 
 interface NestedProps {
@@ -32,7 +34,6 @@ interface CheckedItems {
 const Nested: React.FC<NestedProps> = ({ register, registerName, materials, control, dataForm, materialsType }) => {
   const [popupTrigger, setPopupTrigger] = useState(false)
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
-  const [materialType, setMaterialType] = useState('')
 
   const { fields, remove, append } = useFieldArray({
     control,
@@ -58,15 +59,13 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, materials, cont
     remove(checkedItems.indexOf(value))
     setCheckedItems(updatedList);
   }
-
   
   useEffect(() => {
     if (dataForm) {
-      dataForm.materials.map((item: any, index: number) => remove(index))
+      remove(checkedItems.map((item: any, i: number) => i))
+      setCheckedItems([])
     }
   }, [materialsType])
-  
-  console.log(materialType)
   
   const filteredArray = [...materials].filter(material => [...checkedItems].includes(material.value));
 

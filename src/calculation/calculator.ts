@@ -459,6 +459,464 @@ const materialsCalculatorData = [
   amount: Infinity,
   modifier: 1
 },
+///////////////////////////////////////////////////////////////
+{
+  type: 'SUBLIMATION',
+  size: 50,
+  price: 6.6,
+  amount: 10,
+  modifier: 1
+},
+{
+  type: 'SUBLIMATION',
+  size: 100,
+  price: 6.9,
+  amount: 10,
+  modifier: 1
+},
+{
+  type: 'SUBLIMATION',
+  size: 150,
+  price: 7.2,
+  amount: 10,
+  modifier: 1
+},
+{
+  type: 'SUBLIMATION',
+  size: 250,
+  price: 7.75,
+  amount: 10,
+  modifier: 1
+},
+{
+  type: 'SUBLIMATION',
+  size: 300,
+  price: 8.25,
+  amount: 10,
+  modifier: 1
+},
+{
+  type: 'SUBLIMATION',
+  size: 400,
+  price: 8.9,
+  amount: 10,
+  modifier: 1
+},
+{
+  type: 'SUBLIMATION',
+  size: 500,
+  price: 9.5,
+  amount: 10,
+  modifier: 1
+},
+{
+  type: 'SUBLIMATION',
+  size: 625,
+  price: 10.3,
+  amount: 10,
+  modifier: 1
+},
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>10
+{
+  type: 'SUBLIMATION',
+  size: 50,
+  price: 5.5,
+  amount: 30,
+  modifier: 1
+},
+{
+  type: 'SUBLIMATION',
+  size: 100,
+  price: 5.8,
+  amount: 30,
+  modifier: 1
+},
+{
+  type: 'SUBLIMATION',
+  size: 150,
+  price: 6.1,
+  amount: 30,
+  modifier: 1
+},
+{
+  type: 'SUBLIMATION',
+  size: 250,
+  price: 6.5,
+  amount: 30,
+  modifier: 1
+},
+{
+  type: 'SUBLIMATION',
+  size: 300,
+  price: 6.9,
+  amount: 30,
+  modifier: 1
+},
+{
+  type: 'SUBLIMATION',
+  size: 400,
+  price: 7.4,
+  amount: 30,
+  modifier: 1
+},
+{
+  type: 'SUBLIMATION',
+  size: 500,
+  price: 7.95,
+  amount: 30,
+  modifier: 1
+},
+{
+  type: 'SUBLIMATION',
+  size: 625,
+  price: 8.6,
+  amount: 30,
+  modifier: 1
+},
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>30
+{
+  type: 'SUBLIMATION',
+  size: 50,
+  price: 4.4,
+  amount: 50,
+  modifier: 1
+},
+{
+  type: 'SUBLIMATION',
+  size: 100,
+  price: 4.6,
+  amount: 50,
+  modifier: 1
+},
+{
+  type: 'SUBLIMATION',
+  size: 150,
+  price: 4.85,
+  amount: 50,
+  modifier: 1
+},
+{
+  type: 'SUBLIMATION',
+  size: 250,
+  price: 5.15,
+  amount: 50,
+  modifier: 1
+},
+{
+  type: 'SUBLIMATION',
+  size: 300,
+  price: 5.5,
+  amount: 50,
+  modifier: 1
+},
+{
+  type: 'SUBLIMATION',
+  size: 400,
+  price: 5.9,
+  amount: 50,
+  modifier: 1
+},
+{
+  type: 'SUBLIMATION',
+  size: 500,
+  price: 6.35,
+  amount: 50,
+  modifier: 1
+},
+{
+  type: 'SUBLIMATION',
+  size: 625,
+  price: 6.9,
+  amount: 50,
+  modifier: 1
+},
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>50
+{
+  type: 'SUBLIMATION',
+  size: 50,
+  price: 3.9,
+  amount: Infinity,
+  modifier: 1
+},
+{
+  type: 'SUBLIMATION',
+  size: 100,
+  price: 4.1,
+  amount: Infinity,
+  modifier: 1
+},
+{
+  type: 'SUBLIMATION',
+  size: 150,
+  price: 4.3,
+  amount: Infinity,
+  modifier: 1
+},
+{
+  type: 'SUBLIMATION',
+  size: 250,
+  price: 4.6,
+  amount: Infinity,
+  modifier: 1
+},
+{
+  type: 'SUBLIMATION',
+  size: 300,
+  price: 4.9,
+  amount: Infinity,
+  modifier: 1
+},
+{
+  type: 'SUBLIMATION',
+  size: 400,
+  price: 5.3,
+  amount: Infinity,
+  modifier: 1
+},
+{
+  type: 'SUBLIMATION',
+  size: 500,
+  price: 5.6,
+  amount: Infinity,
+  modifier: 1
+},
+{
+  type: 'SUBLIMATION',
+  size: 625,
+  price: 6,
+  amount: Infinity,
+  modifier: 1
+},
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>INFINITY
+///////////////////////////////////////////////////////////////
+{
+  type: 'SOLVENT-FULL',
+  size: 50,
+  price: 7.5,
+  amount: 10,
+  modifier: 1
+},
+{
+  type: 'SOLVENT-FULL',
+  size: 100,
+  price: 8.5,
+  amount: 10,
+  modifier: 1
+},
+{
+  type: 'SOLVENT-FULL',
+  size: 150,
+  price: 9.5,
+  amount: 10,
+  modifier: 1
+},
+{
+  type: 'SOLVENT-FULL',
+  size: 250,
+  price: 11,
+  amount: 10,
+  modifier: 1
+},
+{
+  type: 'SOLVENT-FULL',
+  size: 300,
+  price: 11.9,
+  amount: 10,
+  modifier: 1
+},
+{
+  type: 'SOLVENT-FULL',
+  size: 400,
+  price: 13.5,
+  amount: 10,
+  modifier: 1
+},
+{
+  type: 'SOLVENT-FULL',
+  size: 500,
+  price: 15.5,
+  amount: 10,
+  modifier: 1
+},
+{
+  type: 'SOLVENT-FULL',
+  size: 625,
+  price: 17.9,
+  amount: 10,
+  modifier: 1
+},
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>10
+{
+  type: 'SOLVENT-FULL',
+  size: 50,
+  price: 5.5,
+  amount: 30,
+  modifier: 1
+},
+{
+  type: 'SOLVENT-FULL',
+  size: 100,
+  price: 6,
+  amount: 30,
+  modifier: 1
+},
+{
+  type: 'SOLVENT-FULL',
+  size: 150,
+  price: 7,
+  amount: 30,
+  modifier: 1
+},
+{
+  type: 'SOLVENT-FULL',
+  size: 250,
+  price: 8.5,
+  amount: 30,
+  modifier: 1
+},
+{
+  type: 'SOLVENT-FULL',
+  size: 300,
+  price: 9.3,
+  amount: 30,
+  modifier: 1
+},
+{
+  type: 'SOLVENT-FULL',
+  size: 400,
+  price: 10.9,
+  amount: 30,
+  modifier: 1
+},
+{
+  type: 'SOLVENT-FULL',
+  size: 500,
+  price: 12.9,
+  amount: 30,
+  modifier: 1
+},
+{
+  type: 'SOLVENT-FULL',
+  size: 625,
+  price: 14.9,
+  amount: 30,
+  modifier: 1
+},
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>30
+{
+  type: 'SOLVENT-FULL',
+  size: 50,
+  price: 4.3,
+  amount: 50,
+  modifier: 1
+},
+{
+  type: 'SOLVENT-FULL',
+  size: 100,
+  price: 4.9,
+  amount: 50,
+  modifier: 1
+},
+{
+  type: 'SOLVENT-FULL',
+  size: 150,
+  price: 5.5,
+  amount: 50,
+  modifier: 1
+},
+{
+  type: 'SOLVENT-FULL',
+  size: 250,
+  price: 6.8,
+  amount: 50,
+  modifier: 1
+},
+{
+  type: 'SOLVENT-FULL',
+  size: 300,
+  price: 7.5,
+  amount: 50,
+  modifier: 1
+},
+{
+  type: 'SOLVENT-FULL',
+  size: 400,
+  price: 8.9,
+  amount: 50,
+  modifier: 1
+},
+{
+  type: 'SOLVENT-FULL',
+  size: 500,
+  price: 10.9,
+  amount: 50,
+  modifier: 1
+},
+{
+  type: 'SOLVENT-FULL',
+  size: 625,
+  price: 12.5,
+  amount: 50,
+  modifier: 1
+},
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>50
+{
+  type: 'SOLVENT-FULL',
+  size: 50,
+  price: 4.2,
+  amount: 100,
+  modifier: 1
+},
+{
+  type: 'SOLVENT-FULL',
+  size: 100,
+  price: 4.7,
+  amount: 100,
+  modifier: 1
+},
+{
+  type: 'SOLVENT-FULL',
+  size: 150,
+  price: 5.2,
+  amount: 100,
+  modifier: 1
+},
+{
+  type: 'SOLVENT-FULL',
+  size: 250,
+  price: 6.2,
+  amount: 100,
+  modifier: 1
+},
+{
+  type: 'SOLVENT-FULL',
+  size: 300,
+  price: 6.9,
+  amount: 100,
+  modifier: 1
+},
+{
+  type: 'SOLVENT-FULL',
+  size: 400,
+  price: 7.9,
+  amount: 100,
+  modifier: 1
+},
+{
+  type: 'SOLVENT-FULL',
+  size: 500,
+  price: 9.9,
+  amount: 100,
+  modifier: 1
+},
+{
+  type: 'SOLVENT-FULL',
+  size: 625,
+  price: 11.5,
+  amount: 100,
+  modifier: 1
+},
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>iNFINITY
 ]
 
 const priceModifierData = [
@@ -494,7 +952,6 @@ const priceModifierData = [
     name: 'PS SUBLI',
     modifier: 1.15
   },
-
   {
     name: 'ELECTRIC',
     modifier: 1.15

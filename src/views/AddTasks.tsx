@@ -78,7 +78,8 @@ const Tasks: React.FC = () => {
     formState: { errors },
     watch,
     setValue,
-    reset
+    reset,
+    resetField
   } = useForm<Card>({
     defaultValues: {
       description: [defaultSectionValues],
@@ -243,7 +244,6 @@ const Tasks: React.FC = () => {
     console.log(data)
     // reset()
   }
-console.log(sectionForms[0]?.materialType)
 
   // const filteredCategoryMaterials = (materials: any[], index: number) => {
   //   const sectionApplicationName = applications.filter(item => item.name === sectionForms[index]?.title)[0]?.application
@@ -261,8 +261,6 @@ console.log(sectionForms[0]?.materialType)
   const sublimationMaterials = () => {
     return materials.filter(material => material.application === applications[2].application)
   }
-
-  // console.log(filteredCategoryMaterials(materials, 0))
 
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
@@ -310,7 +308,10 @@ console.log(sectionForms[0]?.materialType)
                       defaultValue={field.logo}
                     />
                     <div className={styles.sectionTabsContainer}>
-                      <SectionTabs tabLabel={'Wybierz typ materiału:'} setTabTitle={(e: string) => setValue(`description.${index}.materialType`, e)}>
+                      <SectionTabs
+                        tabLabel={'Wybierz typ materiału:'}
+                        setTabTitle={(e: string) => setValue(`description.${index}.materialType`, e)}
+                      >
                         <SectionTabsContent title="Flex/Flock">
                           <MaterialsForm
                             {...{ control, register }}
