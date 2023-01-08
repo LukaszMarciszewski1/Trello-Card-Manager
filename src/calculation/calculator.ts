@@ -917,6 +917,177 @@ const materialsCalculatorData = [
   modifier: 1
 },
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>iNFINITY
+{
+  type: 'SOLVENT',
+  size: 50,
+  price: 2.7,
+  amount: 10,
+  modifier: 1
+},
+{
+  type: 'SOLVENT',
+  size: 100,
+  price: 3,
+  amount: 10,
+  modifier: 1
+},
+{
+  type: 'SOLVENT',
+  size: 150,
+  price: 3.5,
+  amount: 10,
+  modifier: 1
+},
+{
+  type: 'SOLVENT',
+  size: 250,
+  price: 4.5,
+  amount: 10,
+  modifier: 1
+},
+{
+  type: 'SOLVENT',
+  size: 300,
+  price: 5.5,
+  amount: 10,
+  modifier: 1
+},
+{
+  type: 'SOLVENT',
+  size: 400,
+  price: 6.5,
+  amount: 10,
+  modifier: 1
+},
+{
+  type: 'SOLVENT',
+  size: 500,
+  price: 8.9,
+  amount: 10,
+  modifier: 1
+},
+{
+  type: 'SOLVENT',
+  size: 625,
+  price: 9.9,
+  amount: 10,
+  modifier: 1
+},
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>10
+{
+  type: 'SOLVENT',
+  size: 50,
+  price: 2.3,
+  amount: 50,
+  modifier: 1
+},
+{
+  type: 'SOLVENT',
+  size: 100,
+  price: 2.7,
+  amount: 50,
+  modifier: 1
+},
+{
+  type: 'SOLVENT',
+  size: 150,
+  price: 3.2,
+  amount: 50,
+  modifier: 1
+},
+{
+  type: 'SOLVENT',
+  size: 250,
+  price: 4,
+  amount: 50,
+  modifier: 1
+},
+{
+  type: 'SOLVENT',
+  size: 300,
+  price: 5,
+  amount: 50,
+  modifier: 1
+},
+{
+  type: 'SOLVENT',
+  size: 400,
+  price: 5.5,
+  amount: 50,
+  modifier: 1
+},
+{
+  type: 'SOLVENT',
+  size: 500,
+  price: 8,
+  amount: 50,
+  modifier: 1
+},
+{
+  type: 'SOLVENT',
+  size: 625,
+  price: 9,
+  amount: 50,
+  modifier: 1
+},
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>50
+{
+  type: 'SOLVENT',
+  size: 50,
+  price: 2.1,
+  amount: 100,
+  modifier: 1
+},
+{
+  type: 'SOLVENT',
+  size: 100,
+  price: 2.3,
+  amount: 100,
+  modifier: 1
+},
+{
+  type: 'SOLVENT',
+  size: 150,
+  price: 2.7,
+  amount: 100,
+  modifier: 1
+},
+{
+  type: 'SOLVENT',
+  size: 250,
+  price: 3.2,
+  amount: 100,
+  modifier: 1
+},
+{
+  type: 'SOLVENT',
+  size: 300,
+  price: 4,
+  amount: 100,
+  modifier: 1
+},
+{
+  type: 'SOLVENT',
+  size: 400,
+  price: 4.95,
+  amount: 100,
+  modifier: 1
+},
+{
+  type: 'SOLVENT',
+  size: 500,
+  price: 5.5,
+  amount: 100,
+  modifier: 1
+},
+{
+  type: 'SOLVENT',
+  size: 625,
+  price: 7.9,
+  amount: 100,
+  modifier: 1
+},
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>100
 ]
 
 const priceModifierData = [
@@ -1133,6 +1304,21 @@ export const getSelectedSizeName = (data: Description[], index: number) : string
   let formSize = selectedSize === undefined ? EMPTY_SIZE : selectedSize.name
 
   return formSize
+}
+
+export const isDisplayFabric = (data: Description): boolean => {
+  const selectMaterial = data?.materials
+  .map(material => data?.materials.length ? material.field : '')[0]
+  const typeOfSolvent = materials
+    .filter(material => material.priceType === 'SOLVENT')
+    .map(item => {
+      if(item.value === selectMaterial) return true
+      else return false
+    })
+    .filter(bool => bool === true)[0]
+
+    let isTheSame = typeOfSolvent === true ? typeOfSolvent : false
+  return isTheSame
 }
 
 export const getTotalPrice = (data: Description[]) : number => {

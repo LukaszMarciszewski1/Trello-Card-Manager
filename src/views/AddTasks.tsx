@@ -23,7 +23,8 @@ import {
   getTotalPrice,
   getPriceForSection,
   isMoreThanMaximumSize,
-  getSelectedSizeName
+  getSelectedSizeName,
+  isDisplayFabric
 } from "calculation/calculator";
 import { BsChevronCompactLeft } from "react-icons/bs";
 
@@ -251,6 +252,8 @@ const Tasks: React.FC = () => {
   //   return filteredMaterials
   // }
 
+
+
   const cuttingMaterials = () => {
     return materials.filter(material => material.application === applications[0].application)
   }
@@ -348,13 +351,17 @@ const Tasks: React.FC = () => {
                     />
                   </div>
                   <div className={styles.formGroupColumn}>
-                    <Select
-                      label={"Tkanina"}
-                      options={fabric}
-                      id={field.id}
-                      defaultValue={field.fabric}
-                      {...register(`description.${index}.fabric` as const)}
-                    />
+                    {
+                      !isDisplayFabric(sectionForms[index]) ? (
+                        <Select
+                          label={"Tkanina"}
+                          options={fabric}
+                          id={field.id}
+                          defaultValue={field.fabric}
+                          {...register(`description.${index}.fabric` as const)}
+                        />
+                      ) : null
+                    }
                     <Input
                       id={field.id}
                       placeholder={"Ilość"}
