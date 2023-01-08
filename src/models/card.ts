@@ -6,6 +6,7 @@ export interface Materials {
   }
 }
 export interface Description {
+  materialType: string
   logo: string
   fabric: string
   amount: number

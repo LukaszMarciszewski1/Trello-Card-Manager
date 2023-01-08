@@ -28,7 +28,6 @@
 .formGroupColumn {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
   max-width: 660px;
 }
 
@@ -84,4 +83,55 @@
 
 .rowContainer {
   display: flex;
+}
+
+.sectionHeader {
+  // position: absolute;
+  // left: 0;
+  // top: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgb(223, 223, 223);
+  // background-color: rgb(239, 239, 239);
+}
+
+.headerTabs {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  align-items: center;
+  justify-content: flex-start;
+  margin-right: 30px;
+}
+
+.tabPanel {
+  width: 100%;
+  background-color: $lightBlue;
+  grid-row: 1/2;
+  grid-column: 1/-1;
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: space-between;
+  // .el{
+  //   transform: rotate(90deg);
+  //   background-color: yellow;
+  //   width: 100px;
+  //   height:30px;
+  // }
+}
+
+.sectionContent {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 2rem;
+}
+
+.sectionTabsContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 1rem;
 }

@@ -9,9 +9,13 @@ import { AiOutlineAppstoreAdd } from 'react-icons/ai';
 import Input from 'components/Input/Input';
 import LabelBox from 'components/LabelBox/LabelBox';
 // import Tabs from 'components/Tabs/Tabs';
-import TabsContent from 'components/Tabs/TabsContent/TabsContent';
 import MaterialsList from 'components/MaterialsList/MaterialsList';
-import { Tabs, Tab } from 'react-tabs-scrollable'
+import Tabs from 'components/Tabs/Tabs'
+import TabsContent from 'components/Tabs/TabsContent/TabsContent'
+import Select from "components/Select/Select";
+import { applications } from 'data';
+import SectionTabs from "components/SectionTabs/SectionTabs";
+import SectionTabsContent from 'components/SectionTabs/TabsContent/TabsContent'
 // import './react-tabs-scrollable.scss';
 
 interface NestedProps {
@@ -19,13 +23,15 @@ interface NestedProps {
   registerName: any
   materials: any
   control?: any
+  dataForm?: any
+  materialsType?: string
 }
 
 interface CheckedItems {
   [key: string]: boolean;
 }
 
-const Nested: React.FC<NestedProps> = ({ register, registerName, materials, control }) => {
+const Nested: React.FC<NestedProps> = ({ register, registerName, materials, control, dataForm, materialsType }) => {
   const [popupTrigger, setPopupTrigger] = useState(false)
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
 
@@ -53,25 +59,44 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, materials, cont
     remove(checkedItems.indexOf(value))
     setCheckedItems(updatedList);
   }
-
+  
+  useEffect(() => {
+    if (dataForm) {
+      remove(checkedItems.map((item: any, i: number) => i))
+      setCheckedItems([])
+    }
+  }, [materialsType])
+  
   const filteredArray = [...materials].filter(material => [...checkedItems].includes(material.value));
 
-  //width: (checkedItems[k].length + 2) + 'ch' }
+  const inputWidth = (index: number) => {
+    if (checkedItems[index]) {
+      return ((checkedItems[index].length + 1) + 'ch')
+    }
+    else return 0
+  }
+
   return (
     <div className={styles.materialsList}>
       <span>Materiał:</span>
-      {fields.map((item, k) => (
-        <div key={item.id} style={{ margin: '0 10px 0 0', width: (checkedItems[k].length + 1) + 'ch' }}>
-          <Input
-            key={item.id}
-            style={{ marginTop: 0, textAlign: 'center', backgroundColor: '#f4f5fa' }}
-            id={item.id}
-            readOnly
-            type="text"
-            {...register(`${registerName}[${k}].field` as const)}
-          />
-        </div>
-      ))}
+      {
+        checkedItems.length ? (
+          <>
+            {fields.map((item, k) => (
+              <div key={item.id} style={{ margin: '0 10px 0 0', width: inputWidth(k) }}>
+                <Input
+                  key={item.id}
+                  style={{ marginTop: 0, textAlign: 'center', backgroundColor: '#f4f5fa' }}
+                  id={item.id}
+                  readOnly
+                  type="text"
+                  {...register(`${registerName}[${k}].field` as const)}
+                />
+              </div>
+            ))}
+          </>
+        ) : null
+      }
       <Popup
         title={'Dodaj materiał'}
         trigger={popupTrigger}
@@ -82,7 +107,13 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, materials, cont
             <p>Wybrane materiały:</p>
             {
               filteredArray.map((item: any, index: number) => (
-                <span key={index}>{item.value}<button type='button' onClick={() => handleRemoveMaterial(item.value)}>X</button></span>
+                <span key={index}> {item.value}
+                  <button
+                    type='button'
+                    onClick={() => handleRemoveMaterial(item.value)}>
+                    X
+                  </button>
+                </span>
               ))
             }
           </div>
@@ -98,7 +129,6 @@ const Nested: React.FC<NestedProps> = ({ register, registerName, materials, cont
             title={"ok"}
             onClick={() => setPopupTrigger(false)}
             style={{ fontSize: "1.2rem", margin: '0.5rem 0' }}
-          // icon={<RiAddLine fontSize={"1.5rem"} fontWeight={"bold"} />}
           />
         </div>
       </Popup>

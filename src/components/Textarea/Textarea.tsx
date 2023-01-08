@@ -17,7 +17,7 @@ const Textarea: React.FC<TextareaProps> = forwardRef<HTMLInputElement, TextareaP
     ref
   ) => {
     return (
-      <div ref={ref} className={styles.container}> <br />
+      <div ref={ref} className={styles.container}>
         <label htmlFor={id}>{label}</label>
         <TextareaAutosize
           id={id}
