@@ -35,6 +35,7 @@ const Input: React.FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
       maxValue,
       style,
       readOnly,
+      error,
       onChange,
       ...props
     },
@@ -52,6 +53,7 @@ const Input: React.FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
           value={value}
           defaultValue={defaultValue}
           // aria-label={label}
+          className={error && styles.error}
           placeholder={placeholder}
           step={step}
           min={minValue}

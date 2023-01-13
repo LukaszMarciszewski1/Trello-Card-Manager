@@ -18,11 +18,13 @@ export interface Description {
   customPrice: boolean
   materials: Materials[]
   size: string
+  packing: boolean
 }
 
 export interface Card {
   _id: string | number
   title: string
+  department: string
   description: Description[]
   startDate: Date | any
   endDate: Date | any
@@ -31,4 +33,5 @@ export interface Card {
   recipient: string
   price: number
   filePath: string
+  costOfOrder: number
 }

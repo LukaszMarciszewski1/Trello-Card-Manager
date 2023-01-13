@@ -13,8 +13,8 @@ const Tabs: React.FC<Props> = ({ children, tabLabel, setTabTitle }) => {
 
   return (
     <div className={styles.layout}>
-      <ul className={styles.container}>
         <p>{tabLabel}</p>
+      <ul className={styles.container}>
         {children.map((item, index) => (
           <Tab
             key={index}

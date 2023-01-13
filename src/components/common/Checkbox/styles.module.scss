@@ -3,6 +3,7 @@
 .container {
   display: flex;
   text-transform: uppercase;
+
 }
 
 .checkbox {
@@ -36,4 +37,8 @@
   &:first-child{
     margin: 0;
   }
+}
+
+.error{
+  border: 2px solid red
 }

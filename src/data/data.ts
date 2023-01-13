@@ -17,19 +17,25 @@ export const applications = [
     value: 'Sublimacja',
     application: 'sublimation',
   },
+  {
+    name: 'Transfery',
+    label: 'Transfery',
+    value: 'Transfery',
+    application: 'transfer',
+  },
 ]
 
 export const traders = [
   {
-    id: '6368b5afeaaa0400bb987771',
+    id: '6396f7d6897ad2013981ccef',
     name: 'Marcin Rzeźnicki',
     initial: 'MR',
     checked: false,
   },
-  //6368b5afeaaa0400bb987771 tj
   {
     id: '6368b5afeaaa0400bb987771',
     name: 'Tomasz Jankowski',
+    title: 'Tomasz Jankowski',
     initial: 'TJ',
     checked: false,
   },
@@ -40,19 +46,19 @@ export const traders = [
     checked: false,
   },
   {
-    id: '6368b5afeaaa0400bb987771',
+    id: '63ad54defdebc002110578dc',
     name: 'Łukasz Witkowski',
     initial: 'ŁW',
     checked: false,
   },
   {
-    id: '6368b5afeaaa0400bb987771',
+    id: '63b3ec26d906c9025912ce79',
     name: 'Justyna Leszczyńska',
     initial: 'JL',
     checked: false,
   },
   {
-    id: '6368b5afeaaa0400bb987771',
+    id: '63a062e9f196040308b23174',
     name: 'Maciej Witak',
     initial: 'MW',
     checked: false,
@@ -81,7 +87,7 @@ export const fabric = [
 export const recipient = [
   {
     label: 'MARCIN',
-    value: '6350f5d4c2c662005aa115e2',
+    value: '6350f5d4c2c662005aa115e2', //
     // name: 'Marcin',
     initial: 'MP',
   },
@@ -3693,6 +3699,15 @@ export const materials = [
     priceType: 'SUBLIMATION',
     priceModifier: 'STANDARD',
     application: 'sublimation',
+  },
+  {
+    type: 'Transfery',
+    name: 'Transfery',
+    value: 'Transfery',
+    color: 'white',
+    priceType: 'TRANSFER',
+    priceModifier: 'STANDARD',
+    application: 'transfer',
   },
   {
     type: 'Solvent (na gotowo)',

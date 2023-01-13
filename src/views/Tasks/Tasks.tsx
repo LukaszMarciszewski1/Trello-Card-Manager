@@ -1,19 +1,21 @@
 import React from 'react'
 import Tabs from 'components/Tabs/Tabs'
 import TabsContent from 'components/Tabs/TabsContent/TabsContent'
-import AddTasks from 'views/AddTasks'
+import PlotterForm from 'views/DepartamentsForm/Plotter/Plotter'
+import Embroidery from 'views/DepartamentsForm/Embroidery/Embroidery'
+import DTG from 'views/DepartamentsForm/DTG/DTG'
 
 const Tasks: React.FC = () => {
   return (
     <Tabs subcategory>
       <TabsContent title="Ploterownia">
-        <AddTasks />
+        <PlotterForm />
       </TabsContent>
       <TabsContent title="Hafciarnia">
-        <div>Hafciarnia</div>
+        <Embroidery />
       </TabsContent>
-      <TabsContent title="DTG">
-        <div>DTG</div>
+      <TabsContent title="DTF">
+        <DTG />
       </TabsContent>
     </Tabs>
   )

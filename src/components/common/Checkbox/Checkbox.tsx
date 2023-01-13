@@ -4,10 +4,12 @@ interface CheckboxProps {
   id: string
   type: string
   label?: string
+  title?:string
   value?: string
   name?: string
   style?: {}
   onChange?: (e: any) => void
+  error?: {} | undefined | ((value: any) => void)
   checked?: any
   children?: any
 }
@@ -18,11 +20,13 @@ const Checkbox: React.FC<CheckboxProps> = forwardRef<HTMLInputElement, CheckboxP
       id,
       type,
       label,
+      title,
       value,
       style,
       name,
       checked,
       onChange,
+      error,
       children,
       ...props
     },
@@ -44,8 +48,9 @@ const Checkbox: React.FC<CheckboxProps> = forwardRef<HTMLInputElement, CheckboxP
         <label
           htmlFor={id}
           style={style}
-          title={name}
-          className={styles.label}>
+          title={label}
+          className={`${styles.label} ${error && styles.error}`}
+          >
           {children}
           {label}
         </label>

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styles from './styles.module.scss'
 import './react-tabs-scrollable.scss';
 import { Tabs, Tab } from 'react-tabs-scrollable'
-import Checkbox from 'components/Checkbox/Checkbox'
+import Checkbox from 'components/common/Checkbox/Checkbox'
 
 interface MaterialsProps {
   options: []

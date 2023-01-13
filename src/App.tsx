@@ -3,7 +3,7 @@ import logo from "./logo.svg";
 import "./App.scss";
 import Tabs from "components/Tabs/Tabs";
 import TabsContent from "components/Tabs/TabsContent/TabsContent";
-import AddTasks from "views/AddTasks";
+import AddTasks from "views/DepartamentsForm/Plotter/Plotter";
 import ListTasks from "views/ListTasks";
 import Tasks from "views/Tasks/Tasks";
 

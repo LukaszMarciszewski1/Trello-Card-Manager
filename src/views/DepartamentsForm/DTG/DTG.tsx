@@ -1,22 +1,22 @@
 /* eslint-disable no-useless-escape */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./styles.module.scss";
 import axios from "axios";
 import dayjs from "dayjs";
 
-import { traders, fabric, recipient, materials, applications } from "data";
+import { traders, fabric, recipient, materials, applications } from "data/data";
 import { useForm, useFieldArray } from "react-hook-form";
 import { Card, Description } from "models/card";
 import SectionTabs from "components/SectionTabs/SectionTabs";
 import SectionTabsContent from 'components/SectionTabs/TabsContent/TabsContent'
 
-import Input from "components/Input/Input";
-import Button from "components/Button/Button";
-import Checkbox from "components/Checkbox/Checkbox";
-import Select from "components/Select/Select";
-import FormSection from "components/Section/FormSection";
-import Textarea from "components/Textarea/Textarea";
-import MaterialsForm from "./MaterialsForm/MaterialsForm";
+import Input from "components/common/Input/Input";
+import Button from "components/common/Button/Button";
+import Checkbox from "components/common/Checkbox/Checkbox";
+import Select from "components/common/Select/Select";
+import FormSection from "components/templates/Section/FormSection";
+import Textarea from "components/common/Textarea/Textarea";
+import MaterialsForm from "../../../components/templates/MaterialsForm/MaterialsForm";
 import { RiAddLine } from "react-icons/ri";
 import {
   getPriceForOnePieceOfSection,
@@ -27,6 +27,8 @@ import {
   isDisplayFabric
 } from "calculation/calculator";
 import { BsChevronCompactLeft } from "react-icons/bs";
+import Modal from "components/common/Modal/Modal";
+import Success from "components/common/Success/Success";
 
 const validation = {
   title: {
@@ -55,7 +57,7 @@ const titleErrors = (type: any) => {
 };
 
 const defaultSectionValues = {
-  materialType: applications[0].value,
+  materialType: '',
   logo: "",
   amount: 0,
   fabric: fabric[0].value,
@@ -65,11 +67,12 @@ const defaultSectionValues = {
   price: 0,
   priceForOnePiece: 0,
   customPrice: false,
+  packing: false,
   additionalDesc: '',
   materials: []
 };
 
-const Tasks: React.FC = () => {
+const DTFForm: React.FC = () => {
   dayjs.locale("pl");
 
   const {
@@ -106,8 +109,16 @@ const Tasks: React.FC = () => {
   }, [watchForChangesInSectionForms])
 
   useEffect(() => {
-    setValue('price', getTotalPrice(sectionForms))
     fields.map((item, index) => {
+      setValue(`description.${index}.materialType`, '')
+    })
+  }, [])
+
+  useEffect(() => {
+    setValue('price', getTotalPrice(sectionForms))
+    setValue('costOfOrder', Number((getTotalPrice(sectionForms) * 0.75).toFixed(1)))
+    fields.map((item, index) => {
+      setValue(`description.${index}.customPrice`, true)
       setValue(`description.${index}.price`, getPriceForSection(sectionForms, index))
       setValue(`description.${index}.priceForOnePiece`, getPriceForOnePieceOfSection(sectionForms, index))
     })
@@ -115,7 +126,6 @@ const Tasks: React.FC = () => {
 
   useEffect(() => {
     fields.map((item, index) => {
-      setValue(`description.${index}.customPrice`, isMoreThanMaximumSize(sectionForms, index))
       setValue(`description.${index}.size`, getSelectedSizeName(sectionForms, index))
     })
   }, [watchFormSizeWidth, watchFormSizeHeight])
@@ -145,7 +155,8 @@ const Tasks: React.FC = () => {
       attachment,
       recipient,
       filePath,
-      price
+      price,
+      costOfOrder
     } = data;
 
     const trelloUrl = 'https://api.trello.com/1'
@@ -164,7 +175,6 @@ const Tasks: React.FC = () => {
     const sectionName = `Sekcja:`
 
     const descSectionArray = description.map((desc, i) => {
-      const materials = desc.materials.map((item: { field: any; }) => item.field)
       return (
         `
         \n\
@@ -174,7 +184,6 @@ const Tasks: React.FC = () => {
         \n>Tkanina: ${desc.fabric}
         \n>Szerokość: ${desc.width}cm
         \n>Wysokość: ${desc.height}cm
-        \n>Materiał: ${materials.join(', ')}
         \n>Rozmiar: ${desc.size}
         \n>Cena za 1 szt: ${desc.priceForOnePiece}
         \n>Wartość sekcji: ${desc.price}
@@ -189,11 +198,11 @@ const Tasks: React.FC = () => {
       \n***Dane dodatkowe >>>>>>>>>>>>>>>>***
       \n>Plik produkcyjny: **${filePath}**
       \n>Wartość zlecenia: **${price}**
+      \n>Koszt zlecenia: **${costOfOrder}**
     `
 
     const formInitialDataCard = new FormData();
-    formInitialDataCard.append("idList", `${process.env.REACT_APP_TRELLO_LIST}`);
-    // formInitialDataCard.append("idList", `63adfbbe7d5d0e00edfd01e9`);
+    formInitialDataCard.append("idList", `${process.env.REACT_APP_TRELLO_DTF_LIST}`);
     formInitialDataCard.append("name", title);
     formInitialDataCard.append("desc", descData);
     formInitialDataCard.append("start", startDate);
@@ -239,35 +248,33 @@ const Tasks: React.FC = () => {
       console.error(error);
     }
   };
+  const [successSubmit, setSuccessSubmit] = useState(false)
 
   const handleSubmitForm = (data: Card) => {
-    // AddCardForm(data);
-    console.log(data)
-    // reset()
+    AddCardForm(data);
+    if(data) {
+      setSuccessSubmit(true)
+    }
+    reset()
   }
+  const ref = useRef(null)
 
-  // const filteredCategoryMaterials = (materials: any[], index: number) => {
-  //   const sectionApplicationName = applications.filter(item => item.name === sectionForms[index]?.title)[0]?.application
-  //   const filteredMaterials = materials.filter(material => material.application === sectionApplicationName)
-  //   return filteredMaterials
-  // }
-
-
-
-  const cuttingMaterials = () => {
-    return materials.filter(material => material.application === applications[0].application)
-  }
-  const solventMaterials = () => {
-    return materials.filter(material => material.application === applications[1].application)
-
-  }
-  const sublimationMaterials = () => {
-    return materials.filter(material => material.application === applications[2].application)
-  }
+  const closeModal = () => setSuccessSubmit(false)
 
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
       <div className={styles.formContainer}>
+      <Modal trigger={successSubmit} closeModal={closeModal}>
+          <h2 style={{
+            padding: 10, 
+            textAlign: 'center',
+            fontSize: '3.5rem',
+            zIndex: 100
+            }}>
+            Twoje zlecenie <br /> zostało dodane do <br /><strong>tablicy DTF w <br />Trello !!!</strong>
+            </h2>
+          <Success />
+        </Modal>
         <div className={styles.formGroupContainer}>
           <div className={styles.formGroupRow}>
             <>
@@ -278,9 +285,10 @@ const Tasks: React.FC = () => {
                 type="text"
                 error={errors.title}
                 style={{ padding: "10px", height: 48, fontSize: 17 }}
-                {...register("title", { ...validation.title })}
+                // {...register("title", { ...validation.title })}
+                {...register("title", { required: true })}
               />
-              {titleErrors(errors.title?.type)}
+              {/* {titleErrors(errors.title?.type)} */}
             </>
             <div className={styles.checkboxList}>
               {traders?.map((trader, index) => (
@@ -290,7 +298,8 @@ const Tasks: React.FC = () => {
                   type={"radio"}
                   value={trader.id}
                   label={trader.initial}
-                  {...register("member")}
+                  error={errors.member}
+                  {...register("member", { required: true })}
                 />
               ))}
             </div>
@@ -299,7 +308,7 @@ const Tasks: React.FC = () => {
             return (
               <FormSection key={field.id}>
                 <div className={styles.sectionContent}>
-                  <div className={styles.formGroupColumn}>
+                  <div className={styles.formGroupColumn} style={{ justifyContent: 'space-between' }}>
                     <Input
                       id={field.id}
                       label={"Logo"}
@@ -310,40 +319,6 @@ const Tasks: React.FC = () => {
                       })}
                       defaultValue={field.logo}
                     />
-                    <div className={styles.sectionTabsContainer}>
-                      <SectionTabs
-                        tabLabel={'Wybierz typ materiału:'}
-                        setTabTitle={(e: string) => setValue(`description.${index}.materialType`, e)}
-                      >
-                        <SectionTabsContent title="Flex/Flock">
-                          <MaterialsForm
-                            {...{ control, register }}
-                            registerName={`description[${index}].materials`}
-                            materials={cuttingMaterials()}
-                            dataForm={sectionForms[index]}
-                            materialsType={sectionForms[index]?.materialType}
-                          />
-                        </SectionTabsContent>
-                        <SectionTabsContent title="Solwent">
-                          <MaterialsForm
-                            {...{ control, register }}
-                            registerName={`description[${index}].materials`}
-                            materials={solventMaterials()}
-                            dataForm={sectionForms[index]}
-                            materialsType={sectionForms[index]?.materialType}
-                          />
-                        </SectionTabsContent>
-                        <SectionTabsContent title="Sublimacja">
-                          <MaterialsForm
-                            {...{ control, register }}
-                            registerName={`description[${index}].materials`}
-                            materials={sublimationMaterials()}
-                            dataForm={sectionForms[index]}
-                            materialsType={sectionForms[index]?.materialType}
-                          />
-                        </SectionTabsContent>
-                      </SectionTabs>
-                    </div>
                     <Textarea
                       id={field.id}
                       label={'Dodatkowy opis'}
@@ -351,17 +326,13 @@ const Tasks: React.FC = () => {
                     />
                   </div>
                   <div className={styles.formGroupColumn}>
-                    {
-                      !isDisplayFabric(sectionForms[index]) ? (
-                        <Select
-                          label={"Tkanina"}
-                          options={fabric}
-                          id={field.id}
-                          defaultValue={field.fabric}
-                          {...register(`description.${index}.fabric` as const)}
-                        />
-                      ) : null
-                    }
+                    <Select
+                      label={"Tkanina"}
+                      options={fabric}
+                      id={field.id}
+                      defaultValue={field.fabric}
+                      {...register(`description.${index}.fabric` as const)}
+                    />
                     <Input
                       id={field.id}
                       placeholder={"Ilość"}
@@ -370,7 +341,7 @@ const Tasks: React.FC = () => {
                       step={"1"}
                       min={0}
                       {...register(`description.${index}.amount` as const,
-                        { onChange: handleWatchCustomPriceValue })
+                        { onChange: handleWatchCustomPriceValue, required: true })
                       }
                     />
                     <div className={styles.rowContainer}>
@@ -382,7 +353,7 @@ const Tasks: React.FC = () => {
                         step={"0.1"}
                         min={0}
                         {...register(`description.${index}.width` as const,
-                          { onChange: handleWatchFormSizeWidthValue })
+                          { onChange: handleWatchFormSizeWidthValue, required: true })
                         }
                       />
                       <Input
@@ -393,7 +364,7 @@ const Tasks: React.FC = () => {
                         step={"0.1"}
                         min={0}
                         {...register(`description.${index}.height` as const,
-                          { onChange: handleWatchFormSizeHeightValue })
+                          { onChange: handleWatchFormSizeHeightValue, required: true })
                         }
                       />
                     </div>
@@ -405,56 +376,37 @@ const Tasks: React.FC = () => {
                       readOnly
                     />
                     <div className={styles.rowContainer}>
-                      {
-                        isMoreThanMaximumSize(sectionForms, index) ? (
-                          <>
-                            <div style={{ width: 120, marginRight: 15 }}>
-                              <Input
-                                id={field.id}
-                                label={"Cena 1szt."}
-                                style={{ border: '2px solid green' }}
-                                type="number"
-                                {...register(`description.${index}.priceForOnePiece` as const,
-                                  { onChange: handleWatchCustomPriceValue })
-                                }
-                              />
-                            </div>
-                            <Input
-                              id={field.id}
-                              label={"Wartość sekcji"}
-                              type="number"
-                              {...register(`description.${index}.price` as const)}
-                              readOnly
-                            />
-                          </>
-                        ) : (
-                          <>
-                            <div style={{ width: 120, marginRight: 15 }}>
-                              <Input
-                                id={field.id}
-                                label={"Cena 1szt."}
-                                type="number"
-                                {...register(`description.${index}.priceForOnePiece` as const)}
-                                readOnly
-                              />
-                            </div>
-                            <Input
-                              id={field.id}
-                              label={"Wartość sekcji"}
-                              type="number"
-                              {...register(`description.${index}.price` as const)}
-                              readOnly
-                            />
-                          </>
-                        )
-                      }
+                      <>
+                        <div style={{ width: 120, marginRight: 15 }}>
+                          <Input
+                            id={field.id}
+                            label={"Cena 1szt."}
+                            style={{ border: '2px solid green' }}
+                            type="number"
+                            {...register(`description.${index}.priceForOnePiece` as const,
+                              { onChange: handleWatchCustomPriceValue })
+                            }
+                          />
+                        </div>
+                        <Input
+                          id={field.id}
+                          label={"Wartość sekcji"}
+                          type="number"
+                          {...register(`description.${index}.price` as const)}
+                          readOnly
+                        />
+                      </>
                     </div>
-                    <Button
-                      type={"button"}
-                      title={"Usuń sekcję"}
-                      onClick={() => console.log(`description.${index}.title`)}
-                      style={{ margin: '20px 0 0' }}
-                    />
+                    {
+                      sectionForms.length > 1 ? (
+                        <Button
+                          type={"button"}
+                          title={"Usuń sekcję"}
+                          onClick={() => remove(index)}
+                          style={{ margin: '20px 0 0' }}
+                        />
+                      ) : null
+                    }
                   </div>
                 </div>
               </FormSection>
@@ -495,7 +447,6 @@ const Tasks: React.FC = () => {
                 label={"Data przyjęcia"}
                 value={new Date().toISOString().slice(0, 10)}
                 type="date"
-                error={errors.description}
                 {...register("startDate")}
               />
               <Input
@@ -503,8 +454,8 @@ const Tasks: React.FC = () => {
                 placeholder={"Data oddania"}
                 label={"Data oddania"}
                 type="date"
-                error={errors.description}
-                {...register("endDate")}
+                error={errors.endDate}
+                {...register("endDate", {required: true})}
               />
             </div>
             <div className={styles.buttonContainer}>
@@ -515,7 +466,7 @@ const Tasks: React.FC = () => {
                   style={{ backgroundColor: '#fdfdfd' }}
                   label={"Dodaj wizualizację"}
                   type="file"
-                  error={errors.description}
+                  // error={errors.description}
                   {...register("attachment")}
                 />
                 <Input
@@ -534,6 +485,13 @@ const Tasks: React.FC = () => {
               {...register(`price`)}
               readOnly
             />
+            <Input
+              id={'costOfOrder'}
+              label={"Koszt zlecenia (Wartość zlecenia * 0,75)"}
+              type="number"
+              {...register(`costOfOrder`)}
+              readOnly
+            />
             <div className={styles.buttonContainer}>
               <Button type={"submit"} title={"Dodaj zlecenie"} onClick={() => console.log("click")} />
             </div>
@@ -544,4 +502,4 @@ const Tasks: React.FC = () => {
   );
 };
 
-export default React.memo(Tasks);
+export default DTFForm;

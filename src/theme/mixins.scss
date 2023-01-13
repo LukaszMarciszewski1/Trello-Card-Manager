@@ -6,7 +6,6 @@
   width: 100%;
   padding: 10px;
   border-radius: 10px;
-  // margin: 0.4rem 0 0;
   background-color: $lightGrey;
   background-color: $inputBg;
   border: 1px solid #67788a;
@@ -23,6 +22,13 @@
   }
   &:read-only{
     background-color: rgb(242, 242, 242);
+  }
+  &:invalid{
+    border: 2px solid red
+  }
+  &:required{
+    border: 2px solid red
+
   }
 }
 

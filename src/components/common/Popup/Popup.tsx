@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import styles from './styles.module.scss'
-import Button from 'components/Button/Button';
+import Button from 'components/common/Button/Button';
 import { BsXLg } from "react-icons/bs";
 import { MdOutlineArrowBackIos } from "react-icons/md";
 import useOnClickOutside from 'hooks/useOnClickOutside'
