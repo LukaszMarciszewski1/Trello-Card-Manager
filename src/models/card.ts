@@ -34,4 +34,5 @@ export interface Card {
   price: number
   filePath: string
   costOfOrder: number
+  board: string
 }

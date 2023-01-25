@@ -4,7 +4,7 @@ import styles from "./styles.module.scss";
 import axios from "axios";
 import dayjs from "dayjs";
 
-import { traders, fabric, recipient, materials, applications } from "data/data";
+import { traders, fabric, recipient, materials, applications, plotter } from "data/data";
 import { useForm, useFieldArray } from "react-hook-form";
 import { Card, Description } from "models/card";
 import SectionTabs from "components/SectionTabs/SectionTabs";
@@ -60,11 +60,11 @@ const titleErrors = (type: any) => {
 const defaultSectionValues = {
   materialType: applications[0].value,
   logo: "",
-  amount: 0,
+  amount: 1,
   fabric: fabric[0].value,
   size: 'WYBIERZ ROZMIAR',
-  width: 0,
-  height: 0,
+  width: 0.1,
+  height: 0.1,
   price: 0,
   priceForOnePiece: 0,
   customPrice: false,
@@ -88,6 +88,7 @@ const PlotterForm: React.FC = () => {
   } = useForm<Card>({
     defaultValues: {
       description: [defaultSectionValues],
+      board: 'Ploterownia'
     },
     mode: "onBlur",
   });
@@ -122,14 +123,14 @@ const PlotterForm: React.FC = () => {
       setValue(`description.${index}.price`, getPriceForSection(sectionForms, index))
       setValue(`description.${index}.priceForOnePiece`, getPriceForOnePieceOfSection(sectionForms, index))
     })
-  }, [getTotalPrice(sectionForms), watchCustomPrice, watchFormSizeWidth, watchFormSizeHeight, watchPacking, sectionForms])
+  }, [getTotalPrice(sectionForms), watchCustomPrice, watchFormSizeWidth, watchFormSizeHeight, watchPacking])
 
   useEffect(() => {
     fields.map((item, index) => {
       setValue(`description.${index}.customPrice`, isMoreThanMaximumSize(sectionForms, index))
       setValue(`description.${index}.size`, getSelectedSizeName(sectionForms, index))
     })
-  }, [watchFormSizeWidth, watchFormSizeHeight])
+  }, [watchFormSizeWidth, watchFormSizeHeight, sectionForms])
 
   useEffect(() => {
     const filteredMaterials = materials.filter(material => material.application === applications[0].application)
@@ -177,9 +178,13 @@ const PlotterForm: React.FC = () => {
     }
 
     const sectionName = `Sekcja:`
+    const orderPrice = price > 0 ? `\n>Wartość zlecenia: ${price} zł` : ''
+    const orderCost = costOfOrder > 0 ? `\n>Koszt zlecenia: ${costOfOrder} zł` : ''
 
     const descSectionArray = description.map((desc, i) => {
       const materials = desc.materials.map((item: { field: any; }) => item.field)
+      const decsPriceForOnePiece = desc.priceForOnePiece > 0 ? `\n>Cena za 1 szt: ${desc.priceForOnePiece} zł` : ''
+      const descPrice = desc.price > 0 ? `\n>Wartość sekcji: ${desc.price} zł` : ''
       return (
         `
         \n\
@@ -190,11 +195,12 @@ const PlotterForm: React.FC = () => {
         \n>Szerokość: ${desc.width}cm
         \n>Wysokość: ${desc.height}cm
         \n>Typ materiału: ${desc.materialType}
-        \n>Materiał: ${materials.join(', ')}
+        \n>Materiał: ${materials.length ? materials.join(', ') : 'Nie wybrano'}
         \n>Rozmiar: ${desc.size}
-        \n>Cena za 1 szt: ${desc.priceForOnePiece}
-        \n>Wartość sekcji: ${desc.price}
-        \n\n>Dodatkowy opis: ${desc.additionalDesc}
+        \n>Pakowanie: ${desc.packing ? 'TAK' : 'NIE'}
+        ${decsPriceForOnePiece}
+        ${descPrice}
+        \n\n>Dodatkowy opis: ${desc.additionalDesc ? desc.additionalDesc : 'Brak'}
         \n-\n\n\n\
         `
       )
@@ -203,9 +209,9 @@ const PlotterForm: React.FC = () => {
     const descData = `
       ${descSectionArray} 
       \n***Dane dodatkowe >>>>>>>>>>>>>>>>***
-      \n>Plik produkcyjny: **${filePath}**
-      \n>Wartość zlecenia: **${price}**
-      \n>Koszt zlecenia: **${costOfOrder}**
+      \n>Plik produkcyjny: ${filePath ? `**${filePath}**` : 'Nie wybrano'}
+      ${orderPrice}
+      ${orderCost}
     `
 
     const formInitialDataCard = new FormData();
@@ -222,7 +228,7 @@ const PlotterForm: React.FC = () => {
     formFileDataCard.append("setCover", 'false');
 
     const formChecklistDataCard = new FormData();
-    formChecklistDataCard.append("name", title);
+    formChecklistDataCard.append("name", "Lista zadań");
 
     try {
       const res = await axios.post(
@@ -420,7 +426,7 @@ const PlotterForm: React.FC = () => {
                       label={"Ilość"}
                       type="number"
                       step={"1"}
-                      min={0}
+                      min={1}
                       error={errors.description?.[index]?.amount}
                       {...register(`description.${index}.amount` as const,
                         { onChange: handleWatchCustomPriceValue, required: true })
@@ -433,7 +439,7 @@ const PlotterForm: React.FC = () => {
                         label={"Szerokość (cm)"}
                         type="number"
                         step={"0.1"}
-                        min={0}
+                        min={0.1}
                         error={errors.description?.[index]?.width}
                         {...register(`description.${index}.width` as const,
                           { onChange: handleWatchFormSizeWidthValue, required: true })
@@ -445,7 +451,7 @@ const PlotterForm: React.FC = () => {
                         label={"Wysokość (cm)"}
                         type="number"
                         step={"0.1"}
-                        min={0}
+                        min={0.1}
                         error={errors.description?.[index]?.height}
                         {...register(`description.${index}.height` as const,
                           { onChange: handleWatchFormSizeHeightValue, required: true })
@@ -459,7 +465,7 @@ const PlotterForm: React.FC = () => {
                       {...register(`description.${index}.size` as const)}
                       readOnly
                     />
-                      <div className={styles.formGroupRow} style={{ margin: '10px 0 5px' }}>
+                    <div className={styles.formGroupRow} style={{ margin: '10px 0 5px' }}>
                       <label>Pakowanie (50gr/1szt)</label>
                       <input
                         id={field.id}
@@ -478,6 +484,7 @@ const PlotterForm: React.FC = () => {
                                 label={"Cena 1szt."}
                                 style={{ border: '2px solid green' }}
                                 type="number"
+                                min={0}
                                 {...register(`description.${index}.priceForOnePiece` as const,
                                   { onChange: handleWatchCustomPriceValue })
                                 }
@@ -553,7 +560,7 @@ const PlotterForm: React.FC = () => {
             <div className={styles.inputContainer}>
               <Select
                 label={"Przyjął"}
-                options={recipient}
+                options={plotter}
                 id={"recipient"}
                 {...register("recipient")}
               />

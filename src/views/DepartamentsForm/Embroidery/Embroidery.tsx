@@ -4,7 +4,7 @@ import styles from "./styles.module.scss";
 import axios from "axios";
 import dayjs from "dayjs";
 
-import { traders, fabric, recipient, materials, applications } from "data/data";
+import { traders, fabric, embroidery, materials, applications } from "data/data";
 import { useForm, useFieldArray } from "react-hook-form";
 import { Card, Description } from "models/card";
 import SectionTabs from "components/SectionTabs/SectionTabs";
@@ -59,11 +59,11 @@ const titleErrors = (type: any) => {
 const defaultSectionValues = {
   materialType: '',
   logo: "",
-  amount: 0,
+  amount: 1,
   fabric: fabric[0].value,
   size: 'WYBIERZ ROZMIAR',
-  width: 0,
-  height: 0,
+  width: 0.1,
+  height: 0.1,
   price: 0,
   priceForOnePiece: 0,
   customPrice: false,
@@ -87,6 +87,7 @@ const EmbroideryForm: React.FC = () => {
   } = useForm<Card>({
     defaultValues: {
       description: [defaultSectionValues],
+      board: 'Hafciarnia'
     },
     mode: "onBlur",
   });
@@ -103,6 +104,7 @@ const EmbroideryForm: React.FC = () => {
   const [watchFormSizeHeight, setWatchFormSizeHeight] = useState('')
   const [materialsType, setMaterialsType] = useState<any[]>([])
   const [watchMaterials, setWatchMaterials] = useState('')
+  const [watchPacking, setWatchPacking] = useState(false)
 
   useEffect(() => {
     setSectionForms(watchForChangesInSectionForms)
@@ -123,13 +125,13 @@ const EmbroideryForm: React.FC = () => {
       setValue(`description.${index}.price`, getPriceForSection(sectionForms, index))
       setValue(`description.${index}.priceForOnePiece`, getPriceForOnePieceOfSection(sectionForms, index))
     })
-  }, [getTotalPrice(sectionForms), watchCustomPrice, watchFormSizeWidth, watchFormSizeHeight])
+  }, [getTotalPrice(sectionForms), watchCustomPrice, watchFormSizeWidth, watchFormSizeHeight, watchPacking])
 
   useEffect(() => {
     fields.map((item, index) => {
       setValue(`description.${index}.size`, getSelectedSizeName(sectionForms, index))
     })
-  }, [watchFormSizeWidth, watchFormSizeHeight])
+  }, [watchFormSizeWidth, watchFormSizeHeight, sectionForms])
 
   useEffect(() => {
     const filteredMaterials = materials.filter(material => material.application === applications[0].application)
@@ -144,6 +146,9 @@ const EmbroideryForm: React.FC = () => {
   }
   const handleWatchFormSizeHeightValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setWatchFormSizeHeight(e.target.value)
+  }
+  const handleWatchPacking = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setWatchPacking(!watchPacking)
   }
 
   const AddCardForm = async (data: Card) => {
@@ -173,9 +178,44 @@ const EmbroideryForm: React.FC = () => {
       },
     }
 
+    // const sectionName = `Sekcja:`
+
+    // const descSectionArray = description.map((desc, i) => {
+    //   return (
+    //     `
+    //     \n\
+    //     \n***${sectionName}${i + 1} >>>>>>>>>>>>>>>>>>>>>***
+    //     \n>**Logo: ${desc.logo}**
+    //     \n>Ilość: ${desc.amount}
+    //     \n>Tkanina: ${desc.fabric}
+    //     \n>Szerokość: ${desc.width}cm
+    //     \n>Wysokość: ${desc.height}cm
+    //     \n>Rozmiar: ${desc.size}
+    //     \n>Pakowanie: ${desc.packing ? 'TAK' : 'NIE'}
+    //     \n>Cena za 1 szt: ${desc.priceForOnePiece} zł
+    //     \n>Wartość sekcji: ${desc.price} zł
+    //     \n\n>Dodatkowy opis: ${desc.additionalDesc}
+    //     \n-\n\n\n\
+    //     `
+    //   )
+    // }).join('').toString();
+
+    // const descData = `
+    //   ${descSectionArray} 
+    //   \n***Dane dodatkowe >>>>>>>>>>>>>>>>***
+    //   \n>Plik produkcyjny: **${filePath}**
+    //   \n>Wartość zlecenia: **${price}**
+    //   \n>Koszt zlecenia: **${costOfOrder}**
+    // `
+
     const sectionName = `Sekcja:`
+    const orderPrice = price > 0 ? `\n>Wartość zlecenia: ${price} zł` : ''
+    const orderCost = costOfOrder > 0 ? `\n>Koszt zlecenia: ${costOfOrder} zł` : ''
 
     const descSectionArray = description.map((desc, i) => {
+      const decsPriceForOnePiece = desc.priceForOnePiece > 0 ? `\n>Cena za 1 szt: ${desc.priceForOnePiece} zł` : ''
+      const descPrice = desc.price > 0 ? `\n>Wartość sekcji: ${desc.price} zł` : ''
+
       return (
         `
         \n\
@@ -186,9 +226,10 @@ const EmbroideryForm: React.FC = () => {
         \n>Szerokość: ${desc.width}cm
         \n>Wysokość: ${desc.height}cm
         \n>Rozmiar: ${desc.size}
-        \n>Cena za 1 szt: ${desc.priceForOnePiece}
-        \n>Wartość sekcji: ${desc.price}
-        \n\n>Dodatkowy opis: ${desc.additionalDesc}
+        \n>Pakowanie: ${desc.packing ? 'TAK' : 'NIE'}
+        ${decsPriceForOnePiece}
+        ${descPrice}
+        \n\n>Dodatkowy opis: ${desc.additionalDesc ? desc.additionalDesc : 'Brak'}
         \n-\n\n\n\
         `
       )
@@ -197,9 +238,9 @@ const EmbroideryForm: React.FC = () => {
     const descData = `
       ${descSectionArray} 
       \n***Dane dodatkowe >>>>>>>>>>>>>>>>***
-      \n>Plik produkcyjny: **${filePath}**
-      \n>Wartość zlecenia: **${price}**
-      \n>Koszt zlecenia: **${costOfOrder}**
+      \n>Plik produkcyjny: ${filePath ? `**${filePath}**` : 'Nie wybrano'}
+      ${orderPrice}
+      ${orderCost}
     `
 
     const formInitialDataCard = new FormData();
@@ -215,7 +256,7 @@ const EmbroideryForm: React.FC = () => {
     formFileDataCard.append("setCover", 'false');
 
     const formChecklistDataCard = new FormData();
-    formChecklistDataCard.append("name", title);
+    formChecklistDataCard.append("name", "Lista zadań");
 
     try {
       const res = await axios.post(
@@ -256,7 +297,7 @@ const EmbroideryForm: React.FC = () => {
 
   const handleSubmitForm = (data: Card) => {
     AddCardForm(data);
-    if(data) {
+    if (data) {
       setSuccessSubmit(true)
     }
     reset()
@@ -265,15 +306,15 @@ const EmbroideryForm: React.FC = () => {
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
       <div className={styles.formContainer}>
-      <Modal trigger={successSubmit} closeModal={closeModal}>
+        <Modal trigger={successSubmit} closeModal={closeModal}>
           <h2 style={{
-            padding: 10, 
+            padding: 10,
             textAlign: 'center',
             fontSize: '3.5rem',
             zIndex: 100
-            }}>
+          }}>
             Twoje zlecenie <br /> zostało dodane do <br /><strong>tablicy Hafciarnia w <br />Trello !!!</strong>
-            </h2>
+          </h2>
           <Success />
         </Modal>
         <div className={styles.formGroupContainer}>
@@ -376,6 +417,15 @@ const EmbroideryForm: React.FC = () => {
                       {...register(`description.${index}.size` as const)}
                       readOnly
                     />
+                    <div className={styles.formGroupRow} style={{ margin: '10px 0 5px' }}>
+                      <label>Pakowanie (50gr/1szt)</label>
+                      <input
+                        id={field.id}
+                        className={styles.defaultCheckbox}
+                        type={'checkbox'}
+                        {...register(`description.${index}.packing` as const, { onChange: handleWatchPacking })}
+                      />
+                    </div>
                     <div className={styles.rowContainer}>
                       <>
                         <div style={{ width: 120, marginRight: 15 }}>
@@ -384,6 +434,7 @@ const EmbroideryForm: React.FC = () => {
                             label={"Cena 1szt."}
                             style={{ border: '2px solid green' }}
                             type="number"
+                            min={0}
                             {...register(`description.${index}.priceForOnePiece` as const,
                               { onChange: handleWatchCustomPriceValue })
                             }
@@ -438,7 +489,7 @@ const EmbroideryForm: React.FC = () => {
             <div className={styles.inputContainer}>
               <Select
                 label={"Przyjął"}
-                options={recipient}
+                options={embroidery}
                 id={"recipient"}
                 {...register("recipient")}
               />
@@ -456,7 +507,7 @@ const EmbroideryForm: React.FC = () => {
                 label={"Data oddania"}
                 type="date"
                 error={errors.endDate}
-                {...register("endDate", {required: true})}
+                {...register("endDate", { required: true })}
               />
             </div>
             <div className={styles.buttonContainer}>

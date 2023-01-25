@@ -1403,8 +1403,7 @@ export const getSelectedSizeName = (
   const EMPTY_SIZE = 'WYBIERZ ROZMIAR'
 
   if (!sectionForms?.width && !sectionForms?.height) return EMPTY_SIZE
-  if (sectionForms?.width * sectionForms?.height > maxValue)
-    return 'ROZMIAR NIESTANDARDOWY'
+  if (sectionForms?.width * sectionForms?.height > maxValue) return 'ROZMIAR NIESTANDARDOWY'
 
   const selectedSize = sizesOptions.find(
     (option) =>
