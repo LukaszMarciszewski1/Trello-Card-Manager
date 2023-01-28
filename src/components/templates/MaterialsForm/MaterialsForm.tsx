@@ -13,7 +13,6 @@ import MaterialsList from 'components/templates/MaterialsList/MaterialsList';
 import Tabs from 'components/Tabs/Tabs'
 import TabsContent from 'components/Tabs/TabsContent/TabsContent'
 import Select from "components/common/Select/Select";
-import { applications } from 'data/data';
 import SectionTabs from "components/SectionTabs/SectionTabs";
 import SectionTabsContent from 'components/SectionTabs/TabsContent/TabsContent'
 // import './react-tabs-scrollable.scss';

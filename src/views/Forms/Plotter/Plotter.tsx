@@ -5,7 +5,8 @@ import axios from "axios";
 import dayjs from "dayjs";
 
 import { Card, Description } from "models/card";
-import { traders, fabric, materials, departments } from "data/data";
+import { traders, fabric, departments } from "data/appData/index";
+import { materials } from "data/appData/materials";
 import { useForm, useFieldArray } from "react-hook-form";
 
 import {

@@ -1,1237 +1,21 @@
-import { Console } from 'console'
-import { materials, sizes } from 'data/data'
 import { Description } from 'models/card'
-
-const materialsCalculatorData = [
-  {
-    type: 'FLEX',
-    size: 50,
-    price: 6.9,
-    amount: 10,
-    modifier: 1,
-  },
-  {
-    type: 'FLEX',
-    size: 100,
-    price: 7.9,
-    amount: 10,
-    modifier: 1,
-  },
-  {
-    type: 'FLEX',
-    size: 150,
-    price: 8.9,
-    amount: 10,
-    modifier: 1,
-  },
-  {
-    type: 'FLEX',
-    size: 250,
-    price: 9.9,
-    amount: 10,
-    modifier: 1,
-  },
-  {
-    type: 'FLEX',
-    size: 300,
-    price: 10.9,
-    amount: 10,
-    modifier: 1,
-  },
-  {
-    type: 'FLEX',
-    size: 400,
-    price: 12.9,
-    amount: 10,
-    modifier: 1,
-  },
-  {
-    type: 'FLEX',
-    size: 500,
-    price: 14.9,
-    amount: 10,
-    modifier: 1,
-  },
-  {
-    type: 'FLEX',
-    size: 625,
-    price: 16.9,
-    amount: 10,
-    modifier: 1,
-  },
-  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>10
-  {
-    type: 'FLEX',
-    size: 50,
-    price: 4.9,
-    amount: 30,
-    modifier: 1,
-  },
-  {
-    type: 'FLEX',
-    size: 100,
-    price: 5.9,
-    amount: 30,
-    modifier: 1,
-  },
-  {
-    type: 'FLEX',
-    size: 150,
-    price: 6.9,
-    amount: 30,
-    modifier: 1,
-  },
-  {
-    type: 'FLEX',
-    size: 250,
-    price: 7.9,
-    amount: 30,
-    modifier: 1,
-  },
-  {
-    type: 'FLEX',
-    size: 300,
-    price: 8.9,
-    amount: 30,
-    modifier: 1,
-  },
-  {
-    type: 'FLEX',
-    size: 400,
-    price: 10.9,
-    amount: 30,
-    modifier: 1,
-  },
-  {
-    type: 'FLEX',
-    size: 500,
-    price: 12.4,
-    amount: 30,
-    modifier: 1,
-  },
-  {
-    type: 'FLEX',
-    size: 625,
-    price: 13.9,
-    amount: 30,
-    modifier: 1,
-  },
-  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>30
-  {
-    type: 'FLEX',
-    size: 50,
-    price: 3.9,
-    amount: 50,
-    modifier: 1,
-  },
-  {
-    type: 'FLEX',
-    size: 100,
-    price: 4.4,
-    amount: 50,
-    modifier: 1,
-  },
-  {
-    type: 'FLEX',
-    size: 150,
-    price: 4.9,
-    amount: 50,
-    modifier: 1,
-  },
-  {
-    type: 'FLEX',
-    size: 250,
-    price: 5.9,
-    amount: 50,
-    modifier: 1,
-  },
-  {
-    type: 'FLEX',
-    size: 300,
-    price: 6.9,
-    amount: 50,
-    modifier: 1,
-  },
-  {
-    type: 'FLEX',
-    size: 400,
-    price: 7.9,
-    amount: 50,
-    modifier: 1,
-  },
-  {
-    type: 'FLEX',
-    size: 500,
-    price: 8.9,
-    amount: 50,
-    modifier: 1,
-  },
-  {
-    type: 'FLEX',
-    size: 625,
-    price: 10.9,
-    amount: 50,
-    modifier: 1,
-  },
-  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>50
-  {
-    type: 'FLEX',
-    size: 50,
-    price: 3,
-    amount: Infinity,
-    modifier: 1,
-  },
-  {
-    type: 'FLEX',
-    size: 100,
-    price: 3.4,
-    amount: Infinity,
-    modifier: 1,
-  },
-  {
-    type: 'FLEX',
-    size: 150,
-    price: 3.8,
-    amount: Infinity,
-    modifier: 1,
-  },
-  {
-    type: 'FLEX',
-    size: 250,
-    price: 4.5,
-    amount: Infinity,
-    modifier: 1,
-  },
-  {
-    type: 'FLEX',
-    size: 300,
-    price: 5.5,
-    amount: Infinity,
-    modifier: 1,
-  },
-  {
-    type: 'FLEX',
-    size: 400,
-    price: 6.1,
-    amount: Infinity,
-    modifier: 1,
-  },
-  {
-    type: 'FLEX',
-    size: 500,
-    price: 6.6,
-    amount: Infinity,
-    modifier: 1,
-  },
-  {
-    type: 'FLEX',
-    size: 625,
-    price: 7.1,
-    amount: Infinity,
-    modifier: 1,
-  },
-
-  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>50
-  //FLOCK//////////////////////////////////////////////////////////////////
-  {
-    type: 'FLOCK',
-    size: 50,
-    price: 7.7,
-    amount: 10,
-    modifier: 1,
-  },
-  {
-    type: 'FLOCK',
-    size: 100,
-    price: 8.7,
-    amount: 10,
-    modifier: 1,
-  },
-  {
-    type: 'FLOCK',
-    size: 150,
-    price: 9.7,
-    amount: 10,
-    modifier: 1,
-  },
-  {
-    type: 'FLOCK',
-    size: 250,
-    price: 11.7,
-    amount: 10,
-    modifier: 1,
-  },
-  {
-    type: 'FLOCK',
-    size: 300,
-    price: 12.7,
-    amount: 10,
-    modifier: 1,
-  },
-  {
-    type: 'FLOCK',
-    size: 400,
-    price: 14.7,
-    amount: 10,
-    modifier: 1,
-  },
-  {
-    type: 'FLOCK',
-    size: 500,
-    price: 16.7,
-    amount: 10,
-    modifier: 1,
-  },
-  {
-    type: 'FLOCK',
-    size: 625,
-    price: 19.2,
-    amount: 10,
-    modifier: 1,
-  },
-  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>10
-  {
-    type: 'FLOCK',
-    size: 50,
-    price: 5.5,
-    amount: 30,
-    modifier: 1,
-  },
-  {
-    type: 'FLOCK',
-    size: 100,
-    price: 6.5,
-    amount: 30,
-    modifier: 1,
-  },
-  {
-    type: 'FLOCK',
-    size: 150,
-    price: 7.5,
-    amount: 30,
-    modifier: 1,
-  },
-  {
-    type: 'FLOCK',
-    size: 250,
-    price: 9.5,
-    amount: 30,
-    modifier: 1,
-  },
-  {
-    type: 'FLOCK',
-    size: 300,
-    price: 10.5,
-    amount: 30,
-    modifier: 1,
-  },
-  {
-    type: 'FLOCK',
-    size: 400,
-    price: 11.9,
-    amount: 30,
-    modifier: 1,
-  },
-  {
-    type: 'FLOCK',
-    size: 500,
-    price: 12.9,
-    amount: 30,
-    modifier: 1,
-  },
-  {
-    type: 'FLOCK',
-    size: 625,
-    price: 14.9,
-    amount: 30,
-    modifier: 1,
-  },
-  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>30
-  {
-    type: 'FLOCK',
-    size: 50,
-    price: 4.5,
-    amount: 50,
-    modifier: 1,
-  },
-  {
-    type: 'FLOCK',
-    size: 100,
-    price: 5.5,
-    amount: 50,
-    modifier: 1,
-  },
-  {
-    type: 'FLOCK',
-    size: 150,
-    price: 6.5,
-    amount: 50,
-    modifier: 1,
-  },
-  {
-    type: 'FLOCK',
-    size: 250,
-    price: 7.9,
-    amount: 50,
-    modifier: 1,
-  },
-  {
-    type: 'FLOCK',
-    size: 300,
-    price: 8.9,
-    amount: 50,
-    modifier: 1,
-  },
-  {
-    type: 'FLOCK',
-    size: 400,
-    price: 9.9,
-    amount: 50,
-    modifier: 1,
-  },
-  {
-    type: 'FLOCK',
-    size: 500,
-    price: 10.9,
-    amount: 50,
-    modifier: 1,
-  },
-  {
-    type: 'FLOCK',
-    size: 625,
-    price: 11.9,
-    amount: 50,
-    modifier: 1,
-  },
-  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>50
-  {
-    type: 'FLOCK',
-    size: 50,
-    price: 3.5,
-    amount: Infinity,
-    modifier: 1,
-  },
-  {
-    type: 'FLOCK',
-    size: 100,
-    price: 4.3,
-    amount: Infinity,
-    modifier: 1,
-  },
-  {
-    type: 'FLOCK',
-    size: 150,
-    price: 5,
-    amount: Infinity,
-    modifier: 1,
-  },
-  {
-    type: 'FLOCK',
-    size: 250,
-    price: 6,
-    amount: Infinity,
-    modifier: 1,
-  },
-  {
-    type: 'FLOCK',
-    size: 300,
-    price: 7,
-    amount: Infinity,
-    modifier: 1,
-  },
-  {
-    type: 'FLOCK',
-    size: 400,
-    price: 8,
-    amount: Infinity,
-    modifier: 1,
-  },
-  {
-    type: 'FLOCK',
-    size: 500,
-    price: 9,
-    amount: Infinity,
-    modifier: 1,
-  },
-  {
-    type: 'FLOCK',
-    size: 625,
-    price: 10.5,
-    amount: Infinity,
-    modifier: 1,
-  },
-  ///////////////////////////////////////////////////////////////
-  {
-    type: 'SUBLIMATION',
-    size: 50,
-    price: 6.6,
-    amount: 10,
-    modifier: 1,
-  },
-  {
-    type: 'SUBLIMATION',
-    size: 100,
-    price: 6.9,
-    amount: 10,
-    modifier: 1,
-  },
-  {
-    type: 'SUBLIMATION',
-    size: 150,
-    price: 7.2,
-    amount: 10,
-    modifier: 1,
-  },
-  {
-    type: 'SUBLIMATION',
-    size: 250,
-    price: 7.75,
-    amount: 10,
-    modifier: 1,
-  },
-  {
-    type: 'SUBLIMATION',
-    size: 300,
-    price: 8.25,
-    amount: 10,
-    modifier: 1,
-  },
-  {
-    type: 'SUBLIMATION',
-    size: 400,
-    price: 8.9,
-    amount: 10,
-    modifier: 1,
-  },
-  {
-    type: 'SUBLIMATION',
-    size: 500,
-    price: 9.5,
-    amount: 10,
-    modifier: 1,
-  },
-  {
-    type: 'SUBLIMATION',
-    size: 625,
-    price: 10.3,
-    amount: 10,
-    modifier: 1,
-  },
-  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>10
-  {
-    type: 'SUBLIMATION',
-    size: 50,
-    price: 5.5,
-    amount: 30,
-    modifier: 1,
-  },
-  {
-    type: 'SUBLIMATION',
-    size: 100,
-    price: 5.8,
-    amount: 30,
-    modifier: 1,
-  },
-  {
-    type: 'SUBLIMATION',
-    size: 150,
-    price: 6.1,
-    amount: 30,
-    modifier: 1,
-  },
-  {
-    type: 'SUBLIMATION',
-    size: 250,
-    price: 6.5,
-    amount: 30,
-    modifier: 1,
-  },
-  {
-    type: 'SUBLIMATION',
-    size: 300,
-    price: 6.9,
-    amount: 30,
-    modifier: 1,
-  },
-  {
-    type: 'SUBLIMATION',
-    size: 400,
-    price: 7.4,
-    amount: 30,
-    modifier: 1,
-  },
-  {
-    type: 'SUBLIMATION',
-    size: 500,
-    price: 7.95,
-    amount: 30,
-    modifier: 1,
-  },
-  {
-    type: 'SUBLIMATION',
-    size: 625,
-    price: 8.6,
-    amount: 30,
-    modifier: 1,
-  },
-  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>30
-  {
-    type: 'SUBLIMATION',
-    size: 50,
-    price: 4.4,
-    amount: 50,
-    modifier: 1,
-  },
-  {
-    type: 'SUBLIMATION',
-    size: 100,
-    price: 4.6,
-    amount: 50,
-    modifier: 1,
-  },
-  {
-    type: 'SUBLIMATION',
-    size: 150,
-    price: 4.85,
-    amount: 50,
-    modifier: 1,
-  },
-  {
-    type: 'SUBLIMATION',
-    size: 250,
-    price: 5.15,
-    amount: 50,
-    modifier: 1,
-  },
-  {
-    type: 'SUBLIMATION',
-    size: 300,
-    price: 5.5,
-    amount: 50,
-    modifier: 1,
-  },
-  {
-    type: 'SUBLIMATION',
-    size: 400,
-    price: 5.9,
-    amount: 50,
-    modifier: 1,
-  },
-  {
-    type: 'SUBLIMATION',
-    size: 500,
-    price: 6.35,
-    amount: 50,
-    modifier: 1,
-  },
-  {
-    type: 'SUBLIMATION',
-    size: 625,
-    price: 6.9,
-    amount: 50,
-    modifier: 1,
-  },
-  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>50
-  {
-    type: 'SUBLIMATION',
-    size: 50,
-    price: 3.9,
-    amount: Infinity,
-    modifier: 1,
-  },
-  {
-    type: 'SUBLIMATION',
-    size: 100,
-    price: 4.1,
-    amount: Infinity,
-    modifier: 1,
-  },
-  {
-    type: 'SUBLIMATION',
-    size: 150,
-    price: 4.3,
-    amount: Infinity,
-    modifier: 1,
-  },
-  {
-    type: 'SUBLIMATION',
-    size: 250,
-    price: 4.6,
-    amount: Infinity,
-    modifier: 1,
-  },
-  {
-    type: 'SUBLIMATION',
-    size: 300,
-    price: 4.9,
-    amount: Infinity,
-    modifier: 1,
-  },
-  {
-    type: 'SUBLIMATION',
-    size: 400,
-    price: 5.3,
-    amount: Infinity,
-    modifier: 1,
-  },
-  {
-    type: 'SUBLIMATION',
-    size: 500,
-    price: 5.6,
-    amount: Infinity,
-    modifier: 1,
-  },
-  {
-    type: 'SUBLIMATION',
-    size: 625,
-    price: 6,
-    amount: Infinity,
-    modifier: 1,
-  },
-  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>INFINITY
-  ///////////////////////////////////////////////////////////////
-  {
-    type: 'SOLVENT-FULL',
-    size: 50,
-    price: 7.5,
-    amount: 10,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT-FULL',
-    size: 100,
-    price: 8.5,
-    amount: 10,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT-FULL',
-    size: 150,
-    price: 9.5,
-    amount: 10,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT-FULL',
-    size: 250,
-    price: 11,
-    amount: 10,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT-FULL',
-    size: 300,
-    price: 11.9,
-    amount: 10,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT-FULL',
-    size: 400,
-    price: 13.5,
-    amount: 10,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT-FULL',
-    size: 500,
-    price: 15.5,
-    amount: 10,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT-FULL',
-    size: 625,
-    price: 17.9,
-    amount: 10,
-    modifier: 1,
-  },
-  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>10
-  {
-    type: 'SOLVENT-FULL',
-    size: 50,
-    price: 5.5,
-    amount: 30,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT-FULL',
-    size: 100,
-    price: 6,
-    amount: 30,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT-FULL',
-    size: 150,
-    price: 7,
-    amount: 30,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT-FULL',
-    size: 250,
-    price: 8.5,
-    amount: 30,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT-FULL',
-    size: 300,
-    price: 9.3,
-    amount: 30,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT-FULL',
-    size: 400,
-    price: 10.9,
-    amount: 30,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT-FULL',
-    size: 500,
-    price: 12.9,
-    amount: 30,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT-FULL',
-    size: 625,
-    price: 14.9,
-    amount: 30,
-    modifier: 1,
-  },
-  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>30
-  {
-    type: 'SOLVENT-FULL',
-    size: 50,
-    price: 4.3,
-    amount: 50,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT-FULL',
-    size: 100,
-    price: 4.9,
-    amount: 50,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT-FULL',
-    size: 150,
-    price: 5.5,
-    amount: 50,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT-FULL',
-    size: 250,
-    price: 6.8,
-    amount: 50,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT-FULL',
-    size: 300,
-    price: 7.5,
-    amount: 50,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT-FULL',
-    size: 400,
-    price: 8.9,
-    amount: 50,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT-FULL',
-    size: 500,
-    price: 10.9,
-    amount: 50,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT-FULL',
-    size: 625,
-    price: 12.5,
-    amount: 50,
-    modifier: 1,
-  },
-  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>50
-  {
-    type: 'SOLVENT-FULL',
-    size: 50,
-    price: 4.2,
-    amount: 100,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT-FULL',
-    size: 100,
-    price: 4.7,
-    amount: 100,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT-FULL',
-    size: 150,
-    price: 5.2,
-    amount: 100,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT-FULL',
-    size: 250,
-    price: 6.2,
-    amount: 100,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT-FULL',
-    size: 300,
-    price: 6.9,
-    amount: 100,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT-FULL',
-    size: 400,
-    price: 7.9,
-    amount: 100,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT-FULL',
-    size: 500,
-    price: 9.9,
-    amount: 100,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT-FULL',
-    size: 625,
-    price: 11.5,
-    amount: 100,
-    modifier: 1,
-  },
-  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>iNFINITY
-  {
-    type: 'SOLVENT',
-    size: 50,
-    price: 2.7,
-    amount: 10,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT',
-    size: 100,
-    price: 3,
-    amount: 10,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT',
-    size: 150,
-    price: 3.5,
-    amount: 10,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT',
-    size: 250,
-    price: 4.5,
-    amount: 10,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT',
-    size: 300,
-    price: 5.5,
-    amount: 10,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT',
-    size: 400,
-    price: 6.5,
-    amount: 10,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT',
-    size: 500,
-    price: 8.9,
-    amount: 10,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT',
-    size: 625,
-    price: 9.9,
-    amount: 10,
-    modifier: 1,
-  },
-  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>10
-  {
-    type: 'SOLVENT',
-    size: 50,
-    price: 2.3,
-    amount: 50,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT',
-    size: 100,
-    price: 2.7,
-    amount: 50,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT',
-    size: 150,
-    price: 3.2,
-    amount: 50,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT',
-    size: 250,
-    price: 4,
-    amount: 50,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT',
-    size: 300,
-    price: 5,
-    amount: 50,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT',
-    size: 400,
-    price: 5.5,
-    amount: 50,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT',
-    size: 500,
-    price: 8,
-    amount: 50,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT',
-    size: 625,
-    price: 9,
-    amount: 50,
-    modifier: 1,
-  },
-  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>50
-  {
-    type: 'SOLVENT',
-    size: 50,
-    price: 2.1,
-    amount: 100,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT',
-    size: 100,
-    price: 2.3,
-    amount: 100,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT',
-    size: 150,
-    price: 2.7,
-    amount: 100,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT',
-    size: 250,
-    price: 3.2,
-    amount: 100,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT',
-    size: 300,
-    price: 4,
-    amount: 100,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT',
-    size: 400,
-    price: 4.95,
-    amount: 100,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT',
-    size: 500,
-    price: 5.5,
-    amount: 100,
-    modifier: 1,
-  },
-  {
-    type: 'SOLVENT',
-    size: 625,
-    price: 7.9,
-    amount: 100,
-    modifier: 1,
-  },
-  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>100
-    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>50
-    {
-      type: 'TRANSFER',
-      size: 50,
-      price: 0.5,
-      amount: Infinity,
-      modifier: 1,
-    },
-    {
-      type: 'TRANSFER',
-      size: 100,
-      price: 0.5,
-      amount: Infinity,
-      modifier: 1,
-    },
-    {
-      type: 'TRANSFER',
-      size: 150,
-      price: 0.5,
-      amount: Infinity,
-      modifier: 1,
-    },
-    {
-      type: 'TRANSFER',
-      size: 250,
-      price: 0.5,
-      amount: Infinity,
-      modifier: 1,
-    },
-    {
-      type: 'TRANSFER',
-      size: 300,
-      price: 0.5,
-      amount: Infinity,
-      modifier: 1,
-    },
-    {
-      type: 'TRANSFER',
-      size: 400,
-      price: 0.5,
-      amount: Infinity,
-      modifier: 1,
-    },
-    {
-      type: 'TRANSFER',
-      size: 500,
-      price: 0.5,
-      amount: Infinity,
-      modifier: 1,
-    },
-    {
-      type: 'TRANSFER',
-      size: 625,
-      price: 0.5,
-      amount: Infinity,
-      modifier: 1,
-    },
-    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>INFINITY
-]
-
-const priceModifierData = [
-  {
-    name: 'STANDARD',
-    modifier: 1,
-  },
-  {
-    name: 'PS EXTRA',
-    modifier: 1.1,
-  },
-  {
-    name: 'FLUO',
-    modifier: 1.2,
-  },
-  {
-    name: 'REFLEX',
-    modifier: 1.75,
-  },
-  {
-    name: 'LUMEN',
-    modifier: 1.5,
-  },
-  {
-    name: 'FOIL',
-    modifier: 1.35,
-  },
-  {
-    name: 'GLITTER',
-    modifier: 1.5,
-  },
-  {
-    name: 'PS SUBLI',
-    modifier: 1.15,
-  },
-  {
-    name: 'ELECTRIC',
-    modifier: 1.15,
-  },
-  {
-    name: 'BRICK',
-    modifier: 1.5,
-  },
-]
-
-const packingPrice  = 0.5
+import { materials, sizes} from 'data/appData/index'
+import {
+  materialsPriceList, 
+  modifiersPriceList, 
+  packingPrice 
+} from 'data/calculator/index'
 
 const getSizeModifier = (width: number, height: number): number => {
-  let size = 0
-
-  switch (true) {
-    case width * height == 0:
-      size = 0
-      break
-    case width * height <= 50:
-      size = 50
-      break
-    case width * height > 50 && width * height <= 100:
-      size = 100
-      break
-    case width * height > 100 && width * height <= 150:
-      size = 150
-      break
-    case width * height > 150 && width * height <= 250:
-      size = 250
-      break
-    case width * height > 250 && width * height <= 300:
-      size = 300
-      break
-    case width * height > 300 && width * height <= 400:
-      size = 400
-      break
-    case width * height > 400 && width * height <= 500:
-      size = 500
-      break
-    case width * height > 500 && width * height <= 625:
-      size = 625
-      break
-    case width * height > 625:
-      size = 626
-      break
-    default:
-      size = 0
+  const limits = sizes.map(item => item.size)
+  limits.unshift(0)
+  let size = 0;
+  for (let i = 0; i < limits.length; i++) {
+    if (width * height <= limits[i]) {
+      size = limits[i];
+      break;
+    }
   }
-
   return size
 }
 
@@ -1241,7 +25,7 @@ const getSelectedMaterialPrice = (
   amount: number
 ): number => {
   if (!selectedType) return 0
-  const comparisonOfType = [...materialsCalculatorData].filter(
+  const comparisonOfType = [...materialsPriceList].filter(
     (item: any) => item.type === selectedType
   )
   const typePrice = comparisonOfType.filter(
@@ -1253,8 +37,7 @@ const getSelectedMaterialPrice = (
 
 const getMaterialModifier = (value: string | undefined): number => {
   if (value) {
-    return [...priceModifierData].filter((item) => item.name === value)[0]
-      .modifier
+    return [...modifiersPriceList].filter((item) => item.name === value)[0].modifier
   } else {
     return 1
   }
@@ -1266,13 +49,12 @@ const calculator = (
   width: number,
   height: number
 ) => {
-  const filteredSelectedMaterial = materials.filter(
-    (item) => item.value === selectedMaterial
-  )
-
   const numberWidth = Number(width)
   const numberHeight = Number(height)
   const numberAmount = Number(amount)
+  const filteredSelectedMaterial = materials.filter(
+    (item) => item.value === selectedMaterial
+  )
 
   if (!filteredSelectedMaterial[0]) return 0
   if (amount === 0) return 0
@@ -1286,9 +68,7 @@ const calculator = (
     getSizeModifier(numberWidth, numberHeight),
     numberAmount
   )
-
   const priceCalculations = price * modifier * numberAmount
-
   return priceCalculations
 }
 
@@ -1304,10 +84,8 @@ const customPriceArray = (data: Description[]): number[] => {
     .filter((item) => item.customPrice === true)
     .map((item, index) => {
       const price = Number(item.price)
-      console.log(Number(getPriceForPacking(sectionForms[index])))
       sectionPriceArray.push(price)
     })
-
   return sectionPriceArray
 }
 
@@ -1317,10 +95,8 @@ const calculatorPriceArray = (
 ): number[] => {
   let prices: number[] = []
   data.map((item, index) => {
-
     const material = (item.materials.length ? item.materials[0].field : '').toString()
     const calculatorPrice = calculator(Number(item.amount), material, item.width, item.height)
-
     if (!item.materials.length) {
       prices.push(0)
     } else {
@@ -1340,15 +116,15 @@ export const isMoreThanMaximumSize = (
   data: Description[],
   index: number
 ): boolean => {
+  const limits = sizes.map(item => item.size)
   const sectionForm = [...data][index]
   let isMaxSize: boolean = false
-  if (sectionForm?.width * sectionForm?.height > 625) {
+  if (sectionForm?.width * sectionForm?.height > Math.max(...limits)) {
     isMaxSize = true
   }
- else if(sectionForm?.materialType === '' && sectionForm?.width * sectionForm?.height > 0){
-  isMaxSize = true
- }
-
+  else if(sectionForm?.materialType === '' && sectionForm?.width * sectionForm?.height > 0){
+    isMaxSize = true
+  }
   return isMaxSize
 }
 
@@ -1357,17 +133,14 @@ export const getPriceForOnePieceOfSection = (
   index: number
 ): number => {
   const sectionForms = [...data]
-
   const sum = isMoreThanMaximumSize(sectionForms, index)
     ? sectionForms[index]?.priceForOnePiece
     : calculatorPriceArray(sectionForms, true)[index]
 
   let price = Number(sum)
-
   if (isNaN(price)) {
     price = 0
   }
-
   return Number(price.toFixed(1))
 }
 
@@ -1376,20 +149,20 @@ export const getPriceForSection = (
   index: number
 ): number => {
   const sectionForms = [...data]
-  
   const calculatorPrice = calculatorPriceArray(sectionForms, false)[index]
-  const customPrice = (sectionForms[index]?.priceForOnePiece * sectionForms[index]?.amount) + getPriceForPacking(sectionForms[index])
+  const customPrice = (
+    (sectionForms[index]?.priceForOnePiece * sectionForms[index]?.amount) 
+    + getPriceForPacking(sectionForms[index])
+  )
 
   const sum = isMoreThanMaximumSize(sectionForms, index)
     ? customPrice
     : calculatorPrice
 
   let price = Number(sum)
-
   if (isNaN(price)) {
     price = 0
   }
-
   return Number(price.toFixed(1))
 }
 
@@ -1410,7 +183,6 @@ export const getSelectedSizeName = (
       option.size === getSizeModifier(sectionForms.width, sectionForms.height)
   )
   let formSize = selectedSize === undefined ? EMPTY_SIZE : selectedSize.name
-
   return formSize
 }
 
@@ -1432,15 +204,14 @@ export const isDisplayFabric = (data: Description): boolean => {
 
 export const getTotalPrice = (data: Description[]): number => {
   const sectionForms = [...data]
-
-  const calculatorPrice = Number(calculatorPriceArray(sectionForms, false)
-    .reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+  const calculatorPrice = Number(
+    calculatorPriceArray(sectionForms, false)
+      .reduce((accumulator, currentValue) => accumulator + currentValue, 0)
   )
-
   const customPrice = Number(
-    customPriceArray(sectionForms).reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+    customPriceArray(sectionForms)
+      .reduce((accumulator, currentValue) => accumulator + currentValue, 0)
   )
-
   const price = customPrice > 0 ? calculatorPrice + customPrice : calculatorPrice
   return Number(price.toFixed(1))
 }

@@ -1,0 +1,1 @@
+export const packingPrice  = 0.5

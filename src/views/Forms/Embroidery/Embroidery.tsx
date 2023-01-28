@@ -4,7 +4,7 @@ import styles from "./styles.module.scss";
 import axios from "axios";
 import dayjs from "dayjs";
 
-import { traders, fabric, departments } from "data/data";
+import { traders, fabric, departments } from "data/appData/index";
 import { useForm, useFieldArray } from "react-hook-form";
 import { Card, Description } from "models/card";
 
