@@ -1,23 +1,13 @@
 /* eslint-disable no-useless-escape */
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 import axios from "axios";
 import dayjs from "dayjs";
 
-import { traders, fabric, embroidery, materials, applications } from "data/data";
-import { useForm, useFieldArray } from "react-hook-form";
 import { Card, Description } from "models/card";
-import SectionTabs from "components/SectionTabs/SectionTabs";
-import SectionTabsContent from 'components/SectionTabs/TabsContent/TabsContent'
+import { traders, fabric, materials, applications, departments } from "data/data";
+import { useForm, useFieldArray } from "react-hook-form";
 
-import Input from "components/common/Input/Input";
-import Button from "components/common/Button/Button";
-import Checkbox from "components/common/Checkbox/Checkbox";
-import Select from "components/common/Select/Select";
-import FormSection from "components/templates/Section/FormSection";
-import Textarea from "components/common/Textarea/Textarea";
-import MaterialsForm from "../../../components/templates/MaterialsForm/MaterialsForm";
-import { RiAddLine } from "react-icons/ri";
 import {
   getPriceForOnePieceOfSection,
   getTotalPrice,
@@ -26,38 +16,21 @@ import {
   getSelectedSizeName,
   isDisplayFabric
 } from "calculation/calculator";
-import { BsChevronCompactLeft } from "react-icons/bs";
-import Modal from "components/common/Modal/Modal";
-import Success from "components/common/Success/Success";
 
-const validation = {
-  title: {
-    required: true,
-    maxLength: 40,
-    minLength: 2,
-  },
-  description: {
-    required: true,
-    maxLength: 40,
-    minLength: 2,
-  },
-};
-
-const titleErrors = (type: any) => {
-  switch (type) {
-    case "required":
-      return <div>Nazwa jest wymagana</div>;
-    case "minLength":
-      return <div>Nazwa musi zawierać conajmiej 2 znaki</div>;
-    case "maxLength":
-      return <div>Nazwa może zawierać maksymalnie 20 znaków</div>;
-    default:
-      return null;
-  }
-};
+import SectionTabs from "components/SectionTabs/SectionTabs";
+import SectionTabsContent from 'components/SectionTabs/TabsContent/TabsContent'
+import Input from "components/common/Input/Input";
+import Button from "components/common/Button/Button";
+import Checkbox from "components/common/Checkbox/Checkbox";
+import Select from "components/common/Select/Select";
+import SectionForm from "components/templates/SectionForm/SectionForm";
+import Textarea from "components/common/Textarea/Textarea";
+import SuccessModal from "components/templates/SuccessModal/SuccessModal";
+import MaterialsForm from "../../../components/templates/MaterialsForm/MaterialsForm";
+import { RiAddLine } from "react-icons/ri";
 
 const defaultSectionValues = {
-  materialType: '',
+  materialType: applications[0].value,
   logo: "",
   amount: 1,
   fabric: fabric[0].value,
@@ -72,7 +45,7 @@ const defaultSectionValues = {
   materials: []
 };
 
-const EmbroideryForm: React.FC = () => {
+const PlotterForm: React.FC = () => {
   dayjs.locale("pl");
 
   const {
@@ -83,11 +56,10 @@ const EmbroideryForm: React.FC = () => {
     watch,
     setValue,
     reset,
-    resetField
   } = useForm<Card>({
     defaultValues: {
       description: [defaultSectionValues],
-      board: 'Hafciarnia'
+      board: 'Ploterownia'
     },
     mode: "onBlur",
   });
@@ -102,26 +74,21 @@ const EmbroideryForm: React.FC = () => {
   const [watchCustomPrice, setWatchCustomPrice] = useState('')
   const [watchFormSizeWidth, setWatchFormSizeWidth] = useState('')
   const [watchFormSizeHeight, setWatchFormSizeHeight] = useState('')
-  const [materialsType, setMaterialsType] = useState<any[]>([])
-  const [watchMaterials, setWatchMaterials] = useState('')
   const [watchPacking, setWatchPacking] = useState(false)
+  const [successSubmit, setSuccessSubmit] = useState(false)
+
+  useEffect(() => {
+    setValue(`department`, 'PLOTEROWNIA')
+  }, [])
 
   useEffect(() => {
     setSectionForms(watchForChangesInSectionForms)
   }, [watchForChangesInSectionForms])
 
   useEffect(() => {
+    setValue('orderPrice', getTotalPrice(sectionForms))
+    setValue('orderCost', Number((getTotalPrice(sectionForms) * 0.75).toFixed(1)))
     fields.map((item, index) => {
-      setValue(`description.${index}.materialType`, '')
-
-    })
-  }, [])
-
-  useEffect(() => {
-    setValue('price', getTotalPrice(sectionForms))
-    setValue('costOfOrder', Number((getTotalPrice(sectionForms) * 0.75).toFixed(1)))
-    fields.map((item, index) => {
-      setValue(`description.${index}.customPrice`, true)
       setValue(`description.${index}.price`, getPriceForSection(sectionForms, index))
       setValue(`description.${index}.priceForOnePiece`, getPriceForOnePieceOfSection(sectionForms, index))
     })
@@ -129,14 +96,10 @@ const EmbroideryForm: React.FC = () => {
 
   useEffect(() => {
     fields.map((item, index) => {
+      setValue(`description.${index}.customPrice`, isMoreThanMaximumSize(sectionForms, index))
       setValue(`description.${index}.size`, getSelectedSizeName(sectionForms, index))
     })
   }, [watchFormSizeWidth, watchFormSizeHeight, sectionForms])
-
-  useEffect(() => {
-    const filteredMaterials = materials.filter(material => material.application === applications[0].application)
-    setMaterialsType(filteredMaterials)
-  }, [])
 
   const handleWatchCustomPriceValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setWatchCustomPrice(e.target.value)
@@ -161,70 +124,25 @@ const EmbroideryForm: React.FC = () => {
       attachment,
       recipient,
       filePath,
-      price,
-      costOfOrder
+      orderPrice,
+      orderCost
     } = data;
 
-    const trelloUrl = 'https://api.trello.com/1'
-
-    const config = {
-      params: {
-        key: process.env.REACT_APP_TRELLO_KEY,
-        token: process.env.REACT_APP_TRELLO_TOKEN,
-      },
-      headers: {
-        Accept: "application/json",
-        'Content-Type': 'multipart/form-data',
-      },
-    }
-
-    // const sectionName = `Sekcja:`
-
-    // const descSectionArray = description.map((desc, i) => {
-    //   return (
-    //     `
-    //     \n\
-    //     \n***${sectionName}${i + 1} >>>>>>>>>>>>>>>>>>>>>***
-    //     \n>**Logo: ${desc.logo}**
-    //     \n>Ilość: ${desc.amount}
-    //     \n>Tkanina: ${desc.fabric}
-    //     \n>Szerokość: ${desc.width}cm
-    //     \n>Wysokość: ${desc.height}cm
-    //     \n>Rozmiar: ${desc.size}
-    //     \n>Pakowanie: ${desc.packing ? 'TAK' : 'NIE'}
-    //     \n>Cena za 1 szt: ${desc.priceForOnePiece} zł
-    //     \n>Wartość sekcji: ${desc.price} zł
-    //     \n\n>Dodatkowy opis: ${desc.additionalDesc}
-    //     \n-\n\n\n\
-    //     `
-    //   )
-    // }).join('').toString();
-
-    // const descData = `
-    //   ${descSectionArray} 
-    //   \n***Dane dodatkowe >>>>>>>>>>>>>>>>***
-    //   \n>Plik produkcyjny: **${filePath}**
-    //   \n>Wartość zlecenia: **${price}**
-    //   \n>Koszt zlecenia: **${costOfOrder}**
-    // `
-
-    const sectionName = `Sekcja:`
-    const orderPrice = price > 0 ? `\n>Wartość zlecenia: ${price} zł` : ''
-    const orderCost = costOfOrder > 0 ? `\n>Koszt zlecenia: ${costOfOrder} zł` : ''
-
     const descSectionArray = description.map((desc, i) => {
+      const materials = desc.materials.map((item: { field: any; }) => item.field)
       const decsPriceForOnePiece = desc.priceForOnePiece > 0 ? `\n>Cena za 1 szt: ${desc.priceForOnePiece} zł` : ''
       const descPrice = desc.price > 0 ? `\n>Wartość sekcji: ${desc.price} zł` : ''
-
       return (
         `
         \n\
-        \n***${sectionName}${i + 1} >>>>>>>>>>>>>>>>>>>>>***
+        \n***Sekcja: ${i + 1} >>>>>>>>>>>>>>>>>>>>>***
         \n>**Logo: ${desc.logo}**
         \n>Ilość: ${desc.amount}
         \n>Tkanina: ${desc.fabric}
         \n>Szerokość: ${desc.width}cm
         \n>Wysokość: ${desc.height}cm
+        \n>Typ materiału: ${desc.materialType}
+        \n>Materiał: ${materials.length ? materials.join(', ') : 'Nie wybrano'}
         \n>Rozmiar: ${desc.size}
         \n>Pakowanie: ${desc.packing ? 'TAK' : 'NIE'}
         ${decsPriceForOnePiece}
@@ -235,16 +153,19 @@ const EmbroideryForm: React.FC = () => {
       )
     }).join('').toString();
 
+    const price = orderPrice > 0 ? `\n>Wartość zlecenia: ${orderPrice} zł` : ''
+    const cost = orderCost > 0 ? `\n>Koszt zlecenia: ${orderCost} zł` : ''
+
     const descData = `
       ${descSectionArray} 
       \n***Dane dodatkowe >>>>>>>>>>>>>>>>***
       \n>Plik produkcyjny: ${filePath ? `**${filePath}**` : 'Nie wybrano'}
-      ${orderPrice}
-      ${orderCost}
+      ${price}
+      ${cost}
     `
 
     const formInitialDataCard = new FormData();
-    formInitialDataCard.append("idList", `${process.env.REACT_APP_TRELLO_EMBROIDERY_LIST}`);
+    formInitialDataCard.append("idList", `${process.env.REACT_APP_TRELLO_PLOTTER_LIST}`);
     formInitialDataCard.append("name", title);
     formInitialDataCard.append("desc", descData);
     formInitialDataCard.append("start", startDate);
@@ -258,28 +179,40 @@ const EmbroideryForm: React.FC = () => {
     const formChecklistDataCard = new FormData();
     formChecklistDataCard.append("name", "Lista zadań");
 
+
+    const config = {
+      params: {
+        key: process.env.REACT_APP_TRELLO_KEY,
+        token: process.env.REACT_APP_TRELLO_TOKEN,
+      },
+      headers: {
+        Accept: "application/json",
+        'Content-Type': 'multipart/form-data',
+      },
+    }
+
     try {
       const res = await axios.post(
-        `${trelloUrl}/cards`,
+        `${process.env.REACT_APP_TRELLO_URL}/cards`,
         formInitialDataCard,
         config,
       )
 
       if (attachment.length) {
-        await axios.post(`${trelloUrl}/cards/${res.data.id}/attachments`,
+        await axios.post(`${process.env.REACT_APP_TRELLO_URL}/cards/${res.data.id}/attachments`,
           formFileDataCard,
           config
         )
       }
 
-      const checklistRes = await axios.post(`${trelloUrl}/cards/${res.data.id}/checklists`,
+      const checklistRes = await axios.post(`${process.env.REACT_APP_TRELLO_URL}/cards/${res.data.id}/checklists`,
         formChecklistDataCard,
         config
       )
 
       await Promise.all(
         description.map(async (desc) => {
-          await axios.post(`${trelloUrl}/checklists/${checklistRes.data.id}/checkItems`,
+          await axios.post(`${process.env.REACT_APP_TRELLO_URL}/checklists/${checklistRes.data.id}/checkItems`,
             {
               name: desc.logo,
               checked: false
@@ -290,10 +223,6 @@ const EmbroideryForm: React.FC = () => {
       console.error(error);
     }
   };
-  const [successSubmit, setSuccessSubmit] = useState(false)
-  const ref = useRef(null)
-
-  const closeModal = () => setSuccessSubmit(false)
 
   const handleSubmitForm = (data: Card) => {
     AddCardForm(data);
@@ -303,20 +232,39 @@ const EmbroideryForm: React.FC = () => {
     reset()
   }
 
+  const cuttingMaterials = () => {
+    return materials.filter(material => material.application === applications[0].application)
+  }
+
+  const solventMaterials = () => {
+    return materials.filter(material => material.application === applications[1].application)
+
+  }
+
+  const sublimationMaterials = () => {
+    return materials.filter(material => material.application === applications[2].application)
+  }
+
+  const transfersMaterials = () => {
+    return materials.filter(material => material.application === applications[3].application)
+  }
+
+  const getMaterialsType = (index: number) => {
+
+  }
+
+  console.log(sectionForms[0]?.materialType)
+
+  const closeModal = () => setSuccessSubmit(false)
+
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
       <div className={styles.formContainer}>
-        <Modal trigger={successSubmit} closeModal={closeModal}>
-          <h2 style={{
-            padding: 10,
-            textAlign: 'center',
-            fontSize: '3.5rem',
-            zIndex: 100
-          }}>
-            Twoje zlecenie <br /> zostało dodane do <br /><strong>tablicy Hafciarnia w <br />Trello !!!</strong>
-          </h2>
-          <Success />
-        </Modal>
+        <SuccessModal
+          trigger={successSubmit}
+          closeModal={closeModal}
+          boardName={'Ploterownia'}
+        />
         <div className={styles.formGroupContainer}>
           <div className={styles.formGroupRow}>
             <>
@@ -327,10 +275,8 @@ const EmbroideryForm: React.FC = () => {
                 type="text"
                 error={errors.title}
                 style={{ padding: "10px", height: 48, fontSize: 17 }}
-                // {...register("title", { ...validation.title })}
                 {...register("title", { required: true })}
               />
-              {/* {titleErrors(errors.title?.type)} */}
             </>
             <div className={styles.checkboxList}>
               {traders?.map((trader, index) => (
@@ -348,19 +294,62 @@ const EmbroideryForm: React.FC = () => {
           </div>
           {fields.map((field, index) => {
             return (
-              <FormSection key={field.id}>
+              <SectionForm key={field.id}>
                 <div className={styles.sectionContent}>
-                  <div className={styles.formGroupColumn} style={{ justifyContent: 'space-between' }}>
+                  <div className={styles.formGroupColumn}>
                     <Input
                       id={field.id}
                       label={"Logo"}
                       type="text"
-                      error={errors.description}
+                      error={errors.description?.[index]?.logo}
                       {...register(`description.${index}.logo` as const, {
                         required: true,
                       })}
                       defaultValue={field.logo}
                     />
+                    <div className={styles.sectionTabsContainer}>
+                      <SectionTabs
+                        tabLabel={'Wybierz typ materiału:'}
+                        setTabTitle={(e: string) => setValue(`description.${index}.materialType`, e)}
+                      >
+                        <SectionTabsContent title="Flex/Flock">
+                          <MaterialsForm
+                            {...{ control, register }}
+                            registerName={`description[${index}].materials`}
+                            materials={cuttingMaterials()}
+                            dataForm={sectionForms[index]}
+                            materialsType={sectionForms[index]?.materialType}
+                          />
+                        </SectionTabsContent>
+                        <SectionTabsContent title="Solwent">
+                          <MaterialsForm
+                            {...{ control, register }}
+                            registerName={`description[${index}].materials`}
+                            materials={solventMaterials()}
+                            dataForm={sectionForms[index]}
+                            materialsType={sectionForms[index]?.materialType}
+                          />
+                        </SectionTabsContent>
+                        <SectionTabsContent title="Sublimacja">
+                          <MaterialsForm
+                            {...{ control, register }}
+                            registerName={`description[${index}].materials`}
+                            materials={sublimationMaterials()}
+                            dataForm={sectionForms[index]}
+                            materialsType={sectionForms[index]?.materialType}
+                          />
+                        </SectionTabsContent>
+                        <SectionTabsContent title="Transfery">
+                          <MaterialsForm
+                            {...{ control, register }}
+                            registerName={`description[${index}].materials`}
+                            materials={transfersMaterials()}
+                            dataForm={sectionForms[index]}
+                            materialsType={sectionForms[index]?.materialType}
+                          />
+                        </SectionTabsContent>
+                      </SectionTabs>
+                    </div>
                     <Textarea
                       id={field.id}
                       label={'Dodatkowy opis'}
@@ -368,20 +357,25 @@ const EmbroideryForm: React.FC = () => {
                     />
                   </div>
                   <div className={styles.formGroupColumn}>
-                    <Select
-                      label={"Tkanina"}
-                      options={fabric}
-                      id={field.id}
-                      defaultValue={field.fabric}
-                      {...register(`description.${index}.fabric` as const)}
-                    />
+                    {
+                      !isDisplayFabric(sectionForms[index]) ? (
+                        <Select
+                          label={"Tkanina"}
+                          options={fabric}
+                          id={field.id}
+                          defaultValue={field.fabric}
+                          {...register(`description.${index}.fabric` as const)}
+                        />
+                      ) : null
+                    }
                     <Input
                       id={field.id}
                       placeholder={"Ilość"}
                       label={"Ilość"}
                       type="number"
                       step={"1"}
-                      min={0}
+                      min={1}
+                      error={errors.description?.[index]?.amount}
                       {...register(`description.${index}.amount` as const,
                         { onChange: handleWatchCustomPriceValue, required: true })
                       }
@@ -393,7 +387,8 @@ const EmbroideryForm: React.FC = () => {
                         label={"Szerokość (cm)"}
                         type="number"
                         step={"0.1"}
-                        min={0}
+                        min={0.1}
+                        error={errors.description?.[index]?.width}
                         {...register(`description.${index}.width` as const,
                           { onChange: handleWatchFormSizeWidthValue, required: true })
                         }
@@ -404,7 +399,8 @@ const EmbroideryForm: React.FC = () => {
                         label={"Wysokość (cm)"}
                         type="number"
                         step={"0.1"}
-                        min={0}
+                        min={0.1}
+                        error={errors.description?.[index]?.height}
                         {...register(`description.${index}.height` as const,
                           { onChange: handleWatchFormSizeHeightValue, required: true })
                         }
@@ -427,27 +423,50 @@ const EmbroideryForm: React.FC = () => {
                       />
                     </div>
                     <div className={styles.rowContainer}>
-                      <>
-                        <div style={{ width: 120, marginRight: 15 }}>
-                          <Input
-                            id={field.id}
-                            label={"Cena 1szt."}
-                            style={{ border: '2px solid green' }}
-                            type="number"
-                            min={0}
-                            {...register(`description.${index}.priceForOnePiece` as const,
-                              { onChange: handleWatchCustomPriceValue })
-                            }
-                          />
-                        </div>
-                        <Input
-                          id={field.id}
-                          label={"Wartość sekcji"}
-                          type="number"
-                          {...register(`description.${index}.price` as const)}
-                          readOnly
-                        />
-                      </>
+                      {
+                        isMoreThanMaximumSize(sectionForms, index) ? (
+                          <>
+                            <div style={{ width: 120, marginRight: 15 }}>
+                              <Input
+                                id={field.id}
+                                label={"Cena 1szt."}
+                                style={{ border: '2px solid green' }}
+                                type="number"
+                                min={0}
+                                {...register(`description.${index}.priceForOnePiece` as const,
+                                  { onChange: handleWatchCustomPriceValue })
+                                }
+                              />
+                            </div>
+                            <Input
+                              id={field.id}
+                              label={"Wartość sekcji"}
+                              type="number"
+                              {...register(`description.${index}.price` as const)}
+                              readOnly
+                            />
+                          </>
+                        ) : (
+                          <>
+                            <div style={{ width: 120, marginRight: 15 }}>
+                              <Input
+                                id={field.id}
+                                label={"Cena 1szt."}
+                                type="number"
+                                {...register(`description.${index}.priceForOnePiece` as const)}
+                                readOnly
+                              />
+                            </div>
+                            <Input
+                              id={field.id}
+                              label={"Wartość sekcji"}
+                              type="number"
+                              {...register(`description.${index}.price` as const)}
+                              readOnly
+                            />
+                          </>
+                        )
+                      }
                     </div>
                     {
                       sectionForms.length > 1 ? (
@@ -461,21 +480,9 @@ const EmbroideryForm: React.FC = () => {
                     }
                   </div>
                 </div>
-              </FormSection>
+              </SectionForm>
             );
           })}
-          {/* delete section ----------------------------> */}
-          {/* {
-                  fields.length > 1 ? (
-                    <Button
-                      type={"button"}
-                      title={"x"}
-                      onClick={() => remove(index)}
-                      style={{ fontSize: "1rem", width: '15px', height: '30px' }}
-                    />
-                  ) : null
-                } */}
-          {/* delete section ----------------------------> */}
           <Button
             type={"button"}
             title={"Dodaj sekcję"}
@@ -489,7 +496,7 @@ const EmbroideryForm: React.FC = () => {
             <div className={styles.inputContainer}>
               <Select
                 label={"Przyjął"}
-                options={embroidery}
+                options={departments.plotter}
                 id={"recipient"}
                 {...register("recipient")}
               />
@@ -518,7 +525,6 @@ const EmbroideryForm: React.FC = () => {
                   style={{ backgroundColor: '#fdfdfd' }}
                   label={"Dodaj wizualizację"}
                   type="file"
-                  // error={errors.description}
                   {...register("attachment")}
                 />
                 <Input
@@ -531,17 +537,17 @@ const EmbroideryForm: React.FC = () => {
               </div>
             </div>
             <Input
-              id={'price'}
+              id={'orderPrice'}
               label={"Wartość zlecenia"}
               type="number"
-              {...register(`price`)}
+              {...register(`orderPrice`)}
               readOnly
             />
             <Input
-              id={'costOfOrder'}
+              id={'orderCost'}
               label={"Koszt zlecenia (Wartość zlecenia * 0,75)"}
               type="number"
-              {...register(`costOfOrder`)}
+              {...register(`orderCost`)}
               readOnly
             />
             <div className={styles.buttonContainer}>
@@ -554,4 +560,4 @@ const EmbroideryForm: React.FC = () => {
   );
 };
 
-export default EmbroideryForm;
+export default React.memo(PlotterForm);

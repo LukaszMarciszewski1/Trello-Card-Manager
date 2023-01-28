@@ -31,8 +31,8 @@ export interface Card {
   member: string
   attachment: File | any
   recipient: string
-  price: number
   filePath: string
-  costOfOrder: number
+  orderPrice: number
+  orderCost: number
   board: string
 }

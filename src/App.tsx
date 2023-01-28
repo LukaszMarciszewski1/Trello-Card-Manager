@@ -1,21 +1,19 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.scss";
 import Tabs from "components/Tabs/Tabs";
 import TabsContent from "components/Tabs/TabsContent/TabsContent";
-import AddTasks from "views/DepartamentsForm/Plotter/Plotter";
-import ListTasks from "views/ListTasks";
-import Tasks from "views/Tasks/Tasks";
+import TaskList from "views/TaskList";
+import TaskForms from "views/TaskForms";
 
 function App() {
   return (
     <div className="App">
       <Tabs>
         <TabsContent title="Dodaj zlecenie">
-          <Tasks />
+          <TaskForms />
         </TabsContent>
         <TabsContent title="Lista zleceń">
-          <ListTasks />
+          <TaskList />
         </TabsContent>
       </Tabs>
     </div>

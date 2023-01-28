@@ -1,60 +1,28 @@
 /* eslint-disable no-useless-escape */
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 import axios from "axios";
 import dayjs from "dayjs";
 
-import { traders, fabric, plotter, materials, applications } from "data/data";
+import { traders, fabric, departments } from "data/data";
 import { useForm, useFieldArray } from "react-hook-form";
 import { Card, Description } from "models/card";
-import SectionTabs from "components/SectionTabs/SectionTabs";
-import SectionTabsContent from 'components/SectionTabs/TabsContent/TabsContent'
+
+import {
+  getPriceForOnePieceOfSection,
+  getTotalPrice,
+  getPriceForSection,
+  getSelectedSizeName,
+} from "calculation/calculator";
 
 import Input from "components/common/Input/Input";
 import Button from "components/common/Button/Button";
 import Checkbox from "components/common/Checkbox/Checkbox";
 import Select from "components/common/Select/Select";
-import FormSection from "components/templates/Section/FormSection";
+import SectionForm from "components/templates/SectionForm/SectionForm";
 import Textarea from "components/common/Textarea/Textarea";
-import MaterialsForm from "../../../components/templates/MaterialsForm/MaterialsForm";
+import SuccessModal from "components/templates/SuccessModal/SuccessModal";
 import { RiAddLine } from "react-icons/ri";
-import {
-  getPriceForOnePieceOfSection,
-  getTotalPrice,
-  getPriceForSection,
-  isMoreThanMaximumSize,
-  getSelectedSizeName,
-  isDisplayFabric
-} from "calculation/calculator";
-import { BsChevronCompactLeft } from "react-icons/bs";
-import Modal from "components/common/Modal/Modal";
-import Success from "components/common/Success/Success";
-
-const validation = {
-  title: {
-    required: true,
-    maxLength: 40,
-    minLength: 2,
-  },
-  description: {
-    required: true,
-    maxLength: 40,
-    minLength: 2,
-  },
-};
-
-const titleErrors = (type: any) => {
-  switch (type) {
-    case "required":
-      return <div>Nazwa jest wymagana</div>;
-    case "minLength":
-      return <div>Nazwa musi zawierać conajmiej 2 znaki</div>;
-    case "maxLength":
-      return <div>Nazwa może zawierać maksymalnie 20 znaków</div>;
-    default:
-      return null;
-  }
-};
 
 const defaultSectionValues = {
   materialType: '',
@@ -83,7 +51,6 @@ const DTFForm: React.FC = () => {
     watch,
     setValue,
     reset,
-    resetField
   } = useForm<Card>({
     defaultValues: {
       description: [defaultSectionValues],
@@ -102,9 +69,8 @@ const DTFForm: React.FC = () => {
   const [watchCustomPrice, setWatchCustomPrice] = useState('')
   const [watchFormSizeWidth, setWatchFormSizeWidth] = useState('')
   const [watchFormSizeHeight, setWatchFormSizeHeight] = useState('')
-  const [materialsType, setMaterialsType] = useState<any[]>([])
-  const [watchMaterials, setWatchMaterials] = useState('')
   const [watchPacking, setWatchPacking] = useState(false)
+  const [successSubmit, setSuccessSubmit] = useState(false)
 
   useEffect(() => {
     setSectionForms(watchForChangesInSectionForms)
@@ -117,8 +83,8 @@ const DTFForm: React.FC = () => {
   }, [])
 
   useEffect(() => {
-    setValue('price', getTotalPrice(sectionForms))
-    setValue('costOfOrder', Number((getTotalPrice(sectionForms) * 0.75).toFixed(1)))
+    setValue('orderPrice', getTotalPrice(sectionForms))
+    setValue('orderCost', Number((getTotalPrice(sectionForms) * 0.75).toFixed(1)))
     fields.map((item, index) => {
       setValue(`description.${index}.customPrice`, true)
       setValue(`description.${index}.price`, getPriceForSection(sectionForms, index))
@@ -132,11 +98,6 @@ const DTFForm: React.FC = () => {
     })
   }, [watchFormSizeWidth, watchFormSizeHeight, sectionForms])
 
-  useEffect(() => {
-    const filteredMaterials = materials.filter(material => material.application === applications[0].application)
-    setMaterialsType(filteredMaterials)
-  }, [])
-
   const handleWatchCustomPriceValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setWatchCustomPrice(e.target.value)
   }
@@ -146,7 +107,7 @@ const DTFForm: React.FC = () => {
   const handleWatchFormSizeHeightValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setWatchFormSizeHeight(e.target.value)
   }
-  const handleWatchPacking = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleWatchPacking = () => {
     setWatchPacking(!watchPacking)
   }
 
@@ -160,35 +121,17 @@ const DTFForm: React.FC = () => {
       attachment,
       recipient,
       filePath,
-      price,
-      costOfOrder
+      orderPrice,
+      orderCost
     } = data;
 
-    const trelloUrl = 'https://api.trello.com/1'
-
-    const config = {
-      params: {
-        key: process.env.REACT_APP_TRELLO_KEY,
-        token: process.env.REACT_APP_TRELLO_TOKEN,
-      },
-      headers: {
-        Accept: "application/json",
-        'Content-Type': 'multipart/form-data',
-      },
-    }
-
-    const sectionName = `Sekcja:`
-    const orderPrice = price > 0 ? `\n>Wartość zlecenia: ${price} zł` : ''
-    const orderCost = costOfOrder > 0 ? `\n>Koszt zlecenia: ${costOfOrder} zł` : ''
-
-    const descSectionArray = description.map((desc, i) => {
+    const sectionFormData = description.map((desc, i) => {
       const decsPriceForOnePiece = desc.priceForOnePiece > 0 ? `\n>Cena za 1 szt: ${desc.priceForOnePiece} zł` : ''
       const descPrice = desc.price > 0 ? `\n>Wartość sekcji: ${desc.price} zł` : ''
-
       return (
         `
         \n\
-        \n***${sectionName}${i + 1} >>>>>>>>>>>>>>>>>>>>>***
+        \n***Sekcja:${i + 1} >>>>>>>>>>>>>>>>>>>>>***
         \n>**Logo: ${desc.logo}**
         \n>Ilość: ${desc.amount}
         \n>Tkanina: ${desc.fabric}
@@ -204,12 +147,15 @@ const DTFForm: React.FC = () => {
       )
     }).join('').toString();
 
+    const price = orderPrice > 0 ? `\n>Wartość zlecenia: ${orderPrice} zł` : ''
+    const cost = orderCost > 0 ? `\n>Koszt zlecenia: ${orderCost} zł` : ''
+
     const descData = `
-      ${descSectionArray} 
+      ${sectionFormData} 
       \n***Dane dodatkowe >>>>>>>>>>>>>>>>***
       \n>Plik produkcyjny: ${filePath ? `**${filePath}**` : 'Nie wybrano'}
-      ${orderPrice}
-      ${orderCost}
+      ${price}
+      ${cost}
     `
 
     const formInitialDataCard = new FormData();
@@ -227,28 +173,40 @@ const DTFForm: React.FC = () => {
     const formChecklistDataCard = new FormData();
     formChecklistDataCard.append("name", "Lista zadań");
 
+
+    const config = {
+      params: {
+        key: process.env.REACT_APP_TRELLO_KEY,
+        token: process.env.REACT_APP_TRELLO_TOKEN,
+      },
+      headers: {
+        Accept: "application/json",
+        'Content-Type': 'multipart/form-data',
+      },
+    }
+
     try {
       const res = await axios.post(
-        `${trelloUrl}/cards`,
+        `${process.env.REACT_APP_TRELLO_URL}/cards`,
         formInitialDataCard,
         config,
       )
 
       if (attachment.length) {
-        await axios.post(`${trelloUrl}/cards/${res.data.id}/attachments`,
+        await axios.post(`${process.env.REACT_APP_TRELLO_URL}/cards/${res.data.id}/attachments`,
           formFileDataCard,
           config
         )
       }
 
-      const checklistRes = await axios.post(`${trelloUrl}/cards/${res.data.id}/checklists`,
+      const checklistRes = await axios.post(`${process.env.REACT_APP_TRELLO_URL}/cards/${res.data.id}/checklists`,
         formChecklistDataCard,
         config
       )
 
       await Promise.all(
         description.map(async (desc) => {
-          await axios.post(`${trelloUrl}/checklists/${checklistRes.data.id}/checkItems`,
+          await axios.post(`${process.env.REACT_APP_TRELLO_URL}/checklists/${checklistRes.data.id}/checkItems`,
             {
               name: desc.logo,
               checked: false
@@ -259,7 +217,6 @@ const DTFForm: React.FC = () => {
       console.error(error);
     }
   };
-  const [successSubmit, setSuccessSubmit] = useState(false)
 
   const handleSubmitForm = (data: Card) => {
     AddCardForm(data);
@@ -268,24 +225,17 @@ const DTFForm: React.FC = () => {
     }
     reset()
   }
-  const ref = useRef(null)
 
   const closeModal = () => setSuccessSubmit(false)
 
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
       <div className={styles.formContainer}>
-        <Modal trigger={successSubmit} closeModal={closeModal}>
-          <h2 style={{
-            padding: 10,
-            textAlign: 'center',
-            fontSize: '3.5rem',
-            zIndex: 100
-          }}>
-            Twoje zlecenie <br /> zostało dodane do <br /><strong>tablicy DTF w <br />Trello !!!</strong>
-          </h2>
-          <Success />
-        </Modal>
+        <SuccessModal
+          trigger={successSubmit}
+          closeModal={closeModal}
+          boardName={'DTF'}
+        />
         <div className={styles.formGroupContainer}>
           <div className={styles.formGroupRow}>
             <>
@@ -296,10 +246,8 @@ const DTFForm: React.FC = () => {
                 type="text"
                 error={errors.title}
                 style={{ padding: "10px", height: 48, fontSize: 17 }}
-                // {...register("title", { ...validation.title })}
                 {...register("title", { required: true })}
               />
-              {/* {titleErrors(errors.title?.type)} */}
             </>
             <div className={styles.checkboxList}>
               {traders?.map((trader, index) => (
@@ -317,7 +265,7 @@ const DTFForm: React.FC = () => {
           </div>
           {fields.map((field, index) => {
             return (
-              <FormSection key={field.id}>
+              <SectionForm key={field.id}>
                 <div className={styles.sectionContent}>
                   <div className={styles.formGroupColumn} style={{ justifyContent: 'space-between' }}>
                     <Input
@@ -430,21 +378,9 @@ const DTFForm: React.FC = () => {
                     }
                   </div>
                 </div>
-              </FormSection>
+              </SectionForm>
             );
           })}
-          {/* delete section ----------------------------> */}
-          {/* {
-                  fields.length > 1 ? (
-                    <Button
-                      type={"button"}
-                      title={"x"}
-                      onClick={() => remove(index)}
-                      style={{ fontSize: "1rem", width: '15px', height: '30px' }}
-                    />
-                  ) : null
-                } */}
-          {/* delete section ----------------------------> */}
           <Button
             type={"button"}
             title={"Dodaj sekcję"}
@@ -458,7 +394,7 @@ const DTFForm: React.FC = () => {
             <div className={styles.inputContainer}>
               <Select
                 label={"Przyjął"}
-                options={plotter}
+                options={departments.plotter}
                 id={"recipient"}
                 {...register("recipient")}
               />
@@ -487,7 +423,6 @@ const DTFForm: React.FC = () => {
                   style={{ backgroundColor: '#fdfdfd' }}
                   label={"Dodaj wizualizację"}
                   type="file"
-                  // error={errors.description}
                   {...register("attachment")}
                 />
                 <Input
@@ -500,17 +435,17 @@ const DTFForm: React.FC = () => {
               </div>
             </div>
             <Input
-              id={'price'}
+              id={'orderPrice'}
               label={"Wartość zlecenia"}
               type="number"
-              {...register(`price`)}
+              {...register(`orderPrice`)}
               readOnly
             />
             <Input
-              id={'costOfOrder'}
+              id={'orderCost'}
               label={"Koszt zlecenia (Wartość zlecenia * 0,75)"}
               type="number"
-              {...register(`costOfOrder`)}
+              {...register(`orderCost`)}
               readOnly
             />
             <div className={styles.buttonContainer}>

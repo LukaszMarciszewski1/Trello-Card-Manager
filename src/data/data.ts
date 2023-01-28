@@ -65,6 +65,30 @@ export const traders = [
   },
 ]
 
+export const departments = {
+  plotter: [
+   {
+     label: 'MARCIN',
+     value: '6350f5d4c2c662005aa115e2', 
+     initial: 'MP',
+   },
+  ],
+  embroidery: [
+   {
+     label: 'KASIA',
+     value: '63cfc0d81acae9ad99ce0a20',
+     initial: 'HD',
+   },
+  ],
+  dtf: [
+   {
+     label: 'MARCIN',
+     value: '6350f5d4c2c662005aa115e2', 
+     initial: 'MP',
+   },
+  ]
+ }
+
 export const fabric = [
   {
     label: 'BAWEŁNA',
@@ -81,39 +105,6 @@ export const fabric = [
   {
     label: 'SKÓRA',
     value: 'SKÓRA',
-  },
-]
-
-export const recipient = [
-  {
-    label: 'MARCIN',
-    value: '6350f5d4c2c662005aa115e2', //
-    // name: 'Marcin',
-    initial: 'MP',
-  },
-  {
-    label: 'KASIA',
-    value: '63cfc0d81acae9ad99ce0a20',
-    // name: 'Kasia',
-    initial: 'HD',
-  },
-]
-
-export const plotter = [
-  {
-    label: 'MARCIN',
-    value: '6350f5d4c2c662005aa115e2', //
-    // name: 'Marcin',
-    initial: 'MP',
-  },
-]
-
-export const embroidery = [
-  {
-    label: 'KASIA',
-    value: '63cfc0d81acae9ad99ce0a20',
-    // name: 'Kasia',
-    initial: 'HD',
   },
 ]
 
