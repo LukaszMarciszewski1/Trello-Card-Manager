@@ -168,7 +168,7 @@ export const materials = [
     color: 'white',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Hi-5',
@@ -177,7 +177,7 @@ export const materials = [
     color: '#f3ea21',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Hi-5',
@@ -186,7 +186,7 @@ export const materials = [
     color: '#fecb10',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Hi-5',
@@ -195,7 +195,7 @@ export const materials = [
     color: '#ef8122',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Hi-5',
@@ -204,7 +204,7 @@ export const materials = [
     color: '#ec2626',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Hi-5',
@@ -213,7 +213,7 @@ export const materials = [
     color: '#cc2129',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Hi-5',
@@ -222,7 +222,7 @@ export const materials = [
     color: '#f05376',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Hi-5',
@@ -231,7 +231,7 @@ export const materials = [
     color: '#1696d3',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Hi-5',
@@ -240,7 +240,7 @@ export const materials = [
     color: '#204282',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Hi-5',
@@ -249,7 +249,7 @@ export const materials = [
     color: '#182045',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Hi-5',
@@ -258,7 +258,7 @@ export const materials = [
     color: '#91bf45',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Hi-5',
@@ -267,7 +267,7 @@ export const materials = [
     color: '#14703d',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Hi-5',
@@ -276,7 +276,7 @@ export const materials = [
     color: '#96979b',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Hi-5',
@@ -285,7 +285,7 @@ export const materials = [
     color: '#010101',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Hi-5',
@@ -294,7 +294,7 @@ export const materials = [
     color: '#b09f61',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Hi-5',
@@ -303,7 +303,7 @@ export const materials = [
     color: '#c3c2c5',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Hi-5',
@@ -312,7 +312,7 @@ export const materials = [
     color: '#937140',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Hi-5',
@@ -321,7 +321,7 @@ export const materials = [
     color: '#594930',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Hi-5',
@@ -330,7 +330,7 @@ export const materials = [
     color: '#ac9588',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Hi-5',
@@ -339,7 +339,7 @@ export const materials = [
     color: '#fe756b',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Hi-5',
@@ -348,7 +348,7 @@ export const materials = [
     color: '#eadac1',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Hi-5',
@@ -357,7 +357,7 @@ export const materials = [
     color: '#99c764',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Hi-5',
@@ -366,7 +366,7 @@ export const materials = [
     color: '#ccd3b1',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Hi-5',
@@ -375,7 +375,7 @@ export const materials = [
     color: '#0abab7',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Hi-5',
@@ -384,7 +384,7 @@ export const materials = [
     color: '#8cebc5',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Hi-5',
@@ -393,7 +393,7 @@ export const materials = [
     color: '#6f5b96',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Hi-5',
@@ -402,7 +402,7 @@ export const materials = [
     color: '#626a74',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Hi-5',
@@ -411,7 +411,7 @@ export const materials = [
     color: '#7b324d',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Hi-5',
@@ -420,7 +420,7 @@ export const materials = [
     color: '#e08aad',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Hi-5',
@@ -429,7 +429,7 @@ export const materials = [
     color: '#ffa63e',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Hi-5',
@@ -438,7 +438,7 @@ export const materials = [
     color: '#e4bcc7',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Hi-5',
@@ -447,7 +447,7 @@ export const materials = [
     color: '#a9cbe6',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Hi-5',
@@ -456,7 +456,7 @@ export const materials = [
     color: '#f2e904',
     priceType: 'FLEX',
     priceModifier: 'FLUO',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Hi-5',
@@ -465,7 +465,7 @@ export const materials = [
     color: '#f89722',
     priceType: 'FLEX',
     priceModifier: 'FLUO',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Hi-5',
@@ -474,7 +474,7 @@ export const materials = [
     color: '#df92c0',
     priceType: 'FLEX',
     priceModifier: 'FLUO',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Hi-5',
@@ -483,7 +483,7 @@ export const materials = [
     color: '#8ac640',
     priceType: 'FLEX',
     priceModifier: 'FLUO',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Hi-5',
@@ -492,7 +492,7 @@ export const materials = [
     color: '#e84d79',
     priceType: 'FLEX',
     priceModifier: 'FLUO',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Hi-5',
@@ -501,7 +501,7 @@ export const materials = [
     color: '#2d6eca',
     priceType: 'FLEX',
     priceModifier: 'FLUO',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
 
   //P.S. Film – EasyWeed
@@ -512,7 +512,7 @@ export const materials = [
     color: '#ffffff',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -521,7 +521,7 @@ export const materials = [
     color: '#f3ea21',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -530,7 +530,7 @@ export const materials = [
     color: '#f9d986',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -539,7 +539,7 @@ export const materials = [
     color: '#fecb10',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -548,7 +548,7 @@ export const materials = [
     color: '#f8b119',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -557,7 +557,7 @@ export const materials = [
     color: '#ef8122',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -566,7 +566,7 @@ export const materials = [
     color: '#f15153',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -575,7 +575,7 @@ export const materials = [
     color: '#ec2626',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -584,7 +584,7 @@ export const materials = [
     color: '#cc2129',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -593,7 +593,7 @@ export const materials = [
     color: '#9f1c3b',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -602,7 +602,7 @@ export const materials = [
     color: '#d1948f',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -610,7 +610,7 @@ export const materials = [
     value: 'P.S. Film A0031-LIGHT-PINK',
     color: '#facfd9',
     priceType: 'FLEX',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -619,7 +619,7 @@ export const materials = [
     color: '#e77cb2',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -628,7 +628,7 @@ export const materials = [
     color: '#f05376',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -637,7 +637,7 @@ export const materials = [
     color: '#b164a8',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -646,7 +646,7 @@ export const materials = [
     color: '#cfb4d3',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -655,7 +655,7 @@ export const materials = [
     color: '#502c84',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -664,7 +664,7 @@ export const materials = [
     color: '#482851',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -673,7 +673,7 @@ export const materials = [
     color: '#4d5890',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -681,7 +681,7 @@ export const materials = [
     value: 'P.S. Film A0014-NAVY-BLUE',
     color: '#182045',
     priceType: 'FLEX',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -690,7 +690,7 @@ export const materials = [
     color: '#204282',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -699,7 +699,7 @@ export const materials = [
     color: '#1696d3',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -708,7 +708,7 @@ export const materials = [
     color: '#3b6ca4',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -716,7 +716,7 @@ export const materials = [
     value: 'P.S. Film A0051-PALE-BLUE',
     color: '#99daf6',
     priceType: 'FLEX',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -725,7 +725,7 @@ export const materials = [
     color: '#00898f',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -734,7 +734,7 @@ export const materials = [
     color: '#09b5cb',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -743,7 +743,7 @@ export const materials = [
     color: '#15525c',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -752,7 +752,7 @@ export const materials = [
     color: '#6dc3d2',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -761,7 +761,7 @@ export const materials = [
     color: '#a4a562',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -770,7 +770,7 @@ export const materials = [
     color: '#b09f61',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -779,7 +779,7 @@ export const materials = [
     color: '#be9368',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -788,7 +788,7 @@ export const materials = [
     color: '#a05230',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -797,7 +797,7 @@ export const materials = [
     color: '#6a4920',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -806,7 +806,7 @@ export const materials = [
     color: '#4c201f',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -815,7 +815,7 @@ export const materials = [
     color: '#023c24',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -824,7 +824,7 @@ export const materials = [
     color: '#14703d',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -833,7 +833,7 @@ export const materials = [
     color: '#91bf45',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -842,7 +842,7 @@ export const materials = [
     color: '#c8da30',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -851,7 +851,7 @@ export const materials = [
     color: '#c4e4cc',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -860,7 +860,7 @@ export const materials = [
     color: '#cbb38f',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -869,7 +869,7 @@ export const materials = [
     color: '#edd3b2',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -878,7 +878,7 @@ export const materials = [
     color: '#c3c2c5',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -887,7 +887,7 @@ export const materials = [
     color: '#96979b',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -896,7 +896,7 @@ export const materials = [
     color: '#807e93',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -905,7 +905,7 @@ export const materials = [
     color: '#393939',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -914,7 +914,7 @@ export const materials = [
     color: '#d6a549',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -923,7 +923,7 @@ export const materials = [
     color: '#010101',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -932,7 +932,7 @@ export const materials = [
     color: '#f2e904',
     priceType: 'FLEX',
     priceModifier: 'FLUO',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -941,7 +941,7 @@ export const materials = [
     color: '#f89722',
     priceType: 'FLEX',
     priceModifier: 'FLUO',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -950,7 +950,7 @@ export const materials = [
     color: '#ee4037',
     priceType: 'FLEX',
     priceModifier: 'FLUO',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -959,7 +959,7 @@ export const materials = [
     color: '#df92c0',
     priceType: 'FLEX',
     priceModifier: 'FLUO',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -968,7 +968,7 @@ export const materials = [
     color: '#ea3d96',
     priceType: 'FLEX',
     priceModifier: 'FLUO',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -977,7 +977,7 @@ export const materials = [
     color: '#8e3996',
     priceType: 'FLEX',
     priceModifier: 'FLUO',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -986,7 +986,7 @@ export const materials = [
     color: '#8ac640',
     priceType: 'FLEX',
     priceModifier: 'FLUO',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -995,7 +995,7 @@ export const materials = [
     color: '#b43075',
     priceType: 'FLEX',
     priceModifier: 'FLUO',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Film',
@@ -1004,7 +1004,7 @@ export const materials = [
     color: '#346ab3',
     priceType: 'FLEX',
     priceModifier: 'FLUO',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
 
   //P.S. Film – Extra
@@ -1013,20 +1013,18 @@ export const materials = [
     name: 'N0001-WHITE',
     value: 'P.S. Extra N0001-WHITE',
     color: '#ffffff',
-    price: 0.138,
     priceType: 'FLEX',
     priceModifier: 'PS EXTRA',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Extra',
     name: 'N0003-LEMON',
     value: 'P.S. Extra N0003-LEMON',
     color: '#f3ea21',
-    price: 1,
     priceType: 'FLEX',
     priceModifier: 'PS EXTRA',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Extra',
@@ -1035,7 +1033,7 @@ export const materials = [
     color: '#fecb10',
     priceType: 'FLEX',
     priceModifier: 'PS EXTRA',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Extra',
@@ -1044,7 +1042,7 @@ export const materials = [
     color: '#ef8122',
     priceType: 'FLEX',
     priceModifier: 'PS EXTRA',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Extra',
@@ -1053,7 +1051,7 @@ export const materials = [
     color: '#f15153',
     priceType: 'FLEX',
     priceModifier: 'PS EXTRA',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Extra',
@@ -1062,7 +1060,7 @@ export const materials = [
     color: '#cc2129',
     priceType: 'FLEX',
     priceModifier: 'PS EXTRA',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Extra',
@@ -1071,7 +1069,7 @@ export const materials = [
     color: '#ec2626',
     priceType: 'FLEX',
     priceModifier: 'PS EXTRA',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Extra',
@@ -1080,7 +1078,7 @@ export const materials = [
     color: '#f05376',
     priceType: 'FLEX',
     priceModifier: 'PS EXTRA',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Extra',
@@ -1089,7 +1087,7 @@ export const materials = [
     color: '#b164a8',
     priceType: 'FLEX',
     priceModifier: 'PS EXTRA',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Extra',
@@ -1098,7 +1096,7 @@ export const materials = [
     color: '#482851',
     priceType: 'FLEX',
     priceModifier: 'PS EXTRA',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Extra',
@@ -1107,7 +1105,7 @@ export const materials = [
     color: '#182045',
     priceType: 'FLEX',
     priceModifier: 'PS EXTRA',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Extra',
@@ -1116,7 +1114,7 @@ export const materials = [
     color: '#204282',
     priceType: 'FLEX',
     priceModifier: 'PS EXTRA',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Extra',
@@ -1125,7 +1123,7 @@ export const materials = [
     color: '#1696d3',
     priceType: 'FLEX',
     priceModifier: 'PS EXTRA',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Extra',
@@ -1134,7 +1132,7 @@ export const materials = [
     color: '#99daf6',
     priceType: 'FLEX',
     priceModifier: 'PS EXTRA',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Extra',
@@ -1143,7 +1141,7 @@ export const materials = [
     color: '#6dc3d2',
     priceType: 'FLEX',
     priceModifier: 'PS EXTRA',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Extra',
@@ -1152,7 +1150,7 @@ export const materials = [
     color: '#14703d',
     priceType: 'FLEX',
     priceModifier: 'PS EXTRA',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Extra',
@@ -1161,7 +1159,7 @@ export const materials = [
     color: '#91bf45',
     priceType: 'FLEX',
     priceModifier: 'PS EXTRA',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Extra',
@@ -1170,7 +1168,7 @@ export const materials = [
     color: '#c8da30',
     priceType: 'FLEX',
     priceModifier: 'PS EXTRA',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Extra',
@@ -1179,7 +1177,7 @@ export const materials = [
     color: '#6a4920',
     priceType: 'FLEX',
     priceModifier: 'PS EXTRA',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Extra',
@@ -1188,7 +1186,7 @@ export const materials = [
     color: '#96979b',
     priceType: 'FLEX',
     priceModifier: 'PS EXTRA',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Extra',
@@ -1197,7 +1195,7 @@ export const materials = [
     color: '#393939',
     priceType: 'FLEX',
     priceModifier: 'PS EXTRA',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Extra',
@@ -1206,7 +1204,7 @@ export const materials = [
     color: '#010101',
     priceType: 'FLEX',
     priceModifier: 'PS EXTRA',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Extra',
@@ -1215,7 +1213,7 @@ export const materials = [
     color: '#b09f61',
     priceType: 'FLEX',
     priceModifier: 'PS EXTRA',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Extra',
@@ -1224,7 +1222,7 @@ export const materials = [
     color: '#edd3b2',
     priceType: 'FLEX',
     priceModifier: 'PS EXTRA',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Extra',
@@ -1233,7 +1231,7 @@ export const materials = [
     color: '#c4e4cc',
     priceType: 'FLEX',
     priceModifier: 'PS EXTRA',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Extra',
@@ -1242,7 +1240,7 @@ export const materials = [
     color: '#09b5cb',
     priceType: 'FLEX',
     priceModifier: 'PS EXTRA',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Extra',
@@ -1251,7 +1249,7 @@ export const materials = [
     color: '#c3c2c5',
     priceType: 'FLEX',
     priceModifier: 'PS EXTRA',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Extra',
@@ -1260,7 +1258,7 @@ export const materials = [
     color: '#f3ea05',
     priceType: 'FLEX',
     priceModifier: 'FLUO',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Extra',
@@ -1269,7 +1267,7 @@ export const materials = [
     color: '#f89722',
     priceType: 'FLEX',
     priceModifier: 'FLUO',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Extra',
@@ -1278,7 +1276,7 @@ export const materials = [
     color: '#df92c0',
     priceType: 'FLEX',
     priceModifier: 'FLUO',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Extra',
@@ -1287,7 +1285,7 @@ export const materials = [
     color: '#ea3d96',
     priceType: 'FLEX',
     priceModifier: 'FLUO',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Extra',
@@ -1296,7 +1294,7 @@ export const materials = [
     color: '#8ac640',
     priceType: 'FLEX',
     priceModifier: 'FLUO',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Extra',
@@ -1305,7 +1303,7 @@ export const materials = [
     color: '#8e3996',
     priceType: 'FLEX',
     priceModifier: 'FLUO',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
 
   //P.S. Stretch – EasyWeed Stretch
@@ -1316,7 +1314,7 @@ export const materials = [
     color: '#ffffff',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Stretch',
@@ -1325,7 +1323,7 @@ export const materials = [
     color: '#fecb10',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Stretch',
@@ -1334,7 +1332,7 @@ export const materials = [
     color: '#f8b119',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Stretch',
@@ -1343,7 +1341,7 @@ export const materials = [
     color: '#ef8122',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Stretch',
@@ -1352,7 +1350,7 @@ export const materials = [
     color: '#cc2129',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Stretch',
@@ -1361,7 +1359,7 @@ export const materials = [
     color: '#ec2626',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Stretch',
@@ -1370,7 +1368,7 @@ export const materials = [
     color: '#f15376',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Stretch',
@@ -1379,7 +1377,7 @@ export const materials = [
     color: '#1696d3',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Stretch',
@@ -1388,7 +1386,7 @@ export const materials = [
     color: '#14703d',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Stretch',
@@ -1397,7 +1395,7 @@ export const materials = [
     color: '#204282',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Stretch',
@@ -1406,7 +1404,7 @@ export const materials = [
     color: '#182045',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Stretch',
@@ -1415,7 +1413,7 @@ export const materials = [
     color: '#010101',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Stretch',
@@ -1424,7 +1422,7 @@ export const materials = [
     color: '#b09f61',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Stretch',
@@ -1433,7 +1431,7 @@ export const materials = [
     color: '#c3c2c5',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Stretch',
@@ -1442,7 +1440,7 @@ export const materials = [
     color: '#8fcbcb',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Stretch',
@@ -1451,7 +1449,7 @@ export const materials = [
     color: '#cae3ce',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Stretch',
@@ -1460,7 +1458,7 @@ export const materials = [
     color: '#cbb7d2',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Stretch',
@@ -1469,7 +1467,7 @@ export const materials = [
     color: '#e48790',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Stretch',
@@ -1478,7 +1476,7 @@ export const materials = [
     color: '#f1c7c8',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Stretch',
@@ -1487,7 +1485,7 @@ export const materials = [
     color: '#cb8e8b',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Stretch',
@@ -1496,7 +1494,7 @@ export const materials = [
     color: '#844191',
     priceType: 'FLEX',
     priceModifier: 'FLUO',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Stretch',
@@ -1505,7 +1503,7 @@ export const materials = [
     color: '#d73187',
     priceType: 'FLEX',
     priceModifier: 'FLUO',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
 
   //P.S. Subli LT – EasyWeed
@@ -1516,7 +1514,7 @@ export const materials = [
     color: '#ffffff',
     priceType: 'FLEX',
     priceModifier: 'PS SUBLI',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Subli LT',
@@ -1525,7 +1523,7 @@ export const materials = [
     color: '#f9a636',
     priceType: 'FLEX',
     priceModifier: 'PS SUBLI',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Subli LT',
@@ -1534,7 +1532,7 @@ export const materials = [
     color: '#f05376',
     priceType: 'FLEX',
     priceModifier: 'PS SUBLI',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Subli LT',
@@ -1543,7 +1541,7 @@ export const materials = [
     color: '#ffe401',
     priceType: 'FLEX',
     priceModifier: 'PS SUBLI',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Subli LT',
@@ -1552,7 +1550,7 @@ export const materials = [
     color: '#b09f61',
     priceType: 'FLEX',
     priceModifier: 'PS SUBLI',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Subli LT',
@@ -1561,7 +1559,7 @@ export const materials = [
     color: '#c3c2c5',
     priceType: 'FLEX',
     priceModifier: 'PS SUBLI',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Subli LT',
@@ -1570,7 +1568,7 @@ export const materials = [
     color: '#f2eb54',
     priceType: 'FLEX',
     priceModifier: 'FLUO',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
 
   //P.S. Electric – EasyWeed Electric
@@ -1582,7 +1580,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/06/E0001-WHITE-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'ELECTRIC',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Electric',
@@ -1592,7 +1590,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/06/E0019-BLACK-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'ELECTRIC',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Electric',
@@ -1602,7 +1600,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/06/E0004-YELLOW-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'ELECTRIC',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Electric',
@@ -1612,7 +1610,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/06/E0006-ORANGE-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'ELECTRIC',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Electric',
@@ -1622,7 +1620,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/06/E0030-LIME-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'ELECTRIC',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Electric',
@@ -1632,7 +1630,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/06/E0007-RED-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'ELECTRIC',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Electric',
@@ -1642,7 +1640,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/06/E0009-GREEN-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'ELECTRIC',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Electric',
@@ -1652,7 +1650,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/06/E0107-OLIVE-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'ELECTRIC',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Electric',
@@ -1662,7 +1660,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/06/E0031-PINK-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'ELECTRIC',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Electric',
@@ -1672,7 +1670,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/06/E0050-CHERRY-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'ELECTRIC',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Electric',
@@ -1682,7 +1680,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/06/E0016-CRANBERRY-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'ELECTRIC',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Electric',
@@ -1692,7 +1690,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/06/E0029-BLUE-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'ELECTRIC',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Electric',
@@ -1702,7 +1700,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/06/E0015-PURPLE-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'ELECTRIC',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Electric',
@@ -1712,7 +1710,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/06/E0103-GRAPE-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'ELECTRIC',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Electric',
@@ -1722,7 +1720,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/06/E0021-SILVER-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'ELECTRIC',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Electric',
@@ -1732,7 +1730,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/06/E0020-GOLD-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'ELECTRIC',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Electric',
@@ -1742,7 +1740,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/06/E0047-COPPER-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'ELECTRIC',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Electric',
@@ -1752,7 +1750,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/06/E0032-LENS-SILVER-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'ELECTRIC',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Electric',
@@ -1762,7 +1760,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/06/E0048-LENS-GOLD-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'ELECTRIC',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Electric',
@@ -1772,7 +1770,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/06/E0108-CHAMPAGNE-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'ELECTRIC',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Electric',
@@ -1782,7 +1780,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/06/E0100-TUNGSTEN-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'ELECTRIC',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
 
   //Brick 600
@@ -1793,7 +1791,7 @@ export const materials = [
     color: '#ffffff',
     priceType: 'FLEX',
     priceModifier: 'BRICK',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Brick 600',
@@ -1802,7 +1800,7 @@ export const materials = [
     color: '#fecb10',
     priceType: 'FLEX',
     priceModifier: 'BRICK',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Brick 600',
@@ -1811,7 +1809,7 @@ export const materials = [
     color: '#cc2127',
     priceType: 'FLEX',
     priceModifier: 'BRICK',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Brick 600',
@@ -1820,7 +1818,7 @@ export const materials = [
     color: '#1f4181',
     priceType: 'FLEX',
     priceModifier: 'BRICK',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Brick 600',
@@ -1829,7 +1827,7 @@ export const materials = [
     color: '#182045',
     priceType: 'FLEX',
     priceModifier: 'BRICK',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Brick 600',
@@ -1838,7 +1836,7 @@ export const materials = [
     color: '#14703d',
     priceType: 'FLEX',
     priceModifier: 'BRICK',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Brick 600',
@@ -1847,7 +1845,7 @@ export const materials = [
     color: '#010101',
     priceType: 'FLEX',
     priceModifier: 'BRICK',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Brick 600',
@@ -1856,7 +1854,7 @@ export const materials = [
     color: '#f9ed05',
     priceType: 'FLEX',
     priceModifier: 'BRICK',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Brick 600',
@@ -1865,7 +1863,7 @@ export const materials = [
     color: '#ff9b2f',
     priceType: 'FLEX',
     priceModifier: 'BRICK',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Brick 600',
@@ -1874,7 +1872,7 @@ export const materials = [
     color: '#ff6bc9',
     priceType: 'FLEX',
     priceModifier: 'BRICK',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Brick 600',
@@ -1883,7 +1881,7 @@ export const materials = [
     color: '#6deb2f',
     priceType: 'FLEX',
     priceModifier: 'BRICK',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Brick 600',
@@ -1892,7 +1890,7 @@ export const materials = [
     color: '#0058f0',
     priceType: 'FLEX',
     priceModifier: 'BRICK',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
 
   //FLOCK
@@ -1903,7 +1901,7 @@ export const materials = [
     color: '#ffffff',
     priceType: 'FLOCK',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Flock',
@@ -1912,7 +1910,7 @@ export const materials = [
     color: '#f3ea21',
     priceType: 'FLOCK',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Flock',
@@ -1921,7 +1919,7 @@ export const materials = [
     color: '#fecb10',
     priceType: 'FLOCK',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Flock',
@@ -1930,7 +1928,7 @@ export const materials = [
     color: '#ef8122',
     priceType: 'FLOCK',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Flock',
@@ -1939,7 +1937,7 @@ export const materials = [
     color: '#cc2129',
     priceType: 'FLOCK',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Flock',
@@ -1948,7 +1946,7 @@ export const materials = [
     color: '#f05376',
     priceType: 'FLOCK',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Flock',
@@ -1957,7 +1955,7 @@ export const materials = [
     color: '#14703d',
     priceType: 'FLOCK',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Flock',
@@ -1966,7 +1964,7 @@ export const materials = [
     color: '#00acc7',
     priceType: 'FLOCK',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Flock',
@@ -1975,7 +1973,7 @@ export const materials = [
     color: '#204282',
     priceType: 'FLOCK',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Flock',
@@ -1984,7 +1982,7 @@ export const materials = [
     color: '#182045',
     priceType: 'FLOCK',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Flock',
@@ -1993,7 +1991,7 @@ export const materials = [
     color: '#482851',
     priceType: 'FLOCK',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Flock',
@@ -2002,7 +2000,7 @@ export const materials = [
     color: '#340005',
     priceType: 'FLOCK',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Flock',
@@ -2011,7 +2009,7 @@ export const materials = [
     color: '#4c201f',
     priceType: 'FLOCK',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Flock',
@@ -2020,7 +2018,7 @@ export const materials = [
     color: '#96979b',
     priceType: 'FLOCK',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Flock',
@@ -2029,7 +2027,7 @@ export const materials = [
     color: '#ec2626',
     priceType: 'FLOCK',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Flock',
@@ -2038,7 +2036,7 @@ export const materials = [
     color: '#e4bcc7',
     priceType: 'FLOCK',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Flock',
@@ -2047,7 +2045,7 @@ export const materials = [
     color: '#99daf6',
     priceType: 'FLOCK',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Flock',
@@ -2056,7 +2054,7 @@ export const materials = [
     color: '#1b1e1d',
     priceType: 'FLOCK',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Flock',
@@ -2065,7 +2063,7 @@ export const materials = [
     color: '#010101',
     priceType: 'FLOCK',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Flock',
@@ -2074,7 +2072,7 @@ export const materials = [
     color: '#f9ed05',
     priceType: 'FLOCK',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Flock',
@@ -2083,7 +2081,7 @@ export const materials = [
     color: '#ff9b2f',
     priceType: 'FLOCK',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Flock',
@@ -2092,7 +2090,7 @@ export const materials = [
     color: '#ff6bc9',
     priceType: 'FLOCK',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Flock',
@@ -2101,7 +2099,7 @@ export const materials = [
     color: '#6deb2f',
     priceType: 'FLOCK',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Flock',
@@ -2110,7 +2108,7 @@ export const materials = [
     color: '#ee4037',
     priceType: 'FLOCK',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
 
   //Glitter
@@ -2122,7 +2120,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0001-WHITE-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2132,7 +2130,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0007-RED-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2142,7 +2140,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0008-HOT-PINK-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2152,7 +2150,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0009-GRASS-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2162,7 +2160,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0011-AQUA-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2172,7 +2170,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0013-BLUE-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2182,7 +2180,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0014-SAPPHIRE-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2192,7 +2190,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0015-PURPLE-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2202,7 +2200,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0016-BURGUNDY-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2212,7 +2210,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0017-BROWN-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2222,7 +2220,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0019-BLACK-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2232,7 +2230,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0020-14k-GOLD-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2242,7 +2240,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0020-GOLD-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2252,7 +2250,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0021-SILVER-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2262,7 +2260,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0047-COPPER-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2272,7 +2270,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0055-EMERALD-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2282,7 +2280,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0059-LILAC-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2292,7 +2290,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0061-SILVER-BLACK-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2302,7 +2300,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0064-LIGHT-MULTI-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2312,7 +2310,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0067-RAINBOW-CORAL-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2322,7 +2320,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0069-JADE-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2332,7 +2330,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0075-BLUSH-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2342,7 +2340,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0076-BLACK-GOLD-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2352,7 +2350,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0078-LIGHT-GREEN-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2362,7 +2360,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0079-CONFETTI-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2372,7 +2370,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0080-LAVENDER-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2382,7 +2380,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0082-OLD-GOLD-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2392,7 +2390,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0083-ROYAL-BLUE-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2402,7 +2400,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0084-OLD-BLUE-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2412,7 +2410,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0092-ROSE-GOLD-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2422,7 +2420,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0093-GALAXY-BLACK-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2432,7 +2430,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0105-RAINBOW-WHITE-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2442,7 +2440,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0109-TAWNY-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2452,7 +2450,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0110-CURRANT-495x400.jpg',
     priceModifier: 'GLITTER',
     priceType: 'FLEX',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2462,7 +2460,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0111-EMBER-ORANGE-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2472,7 +2470,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0112-LAGOON-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2482,7 +2480,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0113-TWILIGHT-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2492,7 +2490,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/05/G0003-LEMON-SUGAR-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2502,7 +2500,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/05/G0068-MINT-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2512,7 +2510,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/05/G0114-FLAMINGO-PINK-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2522,7 +2520,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/05/G0115-RAINBOW-PLUM-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2532,7 +2530,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0022-NEON-YELLOW-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2542,7 +2540,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0023-NEON-ORANGE-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2552,7 +2550,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0024-NEON-PINK-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2562,7 +2560,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0026-NEON-GREEN-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2572,7 +2570,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0027-NEON-BLUE-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2582,7 +2580,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0072-NEON-PURPLE-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Glitter',
@@ -2592,7 +2590,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0104-NEON-GRAPEFRUIT-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'GLITTER',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   //Video
   {
@@ -2602,7 +2600,7 @@ export const materials = [
     color: '#ffffff',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Videoflex',
@@ -2611,7 +2609,7 @@ export const materials = [
     color: '#fecb10',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Videoflex',
@@ -2620,7 +2618,7 @@ export const materials = [
     color: '#ef8122',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Videoflex',
@@ -2629,7 +2627,7 @@ export const materials = [
     color: '#cc2129',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Videoflex',
@@ -2638,7 +2636,7 @@ export const materials = [
     color: '#9f1c3b',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Videoflex',
@@ -2647,7 +2645,7 @@ export const materials = [
     color: '#4c201f',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Videoflex',
@@ -2656,7 +2654,7 @@ export const materials = [
     color: '#f05376',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Videoflex',
@@ -2665,7 +2663,7 @@ export const materials = [
     color: '#482851',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Videoflex',
@@ -2674,7 +2672,7 @@ export const materials = [
     color: '#1696d3',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Videoflex',
@@ -2683,7 +2681,7 @@ export const materials = [
     color: '#204282',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Videoflex',
@@ -2692,7 +2690,7 @@ export const materials = [
     color: '#182045',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Videoflex',
@@ -2701,7 +2699,7 @@ export const materials = [
     color: '#14703d',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Videoflex',
@@ -2710,7 +2708,7 @@ export const materials = [
     color: '#010101',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Videoflex',
@@ -2720,7 +2718,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2017/03/P0020-GOLD-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Videoflex',
@@ -2730,7 +2728,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2017/03/P0021-SILVER-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Videoflex',
@@ -2739,7 +2737,7 @@ export const materials = [
     color: '#f2e904',
     priceType: 'FLEX',
     priceModifier: 'FLUO',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Videoflex',
@@ -2748,7 +2746,7 @@ export const materials = [
     color: '#f89722',
     priceType: 'FLEX',
     priceModifier: 'FLUO',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Videoflex',
@@ -2757,7 +2755,7 @@ export const materials = [
     color: '#df92c0',
     priceType: 'FLEX',
     priceModifier: 'FLUO',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Videoflex',
@@ -2766,7 +2764,7 @@ export const materials = [
     color: '#8ac640',
     priceType: 'FLEX',
     priceModifier: 'FLUO',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Videoflex',
@@ -2775,7 +2773,7 @@ export const materials = [
     color: '#346ab3',
     priceType: 'FLEX',
     priceModifier: 'FLUO',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   //Thermoreflex
   {
@@ -2786,7 +2784,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2020/11/RF0001-WHITE.jpg',
     priceType: 'FLEX',
     priceModifier: 'REFLEX',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Thermoreflex',
@@ -2796,7 +2794,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2020/11/RF0007-RED.jpg',
     priceType: 'FLEX',
     priceModifier: 'REFLEX',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Thermoreflex',
@@ -2806,7 +2804,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2020/11/RF0009-GREEN.jpg',
     priceType: 'FLEX',
     priceModifier: 'REFLEX',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Thermoreflex',
@@ -2816,7 +2814,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2020/11/RF0013-BLUE-ROYAL.jpg',
     priceType: 'FLEX',
     priceModifier: 'REFLEX',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Thermoreflex',
@@ -2826,7 +2824,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2020/11/RF0019-BLACK.jpg',
     priceType: 'FLEX',
     priceModifier: 'REFLEX',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Thermoreflex',
@@ -2836,7 +2834,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2020/11/RF0020-GOLD.jpg',
     priceType: 'FLEX',
     priceModifier: 'REFLEX',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Thermoreflex',
@@ -2846,7 +2844,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2020/11/RF0022-FLUO-YELLOW.jpg',
     priceType: 'FLEX',
     priceModifier: 'REFLEX',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Thermoreflex',
@@ -2856,7 +2854,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2020/11/RF0024-FLUO-PINK.jpg',
     priceType: 'FLEX',
     priceModifier: 'REFLEX',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Thermoreflex',
@@ -2866,7 +2864,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2017/03/BK0021-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'REFLEX',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Thermoreflex',
@@ -2876,7 +2874,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/04/G0105-RAINBOW-WHITE-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'REFLEX',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Thermoreflex',
@@ -2886,7 +2884,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/06/E0032-LENS-SILVER-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'REFLEX',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Thermoreflex',
@@ -2896,7 +2894,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/06/E0032-LENS-SILVER-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'REFLEX',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   //P.S. Metallic
   {
@@ -2907,7 +2905,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/06/M0020-GOLD-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'P.S. Metallic',
@@ -2917,7 +2915,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/06/M0034-SILVER-MIRROR-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   //Foil
   {
@@ -2928,7 +2926,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2017/03/FO0020-GOLD-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'FOIL',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Foil',
@@ -2938,7 +2936,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2017/03/FO0021-SILVER-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'FOIL',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   //Sparkle
   {
@@ -2949,7 +2947,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/SK0001-SNOWSTORM-WHITE-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Sparkle',
@@ -2959,7 +2957,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/SK0003-BUTTERCUP-YELLOW-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Sparkle',
@@ -2969,7 +2967,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/SK0006-SUNSET-ORANGE-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Sparkle',
@@ -2979,7 +2977,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/SK0008-PERFECT-PINK-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Sparkle',
@@ -2989,7 +2987,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/SK0009-GREEN-LEAF-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Sparkle',
@@ -2999,7 +2997,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/SK0013-BLUE-JEANS-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Sparkle',
@@ -3009,7 +3007,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/SK0015-GRAPEVINE-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Sparkle',
@@ -3019,7 +3017,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/SK0019-MIDNIGHT-BLACK-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Sparkle',
@@ -3029,7 +3027,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/SK0020-GOLD-STAR-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Sparkle',
@@ -3039,7 +3037,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/SK0021-SILVER-SWORD-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Sparkle',
@@ -3049,7 +3047,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/SK0028-TOMATO-RED-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Sparkle',
@@ -3059,7 +3057,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/SK0031-PINK-LEMONADE-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Sparkle',
@@ -3069,7 +3067,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/SK0035-GLASS-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Sparkle',
@@ -3079,7 +3077,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/SK0036-CLEAR-GLITTER-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Sparkle',
@@ -3089,7 +3087,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/SK0099-CORNFLOWER-BLUE-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   //Twinkle
   {
@@ -3100,7 +3098,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/TW0006-orange-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Twinkle',
@@ -3110,7 +3108,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/TW0007-red-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Twinkle',
@@ -3120,7 +3118,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/TW0008-pink-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Twinkle',
@@ -3130,7 +3128,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/TW0009-green-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Twinkle',
@@ -3140,7 +3138,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/TW0011-aqua-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Twinkle',
@@ -3150,7 +3148,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/TW0013-royal-blue-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Twinkle',
@@ -3160,7 +3158,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/TW0014-navy-blue-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Twinkle',
@@ -3170,7 +3168,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/TW0015-purple-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Twinkle',
@@ -3180,7 +3178,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/TW0020-gold-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Twinkle',
@@ -3190,7 +3188,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/TW0021-silver-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Twinkle',
@@ -3200,7 +3198,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/TW0047-copper-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Twinkle',
@@ -3210,7 +3208,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/TW0090-rainbow-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   //Metal
   {
@@ -3221,7 +3219,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2021/09/MT0007-red-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Metal',
@@ -3231,7 +3229,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2021/09/MT0092-rose-gold-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Metal',
@@ -3241,7 +3239,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2021/09/MT0008-pink-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Metal',
@@ -3251,7 +3249,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2021/09/MT0014-silver-blue-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Metal',
@@ -3261,7 +3259,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2021/09/MT0013-blue-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Metal',
@@ -3271,7 +3269,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2021/09/MT0015-purple-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Metal',
@@ -3281,7 +3279,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2021/09/MT0020-gold-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Metal',
@@ -3291,7 +3289,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2021/09/MT0021-silver-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   //Holographic
   {
@@ -3302,7 +3300,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/H0006-ORANGE-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Holographic',
@@ -3312,7 +3310,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/H0007-RED-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Holographic',
@@ -3322,7 +3320,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/H0008-FUCHSIA-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Holographic',
@@ -3332,7 +3330,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/H0009-GREEN-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Holographic',
@@ -3342,7 +3340,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/H0011-ACQUA-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Holographic',
@@ -3352,7 +3350,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/H0014-NAVY-BLUE-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Holographic',
@@ -3362,7 +3360,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/H0015-PURPLE-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Holographic',
@@ -3372,7 +3370,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/H0019-BLACK-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Holographic',
@@ -3382,7 +3380,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/H0020-GOLD-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Holographic',
@@ -3392,7 +3390,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/H0021-SILVER-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Holographic',
@@ -3402,7 +3400,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/H0031-LIGHT-PINK-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Holographic',
@@ -3412,7 +3410,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/H0051-SKY-BLUE-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Holographic',
@@ -3422,7 +3420,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/H0075-BLUSH-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Holographic',
@@ -3432,7 +3430,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/H0083-ROYAL-BLUE-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Holographic',
@@ -3442,7 +3440,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/H0087-CRYSTAL-SILVER-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Holographic',
@@ -3452,7 +3450,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/H0088-CRYSTAL-GOLD-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Holographic',
@@ -3462,7 +3460,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/H0089-SPECTRUM-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Holographic',
@@ -3472,7 +3470,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/H0090-MULTI-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Holographic',
@@ -3482,7 +3480,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2022/08/H0091-RAINBOW-PEARL-495x400.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   //Vernice
   {
@@ -3493,7 +3491,7 @@ export const materials = [
     src: '',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Vernice',
@@ -3503,7 +3501,7 @@ export const materials = [
     src: '',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'Vernice',
@@ -3513,7 +3511,7 @@ export const materials = [
     src: '',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   //P.S. Lumen
   {
@@ -3524,7 +3522,7 @@ export const materials = [
     src: '',
     priceType: 'FLEX',
     priceModifier: 'LUMEN',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   //Blackboard
   {
@@ -3535,7 +3533,7 @@ export const materials = [
     src: '',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   //EasyPatterns
   {
@@ -3546,7 +3544,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2019/10/zebra-1-300x300.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'EasyPatterns',
@@ -3556,7 +3554,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2019/10/leopard-tan-1-300x300.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'EasyPatterns',
@@ -3566,7 +3564,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2019/10/camo-green-300x300.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'EasyPatterns',
@@ -3576,7 +3574,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2019/10/mermaid-scales-teal-300x300.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'EasyPatterns',
@@ -3586,7 +3584,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2019/10/infinite-galaxy-1-300x300.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'EasyPatterns',
@@ -3596,7 +3594,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2020/10/SUNSET-GRADIENT-300x300.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'EasyPatterns',
@@ -3606,7 +3604,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2020/10/VINTAGE-ROSE-300x300.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'EasyPatterns',
@@ -3616,7 +3614,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2020/10/WATERCOLOR-RAINBOW-1-300x300.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'EasyPatterns',
@@ -3626,7 +3624,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2021/07/Bohemian-Stripes-IMG-300x300.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'EasyPatterns',
@@ -3636,7 +3634,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2021/07/Love-Dots-IMG-300x300.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'EasyPatterns',
@@ -3646,7 +3644,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2021/07/Paisley-Party-IMG-300x300.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'EasyPatterns',
@@ -3656,7 +3654,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2021/07/Serape-IMG-300x300.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'EasyPatterns',
@@ -3666,7 +3664,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2021/07/Tropical-Leaves-IMG-300x300.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'EasyPatterns',
@@ -3676,7 +3674,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2021/11/WILD-GIRAFFE-300x300.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'EasyPatterns',
@@ -3686,7 +3684,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2021/11/WILD-LEOPARD-300x300.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
   {
     type: 'EasyPatterns',
@@ -3696,7 +3694,7 @@ export const materials = [
     src: 'https://www.siser.com/wp-content/uploads/2021/11/WILD-ZEBRA-300x300.jpg',
     priceType: 'FLEX',
     priceModifier: 'STANDARD',
-    application: 'cutting',
+    application: 'Flex/Flock',
   },
 
   //PRINTING MATERIALS
@@ -3707,7 +3705,7 @@ export const materials = [
     color: 'white',
     priceType: 'SUBLIMATION',
     priceModifier: 'STANDARD',
-    application: 'sublimation',
+    application: 'Sublimacja',
   },
   {
     type: 'Transfery',
@@ -3716,7 +3714,7 @@ export const materials = [
     color: 'white',
     priceType: 'TRANSFER',
     priceModifier: 'STANDARD',
-    application: 'transfer',
+    application: 'Transfery',
   },
   {
     type: 'Solvent (na gotowo)',
@@ -3725,7 +3723,7 @@ export const materials = [
     color: 'white',
     priceType: 'SOLVENT-FULL',
     priceModifier: 'STANDARD',
-    application: 'printing',
+    application: 'Solwent',
   },
   {
     type: 'Solvent (na gotowo)',
@@ -3734,7 +3732,7 @@ export const materials = [
     color: 'white',
     priceType: 'SOLVENT-FULL',
     priceModifier: 'STANDARD',
-    application: 'printing',
+    application: 'Solwent',
   },
   {
     type: 'Solvent (na gotowo)',
@@ -3743,7 +3741,7 @@ export const materials = [
     color: 'white',
     priceType: 'SOLVENT-FULL',
     priceModifier: 'STANDARD',
-    application: 'printing',
+    application: 'Solwent',
   },
   {
     type: 'Solvent (na gotowo)',
@@ -3752,7 +3750,7 @@ export const materials = [
     color: 'white',
     priceType: 'SOLVENT-FULL',
     priceModifier: 'STANDARD',
-    application: 'printing',
+    application: 'Solwent',
   },
   {
     type: 'Solvent (na gotowo)',
@@ -3761,7 +3759,7 @@ export const materials = [
     color: 'white',
     priceType: 'SOLVENT-FULL',
     priceModifier: 'STANDARD',
-    application: 'printing',
+    application: 'Solwent',
   },
   {
     type: 'Solvent (na gotowo)',
@@ -3770,7 +3768,7 @@ export const materials = [
     color: 'white',
     priceType: 'SOLVENT-FULL',
     priceModifier: 'STANDARD',
-    application: 'printing',
+    application: 'Solwent',
   },
   {
     type: 'Solvent (na gotowo)',
@@ -3779,7 +3777,7 @@ export const materials = [
     color: 'white',
     priceType: 'SOLVENT-FULL',
     priceModifier: 'STANDARD',
-    application: 'printing',
+    application: 'Solwent',
   },
   {
     type: 'Solvent (dla drukarni)',
@@ -3788,7 +3786,7 @@ export const materials = [
     color: 'white',
     priceType: 'SOLVENT',
     priceModifier: 'STANDARD',
-    application: 'printing',
+    application: 'Solwent',
   },
   {
     type: 'Solvent (dla drukarni)',
@@ -3797,7 +3795,7 @@ export const materials = [
     color: 'white',
     priceType: 'SOLVENT',
     priceModifier: 'STANDARD',
-    application: 'printing',
+    application: 'Solwent',
   },
   {
     type: 'Solvent (dla drukarni)',
@@ -3806,7 +3804,7 @@ export const materials = [
     color: 'white',
     priceType: 'SOLVENT',
     priceModifier: 'STANDARD',
-    application: 'printing',
+    application: 'Solwent',
   },
   {
     type: 'Solvent (dla drukarni)',
@@ -3815,7 +3813,7 @@ export const materials = [
     color: 'white',
     priceType: 'SOLVENT',
     priceModifier: 'STANDARD',
-    application: 'printing',
+    application: 'Solwent',
   },
   {
     type: 'Solvent (dla drukarni)',
@@ -3824,7 +3822,7 @@ export const materials = [
     color: 'white',
     priceType: 'SOLVENT',
     priceModifier: 'STANDARD',
-    application: 'printing',
+    application: 'Solwent',
   },
   {
     type: 'Solvent (dla drukarni)',
@@ -3833,7 +3831,7 @@ export const materials = [
     color: 'white',
     priceType: 'SOLVENT',
     priceModifier: 'STANDARD',
-    application: 'printing',
+    application: 'Solwent',
   },
   {
     type: 'Solvent (dla drukarni)',
@@ -3842,6 +3840,6 @@ export const materials = [
     color: 'white',
     priceType: 'SOLVENT',
     priceModifier: 'STANDARD',
-    application: 'printing',
+    application: 'Solwent',
   },
 ]

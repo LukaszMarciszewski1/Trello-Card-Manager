@@ -5,7 +5,7 @@ import axios from "axios";
 import dayjs from "dayjs";
 
 import { Card, Description } from "models/card";
-import { traders, fabric, materials, applications, departments } from "data/data";
+import { traders, fabric, materials, departments } from "data/data";
 import { useForm, useFieldArray } from "react-hook-form";
 
 import {
@@ -30,7 +30,7 @@ import MaterialsForm from "../../../components/templates/MaterialsForm/Materials
 import { RiAddLine } from "react-icons/ri";
 
 const defaultSectionValues = {
-  materialType: applications[0].value,
+  materialType: materials[0].application,
   logo: "",
   amount: 1,
   fabric: fabric[0].value,
@@ -110,7 +110,7 @@ const PlotterForm: React.FC = () => {
   const handleWatchFormSizeHeightValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setWatchFormSizeHeight(e.target.value)
   }
-  const handleWatchPacking = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleWatchPacking = () => {
     setWatchPacking(!watchPacking)
   }
 
@@ -232,28 +232,11 @@ const PlotterForm: React.FC = () => {
     reset()
   }
 
-  const cuttingMaterials = () => {
-    return materials.filter(material => material.application === applications[0].application)
-  }
-
-  const solventMaterials = () => {
-    return materials.filter(material => material.application === applications[1].application)
-
-  }
-
-  const sublimationMaterials = () => {
-    return materials.filter(material => material.application === applications[2].application)
-  }
-
-  const transfersMaterials = () => {
-    return materials.filter(material => material.application === applications[3].application)
-  }
-
   const getMaterialsType = (index: number) => {
-
+    return materials.filter(material => (
+      material.application.toLowerCase() === sectionForms[index]?.materialType.toLowerCase()
+    ))
   }
-
-  console.log(sectionForms[0]?.materialType)
 
   const closeModal = () => setSuccessSubmit(false)
 
@@ -316,7 +299,7 @@ const PlotterForm: React.FC = () => {
                           <MaterialsForm
                             {...{ control, register }}
                             registerName={`description[${index}].materials`}
-                            materials={cuttingMaterials()}
+                            materials={getMaterialsType(index)}
                             dataForm={sectionForms[index]}
                             materialsType={sectionForms[index]?.materialType}
                           />
@@ -325,7 +308,7 @@ const PlotterForm: React.FC = () => {
                           <MaterialsForm
                             {...{ control, register }}
                             registerName={`description[${index}].materials`}
-                            materials={solventMaterials()}
+                            materials={getMaterialsType(index)}
                             dataForm={sectionForms[index]}
                             materialsType={sectionForms[index]?.materialType}
                           />
@@ -334,7 +317,7 @@ const PlotterForm: React.FC = () => {
                           <MaterialsForm
                             {...{ control, register }}
                             registerName={`description[${index}].materials`}
-                            materials={sublimationMaterials()}
+                            materials={getMaterialsType(index)}
                             dataForm={sectionForms[index]}
                             materialsType={sectionForms[index]?.materialType}
                           />
@@ -343,7 +326,7 @@ const PlotterForm: React.FC = () => {
                           <MaterialsForm
                             {...{ control, register }}
                             registerName={`description[${index}].materials`}
-                            materials={transfersMaterials()}
+                            materials={getMaterialsType(index)}
                             dataForm={sectionForms[index]}
                             materialsType={sectionForms[index]?.materialType}
                           />
