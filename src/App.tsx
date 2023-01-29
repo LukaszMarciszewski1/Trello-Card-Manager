@@ -2,8 +2,8 @@ import React from "react";
 import "./App.scss";
 import Tabs from "components/Tabs/Tabs";
 import TabsContent from "components/Tabs/TabsContent/TabsContent";
-import TaskList from "views/TaskList";
-import TaskForms from "views/TaskForms";
+import TaskList from "screens/TaskList";
+import TaskForms from "screens/TaskForms";
 
 function App() {
   return (

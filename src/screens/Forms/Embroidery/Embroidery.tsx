@@ -1,25 +1,19 @@
-/* eslint-disable no-useless-escape */
 import React, { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
-import axios from "axios";
 import dayjs from "dayjs";
 
-import { Card, Description } from "models/card";
 import { traders, fabric, departments } from "data/appData/index";
-import { materials } from "data/appData/materials";
 import { useForm, useFieldArray } from "react-hook-form";
+import { Card, CardDescription } from "models/card";
+import { AddCardForm } from 'api/trello'
 
 import {
   getPriceForOnePieceOfSection,
   getTotalPrice,
   getPriceForSection,
-  isMoreThanMaximumSize,
   getSelectedSizeName,
-  isDisplayFabric
 } from "calculation/calculator";
 
-import SectionTabs from "components/SectionTabs/SectionTabs";
-import SectionTabsContent from 'components/SectionTabs/TabsContent/TabsContent'
 import Input from "components/common/Input/Input";
 import Button from "components/common/Button/Button";
 import Checkbox from "components/common/Checkbox/Checkbox";
@@ -27,11 +21,10 @@ import Select from "components/common/Select/Select";
 import SectionForm from "components/templates/SectionForm/SectionForm";
 import Textarea from "components/common/Textarea/Textarea";
 import SuccessModal from "components/templates/SuccessModal/SuccessModal";
-import MaterialsForm from "../../../components/templates/MaterialsForm/MaterialsForm";
 import { RiAddLine } from "react-icons/ri";
 
 const defaultSectionValues = {
-  materialType: materials[0].application,
+  materialAccess: false,
   logo: "",
   amount: 1,
   fabric: fabric[0].value,
@@ -46,7 +39,7 @@ const defaultSectionValues = {
   materials: []
 };
 
-const PlotterForm: React.FC = () => {
+const EmbroideryForm: React.FC = () => {
   dayjs.locale("pl");
 
   const {
@@ -60,7 +53,7 @@ const PlotterForm: React.FC = () => {
   } = useForm<Card>({
     defaultValues: {
       description: [defaultSectionValues],
-      board: 'Ploterownia'
+      department: 'Hafciarnia'
     },
     mode: "onBlur",
   });
@@ -71,16 +64,12 @@ const PlotterForm: React.FC = () => {
   });
 
   const watchForChangesInSectionForms = watch('description');
-  const [sectionForms, setSectionForms] = useState<Description[]>([])
+  const [sectionForms, setSectionForms] = useState<CardDescription[]>([])
   const [watchCustomPrice, setWatchCustomPrice] = useState('')
   const [watchFormSizeWidth, setWatchFormSizeWidth] = useState('')
   const [watchFormSizeHeight, setWatchFormSizeHeight] = useState('')
   const [watchPacking, setWatchPacking] = useState(false)
   const [successSubmit, setSuccessSubmit] = useState(false)
-
-  useEffect(() => {
-    setValue(`department`, 'PLOTEROWNIA')
-  }, [])
 
   useEffect(() => {
     setSectionForms(watchForChangesInSectionForms)
@@ -90,153 +79,51 @@ const PlotterForm: React.FC = () => {
     setValue('orderPrice', getTotalPrice(sectionForms))
     setValue('orderCost', Number((getTotalPrice(sectionForms) * 0.75).toFixed(1)))
     fields.map((item, index) => {
+      setValue(`description.${index}.customPrice`, true)
       setValue(`description.${index}.price`, getPriceForSection(sectionForms, index))
       setValue(`description.${index}.priceForOnePiece`, getPriceForOnePieceOfSection(sectionForms, index))
     })
-  }, [getTotalPrice(sectionForms), watchCustomPrice, watchFormSizeWidth, watchFormSizeHeight, watchPacking])
+  }, [
+    getTotalPrice(sectionForms),
+    watchCustomPrice,
+    watchFormSizeWidth,
+    watchFormSizeHeight,
+    watchPacking
+  ])
 
   useEffect(() => {
     fields.map((item, index) => {
-      setValue(`description.${index}.customPrice`, isMoreThanMaximumSize(sectionForms, index))
       setValue(`description.${index}.size`, getSelectedSizeName(sectionForms, index))
     })
-  }, [watchFormSizeWidth, watchFormSizeHeight, sectionForms])
+  }, [
+    watchFormSizeWidth,
+    watchFormSizeHeight,
+    sectionForms
+  ])
 
   const handleWatchCustomPriceValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setWatchCustomPrice(e.target.value)
   }
+
   const handleWatchFormSizeWidthValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setWatchFormSizeWidth(e.target.value)
   }
+
   const handleWatchFormSizeHeightValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setWatchFormSizeHeight(e.target.value)
   }
+
   const handleWatchPacking = () => {
     setWatchPacking(!watchPacking)
   }
 
-  const AddCardForm = async (data: Card) => {
-    const {
-      title,
-      description,
-      startDate,
-      endDate,
-      member,
-      attachment,
-      recipient,
-      filePath,
-      orderPrice,
-      orderCost
-    } = data;
-
-    const descSectionArray = description.map((desc, i) => {
-      const materials = desc.materials.map((item: { field: any; }) => item.field)
-      const decsPriceForOnePiece = desc.priceForOnePiece > 0 ? `\n>Cena za 1 szt: ${desc.priceForOnePiece} zł` : ''
-      const descPrice = desc.price > 0 ? `\n>Wartość sekcji: ${desc.price} zł` : ''
-      return (
-        `
-        \n\
-        \n***Sekcja: ${i + 1} >>>>>>>>>>>>>>>>>>>>>***
-        \n>**Logo: ${desc.logo}**
-        \n>Ilość: ${desc.amount}
-        \n>Tkanina: ${desc.fabric}
-        \n>Szerokość: ${desc.width}cm
-        \n>Wysokość: ${desc.height}cm
-        \n>Typ materiału: ${desc.materialType}
-        \n>Materiał: ${materials.length ? materials.join(', ') : 'Nie wybrano'}
-        \n>Rozmiar: ${desc.size}
-        \n>Pakowanie: ${desc.packing ? 'TAK' : 'NIE'}
-        ${decsPriceForOnePiece}
-        ${descPrice}
-        \n\n>Dodatkowy opis: ${desc.additionalDesc ? desc.additionalDesc : 'Brak'}
-        \n-\n\n\n\
-        `
-      )
-    }).join('').toString();
-
-    const price = orderPrice > 0 ? `\n>Wartość zlecenia: ${orderPrice} zł` : ''
-    const cost = orderCost > 0 ? `\n>Koszt zlecenia: ${orderCost} zł` : ''
-
-    const descData = `
-      ${descSectionArray} 
-      \n***Dane dodatkowe >>>>>>>>>>>>>>>>***
-      \n>Plik produkcyjny: ${filePath ? `**${filePath}**` : 'Nie wybrano'}
-      ${price}
-      ${cost}
-    `
-
-    const formInitialDataCard = new FormData();
-    formInitialDataCard.append("idList", `${process.env.REACT_APP_TRELLO_PLOTTER_LIST}`);
-    formInitialDataCard.append("name", title);
-    formInitialDataCard.append("desc", descData);
-    formInitialDataCard.append("start", startDate);
-    formInitialDataCard.append("due", endDate);
-    formInitialDataCard.append("idMembers", `${member},${recipient}`);
-
-    const formFileDataCard = new FormData();
-    formFileDataCard.append("file", attachment[0]);
-    formFileDataCard.append("setCover", 'false');
-
-    const formChecklistDataCard = new FormData();
-    formChecklistDataCard.append("name", "Lista zadań");
-
-
-    const config = {
-      params: {
-        key: process.env.REACT_APP_TRELLO_KEY,
-        token: process.env.REACT_APP_TRELLO_TOKEN,
-      },
-      headers: {
-        Accept: "application/json",
-        'Content-Type': 'multipart/form-data',
-      },
-    }
-
-    try {
-      const res = await axios.post(
-        `${process.env.REACT_APP_TRELLO_URL}/cards`,
-        formInitialDataCard,
-        config,
-      )
-
-      if (attachment.length) {
-        await axios.post(`${process.env.REACT_APP_TRELLO_URL}/cards/${res.data.id}/attachments`,
-          formFileDataCard,
-          config
-        )
-      }
-
-      const checklistRes = await axios.post(`${process.env.REACT_APP_TRELLO_URL}/cards/${res.data.id}/checklists`,
-        formChecklistDataCard,
-        config
-      )
-
-      await Promise.all(
-        description.map(async (desc) => {
-          await axios.post(`${process.env.REACT_APP_TRELLO_URL}/checklists/${checklistRes.data.id}/checkItems`,
-            {
-              name: desc.logo,
-              checked: false
-            },
-            config)
-        }))
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   const handleSubmitForm = (data: Card) => {
-    AddCardForm(data);
-    if (data) {
+    const listId = process.env.REACT_APP_TRELLO_EMBROIDERY_LIST
+    if (data && listId) {
+      AddCardForm(data, listId);
       setSuccessSubmit(true)
+      reset()
     }
-    reset()
-  }
-
-  const getMaterialsType = (index: number) => {
-    return materials.filter(material => (
-      material.application.toLowerCase() === sectionForms[index]?.materialType.toLowerCase()
-    ))
   }
 
   const closeModal = () => setSuccessSubmit(false)
@@ -247,7 +134,7 @@ const PlotterForm: React.FC = () => {
         <SuccessModal
           trigger={successSubmit}
           closeModal={closeModal}
-          boardName={'Ploterownia'}
+          boardName={'Hafciarnia'}
         />
         <div className={styles.formGroupContainer}>
           <div className={styles.formGroupRow}>
@@ -280,60 +167,17 @@ const PlotterForm: React.FC = () => {
             return (
               <SectionForm key={field.id}>
                 <div className={styles.sectionContent}>
-                  <div className={styles.formGroupColumn}>
+                  <div className={styles.formGroupColumn} style={{ justifyContent: 'space-between' }}>
                     <Input
                       id={field.id}
                       label={"Logo"}
                       type="text"
-                      error={errors.description?.[index]?.logo}
+                      error={errors.description}
                       {...register(`description.${index}.logo` as const, {
                         required: true,
                       })}
                       defaultValue={field.logo}
                     />
-                    <div className={styles.sectionTabsContainer}>
-                      <SectionTabs
-                        tabLabel={'Wybierz typ materiału:'}
-                        setTabTitle={(e: string) => setValue(`description.${index}.materialType`, e)}
-                      >
-                        <SectionTabsContent title="Flex/Flock">
-                          <MaterialsForm
-                            {...{ control, register }}
-                            registerName={`description[${index}].materials`}
-                            materials={getMaterialsType(index)}
-                            dataForm={sectionForms[index]}
-                            materialsType={sectionForms[index]?.materialType}
-                          />
-                        </SectionTabsContent>
-                        <SectionTabsContent title="Solwent">
-                          <MaterialsForm
-                            {...{ control, register }}
-                            registerName={`description[${index}].materials`}
-                            materials={getMaterialsType(index)}
-                            dataForm={sectionForms[index]}
-                            materialsType={sectionForms[index]?.materialType}
-                          />
-                        </SectionTabsContent>
-                        <SectionTabsContent title="Sublimacja">
-                          <MaterialsForm
-                            {...{ control, register }}
-                            registerName={`description[${index}].materials`}
-                            materials={getMaterialsType(index)}
-                            dataForm={sectionForms[index]}
-                            materialsType={sectionForms[index]?.materialType}
-                          />
-                        </SectionTabsContent>
-                        <SectionTabsContent title="Transfery">
-                          <MaterialsForm
-                            {...{ control, register }}
-                            registerName={`description[${index}].materials`}
-                            materials={getMaterialsType(index)}
-                            dataForm={sectionForms[index]}
-                            materialsType={sectionForms[index]?.materialType}
-                          />
-                        </SectionTabsContent>
-                      </SectionTabs>
-                    </div>
                     <Textarea
                       id={field.id}
                       label={'Dodatkowy opis'}
@@ -341,25 +185,20 @@ const PlotterForm: React.FC = () => {
                     />
                   </div>
                   <div className={styles.formGroupColumn}>
-                    {
-                      !isDisplayFabric(sectionForms[index]) ? (
-                        <Select
-                          label={"Tkanina"}
-                          options={fabric}
-                          id={field.id}
-                          defaultValue={field.fabric}
-                          {...register(`description.${index}.fabric` as const)}
-                        />
-                      ) : null
-                    }
+                    <Select
+                      label={"Tkanina"}
+                      options={fabric}
+                      id={field.id}
+                      defaultValue={field.fabric}
+                      {...register(`description.${index}.fabric` as const)}
+                    />
                     <Input
                       id={field.id}
                       placeholder={"Ilość"}
                       label={"Ilość"}
                       type="number"
                       step={"1"}
-                      min={1}
-                      error={errors.description?.[index]?.amount}
+                      min={0}
                       {...register(`description.${index}.amount` as const,
                         { onChange: handleWatchCustomPriceValue, required: true })
                       }
@@ -371,8 +210,7 @@ const PlotterForm: React.FC = () => {
                         label={"Szerokość (cm)"}
                         type="number"
                         step={"0.1"}
-                        min={0.1}
-                        error={errors.description?.[index]?.width}
+                        min={0}
                         {...register(`description.${index}.width` as const,
                           { onChange: handleWatchFormSizeWidthValue, required: true })
                         }
@@ -383,8 +221,7 @@ const PlotterForm: React.FC = () => {
                         label={"Wysokość (cm)"}
                         type="number"
                         step={"0.1"}
-                        min={0.1}
-                        error={errors.description?.[index]?.height}
+                        min={0}
                         {...register(`description.${index}.height` as const,
                           { onChange: handleWatchFormSizeHeightValue, required: true })
                         }
@@ -407,50 +244,27 @@ const PlotterForm: React.FC = () => {
                       />
                     </div>
                     <div className={styles.rowContainer}>
-                      {
-                        isMoreThanMaximumSize(sectionForms, index) ? (
-                          <>
-                            <div style={{ width: 120, marginRight: 15 }}>
-                              <Input
-                                id={field.id}
-                                label={"Cena 1szt."}
-                                style={{ border: '2px solid green' }}
-                                type="number"
-                                min={0}
-                                {...register(`description.${index}.priceForOnePiece` as const,
-                                  { onChange: handleWatchCustomPriceValue })
-                                }
-                              />
-                            </div>
-                            <Input
-                              id={field.id}
-                              label={"Wartość sekcji"}
-                              type="number"
-                              {...register(`description.${index}.price` as const)}
-                              readOnly
-                            />
-                          </>
-                        ) : (
-                          <>
-                            <div style={{ width: 120, marginRight: 15 }}>
-                              <Input
-                                id={field.id}
-                                label={"Cena 1szt."}
-                                type="number"
-                                {...register(`description.${index}.priceForOnePiece` as const)}
-                                readOnly
-                              />
-                            </div>
-                            <Input
-                              id={field.id}
-                              label={"Wartość sekcji"}
-                              type="number"
-                              {...register(`description.${index}.price` as const)}
-                              readOnly
-                            />
-                          </>
-                        )
-                      }
+                      <>
+                        <div style={{ width: 120, marginRight: 15 }}>
+                          <Input
+                            id={field.id}
+                            label={"Cena 1szt."}
+                            style={{ border: '2px solid green' }}
+                            type="number"
+                            min={0}
+                            {...register(`description.${index}.priceForOnePiece` as const,
+                              { onChange: handleWatchCustomPriceValue })
+                            }
+                          />
+                        </div>
+                        <Input
+                          id={field.id}
+                          label={"Wartość sekcji"}
+                          type="number"
+                          {...register(`description.${index}.price` as const)}
+                          readOnly
+                        />
+                      </>
                     </div>
                     {
                       sectionForms.length > 1 ? (
@@ -480,7 +294,7 @@ const PlotterForm: React.FC = () => {
             <div className={styles.inputContainer}>
               <Select
                 label={"Przyjął"}
-                options={departments.plotter}
+                options={departments.embroidery}
                 id={"recipient"}
                 {...register("recipient")}
               />
@@ -544,4 +358,4 @@ const PlotterForm: React.FC = () => {
   );
 };
 
-export default React.memo(PlotterForm);
+export default EmbroideryForm;

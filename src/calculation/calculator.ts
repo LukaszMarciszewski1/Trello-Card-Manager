@@ -1,4 +1,4 @@
-import { Description } from 'models/card'
+import { CardDescription } from 'models/card'
 import { materials, sizes} from 'data/appData/index'
 import {
   materialsPriceList, 
@@ -48,7 +48,7 @@ const calculator = (
   selectedMaterial: string,
   width: number,
   height: number
-) => {
+): number => {
   const numberWidth = Number(width)
   const numberHeight = Number(height)
   const numberAmount = Number(amount)
@@ -72,17 +72,17 @@ const calculator = (
   return priceCalculations
 }
 
-const getPriceForPacking = (data: Description): number => {
+const getPriceForPacking = (data: CardDescription): number => {
   const priceForPacking = data?.packing ? (data.amount * packingPrice ) : 0
   return priceForPacking
 }
 
-const customPriceArray = (data: Description[]): number[] => {
+const customPriceArray = (data: CardDescription[]): number[] => {
   const sectionForms = [...data]
   const sectionPriceArray: number[] = []
   sectionForms
     .filter((item) => item.customPrice === true)
-    .map((item, index) => {
+    .map((item) => {
       const price = Number(item.price)
       sectionPriceArray.push(price)
     })
@@ -90,7 +90,7 @@ const customPriceArray = (data: Description[]): number[] => {
 }
 
 const calculatorPriceArray = (
-  data: Description[],
+  data: CardDescription[],
   onlyForOnePiece: boolean
 ): number[] => {
   let prices: number[] = []
@@ -113,7 +113,7 @@ const calculatorPriceArray = (
 }
 
 export const isMoreThanMaximumSize = (
-  data: Description[],
+  data: CardDescription[],
   index: number
 ): boolean => {
   const limits = sizes.map(item => item.size)
@@ -129,7 +129,7 @@ export const isMoreThanMaximumSize = (
 }
 
 export const getPriceForOnePieceOfSection = (
-  data: Description[],
+  data: CardDescription[],
   index: number
 ): number => {
   const sectionForms = [...data]
@@ -145,7 +145,7 @@ export const getPriceForOnePieceOfSection = (
 }
 
 export const getPriceForSection = (
-  data: Description[],
+  data: CardDescription[],
   index: number
 ): number => {
   const sectionForms = [...data]
@@ -167,7 +167,7 @@ export const getPriceForSection = (
 }
 
 export const getSelectedSizeName = (
-  data: Description[],
+  data: CardDescription[],
   index: number
 ): string => {
   const sectionForms = [...data][index]
@@ -186,7 +186,7 @@ export const getSelectedSizeName = (
   return formSize
 }
 
-export const isDisplayFabric = (data: Description): boolean => {
+export const isDisplayFabric = (data: CardDescription): boolean => {
   const selectMaterial = data?.materials.map((material) =>
     data?.materials.length ? material.field : ''
   )[0]
@@ -202,7 +202,7 @@ export const isDisplayFabric = (data: Description): boolean => {
   return isTheSame
 }
 
-export const getTotalPrice = (data: Description[]): number => {
+export const getTotalPrice = (data: CardDescription[]): number => {
   const sectionForms = [...data]
   const calculatorPrice = Number(
     calculatorPriceArray(sectionForms, false)

@@ -1,12 +1,11 @@
-/* eslint-disable no-useless-escape */
 import React, { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
-import axios from "axios";
 import dayjs from "dayjs";
 
 import { traders, fabric, departments } from "data/appData/index";
 import { useForm, useFieldArray } from "react-hook-form";
-import { Card, Description } from "models/card";
+import { Card, CardDescription } from "models/card";
+import { AddCardForm } from 'api/trello'
 
 import {
   getPriceForOnePieceOfSection,
@@ -25,7 +24,7 @@ import SuccessModal from "components/templates/SuccessModal/SuccessModal";
 import { RiAddLine } from "react-icons/ri";
 
 const defaultSectionValues = {
-  materialType: '',
+  materialAccess: false,
   logo: "",
   amount: 1,
   fabric: fabric[0].value,
@@ -40,7 +39,7 @@ const defaultSectionValues = {
   materials: []
 };
 
-const EmbroideryForm: React.FC = () => {
+const DTFForm: React.FC = () => {
   dayjs.locale("pl");
 
   const {
@@ -54,7 +53,7 @@ const EmbroideryForm: React.FC = () => {
   } = useForm<Card>({
     defaultValues: {
       description: [defaultSectionValues],
-      board: 'Hafciarnia'
+      department: 'DTF'
     },
     mode: "onBlur",
   });
@@ -65,7 +64,7 @@ const EmbroideryForm: React.FC = () => {
   });
 
   const watchForChangesInSectionForms = watch('description');
-  const [sectionForms, setSectionForms] = useState<Description[]>([])
+  const [sectionForms, setSectionForms] = useState<CardDescription[]>([])
   const [watchCustomPrice, setWatchCustomPrice] = useState('')
   const [watchFormSizeWidth, setWatchFormSizeWidth] = useState('')
   const [watchFormSizeHeight, setWatchFormSizeHeight] = useState('')
@@ -77,13 +76,6 @@ const EmbroideryForm: React.FC = () => {
   }, [watchForChangesInSectionForms])
 
   useEffect(() => {
-    fields.map((item, index) => {
-      setValue(`description.${index}.materialType`, '')
-
-    })
-  }, [])
-
-  useEffect(() => {
     setValue('orderPrice', getTotalPrice(sectionForms))
     setValue('orderCost', Number((getTotalPrice(sectionForms) * 0.75).toFixed(1)))
     fields.map((item, index) => {
@@ -91,152 +83,34 @@ const EmbroideryForm: React.FC = () => {
       setValue(`description.${index}.price`, getPriceForSection(sectionForms, index))
       setValue(`description.${index}.priceForOnePiece`, getPriceForOnePieceOfSection(sectionForms, index))
     })
-  }, [
-    getTotalPrice(sectionForms),
-    watchCustomPrice,
-    watchFormSizeWidth,
-    watchFormSizeHeight,
-    watchPacking
-  ])
+  }, [getTotalPrice(sectionForms), watchCustomPrice, watchFormSizeWidth, watchFormSizeHeight, watchPacking])
 
   useEffect(() => {
     fields.map((item, index) => {
       setValue(`description.${index}.size`, getSelectedSizeName(sectionForms, index))
     })
-  }, [
-    watchFormSizeWidth,
-    watchFormSizeHeight,
-    sectionForms
-  ])
+  }, [watchFormSizeWidth, watchFormSizeHeight, sectionForms])
 
   const handleWatchCustomPriceValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setWatchCustomPrice(e.target.value)
   }
-
   const handleWatchFormSizeWidthValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setWatchFormSizeWidth(e.target.value)
   }
-
   const handleWatchFormSizeHeightValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setWatchFormSizeHeight(e.target.value)
   }
-
   const handleWatchPacking = () => {
     setWatchPacking(!watchPacking)
   }
 
-  const AddCardForm = async (data: Card) => {
-    const {
-      title,
-      description,
-      startDate,
-      endDate,
-      member,
-      attachment,
-      recipient,
-      filePath,
-      orderPrice,
-      orderCost
-    } = data;
-
-    const sectionFormData = description.map((desc, i) => {
-      const decsPriceForOnePiece = desc.priceForOnePiece > 0 ? `\n>Cena za 1 szt: ${desc.priceForOnePiece} zł` : ''
-      const descPrice = desc.price > 0 ? `\n>Wartość sekcji: ${desc.price} zł` : ''
-      return (
-        `
-        \n\
-        \n***Sekcja:${i + 1} >>>>>>>>>>>>>>>>>>>>>***
-        \n>**Logo: ${desc.logo}**
-        \n>Ilość: ${desc.amount}
-        \n>Tkanina: ${desc.fabric}
-        \n>Szerokość: ${desc.width}cm
-        \n>Wysokość: ${desc.height}cm
-        \n>Rozmiar: ${desc.size}
-        \n>Pakowanie: ${desc.packing ? 'TAK' : 'NIE'}
-        ${decsPriceForOnePiece}
-        ${descPrice}
-        \n\n>Dodatkowy opis: ${desc.additionalDesc ? desc.additionalDesc : 'Brak'}
-        \n-\n\n\n\
-        `
-      )
-    }).join('').toString();
-
-    const price = orderPrice > 0 ? `\n>Wartość zlecenia: ${orderPrice} zł` : ''
-    const cost = orderCost > 0 ? `\n>Koszt zlecenia: ${orderCost} zł` : ''
-
-    const descData = `
-      ${sectionFormData} 
-      \n***Dane dodatkowe >>>>>>>>>>>>>>>>***
-      \n>Plik produkcyjny: ${filePath ? `**${filePath}**` : 'Nie wybrano'}
-      ${price}
-      ${cost}
-    `
-
-    const formInitialDataCard = new FormData();
-    formInitialDataCard.append("idList", `${process.env.REACT_APP_TRELLO_EMBROIDERY_LIST}`);
-    formInitialDataCard.append("name", title);
-    formInitialDataCard.append("desc", descData);
-    formInitialDataCard.append("start", startDate);
-    formInitialDataCard.append("due", endDate);
-    formInitialDataCard.append("idMembers", `${member},${recipient}`);
-
-    const formFileDataCard = new FormData();
-    formFileDataCard.append("file", attachment[0]);
-    formFileDataCard.append("setCover", 'false');
-
-    const formChecklistDataCard = new FormData();
-    formChecklistDataCard.append("name", "Lista zadań");
-
-    const config = {
-      params: {
-        key: process.env.REACT_APP_TRELLO_KEY,
-        token: process.env.REACT_APP_TRELLO_TOKEN,
-      },
-      headers: {
-        Accept: "application/json",
-        'Content-Type': 'multipart/form-data',
-      },
-    }
-
-    try {
-      const res = await axios.post(
-        `${process.env.REACT_APP_TRELLO_URL}/cards`,
-        formInitialDataCard,
-        config,
-      )
-
-      if (attachment.length) {
-        await axios.post(`${process.env.REACT_APP_TRELLO_URL}/cards/${res.data.id}/attachments`,
-          formFileDataCard,
-          config
-        )
-      }
-
-      const checklistRes = await axios.post(`${process.env.REACT_APP_TRELLO_URL}/cards/${res.data.id}/checklists`,
-        formChecklistDataCard,
-        config
-      )
-
-      await Promise.all(
-        description.map(async (desc) => {
-          await axios.post(`${process.env.REACT_APP_TRELLO_URL}/checklists/${checklistRes.data.id}/checkItems`,
-            {
-              name: desc.logo,
-              checked: false
-            },
-            config)
-        }))
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   const handleSubmitForm = (data: Card) => {
-    AddCardForm(data);
-    if (data) {
+    const listId = process.env.REACT_APP_TRELLO_DTF_LIST
+    if (data && listId) {
+      AddCardForm(data, listId);
       setSuccessSubmit(true)
+      reset()
     }
-    reset()
   }
 
   const closeModal = () => setSuccessSubmit(false)
@@ -247,7 +121,7 @@ const EmbroideryForm: React.FC = () => {
         <SuccessModal
           trigger={successSubmit}
           closeModal={closeModal}
-          boardName={'Hafciarnia'}
+          boardName={'DTF'}
         />
         <div className={styles.formGroupContainer}>
           <div className={styles.formGroupRow}>
@@ -407,7 +281,7 @@ const EmbroideryForm: React.FC = () => {
             <div className={styles.inputContainer}>
               <Select
                 label={"Przyjął"}
-                options={departments.embroidery}
+                options={departments.plotter}
                 id={"recipient"}
                 {...register("recipient")}
               />
@@ -471,4 +345,4 @@ const EmbroideryForm: React.FC = () => {
   );
 };
 
-export default EmbroideryForm;
+export default DTFForm;
