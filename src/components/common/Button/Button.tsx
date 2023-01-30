@@ -3,7 +3,7 @@ import styles from "./styles.module.scss";
 
 interface ButtonProps {
   title?: string;
-  onClick: () => void;
+  onClick?: () => void;
   style?: {};
   icon?: any
   type: "button" | "submit" | "reset" | undefined

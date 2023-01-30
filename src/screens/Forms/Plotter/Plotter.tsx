@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 import dayjs from "dayjs";
 
+import * as constants from 'constants/index';
 import { Card, CardDescription } from "models/card";
 import { traders, fabric, departments } from "data/appData/index";
 import { materials } from "data/appData/materials";
@@ -31,11 +32,11 @@ import { RiAddLine } from "react-icons/ri";
 
 const defaultSectionValues = {
   materialAccess: true,
-  materialType: materials[0].application,
-  logo: "",
+  materialType: materials[0]?.application,
+  logo: '',
   amount: 1,
   fabric: fabric[0].value,
-  size: 'WYBIERZ ROZMIAR',
+  size: constants.CHOOSE_SIZE.toUpperCase(),
   width: 0.1,
   height: 0.1,
   price: 0,
@@ -60,7 +61,7 @@ const PlotterForm: React.FC = () => {
   } = useForm<Card>({
     defaultValues: {
       description: [defaultSectionValues],
-      department: 'Ploterownia'
+      department: constants.PLOTTER
     },
     mode: "onBlur",
   });
@@ -101,12 +102,15 @@ const PlotterForm: React.FC = () => {
   const handleWatchCustomPriceValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setWatchCustomPrice(e.target.value)
   }
+
   const handleWatchFormSizeWidthValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setWatchFormSizeWidth(e.target.value)
   }
+
   const handleWatchFormSizeHeightValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setWatchFormSizeHeight(e.target.value)
   }
+
   const handleWatchPacking = () => {
     setWatchPacking(!watchPacking)
   }
@@ -114,16 +118,15 @@ const PlotterForm: React.FC = () => {
   const handleSubmitForm = (data: Card) => {
     const listId = process.env.REACT_APP_TRELLO_PLOTTER_LIST
     if (data && listId) {
-      // AddCardForm(data, listId);
-      // setSuccessSubmit(true)
-      // reset()
-      console.log(data)
+      AddCardForm(data, listId);
+      setSuccessSubmit(true)
+      reset()
     }
   }
 
   const getMaterialsType = (index: number) => {
     return materials.filter(material => (
-      material.application.toLowerCase() === sectionForms[index].materialType?.toLowerCase()
+      material.application.toLowerCase() === sectionForms[index]?.materialType?.toLowerCase()
     ))
   }
 
@@ -135,7 +138,7 @@ const PlotterForm: React.FC = () => {
         <SuccessModal
           trigger={successSubmit}
           closeModal={closeModal}
-          boardName={'Ploterownia'}
+          boardName={constants.PLOTTER}
         />
         <div className={styles.formGroupContainer}>
           <div className={styles.formGroupRow}>
@@ -143,7 +146,7 @@ const PlotterForm: React.FC = () => {
               <Input
                 id={"title"}
                 placeholder={""}
-                label={"Kontrachent"}
+                label={constants.CONTRACTOR}
                 type="text"
                 error={errors.title}
                 style={{ padding: "10px", height: 48, fontSize: 17 }}
@@ -171,7 +174,7 @@ const PlotterForm: React.FC = () => {
                   <div className={styles.formGroupColumn}>
                     <Input
                       id={field.id}
-                      label={"Logo"}
+                      label={constants.LOGO}
                       type="text"
                       error={errors.description?.[index]?.logo}
                       {...register(`description.${index}.logo` as const, {
@@ -181,10 +184,10 @@ const PlotterForm: React.FC = () => {
                     />
                     <div className={styles.sectionTabsContainer}>
                       <SectionTabs
-                        tabLabel={'Wybierz typ materiału:'}
+                        tabLabel={constants.CHOOSE_MATERIAL_TYPE}
                         setTabTitle={(e: string) => setValue(`description.${index}.materialType`, e)}
                       >
-                        <SectionTabsContent title="Flex/Flock">
+                        <SectionTabsContent title={constants.FLEX_FLOCK}>
                           <MaterialsForm
                             {...{ control, register }}
                             registerName={`description[${index}].materials`}
@@ -193,7 +196,7 @@ const PlotterForm: React.FC = () => {
                             materialsType={sectionForms[index]?.materialType}
                           />
                         </SectionTabsContent>
-                        <SectionTabsContent title="Solwent">
+                        <SectionTabsContent title={constants.SOLVENT}>
                           <MaterialsForm
                             {...{ control, register }}
                             registerName={`description[${index}].materials`}
@@ -202,7 +205,7 @@ const PlotterForm: React.FC = () => {
                             materialsType={sectionForms[index]?.materialType}
                           />
                         </SectionTabsContent>
-                        <SectionTabsContent title="Sublimacja">
+                        <SectionTabsContent title={constants.SUBLIMATION}>
                           <MaterialsForm
                             {...{ control, register }}
                             registerName={`description[${index}].materials`}
@@ -211,7 +214,7 @@ const PlotterForm: React.FC = () => {
                             materialsType={sectionForms[index]?.materialType}
                           />
                         </SectionTabsContent>
-                        <SectionTabsContent title="Transfery">
+                        <SectionTabsContent title={constants.TRANSFERS}>
                           <MaterialsForm
                             {...{ control, register }}
                             registerName={`description[${index}].materials`}
@@ -224,7 +227,7 @@ const PlotterForm: React.FC = () => {
                     </div>
                     <Textarea
                       id={field.id}
-                      label={'Dodatkowy opis'}
+                      label={constants.ADDITIONAL_DESC}
                       {...register(`description.${index}.additionalDesc` as const)}
                     />
                   </div>
@@ -232,7 +235,7 @@ const PlotterForm: React.FC = () => {
                     {
                       !isDisplayFabric(sectionForms[index]) ? (
                         <Select
-                          label={"Tkanina"}
+                          label={constants.FABRIC}
                           options={fabric}
                           id={field.id}
                           defaultValue={field.fabric}
@@ -242,8 +245,8 @@ const PlotterForm: React.FC = () => {
                     }
                     <Input
                       id={field.id}
-                      placeholder={"Ilość"}
-                      label={"Ilość"}
+                      placeholder={constants.AMOUNT}
+                      label={constants.AMOUNT}
                       type="number"
                       step={"1"}
                       min={1}
@@ -255,8 +258,8 @@ const PlotterForm: React.FC = () => {
                     <div className={styles.rowContainer}>
                       <Input
                         id={field.id}
-                        placeholder={"Szerokość"}
-                        label={"Szerokość (cm)"}
+                        placeholder={constants.WIDTH}
+                        label={constants.WIDTH}
                         type="number"
                         step={"0.1"}
                         min={0.1}
@@ -267,8 +270,8 @@ const PlotterForm: React.FC = () => {
                       />
                       <Input
                         id={field.id}
-                        placeholder={"Wysokość"}
-                        label={"Wysokość (cm)"}
+                        placeholder={constants.HEIGHT}
+                        label={constants.HEIGHT}
                         type="number"
                         step={"0.1"}
                         min={0.1}
@@ -280,13 +283,13 @@ const PlotterForm: React.FC = () => {
                     </div>
                     <Input
                       id={field.id}
-                      label={"Rozmiar"}
+                      label={constants.SIZE}
                       type="text"
                       {...register(`description.${index}.size` as const)}
                       readOnly
                     />
                     <div className={styles.formGroupRow} style={{ margin: '10px 0 5px' }}>
-                      <label>Pakowanie (50gr/1szt)</label>
+                      <label>{constants.PACKING}</label>
                       <input
                         id={field.id}
                         className={styles.defaultCheckbox}
@@ -301,7 +304,7 @@ const PlotterForm: React.FC = () => {
                             <div style={{ width: 120, marginRight: 15 }}>
                               <Input
                                 id={field.id}
-                                label={"Cena 1szt."}
+                                label={constants.PRICE_FOR_ONE_PIECE}
                                 style={{ border: '2px solid green' }}
                                 type="number"
                                 min={0}
@@ -312,7 +315,7 @@ const PlotterForm: React.FC = () => {
                             </div>
                             <Input
                               id={field.id}
-                              label={"Wartość sekcji"}
+                              label={constants.SECTION_PRICE}
                               type="number"
                               {...register(`description.${index}.price` as const)}
                               readOnly
@@ -323,7 +326,7 @@ const PlotterForm: React.FC = () => {
                             <div style={{ width: 120, marginRight: 15 }}>
                               <Input
                                 id={field.id}
-                                label={"Cena 1szt."}
+                                label={constants.PRICE_FOR_ONE_PIECE}
                                 type="number"
                                 {...register(`description.${index}.priceForOnePiece` as const)}
                                 readOnly
@@ -331,7 +334,7 @@ const PlotterForm: React.FC = () => {
                             </div>
                             <Input
                               id={field.id}
-                              label={"Wartość sekcji"}
+                              label={constants.SECTION_PRICE}
                               type="number"
                               {...register(`description.${index}.price` as const)}
                               readOnly
@@ -344,7 +347,7 @@ const PlotterForm: React.FC = () => {
                       sectionForms.length > 1 ? (
                         <Button
                           type={"button"}
-                          title={"Usuń sekcję"}
+                          title={constants.DELETE_SECTION}
                           onClick={() => remove(index)}
                           style={{ margin: '20px 0 0' }}
                         />
@@ -357,7 +360,7 @@ const PlotterForm: React.FC = () => {
           })}
           <Button
             type={"button"}
-            title={"Dodaj sekcję"}
+            title={constants.ADD_SECTION}
             onClick={() => append(defaultSectionValues)}
             style={{ fontSize: "1.2rem" }}
             icon={<RiAddLine fontSize={"1.5rem"} fontWeight={"bold"} />}
@@ -367,23 +370,23 @@ const PlotterForm: React.FC = () => {
           <div className={`${styles.formGroupColumn} ${styles.rightPanelColumn}`}>
             <div className={styles.inputContainer}>
               <Select
-                label={"Przyjął"}
+                label={constants.RECIPIENT}
                 options={departments.plotter}
                 id={"recipient"}
                 {...register("recipient")}
               />
               <Input
-                id={"date-admission"}
-                placeholder={"Data przyjęcia"}
-                label={"Data przyjęcia"}
+                id={"startDate"}
+                placeholder={constants.START_DATE}
+                label={constants.START_DATE}
                 value={new Date().toISOString().slice(0, 10)}
                 type="date"
                 {...register("startDate")}
               />
               <Input
                 id={"endDate"}
-                placeholder={"Data oddania"}
-                label={"Data oddania"}
+                placeholder={constants.END_DATE}
+                label={constants.END_DATE}
                 type="date"
                 error={errors.endDate}
                 {...register("endDate", { required: true })}
@@ -393,16 +396,16 @@ const PlotterForm: React.FC = () => {
               <div className={styles.inputContainer}>
                 <Input
                   id={"attachment"}
-                  placeholder={"Dodaj wizualizację"}
+                  placeholder={constants.ATTACHMENT}
                   style={{ backgroundColor: '#fdfdfd' }}
-                  label={"Dodaj wizualizację"}
+                  label={constants.ATTACHMENT}
                   type="file"
                   {...register("attachment")}
                 />
                 <Input
                   id={"filePath"}
-                  placeholder={"Wklej sciężkę pliku..."}
-                  label={"Ścieżka do pliku produkcyjnego"}
+                  placeholder={constants.FILE_PATH_PLACEHOLDER}
+                  label={constants.FILE_PATH}
                   type="text"
                   {...register(`filePath`)}
                 />
@@ -410,20 +413,20 @@ const PlotterForm: React.FC = () => {
             </div>
             <Input
               id={'orderPrice'}
-              label={"Wartość zlecenia"}
+              label={constants.ORDER_PRICE}
               type="number"
               {...register(`orderPrice`)}
               readOnly
             />
             <Input
               id={'orderCost'}
-              label={"Koszt zlecenia (Wartość zlecenia * 0,75)"}
+              label={constants.ORDER_COST}
               type="number"
               {...register(`orderCost`)}
               readOnly
             />
             <div className={styles.buttonContainer}>
-              <Button type={"submit"} title={"Dodaj zlecenie"} onClick={() => console.log("click")} />
+              <Button type={"submit"} title={constants.SUBMIT_TASK} />
             </div>
           </div>
         </div>

@@ -7,7 +7,7 @@ export interface Materials {
 }
 export interface CardDescription {
   materialAccess: boolean
-  materialType?: string
+  materialType?: string | undefined
   logo: string
   fabric: string
   amount: number

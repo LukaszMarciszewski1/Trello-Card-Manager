@@ -6,6 +6,8 @@ import {
   packingPrice 
 } from 'data/calculator/index'
 
+import * as constants from 'constants/index';
+
 const getSizeModifier = (width: number, height: number): number => {
   const limits = sizes.map(item => item.size)
   limits.unshift(0)
@@ -43,7 +45,7 @@ const getMaterialModifier = (value: string | undefined): number => {
   }
 }
 
-const calculator = (
+const calculatorPrice = (
   amount: number,
   selectedMaterial: string,
   width: number,
@@ -96,16 +98,16 @@ const calculatorPriceArray = (
   let prices: number[] = []
   data.map((item, index) => {
     const material = (item.materials.length ? item.materials[0].field : '').toString()
-    const calculatorPrice = calculator(Number(item.amount), material, item.width, item.height)
+    const price = calculatorPrice(Number(item.amount), material, item.width, item.height)
     if (!item.materials.length) {
       prices.push(0)
     } else {
       onlyForOnePiece
         ? prices.push(
-          calculatorPrice / Number(item.amount)
+          price / Number(item.amount)
           )
         : prices.push(
-          calculatorPrice + getPriceForPacking(data[index])
+          price + getPriceForPacking(data[index])
           )
     }
   })
@@ -122,7 +124,7 @@ export const isMoreThanMaximumSize = (
   if (sectionForm?.width * sectionForm?.height > Math.max(...limits)) {
     isMaxSize = true
   }
-  else if(sectionForm?.materialType === '' && sectionForm?.width * sectionForm?.height > 0){
+  else if(!sectionForm?.materialAccess && sectionForm?.width * sectionForm?.height > 0){
     isMaxSize = true
   }
   return isMaxSize
@@ -173,16 +175,17 @@ export const getSelectedSizeName = (
   const sectionForms = [...data][index]
   const sizesOptions = [...sizes]
   const maxValue = Math.max(...sizesOptions.map((obj) => obj.size))
-  const EMPTY_SIZE = 'WYBIERZ ROZMIAR'
+  const CHOOSE_SIZE = constants.CHOOSE_SIZE.toUpperCase()
+  const CUSTOM_SIZE = constants.CUSTOM_SIZE.toUpperCase()
 
-  if (!sectionForms?.width && !sectionForms?.height) return EMPTY_SIZE
-  if (sectionForms?.width * sectionForms?.height > maxValue) return 'ROZMIAR NIESTANDARDOWY'
+  if (!sectionForms?.width && !sectionForms?.height) return CHOOSE_SIZE
+  if (sectionForms?.width * sectionForms?.height > maxValue) return CUSTOM_SIZE
 
   const selectedSize = sizesOptions.find(
     (option) =>
       option.size === getSizeModifier(sectionForms.width, sectionForms.height)
   )
-  let formSize = selectedSize === undefined ? EMPTY_SIZE : selectedSize.name
+  let formSize = selectedSize === undefined ? CHOOSE_SIZE : selectedSize.name
   return formSize
 }
 
@@ -191,7 +194,7 @@ export const isDisplayFabric = (data: CardDescription): boolean => {
     data?.materials.length ? material.field : ''
   )[0]
   const typeOfSolvent = materials
-    .filter((material) => material.priceType === 'SOLVENT')
+    .filter((material) => material.priceType === constants.SOLVENT_PRINTING)
     .map((item) => {
       if (item.value === selectMaterial) return true
       else return false
