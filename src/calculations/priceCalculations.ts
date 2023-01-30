@@ -45,7 +45,7 @@ const getMaterialModifier = (value: string | undefined): number => {
   }
 }
 
-const calculatorPrice = (
+const priceCalculator = (
   amount: number,
   selectedMaterial: string,
   width: number,
@@ -79,7 +79,7 @@ const getPriceForPacking = (data: CardDescription): number => {
   return priceForPacking
 }
 
-const customPriceArray = (data: CardDescription[]): number[] => {
+const priceCustomArray = (data: CardDescription[]): number[] => {
   const sectionForms = [...data]
   const sectionPriceArray: number[] = []
   sectionForms
@@ -91,14 +91,14 @@ const customPriceArray = (data: CardDescription[]): number[] => {
   return sectionPriceArray
 }
 
-const calculatorPriceArray = (
+const priceCalculatorArray = (
   data: CardDescription[],
   onlyForOnePiece: boolean
 ): number[] => {
   let prices: number[] = []
   data.map((item, index) => {
     const material = (item.materials.length ? item.materials[0].field : '').toString()
-    const price = calculatorPrice(Number(item.amount), material, item.width, item.height)
+    const price = priceCalculator(Number(item.amount), material, item.width, item.height)
     if (!item.materials.length) {
       prices.push(0)
     } else {
@@ -137,7 +137,7 @@ export const getPriceForOnePieceOfSection = (
   const sectionForms = [...data]
   const sum = isMoreThanMaximumSize(sectionForms, index)
     ? sectionForms[index]?.priceForOnePiece
-    : calculatorPriceArray(sectionForms, true)[index]
+    : priceCalculatorArray(sectionForms, true)[index]
 
   let price = Number(sum)
   if (isNaN(price)) {
@@ -151,7 +151,7 @@ export const getPriceForSection = (
   index: number
 ): number => {
   const sectionForms = [...data]
-  const calculatorPrice = calculatorPriceArray(sectionForms, false)[index]
+  const calculatorPrice = priceCalculatorArray(sectionForms, false)[index]
   const customPrice = (
     (sectionForms[index]?.priceForOnePiece * sectionForms[index]?.amount) 
     + getPriceForPacking(sectionForms[index])
@@ -208,11 +208,11 @@ export const isDisplayFabric = (data: CardDescription): boolean => {
 export const getTotalPrice = (data: CardDescription[]): number => {
   const sectionForms = [...data]
   const calculatorPrice = Number(
-    calculatorPriceArray(sectionForms, false)
+    priceCalculatorArray(sectionForms, false)
       .reduce((accumulator, currentValue) => accumulator + currentValue, 0)
   )
   const customPrice = Number(
-    customPriceArray(sectionForms)
+    priceCustomArray (sectionForms)
       .reduce((accumulator, currentValue) => accumulator + currentValue, 0)
   )
   const price = customPrice > 0 ? calculatorPrice + customPrice : calculatorPrice

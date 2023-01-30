@@ -1,9 +1,9 @@
 import React from 'react'
-import Tabs from 'components/Tabs/Tabs'
-import TabsContent from 'components/Tabs/TabsContent/TabsContent'
-import Plotter from 'screens/Forms/Plotter/Plotter'
-import Embroidery from 'screens/Forms/Embroidery/Embroidery'
-import DTF from 'screens/Forms/DTF/DTF'
+import Tabs from 'components/templates/Tabs/Tabs'
+import TabsContent from 'components/templates/Tabs/TabsContent/TabsContent'
+import Plotter from 'screens/Forms/Plotter'
+import Embroidery from 'screens/Forms/Embroidery'
+import DTF from 'screens/Forms/DTF'
 
 const TaskForms: React.FC = () => {
   return (

@@ -1,0 +1,16 @@
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  @media (max-width: 768px) {
+    max-width: 400px;
+  }
+}
+
+.title {
+  padding: 10px;
+  text-align: center;
+  font-size: 3.2rem;
+  z-index: 100
+}

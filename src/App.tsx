@@ -1,22 +1,25 @@
 import React from "react";
-import "./App.scss";
-import Tabs from "components/Tabs/Tabs";
-import TabsContent from "components/Tabs/TabsContent/TabsContent";
+import Layout from "components/layouts/AppLayout/AppLayout";
+import Tabs from "components/templates//Tabs/Tabs";
+import TabsContent from "components/templates//Tabs/TabsContent/TabsContent";
 import TaskList from "screens/TaskList";
 import TaskForms from "screens/TaskForms";
+import { TrelloProvider } from "context/trelloContext";
 
 function App() {
   return (
-    <div className="App">
-      <Tabs>
-        <TabsContent title="Dodaj zlecenie">
-          <TaskForms />
-        </TabsContent>
-        <TabsContent title="Lista zleceń">
-          <TaskList />
-        </TabsContent>
-      </Tabs>
-    </div>
+    <TrelloProvider>
+      <Layout>
+        <Tabs>
+          <TabsContent title="Dodaj zlecenie">
+            <TaskForms />
+          </TabsContent>
+          <TabsContent title="Lista zleceń">
+            <TaskList />
+          </TabsContent>
+        </Tabs>
+      </Layout>
+    </TrelloProvider>
   );
 }
 

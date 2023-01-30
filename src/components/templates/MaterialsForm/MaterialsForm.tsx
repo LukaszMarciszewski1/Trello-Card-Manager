@@ -10,11 +10,11 @@ import Input from 'components/common/Input/Input';
 import LabelBox from 'components/common/LabelBox/LabelBox';
 // import Tabs from 'components/Tabs/Tabs';
 import MaterialsList from 'components/templates/MaterialsList/MaterialsList';
-import Tabs from 'components/Tabs/Tabs'
-import TabsContent from 'components/Tabs/TabsContent/TabsContent'
+import Tabs from 'components/templates/Tabs/Tabs'
+import TabsContent from 'components/templates/Tabs/TabsContent/TabsContent'
 import Select from "components/common/Select/Select";
-import SectionTabs from "components/SectionTabs/SectionTabs";
-import SectionTabsContent from 'components/SectionTabs/TabsContent/TabsContent'
+import SectionTabs from "components/templates/SectionTabs/SectionTabs";
+import SectionTabsContent from 'components/templates/SectionTabs/TabsContent/TabsContent'
 // import './react-tabs-scrollable.scss';
 
 interface NestedProps {

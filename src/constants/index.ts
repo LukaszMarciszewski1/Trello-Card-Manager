@@ -1,2 +1,5 @@
 export * from './labels'
-export * from './calculator'
+export * from './calculations'
+export * from './buttons'
+export * from './tabs'
+export * from './messages'

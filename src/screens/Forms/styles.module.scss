@@ -1,13 +1,6 @@
 @import 'theme/colors.scss';
 
-.formContainer {
-  display: grid;
-  grid-template-columns: 1fr 340px;
-  column-gap: 4rem;
-  width: 100%;
-}
-
-.formGroupContainer {
+.formColumnContainer {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -33,33 +26,24 @@
   }
 }
 
-.checkboxList {
+.checkboxListContainer {
   display: flex;
   align-items: center;
   margin-left: 30px;
 }
 
-.rightPanel {
+.rightColumnContainer {
   border-left: 1px solid rgb(201, 201, 201);
   padding-left: 3rem;
 }
 
-.rightPanelColumn {
+.rightGroupColumn {
   position: sticky;
   top: 0;
   top: 1.5rem;
 }
 
-.tabsContainer {
-  position: absolute;
-  transform: rotate(-90deg) translateX(-50%);
-  transform-origin: top left;
-  left: 0;
-  top: 50%;
-  width: 100%;
-}
-
-.buttonContainer {
+.divider {
   margin-top: 16px;
   padding-top: 16px;
   border-top: 1px solid darken($focusBg, 8%);
@@ -68,44 +52,15 @@
   }
 }
 
-.materialList {
-  position: relative;
-}
-
 .inputContainer {
   margin-bottom: 12px;
 }
 
-.rowContainer {
+.rowWrapper {
   display: flex;
 }
 
-.sectionHeader {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid rgb(223, 223, 223);
-}
-
-.headerTabs {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  align-items: center;
-  justify-content: flex-start;
-  margin-right: 30px;
-}
-
-.tabPanel {
-  width: 100%;
-  background-color: $lightBlue;
-  grid-row: 1/2;
-  grid-column: 1/-1;
-}
-
-.sectionContent {
+.sectionContainer {
   display: grid;
   grid-template-columns: 1fr 280px;
   gap: 2rem;
@@ -118,7 +73,7 @@
   margin-top: 1rem;
 }
 
-.defaultCheckbox {
+.checkbox {
   padding: 0.3rem;
   width: 20px;
   height: 20px;

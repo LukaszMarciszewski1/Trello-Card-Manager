@@ -13,16 +13,16 @@ import {
   getTotalPrice,
   getPriceForSection,
   getSelectedSizeName,
-} from "calculation/calculator";
+} from "calculations/priceCalculations";
 
-
+import FormLayout from "components/layouts/FormLayout/FormLayout";
+import FormSectionLayout from 'components/layouts/FormSectionLayout/FormSectionLayout'
 import Input from "components/common/Input/Input";
 import Button from "components/common/Button/Button";
 import Checkbox from "components/common/Checkbox/Checkbox";
 import Select from "components/common/Select/Select";
-import SectionForm from "components/templates/SectionForm/SectionForm";
 import Textarea from "components/common/Textarea/Textarea";
-import SuccessModal from "components/templates/SuccessModal/SuccessModal";
+import MessageModal from "components/templates/MessageModal/MessageModal";
 import { RiAddLine } from "react-icons/ri";
 
 const defaultSectionValues = {
@@ -132,13 +132,13 @@ const EmbroideryForm: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
-      <div className={styles.formContainer}>
-        <SuccessModal
+      <FormLayout>
+        <MessageModal
           trigger={successSubmit}
           closeModal={closeModal}
           boardName={constants.EMBROIDERY}
         />
-        <div className={styles.formGroupContainer}>
+        <div className={styles.formColumnContainer}>
           <div className={styles.formGroupRow}>
             <>
               <Input
@@ -151,7 +151,7 @@ const EmbroideryForm: React.FC = () => {
                 {...register("title", { required: true })}
               />
             </>
-            <div className={styles.checkboxList}>
+            <div className={styles.checkboxListContainer}>
               {traders?.map((trader, index) => (
                 <Checkbox
                   key={index}
@@ -167,117 +167,115 @@ const EmbroideryForm: React.FC = () => {
           </div>
           {fields.map((field, index) => {
             return (
-              <SectionForm key={field.id}>
-                <div className={styles.sectionContent}>
-                  <div className={styles.formGroupColumn} style={{ justifyContent: 'space-between' }}>
+              <FormSectionLayout key={field.id}>
+                <div className={styles.formGroupColumn} style={{ justifyContent: 'space-between' }}>
+                  <Input
+                    id={field.id}
+                    label={constants.LOGO}
+                    type="text"
+                    error={errors.description}
+                    {...register(`description.${index}.logo` as const, {
+                      required: true,
+                    })}
+                    defaultValue={field.logo}
+                  />
+                  <Textarea
+                    id={field.id}
+                    label={constants.ADDITIONAL_DESC}
+                    {...register(`description.${index}.additionalDesc` as const)}
+                  />
+                </div>
+                <div className={styles.formGroupColumn}>
+                  <Select
+                    label={constants.FABRIC}
+                    options={fabric}
+                    id={field.id}
+                    defaultValue={field.fabric}
+                    {...register(`description.${index}.fabric` as const)}
+                  />
+                  <Input
+                    id={field.id}
+                    label={constants.AMOUNT}
+                    type="number"
+                    step={"1"}
+                    min={0}
+                    {...register(`description.${index}.amount` as const,
+                      { onChange: handleWatchCustomPriceValue, required: true })
+                    }
+                  />
+                  <div className={styles.rowWrapper}>
                     <Input
                       id={field.id}
-                      label={constants.LOGO}
-                      type="text"
-                      error={errors.description}
-                      {...register(`description.${index}.logo` as const, {
-                        required: true,
-                      })}
-                      defaultValue={field.logo}
-                    />
-                    <Textarea
-                      id={field.id}
-                      label={constants.ADDITIONAL_DESC}
-                      {...register(`description.${index}.additionalDesc` as const)}
-                    />
-                  </div>
-                  <div className={styles.formGroupColumn}>
-                    <Select
-                      label={constants.FABRIC}
-                      options={fabric}
-                      id={field.id}
-                      defaultValue={field.fabric}
-                      {...register(`description.${index}.fabric` as const)}
-                    />
-                    <Input
-                      id={field.id}
-                      label={constants.AMOUNT}
+                      label={constants.WIDTH}
                       type="number"
-                      step={"1"}
+                      step={"0.1"}
                       min={0}
-                      {...register(`description.${index}.amount` as const,
-                        { onChange: handleWatchCustomPriceValue, required: true })
+                      {...register(`description.${index}.width` as const,
+                        { onChange: handleWatchFormSizeWidthValue, required: true })
                       }
                     />
-                    <div className={styles.rowContainer}>
-                      <Input
-                        id={field.id}
-                        label={constants.WIDTH}
-                        type="number"
-                        step={"0.1"}
-                        min={0}
-                        {...register(`description.${index}.width` as const,
-                          { onChange: handleWatchFormSizeWidthValue, required: true })
-                        }
-                      />
-                      <Input
-                        id={field.id}
-                        label={constants.HEIGHT}
-                        type="number"
-                        step={"0.1"}
-                        min={0}
-                        {...register(`description.${index}.height` as const,
-                          { onChange: handleWatchFormSizeHeightValue, required: true })
-                        }
-                      />
-                    </div>
                     <Input
                       id={field.id}
-                      label={constants.SIZE}
-                      type="text"
-                      {...register(`description.${index}.size` as const)}
-                      readOnly
+                      label={constants.HEIGHT}
+                      type="number"
+                      step={"0.1"}
+                      min={0}
+                      {...register(`description.${index}.height` as const,
+                        { onChange: handleWatchFormSizeHeightValue, required: true })
+                      }
                     />
-                    <div className={styles.formGroupRow} style={{ margin: '10px 0 5px' }}>
-                      <label>{constants.PACKING}</label>
-                      <input
-                        id={field.id}
-                        className={styles.defaultCheckbox}
-                        type={'checkbox'}
-                        {...register(`description.${index}.packing` as const, { onChange: handleWatchPacking })}
-                      />
-                    </div>
-                    <div className={styles.rowContainer}>
-                      <>
-                        <div style={{ width: 120, marginRight: 15 }}>
-                          <Input
-                            id={field.id}
-                            label={constants.PRICE_FOR_ONE_PIECE}
-                            style={{ border: '2px solid green' }}
-                            type="number"
-                            min={0}
-                            {...register(`description.${index}.priceForOnePiece` as const,
-                              { onChange: handleWatchCustomPriceValue })
-                            }
-                          />
-                        </div>
+                  </div>
+                  <Input
+                    id={field.id}
+                    label={constants.SIZE}
+                    type="text"
+                    {...register(`description.${index}.size` as const)}
+                    readOnly
+                  />
+                  <div className={styles.formGroupRow} style={{ margin: '10px 0 5px' }}>
+                    <label>{constants.PACKING}</label>
+                    <input
+                      id={field.id}
+                      className={styles.checkbox}
+                      type={'checkbox'}
+                      {...register(`description.${index}.packing` as const, { onChange: handleWatchPacking })}
+                    />
+                  </div>
+                  <div className={styles.rowWrapper}>
+                    <>
+                      <div style={{ width: 120, marginRight: 15 }}>
                         <Input
                           id={field.id}
-                          label={constants.SECTION_PRICE}
+                          label={constants.PRICE_FOR_ONE_PIECE}
+                          style={{ border: '2px solid green' }}
                           type="number"
-                          {...register(`description.${index}.price` as const)}
-                          readOnly
+                          min={0}
+                          {...register(`description.${index}.priceForOnePiece` as const,
+                            { onChange: handleWatchCustomPriceValue })
+                          }
                         />
-                      </>
-                    </div>
-                    {
-                      sectionForms.length > 1 ? (
-                        <Button
-                          type={"button"}
-                          title={constants.DELETE_SECTION}
-                          onClick={() => remove(index)}
-                          style={{ margin: '20px 0 0' }}
-                        />
-                      ) : null
-                    }
+                      </div>
+                      <Input
+                        id={field.id}
+                        label={constants.SECTION_PRICE}
+                        type="number"
+                        {...register(`description.${index}.price` as const)}
+                        readOnly
+                      />
+                    </>
                   </div>
+                  {
+                    sectionForms.length > 1 ? (
+                      <Button
+                        type={"button"}
+                        title={constants.DELETE_SECTION}
+                        onClick={() => remove(index)}
+                        style={{ margin: '20px 0 0' }}
+                      />
+                    ) : null
+                  }
                 </div>
-              </SectionForm>
+              </FormSectionLayout>
             );
           })}
           <Button
@@ -288,8 +286,8 @@ const EmbroideryForm: React.FC = () => {
             icon={<RiAddLine fontSize={"1.5rem"} fontWeight={"bold"} />}
           />
         </div>
-        <div className={`${styles.formGroupContainer} ${styles.rightPanel}`}>
-          <div className={`${styles.formGroupColumn} ${styles.rightPanelColumn}`}>
+        <div className={`${styles.formColumnContainer} ${styles.rightColumnContainer}`}>
+          <div className={`${styles.formGroupColumn} ${styles.rightGroupColumn}`}>
             <div className={styles.inputContainer}>
               <Select
                 label={constants.RECIPIENT}
@@ -314,7 +312,7 @@ const EmbroideryForm: React.FC = () => {
                 {...register("endDate", { required: true })}
               />
             </div>
-            <div className={styles.buttonContainer}>
+            <div className={styles.divider}>
               <div className={styles.inputContainer}>
                 <Input
                   id={"attachment"}
@@ -347,12 +345,12 @@ const EmbroideryForm: React.FC = () => {
               {...register(`orderCost`)}
               readOnly
             />
-            <div className={styles.buttonContainer}>
+            <div className={styles.divider}>
               <Button type={"submit"} title={constants.SUBMIT_TASK} />
             </div>
           </div>
         </div>
-      </div>
+      </FormLayout>
     </form>
   );
 };
