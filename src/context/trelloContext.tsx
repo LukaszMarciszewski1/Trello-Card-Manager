@@ -1,10 +1,7 @@
 import React, { createContext, useContext } from 'react';
-import { AddTrelloCard } from 'api/trello';
-
-// export const TrelloContext = createContext({});
-
-interface TrelloProviderProps { 
-  children: React.ReactNode 
+import { AddTrelloCard } from 'api/trelloApi';
+interface TrelloProviderProps {
+  children: React.ReactNode
 }
 
 const TrelloContext = createContext<TrelloContextData | null>(null)
@@ -21,11 +18,11 @@ export const TrelloProvider: React.FC<TrelloProviderProps> = ({ children }) => {
 }
 
 export const TrelloFormContext = () => {
-  const auth = useContext(TrelloContext)
+  const trello = useContext(TrelloContext)
 
-  if (!auth) {
-    throw new Error('useAuth needs to be used inside AuthContext')
+  if (!trello) {
+    throw new Error('TrelloFormContext needs to be used inside TrelloContext')
   }
 
-  return auth
+  return trello
 }

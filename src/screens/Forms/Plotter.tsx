@@ -4,10 +4,10 @@ import dayjs from "dayjs";
 
 import * as constants from 'constants/index';
 import { Card, CardDescription } from "models/card";
-import { traders, fabric, departments } from "data/appData/index";
-import { materials } from "data/appData/materials";
+import { traders, fabric, departments } from "data/commonApp/index";
+import { materials } from "data/commonApp/materials";
 import { useForm, useFieldArray } from "react-hook-form";
-import { AddCardForm } from 'api/trello'
+import { AddCardForm } from 'api/trelloApi'
 
 import {
   getPriceForOnePieceOfSection,
@@ -27,8 +27,8 @@ import Button from "components/common/Button/Button";
 import Checkbox from "components/common/Checkbox/Checkbox";
 import Select from "components/common/Select/Select";
 import Textarea from "components/common/Textarea/Textarea";
-import MessageModal from "components/templates/MessageModal/MessageModal";
-import MaterialsForm from "../../components/templates/MaterialsForm/MaterialsForm";
+import MessageModal from "components/organisms/MessageModal/MessageModal";
+import MaterialsForm from "../../components/organisms/MaterialsForm/MaterialsForm";
 import { RiAddLine } from "react-icons/ri";
 
 const defaultSectionValues = {
@@ -395,7 +395,6 @@ const PlotterForm: React.FC = () => {
               <div className={styles.inputContainer}>
                 <Input
                   id={"attachment"}
-                  placeholder={constants.ATTACHMENT}
                   style={{ backgroundColor: '#fdfdfd' }}
                   label={constants.ATTACHMENT}
                   type="file"

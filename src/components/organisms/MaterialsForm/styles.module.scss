@@ -1,11 +1,9 @@
-@import 'theme/colors.scss';
+@import 'style/colors.scss';
 
 .materialsList {
-  // position: relative;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  // margin-top: 0.2rem;
   span {
     margin-right: 1rem;
   }

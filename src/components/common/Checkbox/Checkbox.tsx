@@ -10,8 +10,8 @@ interface CheckboxProps {
   style?: {}
   onChange?: (e: any) => void
   error?: {} | undefined | ((value: any) => void)
-  checked?: any
-  children?: any
+  checked?: boolean
+  children?: JSX.Element | JSX.Element[]
 }
 
 const Checkbox: React.FC<CheckboxProps> = forwardRef<HTMLInputElement, CheckboxProps>(

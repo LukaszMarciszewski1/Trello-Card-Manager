@@ -3,10 +3,10 @@ import styles from "./styles.module.scss";
 import dayjs from "dayjs";
 
 import * as constants from 'constants/index';
-import { traders, fabric, departments } from "data/appData/index";
+import { traders, fabric, departments } from "data/commonApp/index";
 import { useForm, useFieldArray } from "react-hook-form";
 import { Card, CardDescription } from "models/card";
-import { AddCardForm } from 'api/trello'
+import { AddCardForm } from 'api/trelloApi'
 
 import {
   getPriceForOnePieceOfSection,
@@ -22,7 +22,7 @@ import Button from "components/common/Button/Button";
 import Checkbox from "components/common/Checkbox/Checkbox";
 import Select from "components/common/Select/Select";
 import Textarea from "components/common/Textarea/Textarea";
-import MessageModal from "components/templates/MessageModal/MessageModal";
+import MessageModal from "components/organisms/MessageModal/MessageModal";
 import { RiAddLine } from "react-icons/ri";
 
 const defaultSectionValues = {
@@ -316,7 +316,6 @@ const EmbroideryForm: React.FC = () => {
               <div className={styles.inputContainer}>
                 <Input
                   id={"attachment"}
-                  placeholder={constants.ATTACHMENT}
                   style={{ backgroundColor: '#fdfdfd' }}
                   label={constants.ATTACHMENT}
                   type="file"

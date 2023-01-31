@@ -1,21 +1,21 @@
 import { CardDescription } from 'models/card'
-import { materials, sizes} from 'data/appData/index'
+import { materials, sizes } from 'data/commonApp/index'
 import {
-  materialsPriceList, 
-  modifiersPriceList, 
-  packingPrice 
-} from 'data/calculator/index'
+  materialsPriceList,
+  modifiersPriceList,
+  packingPrice,
+} from 'data/priceList/index'
 
-import * as constants from 'constants/index';
+import * as constants from 'constants/index'
 
 const getSizeModifier = (width: number, height: number): number => {
-  const limits = sizes.map(item => item.size)
+  const limits = sizes.map((item) => item.size)
   limits.unshift(0)
-  let size = 0;
+  let size = 0
   for (let i = 0; i < limits.length; i++) {
     if (width * height <= limits[i]) {
-      size = limits[i];
-      break;
+      size = limits[i]
+      break
     }
   }
   return size
@@ -39,7 +39,8 @@ const getSelectedMaterialPrice = (
 
 const getMaterialModifier = (value: string | undefined): number => {
   if (value) {
-    return [...modifiersPriceList].filter((item) => item.name === value)[0].modifier
+    return [...modifiersPriceList].filter((item) => item.name === value)[0]
+      .modifier
   } else {
     return 1
   }
@@ -75,7 +76,7 @@ const priceCalculator = (
 }
 
 const getPriceForPacking = (data: CardDescription): number => {
-  const priceForPacking = data?.packing ? (data.amount * packingPrice ) : 0
+  const priceForPacking = data?.packing ? data.amount * packingPrice : 0
   return priceForPacking
 }
 
@@ -97,18 +98,21 @@ const priceCalculatorArray = (
 ): number[] => {
   let prices: number[] = []
   data.map((item, index) => {
-    const material = (item.materials.length ? item.materials[0].field : '').toString()
-    const price = priceCalculator(Number(item.amount), material, item.width, item.height)
+    const material = (
+      item.materials.length ? item.materials[0].field : ''
+    ).toString()
+    const price = priceCalculator(
+      Number(item.amount),
+      material,
+      item.width,
+      item.height
+    )
     if (!item.materials.length) {
       prices.push(0)
     } else {
       onlyForOnePiece
-        ? prices.push(
-          price / Number(item.amount)
-          )
-        : prices.push(
-          price + getPriceForPacking(data[index])
-          )
+        ? prices.push(price / Number(item.amount))
+        : prices.push(price + getPriceForPacking(data[index]))
     }
   })
   return prices
@@ -118,13 +122,15 @@ export const isMoreThanMaximumSize = (
   data: CardDescription[],
   index: number
 ): boolean => {
-  const limits = sizes.map(item => item.size)
+  const limits = sizes.map((item) => item.size)
   const sectionForm = [...data][index]
   let isMaxSize: boolean = false
   if (sectionForm?.width * sectionForm?.height > Math.max(...limits)) {
     isMaxSize = true
-  }
-  else if(!sectionForm?.materialAccess && sectionForm?.width * sectionForm?.height > 0){
+  } else if (
+    !sectionForm?.materialAccess &&
+    sectionForm?.width * sectionForm?.height > 0
+  ) {
     isMaxSize = true
   }
   return isMaxSize
@@ -152,10 +158,9 @@ export const getPriceForSection = (
 ): number => {
   const sectionForms = [...data]
   const calculatorPrice = priceCalculatorArray(sectionForms, false)[index]
-  const customPrice = (
-    (sectionForms[index]?.priceForOnePiece * sectionForms[index]?.amount) 
-    + getPriceForPacking(sectionForms[index])
-  )
+  const customPrice =
+    sectionForms[index]?.priceForOnePiece * sectionForms[index]?.amount +
+    getPriceForPacking(sectionForms[index])
 
   const sum = isMoreThanMaximumSize(sectionForms, index)
     ? customPrice
@@ -208,13 +213,18 @@ export const isDisplayFabric = (data: CardDescription): boolean => {
 export const getTotalPrice = (data: CardDescription[]): number => {
   const sectionForms = [...data]
   const calculatorPrice = Number(
-    priceCalculatorArray(sectionForms, false)
-      .reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+    priceCalculatorArray(sectionForms, false).reduce(
+      (accumulator, currentValue) => accumulator + currentValue,
+      0
+    )
   )
   const customPrice = Number(
-    priceCustomArray (sectionForms)
-      .reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+    priceCustomArray(sectionForms).reduce(
+      (accumulator, currentValue) => accumulator + currentValue,
+      0
+    )
   )
-  const price = customPrice > 0 ? calculatorPrice + customPrice : calculatorPrice
+  const price =
+    customPrice > 0 ? calculatorPrice + customPrice : calculatorPrice
   return Number(price.toFixed(1))
 }

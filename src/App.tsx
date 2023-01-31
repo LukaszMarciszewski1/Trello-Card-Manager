@@ -5,16 +5,17 @@ import TabsContent from "components/templates//Tabs/TabsContent/TabsContent";
 import TaskList from "screens/TaskList";
 import TaskForms from "screens/TaskForms";
 import { TrelloProvider } from "context/trelloContext";
+import * as constants from 'constants/index';
 
 function App() {
   return (
     <TrelloProvider>
       <Layout>
         <Tabs>
-          <TabsContent title="Dodaj zlecenie">
+          <TabsContent title={constants.ADD_TASK_TAB}>
             <TaskForms />
           </TabsContent>
-          <TabsContent title="Lista zleceń">
+          <TabsContent title={constants.TASKS_LIST_TAB}>
             <TaskList />
           </TabsContent>
         </Tabs>

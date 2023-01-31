@@ -2,12 +2,12 @@ import React, { ReactElement, useState } from "react"
 import Tab from "./Tab/Tab"
 import styles from './styles.module.scss'
 
-type Props = {
+type TabsProps = {
   children: ReactElement[]
   subcategory?: boolean
 }
 
-const Tabs: React.FC<Props> = ({ children, subcategory }) => {
+const Tabs: React.FC<TabsProps> = ({ children, subcategory }) => {
   const [selectedTab, setSelectedTab] = useState(0)
 
   return (

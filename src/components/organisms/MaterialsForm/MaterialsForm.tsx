@@ -9,7 +9,7 @@ import { AiOutlineAppstoreAdd } from 'react-icons/ai';
 import Input from 'components/common/Input/Input';
 import LabelBox from 'components/common/LabelBox/LabelBox';
 // import Tabs from 'components/Tabs/Tabs';
-import MaterialsList from 'components/templates/MaterialsList/MaterialsList';
+import MaterialsList from 'components/organisms/MaterialsList/MaterialsList';
 import Tabs from 'components/templates/Tabs/Tabs'
 import TabsContent from 'components/templates/Tabs/TabsContent/TabsContent'
 import Select from "components/common/Select/Select";
