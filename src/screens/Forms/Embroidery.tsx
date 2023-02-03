@@ -182,6 +182,7 @@ const EmbroideryForm: React.FC = () => {
                   <Textarea
                     id={field.id}
                     label={constants.ADDITIONAL_DESC}
+                    maxRow={30}
                     {...register(`description.${index}.additionalDesc` as const)}
                   />
                 </div>

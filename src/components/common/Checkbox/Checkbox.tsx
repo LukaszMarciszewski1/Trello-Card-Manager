@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from 'react'
+import React, { forwardRef } from 'react'
 import styles from './styles.module.scss'
 interface CheckboxProps {
   id: string

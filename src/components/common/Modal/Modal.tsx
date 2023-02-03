@@ -20,12 +20,12 @@ const Modal: React.FC<ModalProps> = ({ children, trigger, closeModal }) => {
         <div className={styles.modal} ref={refModal}>
           {children}
           <div className={styles.buttonContainer}>
-            <Button 
-              type={"button"} 
+            <Button
+              type={"button"}
               onClick={closeModal}
               title={constants.CONFIRM}
-              style={{padding: 20, width: "80%", fontSize: '2rem', zIndex: 100 }}
-              />
+              style={{ padding: 20, width: "80%", fontSize: '2rem', zIndex: 100 }}
+            />
           </div>
         </div>
       </div>

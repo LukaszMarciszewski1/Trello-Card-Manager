@@ -116,14 +116,22 @@ const PlotterForm: React.FC = () => {
     setWatchPacking(!watchPacking)
   }
 
+  const [validMaterialsForm, setValidMaterialsForm] = useState(false)
+  const [watchMaterialsForm, setWatchMaterialsForm] = useState(false)
+
   const handleSubmitForm = (data: Card) => {
     const listId = process.env.REACT_APP_TRELLO_PLOTTER_LIST
-    if (data && listId) {
-      AddCardForm(data, listId);
-      setSuccessSubmit(true)
-      reset()
+    setWatchMaterialsForm(true)
+    if (data && listId && validMaterialsForm) {
+      console.log(data)
+      // AddCardForm(data, listId);
+      // setSuccessSubmit(true)
+      // reset()
     }
   }
+
+  // console.log(watchMaterialsForm)
+
 
   const getMaterialsType = (index: number) => {
     return materials.filter(material => (
@@ -131,7 +139,10 @@ const PlotterForm: React.FC = () => {
     ))
   }
 
-  const closeModal = () => setSuccessSubmit(false)
+  const closeModal = () => {
+    setWatchMaterialsForm(false)
+    setSuccessSubmit(false)
+  }
 
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
@@ -194,6 +205,8 @@ const PlotterForm: React.FC = () => {
                           materials={getMaterialsType(index)}
                           dataForm={sectionForms[index]}
                           materialsType={sectionForms[index]?.materialType}
+                          setValidMaterials={setValidMaterialsForm}
+                          validMaterials={watchMaterialsForm}
                         />
                       </SectionTabsContent>
                       <SectionTabsContent title={constants.SOLVENT}>
@@ -203,6 +216,8 @@ const PlotterForm: React.FC = () => {
                           materials={getMaterialsType(index)}
                           dataForm={sectionForms[index]}
                           materialsType={sectionForms[index]?.materialType}
+                          setValidMaterials={setValidMaterialsForm}
+                          validMaterials={watchMaterialsForm}
                         />
                       </SectionTabsContent>
                       <SectionTabsContent title={constants.SUBLIMATION}>
@@ -212,6 +227,8 @@ const PlotterForm: React.FC = () => {
                           materials={getMaterialsType(index)}
                           dataForm={sectionForms[index]}
                           materialsType={sectionForms[index]?.materialType}
+                          setValidMaterials={setValidMaterialsForm}
+                          validMaterials={watchMaterialsForm}
                         />
                       </SectionTabsContent>
                       <SectionTabsContent title={constants.TRANSFERS}>
@@ -221,6 +238,8 @@ const PlotterForm: React.FC = () => {
                           materials={getMaterialsType(index)}
                           dataForm={sectionForms[index]}
                           materialsType={sectionForms[index]?.materialType}
+                          setValidMaterials={setValidMaterialsForm}
+                          validMaterials={watchMaterialsForm}
                         />
                       </SectionTabsContent>
                     </SectionTabs>
@@ -228,6 +247,7 @@ const PlotterForm: React.FC = () => {
                   <Textarea
                     id={field.id}
                     label={constants.ADDITIONAL_DESC}
+                    maxRow={30}
                     {...register(`description.${index}.additionalDesc` as const)}
                   />
                 </div>
