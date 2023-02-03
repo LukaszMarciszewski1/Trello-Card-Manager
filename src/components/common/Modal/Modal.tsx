@@ -1,8 +1,8 @@
 import React, { useRef } from 'react'
 import styles from './styles.module.scss'
 import useOnClickOutside from 'hooks/useOnClickOutside'
-import { BsXLg } from "react-icons/bs";
 import Button from '../Button/Button';
+import * as constants from 'constants/index';
 
 type ModalProps = {
   trigger: boolean
@@ -20,11 +20,11 @@ const Modal: React.FC<ModalProps> = ({ children, trigger, closeModal }) => {
         <div className={styles.modal} ref={refModal}>
           {children}
           <div className={styles.buttonContainer}>
-          <Button 
-            type={"button"} 
-            onClick={closeModal}
-            title={'OK'}
-            style={{padding: 20, width: "80%", fontSize: '2rem', zIndex: 100 }}
+            <Button
+              type={"button"}
+              onClick={closeModal}
+              title={constants.CONFIRM}
+              style={{ padding: 20, width: "80%", fontSize: '2rem', zIndex: 100 }}
             />
           </div>
         </div>

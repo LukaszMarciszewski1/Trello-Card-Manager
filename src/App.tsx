@@ -1,24 +1,26 @@
 import React from "react";
-import logo from "./logo.svg";
-import "./App.scss";
-import Tabs from "components/Tabs/Tabs";
-import TabsContent from "components/Tabs/TabsContent/TabsContent";
-import AddTasks from "views/DepartamentsForm/Plotter/Plotter";
-import ListTasks from "views/ListTasks";
-import Tasks from "views/Tasks/Tasks";
+import Layout from "components/layouts/AppLayout/AppLayout";
+import Tabs from "components/templates//Tabs/Tabs";
+import TabsContent from "components/templates//Tabs/TabsContent/TabsContent";
+import TaskList from "screens/TaskList";
+import TaskForms from "screens/TaskForms";
+import { TrelloProvider } from "context/trelloContext";
+import * as constants from 'constants/index';
 
 function App() {
   return (
-    <div className="App">
-      <Tabs>
-        <TabsContent title="Dodaj zlecenie">
-          <Tasks />
-        </TabsContent>
-        <TabsContent title="Lista zleceń">
-          <ListTasks />
-        </TabsContent>
-      </Tabs>
-    </div>
+    <TrelloProvider>
+      <Layout>
+        <Tabs>
+          <TabsContent title={constants.ADD_TASK_TAB}>
+            <TaskForms />
+          </TabsContent>
+          <TabsContent title={constants.TASKS_LIST_TAB}>
+            <TaskList />
+          </TabsContent>
+        </Tabs>
+      </Layout>
+    </TrelloProvider>
   );
 }
 

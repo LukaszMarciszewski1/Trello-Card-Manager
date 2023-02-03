@@ -1,5 +1,5 @@
-export const PS_EXTRA = 'PS EXTRA'
-
-export const materials = {
-  PS_EXTRA: 'PS EXTRA'
-}
+export * from './labels'
+export * from './calculations'
+export * from './buttons'
+export * from './tabs'
+export * from './messages'

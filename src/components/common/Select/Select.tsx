@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef } from "react";
 import styles from "./styles.module.scss";
 
 export type SelectProps = {
@@ -9,7 +9,7 @@ export type SelectProps = {
   value?: number | string;
   defaultValue?: string | number;
   style?: {};
-  options: any;
+  options: any[]
 };
 
 const Input: React.FC<SelectProps> = forwardRef<HTMLInputElement, SelectProps>(
@@ -28,9 +28,9 @@ const Input: React.FC<SelectProps> = forwardRef<HTMLInputElement, SelectProps>(
   ) => {
     return (
       <div className={styles.container} ref={ref} style={style}>
-        <label htmlFor="title">{label}</label>
+        <label htmlFor={id}>{label}</label>
         <select id={id} {...props} onChange={onChange}>
-          {options.map((prod: { value: string | number; label: string }, index: React.Key | null | undefined) => (
+          {options.map((prod: { value: string | number; label: string }, index: number) => (
             <option key={index} value={prod.value}>
               {prod.label}
             </option>

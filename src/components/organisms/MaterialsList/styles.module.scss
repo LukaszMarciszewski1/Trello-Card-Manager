@@ -1,0 +1,12 @@
+@import 'style/colors.scss';
+
+.tabsScrollable {
+  margin-top: 1rem;
+}
+
+.contentContainer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 1rem;
+}

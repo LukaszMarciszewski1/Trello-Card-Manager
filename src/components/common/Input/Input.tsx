@@ -41,7 +41,6 @@ const Input: React.FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
     },
     ref
   ) => {
-    // console.log(`render: ${label}`)
     return (
       <div className={styles.container} >
         <label htmlFor={id}>{label}</label>
@@ -52,7 +51,7 @@ const Input: React.FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
           type={type}
           value={value}
           defaultValue={defaultValue}
-          // aria-label={label}
+          aria-label={label}
           className={error && styles.error}
           placeholder={placeholder}
           step={step}

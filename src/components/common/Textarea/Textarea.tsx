@@ -3,8 +3,9 @@ import styles from './styles.module.scss'
 import TextareaAutosize from 'react-textarea-autosize';
 
 interface TextareaProps {
-  id: any
+  id: string
   label: string
+  maxRow: number
 }
 
 const Textarea: React.FC<TextareaProps> = forwardRef<HTMLInputElement, TextareaProps>(
@@ -12,6 +13,7 @@ const Textarea: React.FC<TextareaProps> = forwardRef<HTMLInputElement, TextareaP
     {
       id,
       label,
+      maxRow,
       ...props
     },
     ref
@@ -21,9 +23,8 @@ const Textarea: React.FC<TextareaProps> = forwardRef<HTMLInputElement, TextareaP
         <label htmlFor={id}>{label}</label>
         <TextareaAutosize
           id={id}
-          maxRows={30}
+          maxRows={maxRow}
           className={styles.textarea}
-          // autoFocus={true}
           {...props}
         />
       </div>

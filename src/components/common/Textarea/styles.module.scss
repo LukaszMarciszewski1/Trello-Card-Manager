@@ -1,8 +1,7 @@
-@import 'theme/colors.scss';
-@import 'theme/mixins.scss';
+@import 'style/colors.scss';
+@import 'style/mixins.scss';
 
 .container {
-  // margin: 1rem 0 0;
   justify-self: flex-end;
   label {
     @include label;

@@ -1,0 +1,23 @@
+@import 'style/colors.scss';
+@import 'style/mixins.scss';
+
+.layout {
+  width: 100%;
+}
+
+.mainContainer,
+.subcategoryContainer {
+  display: flex;
+  list-style: none;
+}
+
+.mainContainer {
+  border-bottom: 1px solid rgb(180, 180, 180);
+}
+
+.subcategoryContainer {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin: 2rem 0;
+}

@@ -5,8 +5,9 @@ export interface Materials {
     color: string
   }
 }
-export interface Description {
-  materialType: string
+export interface CardDescription {
+  materialAccess: boolean
+  materialType?: string | undefined
   logo: string
   fabric: string
   amount: number
@@ -22,17 +23,15 @@ export interface Description {
 }
 
 export interface Card {
-  _id: string | number
   title: string
   department: string
-  description: Description[]
-  startDate: Date | any
-  endDate: Date | any
+  description: CardDescription[]
+  startDate: string | Blob
+  endDate: string | Blob
   member: string
-  attachment: File | any
   recipient: string
-  price: number
+  attachment: File[]
   filePath: string
-  costOfOrder: number
-  board: string
+  orderPrice: number
+  orderCost: number
 }
