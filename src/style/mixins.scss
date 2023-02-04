@@ -20,21 +20,41 @@
     border: 1px solid $blue;
     background-color: $focusBg;
   }
-  &:read-only{
+  &:read-only {
     background-color: rgb(242, 242, 242);
   }
-  &:invalid{
-    border: 2px solid red
+  &:invalid {
+    border: 2px solid red;
   }
-  &:required{
-    border: 2px solid red
-
+  &:required {
+    border: 2px solid red;
+  }
+  &[type='file'] {
+    background-color: $inputBg;
+    cursor: pointer;
+    &:hover {
+      background-color: darken($inputBg, 2%);
+    }
+  }
+  &[type='date'] {
+    padding: 0 8px 0 10px;
+  }
+  
+  &[type='date']::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 4px;
+    background-color: darken($inputBg, 3%);
+    font-size: 1rem;
+    &:hover {
+      background-color: darken($inputBg, 7%);
+    }
   }
 }
 
 @mixin select {
   @include input();
-  &:read-only{
+  &:read-only {
     background-color: $inputBg;
   }
   &:focus {

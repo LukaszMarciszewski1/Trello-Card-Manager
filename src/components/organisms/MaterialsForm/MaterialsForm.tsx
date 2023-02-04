@@ -104,8 +104,6 @@ const Nested: React.FC<NestedProps> = (
     }
   }, [sortedFields.length, validMaterials])
 
-  console.log(materialValid)
-
   return (
     <div className={styles.materialsList}>
       <span>Materiał:</span>
