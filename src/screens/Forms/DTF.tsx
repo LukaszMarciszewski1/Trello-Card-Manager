@@ -313,7 +313,6 @@ const DTFForm: React.FC = () => {
               <div className={styles.inputContainer}>
                 <Input
                   id={"attachment"}
-                  // style={{ backgroundColor: '#fdfdfd' }}
                   label={constants.ATTACHMENT}
                   type="file"
                   {...register("attachment")}

@@ -10,7 +10,7 @@ export type InputProps = {
   disabled?: boolean
   onChange?: (value: any) => void
   error?: {} | undefined | ((value: any) => void)
-  value?: number | string | any
+  value?: number | string
   step?: string
   minValue?: number
   maxValue?: number
@@ -62,6 +62,7 @@ const Input: React.FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
           disabled={disabled}
           readOnly={readOnly}
           onFocus={(e) => e.target.select()}
+          multiple
           {...props}
         />
       </div>

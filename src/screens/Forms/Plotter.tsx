@@ -30,6 +30,7 @@ import Textarea from "components/common/Textarea/Textarea";
 import MessageModal from "components/organisms/MessageModal/MessageModal";
 import MaterialsForm from "../../components/organisms/MaterialsForm/MaterialsForm";
 import { RiAddLine } from "react-icons/ri";
+import { TrelloFormContext } from "context/trelloContext";
 
 const defaultSectionValues = {
   materialAccess: true,
@@ -50,6 +51,7 @@ const defaultSectionValues = {
 
 const PlotterForm: React.FC = () => {
   dayjs.locale("pl");
+  const { createCard, success, error, loading } = TrelloFormContext()
 
   const {
     register,
@@ -73,12 +75,13 @@ const PlotterForm: React.FC = () => {
   });
 
   const watchForChangesInSectionForms = watch('description');
+
   const [sectionForms, setSectionForms] = useState<CardDescription[]>([])
   const [watchCustomPrice, setWatchCustomPrice] = useState('')
   const [watchFormSizeWidth, setWatchFormSizeWidth] = useState('')
   const [watchFormSizeHeight, setWatchFormSizeHeight] = useState('')
   const [watchPacking, setWatchPacking] = useState(false)
-  const [successSubmit, setSuccessSubmit] = useState(false)
+  const [submitMessage, setSubmitMessage] = useState(false)
 
   useEffect(() => {
     setSectionForms(watchForChangesInSectionForms)
@@ -106,6 +109,7 @@ const PlotterForm: React.FC = () => {
 
   const handleWatchFormSizeWidthValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setWatchFormSizeWidth(e.target.value)
+    console.log(e.target.value)
   }
 
   const handleWatchFormSizeHeightValue = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -124,16 +128,13 @@ const PlotterForm: React.FC = () => {
     setWatchMaterialsForm(true)
     if (data && listId && validMaterialsForm) {
       console.log(data)
-      // AddCardForm(data, listId);
-      // setSuccessSubmit(true)
+      createCard(data, listId);
+      setSubmitMessage(true)
       // reset()
     }
   }
 
-  // console.log(watchMaterialsForm)
-
-
-  const getMaterialsType = (index: number) => {
+  const getMaterials = (index: number) => {
     return materials.filter(material => (
       material.application.toLowerCase() === sectionForms[index]?.materialType?.toLowerCase()
     ))
@@ -141,14 +142,17 @@ const PlotterForm: React.FC = () => {
 
   const closeModal = () => {
     setWatchMaterialsForm(false)
-    setSuccessSubmit(false)
+    setSubmitMessage(false)
   }
 
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
       <FormLayout>
         <MessageModal
-          trigger={successSubmit}
+          trigger={submitMessage}
+          success={success}
+          error={error}
+          loading={loading}
           closeModal={closeModal}
           boardName={constants.PLOTTER}
         />
@@ -202,7 +206,7 @@ const PlotterForm: React.FC = () => {
                         <MaterialsForm
                           {...{ control, register }}
                           registerName={`description[${index}].materials`}
-                          materials={getMaterialsType(index)}
+                          materials={getMaterials(index)}
                           dataForm={sectionForms[index]}
                           materialsType={sectionForms[index]?.materialType}
                           setValidMaterials={setValidMaterialsForm}
@@ -213,7 +217,7 @@ const PlotterForm: React.FC = () => {
                         <MaterialsForm
                           {...{ control, register }}
                           registerName={`description[${index}].materials`}
-                          materials={getMaterialsType(index)}
+                          materials={getMaterials(index)}
                           dataForm={sectionForms[index]}
                           materialsType={sectionForms[index]?.materialType}
                           setValidMaterials={setValidMaterialsForm}
@@ -224,7 +228,7 @@ const PlotterForm: React.FC = () => {
                         <MaterialsForm
                           {...{ control, register }}
                           registerName={`description[${index}].materials`}
-                          materials={getMaterialsType(index)}
+                          materials={getMaterials(index)}
                           dataForm={sectionForms[index]}
                           materialsType={sectionForms[index]?.materialType}
                           setValidMaterials={setValidMaterialsForm}
@@ -235,7 +239,7 @@ const PlotterForm: React.FC = () => {
                         <MaterialsForm
                           {...{ control, register }}
                           registerName={`description[${index}].materials`}
-                          materials={getMaterialsType(index)}
+                          materials={getMaterials(index)}
                           dataForm={sectionForms[index]}
                           materialsType={sectionForms[index]?.materialType}
                           setValidMaterials={setValidMaterialsForm}
@@ -415,7 +419,6 @@ const PlotterForm: React.FC = () => {
               <div className={styles.inputContainer}>
                 <Input
                   id={"attachment"}
-                  style={{ backgroundColor: '#fdfdfd' }}
                   label={constants.ATTACHMENT}
                   type="file"
                   {...register("attachment")}
