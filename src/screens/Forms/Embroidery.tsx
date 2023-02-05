@@ -125,17 +125,22 @@ const EmbroideryForm: React.FC = () => {
     if (data && listId) {
       createCard(data, listId)
       setSubmitMessage(true)
-      reset()
     }
   }
 
-  const closeModal = () => setSubmitMessage(false)
+  const closeModal = () => {
+    reset()
+    setSubmitMessage(false)
+  }
 
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
       <FormLayout>
-        <MessageModal
+      <MessageModal
           trigger={submitMessage}
+          success={success}
+          error={error}
+          loading={loading}
           closeModal={closeModal}
           boardName={constants.EMBROIDERY}
         />

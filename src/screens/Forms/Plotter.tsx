@@ -130,13 +130,13 @@ const PlotterForm: React.FC = () => {
       console.log(data)
       createCard(data, listId);
       setSubmitMessage(true)
-      reset()
     }
   }
 
   const closeModal = () => {
     setWatchMaterialsForm(false)
     setSubmitMessage(false)
+    reset()
   }
 
   interface GetMaterials {

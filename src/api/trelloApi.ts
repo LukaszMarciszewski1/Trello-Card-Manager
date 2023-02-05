@@ -61,18 +61,17 @@ export const AddTrelloCard = () => {
         config
       )
 
-      if (data.attachment.length) {
-        await Promise.all(
-          [...data?.attachment].map(async (file) => {
-            const formFileDataCard = createFormDataFile(file)
-            await axios.post(
-              `${process.env.REACT_APP_TRELLO_URL}/cards/${res.data.id}/attachments`,
-              formFileDataCard,
-              config
-            )
-          })
-        )
-      }
+      await Promise.all(
+        [...data.attachment]?.map(async (file) => {
+          const formFileDataCard = createFormDataFile(file)
+          console.log(data)
+          await axios.post(
+            `${process.env.REACT_APP_TRELLO_URL}/cards/${res.data.id}/attachments`,
+            formFileDataCard,
+            config
+          )
+        })
+      )
 
       const checklistRes = await axios.post(
         `${process.env.REACT_APP_TRELLO_URL}/cards/${res.data.id}/checklists`,
@@ -80,20 +79,18 @@ export const AddTrelloCard = () => {
         config
       )
 
-      if (data.description.length) {
-        await Promise.all(
-          data?.description.map(async (desc) => {
-            await axios.post(
-              `${process.env.REACT_APP_TRELLO_URL}/checklists/${checklistRes.data.id}/checkItems`,
-              {
-                name: desc.logo,
-                checked: false,
-              },
-              config
-            )
-          })
-        )
-      }
+      await Promise.all(
+        data?.description?.map(async (desc) => {
+          await axios.post(
+            `${process.env.REACT_APP_TRELLO_URL}/checklists/${checklistRes.data.id}/checkItems`,
+            {
+              name: desc.logo,
+              checked: false,
+            },
+            config
+          )
+        })
+      )
 
       setLoading(false)
       setSuccess(true)
