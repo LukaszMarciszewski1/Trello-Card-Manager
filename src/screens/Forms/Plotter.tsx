@@ -82,6 +82,8 @@ const PlotterForm: React.FC = () => {
   const [watchFormSizeHeight, setWatchFormSizeHeight] = useState('')
   const [watchPacking, setWatchPacking] = useState(false)
   const [submitMessage, setSubmitMessage] = useState(false)
+  const [validMaterialsForm, setValidMaterialsForm] = useState(false)
+  const [watchMaterialsForm, setWatchMaterialsForm] = useState(false)
 
   useEffect(() => {
     setSectionForms(watchForChangesInSectionForms)
@@ -119,9 +121,6 @@ const PlotterForm: React.FC = () => {
   const handleWatchPacking = () => {
     setWatchPacking(!watchPacking)
   }
-
-  const [validMaterialsForm, setValidMaterialsForm] = useState(false)
-  const [watchMaterialsForm, setWatchMaterialsForm] = useState(false)
 
   const handleSubmitForm = (data: Card) => {
     const listId = process.env.REACT_APP_TRELLO_PLOTTER_LIST

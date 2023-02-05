@@ -5,15 +5,15 @@ const mapDescriptionToText = (description: CardDescription[], department: string
   const descSectionArray = description
     .map((desc, i) => {
       const materials = desc.materials.map((item: { field: any }) => item.field)
-      const decsPriceForOnePiece =
-        desc.priceForOnePiece > 0
-          ? `\n- Cena za 1 szt: ${desc.priceForOnePiece} zł`
-          : ''
-      const descPrice = desc.price > 0 ? `\n- Wartość sekcji: ${desc.price} zł` : ''
-      const materialTxt = `\n- Typ materiału: ${desc.materialType} \n- Materiał: ${materials.length ? materials.join(', ') : 'Nie wybrano'}`
-      const descMaterials = desc.materialType !== '' ? materialTxt : ''
+      const decsPriceForOnePiece = desc.priceForOnePiece > 0 ? 
+       `\n- Cena za 1 szt: ${desc.priceForOnePiece} zł` : ''
+      const descPrice = desc.price > 0 ? 
+       `\n- Wartość sekcji: ${desc.price} zł` : ''
+      const materialTxt = 
+       `\n- Typ materiału: ${desc.materialType}\n- Materiał: ${materials.length ? materials.join(', ') : 'Nie wybrano'}`
+      const descMaterials = department === constants.PLOTTER ? materialTxt : ''
       const additionalDesc = desc.additionalDesc ? desc.additionalDesc.replace(/\n/g, "> ") : 'Brak'  
-
+      
       return `
         \n\
         \n***Sekcja: ${i + 1} >>>>>>>>>>>>>>>>>>>>>***
@@ -24,7 +24,7 @@ const mapDescriptionToText = (description: CardDescription[], department: string
         \n- Wysokość: ${desc.height}cm
         \n- Rozmiar: ${desc.size}
         \n- Pakowanie: ${desc.packing ? 'TAK' : 'NIE'}
-        ${department === constants.PLOTTER ? descMaterials : ''}
+        ${descMaterials}
         ${decsPriceForOnePiece}
         ${descPrice}
         \n- Dodatkowy opis: \n >_${additionalDesc}_
