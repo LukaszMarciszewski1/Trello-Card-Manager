@@ -1,4 +1,4 @@
-export interface Materials {
+export interface MaterialField {
   field: {
     name: string
     value: string
@@ -7,7 +7,7 @@ export interface Materials {
 }
 export interface CardDescription {
   materialAccess: boolean
-  materialType?: string | undefined
+  materialType?: string
   logo: string
   fabric: string
   amount: number
@@ -17,7 +17,7 @@ export interface CardDescription {
   priceForOnePiece: number
   price: number
   customPrice: boolean
-  materials: Materials[]
+  materials: MaterialField[]
   size: string
   packing: boolean
 }

@@ -1,10 +1,10 @@
 import { CardDescription } from 'models/card'
-import { materials, sizes } from 'data/commonApp/index'
+import { materials, sizes } from 'data/formData/index'
 import {
   materialsPriceList,
   modifiersPriceList,
   packingPrice,
-} from 'data/priceList/index'
+} from 'data/priceListData/index'
 
 import * as constants from 'constants/index'
 

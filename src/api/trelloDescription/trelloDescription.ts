@@ -1,18 +1,19 @@
 import { Card, CardDescription } from 'models/card'
+import * as constants from 'constants/index'
 
-const mapDescriptionToText = (description: CardDescription[]) => {
+const mapDescriptionToText = (description: CardDescription[], department: string) => {
   const descSectionArray = description
     .map((desc, i) => {
       const materials = desc.materials.map((item: { field: any }) => item.field)
-      const decsPriceForOnePiece =
-        desc.priceForOnePiece > 0
-          ? `\n- Cena za 1 szt: ${desc.priceForOnePiece} zł`
-          : ''
-      const descPrice = desc.price > 0 ? `\n- Wartość sekcji: ${desc.price} zł` : ''
-      const materialTxt = `\n- Typ materiału: ${desc.materialType} \n- Materiał: ${materials.length ? materials.join(', ') : 'Nie wybrano'}`
-      const descMaterials = desc.materialType !== '' ? materialTxt : ''
+      const decsPriceForOnePiece = desc.priceForOnePiece > 0 ? 
+       `\n- Cena za 1 szt: ${desc.priceForOnePiece} zł` : ''
+      const descPrice = desc.price > 0 ? 
+       `\n- Wartość sekcji: ${desc.price} zł` : ''
+      const materialTxt = 
+       `\n- Typ materiału: ${desc.materialType}\n- Materiał: ${materials.length ? materials.join(', ') : 'Nie wybrano'}`
+      const descMaterials = department === constants.PLOTTER ? materialTxt : ''
       const additionalDesc = desc.additionalDesc ? desc.additionalDesc.replace(/\n/g, "> ") : 'Brak'  
-
+      
       return `
         \n\
         \n***Sekcja: ${i + 1} >>>>>>>>>>>>>>>>>>>>>***
@@ -37,7 +38,7 @@ const mapDescriptionToText = (description: CardDescription[]) => {
 
 export const generateDescData = (data: Card) => {
   const { orderPrice, orderCost, filePath, description } = data
-  const descriptionArray = mapDescriptionToText(description)
+  const descriptionArray = mapDescriptionToText(description, data.department)
   const price = orderPrice > 0 ? `\n- Wartość zlecenia: ${orderPrice} zł` : ''
   const cost = orderCost > 0 ? `\n- Koszt zlecenia: ${orderCost} zł` : ''
 

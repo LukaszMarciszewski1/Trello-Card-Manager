@@ -4,10 +4,9 @@ import dayjs from "dayjs";
 
 import * as constants from 'constants/index';
 import { Card, CardDescription } from "models/card";
-import { traders, fabric, departments } from "data/commonApp/index";
-import { materials } from "data/commonApp/materials";
+import { traders, fabric, departments } from "data/formData/index";
+import { materials } from "data/formData/materials";
 import { useForm, useFieldArray } from "react-hook-form";
-import { AddCardForm } from 'api/trelloApi'
 
 import {
   getPriceForOnePieceOfSection,
@@ -28,9 +27,10 @@ import Checkbox from "components/common/Checkbox/Checkbox";
 import Select from "components/common/Select/Select";
 import Textarea from "components/common/Textarea/Textarea";
 import MessageModal from "components/organisms/MessageModal/MessageModal";
-import MaterialsForm from "../../components/organisms/MaterialsForm/MaterialsForm";
+import MaterialsForm from "./Materials/Materials";
 import { RiAddLine } from "react-icons/ri";
 import { TrelloFormContext } from "context/trelloContext";
+import { Material } from "models/material";
 
 const defaultSectionValues = {
   materialAccess: true,
@@ -82,6 +82,8 @@ const PlotterForm: React.FC = () => {
   const [watchFormSizeHeight, setWatchFormSizeHeight] = useState('')
   const [watchPacking, setWatchPacking] = useState(false)
   const [submitMessage, setSubmitMessage] = useState(false)
+  const [validMaterialsForm, setValidMaterialsForm] = useState(false)
+  const [watchMaterialsForm, setWatchMaterialsForm] = useState(false)
 
   useEffect(() => {
     setSectionForms(watchForChangesInSectionForms)
@@ -120,9 +122,6 @@ const PlotterForm: React.FC = () => {
     setWatchPacking(!watchPacking)
   }
 
-  const [validMaterialsForm, setValidMaterialsForm] = useState(false)
-  const [watchMaterialsForm, setWatchMaterialsForm] = useState(false)
-
   const handleSubmitForm = (data: Card) => {
     const listId = process.env.REACT_APP_TRELLO_PLOTTER_LIST
     setWatchMaterialsForm(true)
@@ -130,20 +129,32 @@ const PlotterForm: React.FC = () => {
       console.log(data)
       createCard(data, listId);
       setSubmitMessage(true)
-      // reset()
     }
-  }
-
-  const getMaterials = (index: number) => {
-    return materials.filter(material => (
-      material.application.toLowerCase() === sectionForms[index]?.materialType?.toLowerCase()
-    ))
   }
 
   const closeModal = () => {
     setWatchMaterialsForm(false)
     setSubmitMessage(false)
+    setValidMaterialsForm(false)
+    reset()
   }
+
+  interface GetMaterials {
+    (index: number): Material[];
+  }
+
+  const getMaterials: GetMaterials = (index: number) => {
+    return materials.filter(material => (
+      material.application.toLowerCase() === sectionForms[index]?.materialType?.toLowerCase()
+    ))
+  }
+
+  const materialTabsValues: string[] = [
+    constants.FLEX_FLOCK,
+    constants.SOLVENT,
+    constants.SUBLIMATION,
+    constants.TRANSFERS,
+  ]
 
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
@@ -199,53 +210,24 @@ const PlotterForm: React.FC = () => {
                   />
                   <div className={styles.sectionTabsContainer}>
                     <SectionTabs
-                      tabLabel={constants.CHOOSE_MATERIAL_TYPE}
+                      tabsLabel={constants.CHOOSE_MATERIAL_TYPE}
                       setTabTitle={(e: string) => setValue(`description.${index}.materialType`, e)}
                     >
-                      <SectionTabsContent title={constants.FLEX_FLOCK}>
-                        <MaterialsForm
-                          {...{ control, register }}
-                          registerName={`description[${index}].materials`}
-                          materials={getMaterials(index)}
-                          dataForm={sectionForms[index]}
-                          materialsType={sectionForms[index]?.materialType}
-                          setValidMaterials={setValidMaterialsForm}
-                          validMaterials={watchMaterialsForm}
-                        />
-                      </SectionTabsContent>
-                      <SectionTabsContent title={constants.SOLVENT}>
-                        <MaterialsForm
-                          {...{ control, register }}
-                          registerName={`description[${index}].materials`}
-                          materials={getMaterials(index)}
-                          dataForm={sectionForms[index]}
-                          materialsType={sectionForms[index]?.materialType}
-                          setValidMaterials={setValidMaterialsForm}
-                          validMaterials={watchMaterialsForm}
-                        />
-                      </SectionTabsContent>
-                      <SectionTabsContent title={constants.SUBLIMATION}>
-                        <MaterialsForm
-                          {...{ control, register }}
-                          registerName={`description[${index}].materials`}
-                          materials={getMaterials(index)}
-                          dataForm={sectionForms[index]}
-                          materialsType={sectionForms[index]?.materialType}
-                          setValidMaterials={setValidMaterialsForm}
-                          validMaterials={watchMaterialsForm}
-                        />
-                      </SectionTabsContent>
-                      <SectionTabsContent title={constants.TRANSFERS}>
-                        <MaterialsForm
-                          {...{ control, register }}
-                          registerName={`description[${index}].materials`}
-                          materials={getMaterials(index)}
-                          dataForm={sectionForms[index]}
-                          materialsType={sectionForms[index]?.materialType}
-                          setValidMaterials={setValidMaterialsForm}
-                          validMaterials={watchMaterialsForm}
-                        />
-                      </SectionTabsContent>
+                      {
+                        materialTabsValues.map((value, i) => (
+                          <SectionTabsContent title={value} key={i}>
+                            <MaterialsForm
+                              {...{ control, register }}
+                              registerName={`description[${index}].materials`}
+                              materials={getMaterials(index)}
+                              dataForm={sectionForms[index]}
+                              materialsType={sectionForms[index]?.materialType}
+                              setValidMaterialsForm={setValidMaterialsForm}
+                              watchMaterialsForm={watchMaterialsForm}
+                            />
+                          </SectionTabsContent>
+                        ))
+                      }
                     </SectionTabs>
                   </div>
                   <Textarea

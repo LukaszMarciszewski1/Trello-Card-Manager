@@ -7,7 +7,7 @@ interface FormLayoutProps {
 
 const FormLayout: React.FC<FormLayoutProps> = ({ children }) => {
   return (
-    <div className={styles.formLayout} >                  
+    <div className={styles.formLayout} >
       {children}
     </div>
   )

@@ -449,6 +449,7 @@ export const materials = [
     value: 'P.S. Film A0031-LIGHT-PINK',
     color: '#facfd9',
     priceType: 'FLEX',
+    priceModifier: 'STANDARD',
     application: 'Flex/Flock',
   },
   {
@@ -520,6 +521,7 @@ export const materials = [
     value: 'P.S. Film A0014-NAVY-BLUE',
     color: '#182045',
     priceType: 'FLEX',
+    priceModifier: 'STANDARD',
     application: 'Flex/Flock',
   },
   {
@@ -555,6 +557,7 @@ export const materials = [
     value: 'P.S. Film A0051-PALE-BLUE',
     color: '#99daf6',
     priceType: 'FLEX',
+    priceModifier: 'STANDARD',
     application: 'Flex/Flock',
   },
   {
