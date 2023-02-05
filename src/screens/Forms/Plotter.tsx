@@ -130,7 +130,7 @@ const PlotterForm: React.FC = () => {
       console.log(data)
       createCard(data, listId);
       setSubmitMessage(true)
-      // reset()
+      reset()
     }
   }
 

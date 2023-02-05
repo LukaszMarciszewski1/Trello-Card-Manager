@@ -3,7 +3,7 @@ import styles from './styles.module.scss'
 
 interface BoxProps {
   color: string
-  src: string
+  src: string | undefined
 }
 
 const Box: React.FC<BoxProps> = ({ color, src }) => {

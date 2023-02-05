@@ -60,7 +60,7 @@ const NestedMaterialsForm: React.FC<NestedMaterialsFormProps> = (
     setCheckedItems(updatedList);
   }
 
-  const inputWidth = (index: number) => {
+  const inputFieldWidth = (index: number) => {
     if (checkedItems[index]) {
       return ((checkedItems[index].length + 1) + 'ch')
     }
@@ -77,13 +77,13 @@ const NestedMaterialsForm: React.FC<NestedMaterialsFormProps> = (
       return checkedItems.indexOf(a.value) - checkedItems.indexOf(b.value)
     })
 
-  const sortedMaterials = fields.sort((a: any, b: any) => {
+  const sortedMaterialsFields = fields.sort((a: any, b: any) => {
     return selectedMaterialsArray.indexOf(a) - selectedMaterialsArray.indexOf(b);
   });
 
   const clearCheckedMaterials = () => {
     remove(checkedItems.map((item: string, index: number) => index))
-    remove(sortedMaterials.map((item: Record<"id", string>, index: number) => index))
+    remove(sortedMaterialsFields.map((item: Record<"id", string>, index: number) => index))
     setCheckedItems([])
   }
 
@@ -95,7 +95,7 @@ const NestedMaterialsForm: React.FC<NestedMaterialsFormProps> = (
 
   useEffect(() => {
     if (watchMaterialsForm && setValidMaterialsForm) {
-      if (sortedMaterials.length) {
+      if (sortedMaterialsFields.length) {
         setValidForm(false)
         setValidMaterialsForm(true)
       } else {
@@ -103,7 +103,7 @@ const NestedMaterialsForm: React.FC<NestedMaterialsFormProps> = (
         setValidMaterialsForm(false)
       }
     }
-  }, [sortedMaterials.length, watchMaterialsForm])
+  }, [sortedMaterialsFields.length, watchMaterialsForm])
 
   return (
     <div className={styles.materialsList}>
@@ -111,8 +111,8 @@ const NestedMaterialsForm: React.FC<NestedMaterialsFormProps> = (
       {
         checkedItems.length ? (
           <>
-            {fields.map((item, k) => (
-              <div key={item.id} style={{ margin: '0 10px 0 0', width: inputWidth(k) }}>
+            {sortedMaterialsFields.map((item, k) => (
+              <div key={item.id} style={{ margin: '0 10px 0 0', width: inputFieldWidth(k) }}>
                 <Input
                   key={item.id}
                   style={{
@@ -158,7 +158,7 @@ const NestedMaterialsForm: React.FC<NestedMaterialsFormProps> = (
             handleChange={handleCheckedMaterial}
           />
         </div>
-        <div className={styles.buttonContainer}>
+        <div className={styles.buttonWrapper}>
           <Button
             type={"button"}
             title={"ok"}

@@ -1,7 +1,6 @@
-// import React, { useContext } from 'react';
 import { useState } from 'react'
 import axios from 'axios'
-import { Card, CardDescription } from 'models/card'
+import { Card } from 'models/card'
 import { generateDescData } from './trelloDescription/trelloDescription'
 
 const createFormDataCard = (data: Card, listId: string) => {
@@ -29,57 +28,6 @@ const createFormDataChecklist = () => {
   const formData = new FormData()
   formData.append('name', 'Lista zadań')
   return formData
-}
-
-export const AddCardForm = async (data: Card, listId: string) => {
-  const formInitialDataCard = createFormDataCard(data, listId)
-  // const formFileDataCard = createFormDataFile(data.attachment)
-  const formChecklistDataCard = createFormDataChecklist()
-
-  const config = {
-    params: {
-      key: process.env.REACT_APP_TRELLO_KEY,
-      token: process.env.REACT_APP_TRELLO_TOKEN,
-    },
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'multipart/form-data',
-    },
-  }
-
-  try {
-    const res = await axios.post(
-      `${process.env.REACT_APP_TRELLO_URL}/cards`,
-      formInitialDataCard,
-      config
-    )
-    if (data.attachment.length) {
-      // await axios.post(
-      //   `${process.env.REACT_APP_TRELLO_URL}/cards/${res.data.id}/attachments`,
-      //   formFileDataCard,
-      //   config
-      // )
-    }
-    const checklistRes = await axios.post(
-      `${process.env.REACT_APP_TRELLO_URL}/cards/${res.data.id}/checklists`,
-      formChecklistDataCard,
-      config
-    )
-    await Promise.all(
-      data?.description.map(async (desc) => {
-        await axios.post(
-          `${process.env.REACT_APP_TRELLO_URL}/checklists/${checklistRes.data.id}/checkItems`,
-          {
-            name: desc.logo,
-            checked: false,
-          },
-          config
-        )
-      })
-    )
-  } catch (err) {
-    console.error(err)
-  }
 }
 
 export const AddTrelloCard = () => {

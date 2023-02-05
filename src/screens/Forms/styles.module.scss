@@ -33,7 +33,7 @@
 }
 
 .rightColumnContainer {
-  border-left: 1px solid rgb(201, 201, 201);
+  border-left: 1px solid $primary-gray;
   padding-left: 3rem;
 }
 
@@ -46,7 +46,7 @@
 .divider {
   margin-top: 16px;
   padding-top: 16px;
-  border-top: 1px solid darken($focusBg, 8%);
+  border-top: 1px solid $primary-gray;
   &:last-child {
     margin-top: 32px;
   }

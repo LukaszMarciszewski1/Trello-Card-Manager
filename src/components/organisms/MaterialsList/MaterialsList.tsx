@@ -3,15 +3,15 @@ import styles from './styles.module.scss'
 import './react-tabs-scrollable.scss';
 import { Tabs, Tab } from 'react-tabs-scrollable'
 import Checkbox from 'components/common/Checkbox/Checkbox'
-import { Material as Materials } from 'models/material';
+import { Material } from 'models/material';
 import BoxColor from 'components/common/BoxColor/BoxColor';
-interface MaterialsProps {
-  options: Materials[]
+interface MaterialsListProps {
+  options: Material[]
   checkedItems: string[]
   handleChange: (e: any) => void
 }
 
-const optionTypes = (options: Materials[]) => {
+const optionTypes = (options: Material[]) => {
   const set = new Set();
   for (const option of options) {
     set.add(option.type);
@@ -19,7 +19,7 @@ const optionTypes = (options: Materials[]) => {
   return Array.from(set) as string[];
 }
 
-const MaterialsList: React.FC<MaterialsProps> = ({ options, checkedItems, handleChange }) => {
+const MaterialsList: React.FC<MaterialsListProps> = ({ options, checkedItems, handleChange }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [selectedType, setSelectedType] = useState(optionTypes(options)[0])
 
@@ -41,7 +41,7 @@ const MaterialsList: React.FC<MaterialsProps> = ({ options, checkedItems, handle
         ))}
       </Tabs>
       <div className={styles.contentContainer}>
-        {options.map((option: any, index: number) => (
+        {options.map((option, index: number) => (
           <div
             role="tabpanel"
             key={index}

@@ -6,7 +6,7 @@ import * as constants from 'constants/index';
 import { traders, fabric, departments } from "data/formData/index";
 import { useForm, useFieldArray } from "react-hook-form";
 import { Card, CardDescription } from "models/card";
-import { AddCardForm } from 'api/trelloApi'
+import { TrelloFormContext } from "context/trelloContext";
 
 import {
   getPriceForOnePieceOfSection,
@@ -43,6 +43,7 @@ const defaultSectionValues = {
 
 const EmbroideryForm: React.FC = () => {
   dayjs.locale("pl");
+  const { createCard, success, error, loading } = TrelloFormContext()
 
   const {
     register,
@@ -71,7 +72,7 @@ const EmbroideryForm: React.FC = () => {
   const [watchFormSizeWidth, setWatchFormSizeWidth] = useState('')
   const [watchFormSizeHeight, setWatchFormSizeHeight] = useState('')
   const [watchPacking, setWatchPacking] = useState(false)
-  const [successSubmit, setSuccessSubmit] = useState(false)
+  const [submitMessage, setSubmitMessage] = useState(false)
 
   useEffect(() => {
     setSectionForms(watchForChangesInSectionForms)
@@ -122,19 +123,19 @@ const EmbroideryForm: React.FC = () => {
   const handleSubmitForm = (data: Card) => {
     const listId = process.env.REACT_APP_TRELLO_EMBROIDERY_LIST
     if (data && listId) {
-      AddCardForm(data, listId);
-      setSuccessSubmit(true)
+      createCard(data, listId)
+      setSubmitMessage(true)
       reset()
     }
   }
 
-  const closeModal = () => setSuccessSubmit(false)
+  const closeModal = () => setSubmitMessage(false)
 
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
       <FormLayout>
         <MessageModal
-          trigger={successSubmit}
+          trigger={submitMessage}
           closeModal={closeModal}
           boardName={constants.EMBROIDERY}
         />
