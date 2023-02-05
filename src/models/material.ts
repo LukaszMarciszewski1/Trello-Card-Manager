@@ -4,7 +4,7 @@ export interface Material {
   value: string; 
   color: string; 
   priceType: string; 
-  priceModifier: string | undefined; 
+  priceModifier: string; 
   application: string; 
   src?: string | undefined;
 }

@@ -3,7 +3,7 @@ import styles from "./styles.module.scss";
 import dayjs from "dayjs";
 
 import * as constants from 'constants/index';
-import { traders, fabric, departments } from "data/commonApp/index";
+import { traders, fabric, departments } from "data/formData/index";
 import { useForm, useFieldArray } from "react-hook-form";
 import { Card, CardDescription } from "models/card";
 

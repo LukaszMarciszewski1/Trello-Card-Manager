@@ -1,29 +1,26 @@
 import React, { useEffect, useState, SetStateAction, Dispatch } from 'react'
 import styles from './styles.module.scss'
-import { useFieldArray, UseFormRegister, FieldValues, UseFormRegisterReturn } from "react-hook-form";
+import { useFieldArray, UseFormRegister, Control } from "react-hook-form";
 import Popup from 'components/common/Popup/Popup';
 import Button from 'components/common/Button/Button';
 import Input from 'components/common/Input/Input';
 import MaterialsList from 'components/organisms/MaterialsList/MaterialsList';
 import { AiOutlineAppstoreAdd } from 'react-icons/ai';
-import { Material } from 'models/material';
+import { Material  } from 'models/material';
 import { CardDescription } from 'models/card';
-interface NestedProps {
+
+interface NestedMaterialsFormProps {
   register: UseFormRegister<any>
   registerName: string
-  materials: any
-  control?: any
-  dataForm?: CardDescription
-  materialsType?: string
-  setValidMaterials?: Dispatch<SetStateAction<boolean>>
-  validMaterials: boolean
+  materials: Material[]
+  control: Control<any>
+  dataForm: CardDescription
+  materialsType: string | undefined
+  setValidMaterialsForm: Dispatch<SetStateAction<boolean>>
+  watchMaterialsForm: boolean
 }
 
-interface CheckedItems {
-  [key: string]: boolean;
-}
-
-const Nested: React.FC<NestedProps> = (
+const NestedMaterialsForm: React.FC<NestedMaterialsFormProps> = (
   {
     register,
     registerName,
@@ -31,11 +28,12 @@ const Nested: React.FC<NestedProps> = (
     control,
     dataForm,
     materialsType,
-    setValidMaterials,
-    validMaterials,
+    setValidMaterialsForm,
+    watchMaterialsForm,
   }) => {
   const [popupTrigger, setPopupTrigger] = useState(false)
-  const [checkedItems, setCheckedItems] = useState<string[]>([]);
+  const [checkedItems, setCheckedItems] = useState<string[]>([])
+  const [validForm, setValidForm] = useState(false)
 
   const { fields, remove, append } = useFieldArray({
     control,
@@ -62,13 +60,6 @@ const Nested: React.FC<NestedProps> = (
     setCheckedItems(updatedList);
   }
 
-  useEffect(() => {
-    if (dataForm) {
-      remove(checkedItems.map((item: any, i: number) => i))
-      setCheckedItems([])
-    }
-  }, [materialsType])
-
   const inputWidth = (index: number) => {
     if (checkedItems[index]) {
       return ((checkedItems[index].length + 1) + 'ch')
@@ -78,31 +69,41 @@ const Nested: React.FC<NestedProps> = (
 
   const selectedMaterialsArray = [...materials]
     .filter(material => [...checkedItems]
-      .includes(material.value))
+    .includes(material.value))
     .sort((a, b) => {
       if (checkedItems.indexOf(a.value) === checkedItems.indexOf(b.value)) {
-        return a.value - b.value;
+        return Number(a.value) - Number(b.value);
       }
       return checkedItems.indexOf(a.value) - checkedItems.indexOf(b.value)
     })
 
-  const sortedFields = fields.sort((a, b) => {
+  const sortedMaterials = fields.sort((a: any, b: any) => {
     return selectedMaterialsArray.indexOf(a) - selectedMaterialsArray.indexOf(b);
   });
 
-  const [materialValid, setMaterialValid] = useState(false)
+  const clearCheckedMaterials = () => {
+    remove(checkedItems.map((item: string, index: number) => index))
+    remove(sortedMaterials.map((item: Record<"id", string>, index: number) => index))
+    setCheckedItems([])
+  }
 
   useEffect(() => {
-    if (validMaterials && setValidMaterials) {
-      if (sortedFields.length) {
-        setMaterialValid(false)
-        setValidMaterials(true)
+    if (dataForm) {
+      clearCheckedMaterials()
+    }
+  }, [materialsType])
+
+  useEffect(() => {
+    if (watchMaterialsForm && setValidMaterialsForm) {
+      if (sortedMaterials.length) {
+        setValidForm(false)
+        setValidMaterialsForm(true)
       } else {
-        setMaterialValid(true)
-        setValidMaterials(false)
+        setValidForm(true)
+        setValidMaterialsForm(false)
       }
     }
-  }, [sortedFields.length, validMaterials])
+  }, [sortedMaterials.length, watchMaterialsForm])
 
   return (
     <div className={styles.materialsList}>
@@ -110,7 +111,7 @@ const Nested: React.FC<NestedProps> = (
       {
         checkedItems.length ? (
           <>
-            {sortedFields.map((item, k) => (
+            {fields.map((item, k) => (
               <div key={item.id} style={{ margin: '0 10px 0 0', width: inputWidth(k) }}>
                 <Input
                   key={item.id}
@@ -170,7 +171,7 @@ const Nested: React.FC<NestedProps> = (
         <Button
           type={"button"}
           onClick={() => setPopupTrigger(true)}
-          style={{ width: '40px', border: `${materialValid ? '2px solid red' : 'none'}` }}
+          style={{ width: '40px', border: `${validForm ? '2px solid red' : 'none'}` }}
           icon={<AiOutlineAppstoreAdd fontSize={"1.5rem"} fontWeight={"bold"} />}
         />
       </div>
@@ -178,4 +179,4 @@ const Nested: React.FC<NestedProps> = (
   )
 }
 
-export default React.memo(Nested)
+export default React.memo(NestedMaterialsForm)

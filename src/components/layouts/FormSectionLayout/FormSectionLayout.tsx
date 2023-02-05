@@ -7,7 +7,7 @@ interface FormSectionLayoutProps {
 
 const FormSectionLayout: React.FC<FormSectionLayoutProps> = ({ children }) => {
   return (
-    <div className={styles.sectionSectionLayout} >                  
+    <div className={styles.sectionSectionLayout} >
       {children}
     </div>
   )
