@@ -136,6 +136,7 @@ const PlotterForm: React.FC = () => {
   const closeModal = () => {
     setWatchMaterialsForm(false)
     setSubmitMessage(false)
+    setValidMaterialsForm(false)
     reset()
   }
 
