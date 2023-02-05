@@ -113,6 +113,7 @@ const DTFForm: React.FC = () => {
   const handleSubmitForm = (data: Card) => {
     const listId = process.env.REACT_APP_TRELLO_DTF_LIST
     if (data && listId) {
+      console.log(data)
       createCard(data, listId)
       setSubmitMessage(true)
     }

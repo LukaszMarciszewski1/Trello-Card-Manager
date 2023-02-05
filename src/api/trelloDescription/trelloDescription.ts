@@ -1,6 +1,7 @@
 import { Card, CardDescription } from 'models/card'
+import * as constants from 'constants/index'
 
-const mapDescriptionToText = (description: CardDescription[]) => {
+const mapDescriptionToText = (description: CardDescription[], department: string) => {
   const descSectionArray = description
     .map((desc, i) => {
       const materials = desc.materials.map((item: { field: any }) => item.field)
@@ -23,7 +24,7 @@ const mapDescriptionToText = (description: CardDescription[]) => {
         \n- Wysokość: ${desc.height}cm
         \n- Rozmiar: ${desc.size}
         \n- Pakowanie: ${desc.packing ? 'TAK' : 'NIE'}
-        ${descMaterials}
+        ${department === constants.PLOTTER ? descMaterials : ''}
         ${decsPriceForOnePiece}
         ${descPrice}
         \n- Dodatkowy opis: \n >_${additionalDesc}_
@@ -37,7 +38,7 @@ const mapDescriptionToText = (description: CardDescription[]) => {
 
 export const generateDescData = (data: Card) => {
   const { orderPrice, orderCost, filePath, description } = data
-  const descriptionArray = mapDescriptionToText(description)
+  const descriptionArray = mapDescriptionToText(description, data.department)
   const price = orderPrice > 0 ? `\n- Wartość zlecenia: ${orderPrice} zł` : ''
   const cost = orderCost > 0 ? `\n- Koszt zlecenia: ${orderCost} zł` : ''
 
