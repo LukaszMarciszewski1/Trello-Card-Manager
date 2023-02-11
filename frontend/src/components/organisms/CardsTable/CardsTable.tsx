@@ -140,7 +140,6 @@ const CardsTable: React.FC<CardsTableProps> = ({ cards }) => {
         <span>
           | idź do strony: {' '}
           <input
-            id={'gotoPage'}
             type={'number'}
             defaultValue={pageIndex + 1}
             max={pageOptions.length}
@@ -149,41 +148,33 @@ const CardsTable: React.FC<CardsTableProps> = ({ cards }) => {
               const pageNumber = e.target.value ? Number(e.target.value) - 1 : 0
               gotoPage(pageNumber)
             }}
-            style={{ width: 50, height: 30, padding: 3, borderRadius: 3, border: '2px solid #67788a' }}
+            style={{ width: 60, height: 30, padding: 3, borderRadius: 3, border: '2px solid #67788a' }}
           />
         </span>
         <Button
-          type={'button'}
           onClick={() => gotoPage(0)}
           disabled={!canPreviousPage}
           icon={<MdSkipPrevious fontSize={'19px'} />}
           style={{ width: 40, height: 30 }}
         />
         <Button
-          type={'button'}
           onClick={() => previousPage()}
           disabled={!canPreviousPage}
           icon={<MdKeyboardArrowLeft fontSize={'19px'} />}
           style={{ width: 40, height: 30 }}
         />
         <Button
-          type={'button'}
           onClick={() => nextPage()}
           disabled={!canNextPage}
           icon={<MdKeyboardArrowRight fontSize={'19px'} />}
           style={{ width: 40, height: 30 }}
         />
         <Button
-          type={'button'}
           onClick={() => gotoPage(pageCount - 1)}
           disabled={!canNextPage}
           icon={<MdSkipNext fontSize={'19px'} />}
           style={{ width: 40, height: 30 }}
         />
-        {/* <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>{'<<'}</button>
-        <button onClick={() => previousPage()} disabled={!canPreviousPage}>{'<'}</button>
-        <button onClick={() => nextPage()} disabled={!canNextPage}>{'>'}</button>
-        <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>{'>>'}</button> */}
       </div>
     </div>
   );
