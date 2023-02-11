@@ -1,14 +1,15 @@
 import { useState } from 'react'
 import axios from 'axios'
 import { Card } from 'models/card'
-import { cardDescription } from './trelloDescription/trelloDescription'
+import { cardFormData } from './cardFormData/cardFormData'
 
-export const TrelloApi = () => {
+export function TrelloApi() {
   const [error, setError] = useState(false)
   const [success, setSuccess] = useState(false)
   const [loading, setLoading] = useState(false)
   const [cards, setCards] = useState([])
   const [boards, setBoards] = useState([])
+  const [trelloCardId, setTrelloCardId] = useState<string>('')
 
   const config = {
     params: {
@@ -22,8 +23,8 @@ export const TrelloApi = () => {
   }
 
   const addCardToTrello = async (data: Card, listId: string) => {
-    const formInitialDataCard = cardDescription.cardFormData(data, listId)
-    const formChecklistDataCard = cardDescription.checklistFormData()
+    const formInitialDataCard = cardFormData.initialFormData(data, listId)
+    const formChecklistDataCard = cardFormData.checklistFormData()
 
     setLoading(true)
     setSuccess(false)
@@ -35,10 +36,10 @@ export const TrelloApi = () => {
         formInitialDataCard,
         config
       )
-
+      
       await Promise.all(
         [...data.attachment]?.map(async (file) => {
-          const formFileDataCard = cardDescription.fileFormData(file)
+          const formFileDataCard = cardFormData.fileFormData(file)
           console.log(data)
           await axios.post(
             `${process.env.REACT_APP_TRELLO_URL}/cards/${res.data.id}/attachments`,
@@ -69,6 +70,7 @@ export const TrelloApi = () => {
 
       setLoading(false)
       setSuccess(true)
+      setTrelloCardId(res.data.id)
 
     } catch (err) {
       setError(true)
@@ -108,6 +110,7 @@ export const TrelloApi = () => {
       )
       .then(res => { 
         setCards(res.data);
+        console.log(res.data)
       })
     } catch (error) {
       console.error(error);
@@ -122,6 +125,7 @@ export const TrelloApi = () => {
     getAllCards, 
     getBoards,
     cards,
+    trelloCardId,
     success, 
     error, 
     loading 

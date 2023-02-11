@@ -7,9 +7,10 @@ interface ButtonProps {
   style?: {};
   icon?: JSX.Element
   type: "button" | "submit" | "reset" | undefined
+  disabled?: any
 }
 
-const Button: React.FC<ButtonProps> = ({ title, onClick, style, icon, type }) => {
+const Button: React.FC<ButtonProps> = ({ title, onClick, style, icon, type, disabled }) => {
   return (
     <button
       onClick={onClick}
@@ -17,6 +18,7 @@ const Button: React.FC<ButtonProps> = ({ title, onClick, style, icon, type }) =>
       style={style}
       type={type}
       title={title}
+      disabled={disabled}
     >
       {icon} {title}
     </button>

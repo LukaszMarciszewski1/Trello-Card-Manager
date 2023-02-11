@@ -16,6 +16,9 @@
   &:hover {
     background-color: darken($lightBlue, 5%);
   }
+  &:disabled{
+    background-color: rgb(230, 230, 230);
+  }
 }
 
 .button[type='submit'] {

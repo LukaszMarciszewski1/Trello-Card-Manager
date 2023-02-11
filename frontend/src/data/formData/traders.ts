@@ -7,7 +7,6 @@ export const traders = [
   {
     id: '6368b5afeaaa0400bb987771',
     name: 'Tomasz Jankowski',
-    title: 'Tomasz Jankowski',
     initial: 'TJ',
   },
   {

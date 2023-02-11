@@ -45,8 +45,8 @@ const defaultSectionValues = {
 
 const DTFForm: React.FC = () => {
   dayjs.locale("pl");
-  const [ createCardApi ] = useCreateCardMutation()
-  const { addCardToTrello, success, error, loading } = useTrelloApi()
+  const [createCardApi] = useCreateCardMutation()
+  const { addCardToTrello, trelloCardId, success, error, loading } = useTrelloApi()
 
   const {
     register,
@@ -69,6 +69,7 @@ const DTFForm: React.FC = () => {
     control,
   });
 
+  const [dataForm, setDataForm] = useState<Card | null>(null)
   const watchForChangesInSectionForms = watch('description');
   const [sectionForms, setSectionForms] = useState<CardDescription[]>([])
   const [watchCustomPrice, setWatchCustomPrice] = useState('')
@@ -112,18 +113,32 @@ const DTFForm: React.FC = () => {
   const handleWatchPacking = () => {
     setWatchPacking(!watchPacking)
   }
-
+  
   const handleSubmitForm = async (data: Card) => {
     const listId = process.env.REACT_APP_TRELLO_DTF_LIST
     if (data && listId) {
       addCardToTrello(data, listId)
+      setDataForm(data)
       setSubmitMessage(true)
-      createCardApi({ ...data, member: searchNameById(traders, data.member)})
     }
   }
 
+  useEffect(() => {
+    if(dataForm && success) {
+      const member = searchNameById(traders, dataForm?.member)
+      createCardApi({
+        ...dataForm,
+        member,
+        trelloCardId
+      })
+    }
+  }, [dataForm, success])
+
   const closeModal = () => {
-    reset()
+    // reset()
+    if(success){
+      setDataForm(null)
+    }
     setSubmitMessage(false)
   }
 

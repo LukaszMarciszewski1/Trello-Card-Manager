@@ -3,7 +3,7 @@ import express from 'express'
 import helmet from 'helmet'
 import cors from 'cors'
 import path from 'path'
-import { connectDB } from './config/mongoose.js'
+import { connectDB } from './db/mongoose.js'
 
 import cardRouters from './routes/cards.js'
 import { errorHandler, notFound } from './middlewares/errorHandler .js'

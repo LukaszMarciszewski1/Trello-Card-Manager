@@ -158,9 +158,10 @@ export const getPriceForSection = (
 ): number => {
   const sectionForms = [...data]
   const calculatorPrice = priceCalculatorArray(sectionForms, false)[index]
-  const customPrice =
+  const customPrice = (
     sectionForms[index]?.priceForOnePiece * sectionForms[index]?.amount +
     getPriceForPacking(sectionForms[index])
+  )
 
   const sum = isMoreThanMaximumSize(sectionForms, index)
     ? customPrice
@@ -224,7 +225,6 @@ export const getTotalPrice = (data: CardDescription[]): number => {
       0
     )
   )
-  const price =
-    customPrice > 0 ? calculatorPrice + customPrice : calculatorPrice
+  const price = customPrice > 0 ? calculatorPrice + customPrice : calculatorPrice
   return Number(price.toFixed(1))
 }

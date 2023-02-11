@@ -9,19 +9,22 @@ import { useGetAllCardsQuery } from 'store/cards/cards';
 
 const CardsList = () => {
   dayjs.locale("pl");
+  const { getAllCards, success, loading, cards } = useTrelloApi()
   const { data, error, isLoading } = useGetAllCardsQuery()
 
-  console.log(data)
+  useEffect(() => {
+    getAllCards('cards')
+  }, [])
 
   return (
     <>
-    {error && <div>Wystąpił błąd serwera, nie można wyświetlić zawartości</div>}
-    {
-      isLoading ? <div>Loading...</div> : (
-       data !== undefined && <CardsTable cards={data} />
-      )
-    }
-  </>
+      {error && <div>Wystąpił błąd serwera, nie można wyświetlić zawartości</div>}
+      {
+        isLoading ? <div>Loading...</div> : (
+          data !== undefined && <CardsTable cards={data} />
+        )
+      }
+    </>
   )
 }
 

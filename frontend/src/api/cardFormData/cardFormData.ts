@@ -51,8 +51,8 @@ export const generateDescData = (data: Card) => {
     `
 }
 
-const cardFormData = (data: Card, listId: string) => {
-  const { title, startDate, endDate, member, recipient } = data
+const initialFormData = (data: Card, listId: string) => {
+  const { title, startDate, endDate, member, recipient, orderPrice } = data
   const description = generateDescData(data)
   const formData = new FormData()
   formData.append('idList', listId)
@@ -61,6 +61,13 @@ const cardFormData = (data: Card, listId: string) => {
   formData.append('start', startDate)
   formData.append('due', endDate)
   formData.append('idMembers', `${member},${recipient}`)
+  formData.append('customFieldItems', `${orderPrice}`)
+  return formData
+}
+
+const customFieldsFormData = (data: any) => {
+  const formData = new FormData()
+  formData.append('value', data)
   return formData
 }
 
@@ -77,8 +84,9 @@ const checklistFormData = () => {
   return formData
 }
 
-export const cardDescription = {
-  cardFormData,
+export const cardFormData = {
+  initialFormData,
   fileFormData,
-  checklistFormData
+  checklistFormData,
+  customFieldsFormData
 }
