@@ -7,9 +7,11 @@ export function TrelloApi() {
   const [error, setError] = useState(false)
   const [success, setSuccess] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [cards, setCards] = useState([])
+  const [cards, setCards] = useState<any>([])
   const [boards, setBoards] = useState([])
   const [trelloCardId, setTrelloCardId] = useState<string>('')
+  const [members, setMembers] = useState([])
+  const [traders, setTraders] = useState([])
 
   const config = {
     params: {
@@ -86,7 +88,7 @@ export function TrelloApi() {
     }
   }
 
-  const getBoardId = async () => {
+  const getBoardIds = async () => {
     try {
       const res = await axios.get(`${process.env.REACT_APP_TRELLO_GET_BOARDS}`, config)
       return res.data.map((board: { id: string }) => board.id)
@@ -95,22 +97,44 @@ export function TrelloApi() {
     }
   }
 
+  const getMembers = async () => {
+    try {
+      const boardsIds = await getBoardIds()
+      const allMembersArray = await Promise.all(
+        boardsIds.map(async (id: string) => {
+         const boardMembers = await axios.get(`${process.env.REACT_APP_TRELLO_URL}/boards/${id}/members`, config)
+        return boardMembers.data
+      }))
+      .then(res => {
+        const allMembers = [].concat(...res)
+        const ids = allMembers?.map((o: any) => o.id)
+        const uniqueArray = allMembers.filter(({id}, index) => !ids.includes(id, index + 1))
+        setMembers(uniqueArray)
+        // return uniqueArray
+      })
+    //  const allMembers = [].concat(...allMembersArray)
+    //  const ids = allMembers?.map((o: any) => o.id)
+    //  const uniqueArray = allMembers.filter(({id}, index) => !ids.includes(id, index + 1))
+    //  setMembers(uniqueArray)
+    //  return uniqueArray
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   const getAllCards = async (filter: string) => {
     try {
-      // const boardsId = await getBoardId()
-      // const allCards = await Promise.all(
-      //   boardsId.map(async (id: string) => {
-      //    const boardCards = await axios.get(`${process.env.REACT_APP_TRELLO_URL}/boards/${id}/cards/${filter}`, config)
-      //   setCards(boardCards.data)
-      //   })
-      // )
-      // return [].concat(...allCards)
-      await axios.get(`${process.env.REACT_APP_TRELLO_URL}/boards/63adfba73c9cc503e6215d7f/cards`, 
-      config
+      const boardsIds = await getBoardIds()
+      const allCards = await Promise.all(
+        boardsIds.map(async (id: string) => {
+         const boardCards = await axios.get(`${process.env.REACT_APP_TRELLO_URL}/boards/${id}/cards/${filter}`, config)
+        return boardCards.data
+        })
       )
       .then(res => { 
-        setCards(res.data);
-        console.log(res.data)
+        const allCards = [].concat(...res)
+        console.log(allCards)
+        setCards(allCards);
       })
     } catch (error) {
       console.error(error);
@@ -121,9 +145,11 @@ export function TrelloApi() {
 
   return { 
     addCardToTrello, 
-    getBoardId, 
+    getBoardIds, 
     getAllCards, 
     getBoards,
+    getMembers,
+    members,
     cards,
     trelloCardId,
     success, 
@@ -131,3 +157,12 @@ export function TrelloApi() {
     loading 
   }
 }
+
+
+        // const filterArray = (
+        //   members: string[]
+        // ) => members.filter((member: string) => res.data.includes(member));
+        // const name = res.data.filter((member: { id: any }) => member.id === id)[0].fullName
+        // console.log(filterArray(members))
+        // setMember(filterArray(members))
+        // return res.data

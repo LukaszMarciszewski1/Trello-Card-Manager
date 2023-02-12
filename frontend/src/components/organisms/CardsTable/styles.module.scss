@@ -47,16 +47,15 @@ thead th {
   }
 }
 
-tbody tr:hover {
-  background-color: darken($lightGrey, 10%);
-}
-
 tbody td {
   &:last-child {
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+  &:hover{
+    background-color: darken($lightGrey, 2%);
   }
 }
 

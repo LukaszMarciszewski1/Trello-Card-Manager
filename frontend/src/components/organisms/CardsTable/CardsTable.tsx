@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import styles from './styles.module.scss'
+import dayjs from "dayjs";
 import { useTable, Column, useSortBy, useGlobalFilter, useFilters, usePagination } from "react-table";
 import { Card } from "models/card";
 import Button from "components/common/Button/Button";
@@ -8,45 +9,62 @@ import { AiFillEdit } from "react-icons/ai";
 import { MdSkipPrevious, MdKeyboardArrowLeft, MdKeyboardArrowRight, MdSkipNext } from "react-icons/md";
 import Search from "./Search/Search";
 import Input from "components/common/Input/Input";
+import { useTrelloApi } from 'context/trelloContext';
 interface CardsTableProps {
   cards: Card[]
+  members: any
 }
 
-const CardsTable: React.FC<CardsTableProps> = ({ cards }) => {
+interface Member {
+  fullName: string
+  id: string
+  username: string
+}
+
+const CardsTable: React.FC<CardsTableProps> = ({ cards, members }) => {
+  const { getAllCards, getMembers, success, loading } = useTrelloApi()
+  // const [members, setMembers] = useState<Member[]>()
+
+  // useEffect(() => {
+  //   const fetchMembers = async () => {
+  //     await getMembers()
+  //       .then((res) => {
+  //         setMembers(res)
+  //       })
+  //   }
+  //   fetchMembers()
+  // }, [])
+  // console.log(members)
+  // console.log(cards)
+  // el()
+
+  const filterMembers = (rows: any) => {
+    if (members?.length) {
+      const filteredMembers = members?.filter((member: Member) => rows.includes(member.id));
+      if (filteredMembers.length > 1) {
+        return filteredMembers[1].fullName;
+      }
+      return filteredMembers[0]?.fullName;
+    }
+  };
+
   const data = React.useMemo<Card[]>(() => cards, [cards]);
-  const columns = React.useMemo<Column<Card>[]>(
+  const columns = React.useMemo<Column<any>[]>(
     () => [
       {
         Header: "Kontrachent",
-        accessor: "title",
+        accessor: "name",
       },
       {
         Header: "Zlecający",
-        accessor: "member",
+        accessor: (row: any) => filterMembers(row.idMembers),
       },
-      {
-        Header: "Dział",
-        accessor: 'department'
-      },
-      {
-        Header: "Data przyjęcia",
-        accessor: 'startDate'
-      },
-      {
+            {
         Header: "Data oddania",
-        accessor: 'endDate'
+        accessor: (row: any) => row.due ? dayjs(row.due).format('YYYY/MM/DD') : 'Nie wybrano', 
       },
-      {
-        Header: "Koszt zlecenia (zł)",
-        accessor: 'orderCost'
-      },
-      {
-        Header: "Wartość zlecenia (zł)",
-        accessor: 'orderPrice'
-      },
-
     ],
-    []
+    [cards, members]
   );
 
   const tableHooks = (hooks: { visibleColumns: ((columns: any) => any[])[]; }) => {
@@ -58,7 +76,7 @@ const CardsTable: React.FC<CardsTableProps> = ({ cards }) => {
         Cell: ({ row }: any) => (
           <Button
             type={"button"}
-            onClick={() => alert("Editing: " + row.values.price)}
+            onClick={() => console.log(row.original)}
             style={{ width: 36, margin: 0, backgroundColor: '#f0f0f0' }}
             icon={<AiFillEdit fontSize={16} />}
           />
@@ -181,3 +199,33 @@ const CardsTable: React.FC<CardsTableProps> = ({ cards }) => {
 }
 
 export default CardsTable;
+
+
+      // {
+      //   Header: "Kontrachent",
+      //   accessor: "title",
+      // },
+      // {
+      //   Header: "Zlecający",
+      //   accessor: "member",
+      // },
+      // {
+      //   Header: "Dział",
+      //   accessor: 'department'
+      // },
+      // {
+      //   Header: "Data przyjęcia",
+      //   accessor: 'startDate'
+      // },
+      // {
+      //   Header: "Data oddania",
+      //   accessor: 'endDate'
+      // },
+      // {
+      //   Header: "Koszt zlecenia (zł)",
+      //   accessor: 'orderCost'
+      // },
+      // {
+      //   Header: "Wartość zlecenia (zł)",
+      //   accessor: 'orderPrice'
+      // },
