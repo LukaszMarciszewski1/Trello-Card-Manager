@@ -1,6 +1,7 @@
 @import 'style/colors.scss';
 
 .tableContainer {
+  position: relative;
   margin-top: 1rem;
   width: 100%;
   // max-height: 700px;
@@ -10,7 +11,6 @@
 }
 
 table {
-  // height: 800px;
   width: 100%;
   // border-collapse: collapse;
   overflow: hidden;
@@ -20,17 +20,12 @@ table {
 
 th,
 td {
-  padding: 10px;
-  background-color: $lightGrey;
+  padding: 15px 10px;
+  background-color: darken($lightGrey, 1%);
   color: $matBlue;
 }
 
-.evenRow {
-  background-color: lighten($lightGrey, 1%);
-}
-
 thead th {
-  position: relative;
   text-align: left;
   background-color: $focusBg;
   &:last-child {
@@ -47,15 +42,20 @@ thead th {
   }
 }
 
+.evenRow {
+  background-color: lighten($lightGrey, 1%);
+}
+
 tbody td {
-  &:last-child {
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: relative;
+  &:last-child button{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
   }
   &:hover{
-    background-color: darken($lightGrey, 2%);
+    background-color: darken($lightGrey, 3%);
   }
 }
 
@@ -74,4 +74,11 @@ tbody td {
   input{
     margin-left: .5rem;
   }
+}
+
+.headerContainer{
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  margin: 2rem 0;
 }

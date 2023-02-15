@@ -1,54 +1,65 @@
 import React, { useEffect, useState } from 'react'
 import CardsTable from 'components/organisms/CardsTable/CardsTable'
-import axios from "axios";
-import dayjs from "dayjs";
-import { Card } from 'models/card';
-import { BsChevronDoubleLeft } from 'react-icons/bs';
 import { useTrelloApi } from 'context/trelloContext';
-import { useGetAllCardsQuery } from 'store/cards/cards';
-interface Member {
-  fullName: string
-  id: string
-  username: string
-}
+
+const filters = [
+  {
+    value :'all',
+    label: 'Wszystkie',
+  },
+  {
+    value :'visible',
+    label: 'Aktywne',
+  },
+  // {
+  //   value :'open',
+  //   label: 'Otwarte',
+  // },
+  {
+    value :'closed',
+    label: 'Zarchiwizowane',
+  }
+]
 
 const CardsList = () => {
-  dayjs.locale("pl");
-  const { getAllCards, getMembers, cards, members, success, loading } = useTrelloApi()
-  const { data, error, isLoading } = useGetAllCardsQuery()
-  // const [members, setMembers] = useState<Member[]>()
-  // const [cards, setCards] = useState<Card[] | any>()
+  const [selectedFilter, setSelectedFilter] = useState(filters[1].value);
+  
+  const { 
+    getAllCards, 
+    getMembers, 
+    getBoards,
+    getLists,
+    deleteCard,
+    cards,
+    members, 
+    boards, 
+    lists,
+
+  } = useTrelloApi()
 
   useEffect(() => {
-    getAllCards('visible')
+    getAllCards(selectedFilter)
     getMembers()
-  }, [])
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     await getAllCards('cards')
-  //       .then((res) => {
-  //         setCards(res)
-  //       })
-
-  //     await getMembers()
-  //       .then((res) => {
-  //         setMembers(res)
-  //       })
-  //   }
-  //   fetchData()
-  // }, [])
-// console.log(cards)
+    getBoards()
+    getLists('all')
+  }, [selectedFilter])
 
   return (
     <>
-    <CardsTable cards={cards} members={members}/>
-      {/* {error && <div>Wystąpił błąd serwera, nie można wyświetlić zawartości</div>}
-      {
-        isLoading ? <div>Loading...</div> : (
-          data !== undefined && <CardsTable cards={cards} members={members}/>
-        )
-      } */}
+    {
+      !cards.length ? <div>...Loading</div> : (
+        <CardsTable
+          cards={cards}
+          members={members}
+          boards={boards}
+          lists={lists}
+          filters={filters}
+          setFilter={setSelectedFilter}
+          selectedFilter={selectedFilter}
+          // deleteCard={() => console.log('delete')}
+        />
+      )
+    }
     </>
   )
 }

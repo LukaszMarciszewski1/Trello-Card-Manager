@@ -13,6 +13,7 @@ interface PopupProps extends PopupPosition {
   trigger: boolean
   title: string
   closePopup: () => void
+  style?: {};
   children: JSX.Element | JSX.Element[];
 }
 const Popup: React.FC<PopupProps> = ({
@@ -20,6 +21,7 @@ const Popup: React.FC<PopupProps> = ({
   trigger,
   title,
   closePopup,
+  style,
   ...props
 }) => {
   const refPopup = useRef(null)
@@ -30,7 +32,7 @@ const Popup: React.FC<PopupProps> = ({
       <div
         className={styles.popup}
         ref={refPopup}
-        style={{ ...props }}>
+        style={style}>
         <div className={styles.header}>
           <h4>{title}</h4>
           <Button

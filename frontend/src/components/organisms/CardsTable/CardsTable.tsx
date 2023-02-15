@@ -1,52 +1,117 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useCallback } from "react";
+import { traders } from "data/formData/index";
 import styles from './styles.module.scss'
 import dayjs from "dayjs";
-import { useTable, Column, useSortBy, useGlobalFilter, useFilters, usePagination } from "react-table";
+import { useTable, Column, useSortBy, useGlobalFilter, usePagination } from "react-table";
 import { Card } from "models/card";
 import Button from "components/common/Button/Button";
-import { AiFillEdit } from "react-icons/ai";
-import { MdSkipPrevious, MdKeyboardArrowLeft, MdKeyboardArrowRight, MdSkipNext } from "react-icons/md";
 import Search from "./Search/Search";
-import Input from "components/common/Input/Input";
 import { useTrelloApi } from 'context/trelloContext';
-interface CardsTableProps {
-  cards: Card[]
-  members: any
-}
+import Checkbox from "components/common/Checkbox/Checkbox";
+import Filter from "./Filter/Filter";
+import Popup from "components/common/Popup/Popup";
+import { AiFillEdit } from "react-icons/ai";
+import { 
+  MdSkipPrevious, 
+  MdKeyboardArrowLeft, 
+  MdKeyboardArrowRight, 
+  MdSkipNext, 
+  MdOutlineDeleteOutline 
+} from "react-icons/md";
 
 interface Member {
   fullName: string
   id: string
   username: string
 }
+interface Filter {
+  value: string
+  label: string
+}
+interface CardsTableProps {
+  cards: Card[]
+  members: Member[]
+  boards: any[]
+  lists: any[]
+  filters: Filter[]
+  selectedFilter: string
+  setFilter: (e: string) => void
+}
 
-const CardsTable: React.FC<CardsTableProps> = ({ cards, members }) => {
-  const { getAllCards, getMembers, success, loading } = useTrelloApi()
-  // const [members, setMembers] = useState<Member[]>()
+const CardsTable: React.FC<CardsTableProps> = ({
+  cards,
+  members,
+  boards,
+  lists,
+  filters,
+  selectedFilter,
+  setFilter,
+}) => {
+  const { getAllCards, deleteCard } = useTrelloApi()
 
-  // useEffect(() => {
-  //   const fetchMembers = async () => {
-  //     await getMembers()
-  //       .then((res) => {
-  //         setMembers(res)
-  //       })
-  //   }
-  //   fetchMembers()
-  // }, [])
-  // console.log(members)
-  // console.log(cards)
-  // el()
+  const [rowPopup, setRowPopup] = useState(false)
+  const [rowActions, setRowActions] = useState({
+    posY: 0,
+    posX: 0,
+    rowId: '',
+    rowUrl: ''
+  })
 
-  const filterMembers = (rows: any) => {
-    if (members?.length) {
-      const filteredMembers = members?.filter((member: Member) => rows.includes(member.id));
-      if (filteredMembers.length > 1) {
-        return filteredMembers[1].fullName;
-      }
-      return filteredMembers[0]?.fullName;
-    }
+  const compareArrays = (array1: { id: string; }[], array2: { id: string; }[]) => {
+    let result: any[] = [];
+    array1.map((obj1: { id: string; }) => {
+      array2.map((obj2: { id: string; }) => {
+        if (obj1.id === obj2.id) {
+          result.push(obj1);
+        }
+      });
+    });
+    return result;
   };
+
+  const filterMemberName = useCallback((rows: string[]) => {
+    if (members?.length) {
+      const filteredMembers = compareArrays(members, traders)
+      const tradersNames: Member[] = filteredMembers?.filter((member: { id: string; }) => (
+        rows.includes(member.id)
+      ));
+      if (tradersNames.length) {
+        return tradersNames[0].fullName
+      }
+    }
+  }, [members]);
+
+  const filterBoardName = useCallback((rows: any) => {
+    if (boards?.length) {
+      const filteredBoards: any[] = boards?.filter((board: any) => rows.includes(board.id));
+      return filteredBoards[0].name
+    }
+  }, [boards])
+
+  const filterListName = useCallback((rows: any) => {
+    if (lists?.length) {
+      const filteredLists: any[] = lists?.filter((list: any) => rows.includes(list.id));
+      return filteredLists[0].name
+    }
+  }, [lists])
+
+  const getDescriptionPrice = (text: any) => {
+    let value = text.match(/Wartość zlecenia: ([0-9]+.[0-9]+) zł/);
+    if (value) {
+      return Number(value[1])
+    }
+  }
+
+  const handleDeleteCard = async () => {
+    const result = window.confirm("Ta akcja spowoduje usunięcie karty z Trello, czy chcesz usunąć kartę?")
+    if (!result) return
+    await deleteCard(rowActions.rowId).then(async () => {
+      alert('Karta została usunięta z tablicy w Trello')
+      await getAllCards(selectedFilter)
+      setRowPopup(false)
+    })
+  }
 
   const data = React.useMemo<Card[]>(() => cards, [cards]);
   const columns = React.useMemo<Column<any>[]>(
@@ -56,15 +121,29 @@ const CardsTable: React.FC<CardsTableProps> = ({ cards, members }) => {
         accessor: "name",
       },
       {
-        Header: "Zlecający",
-        accessor: (row: any) => filterMembers(row.idMembers),
+        Header: "Dział",
+        accessor: (row: { idBoard: string }) => filterBoardName(row.idBoard),
       },
-            {
+      {
+        Header: "Zlecający",
+        accessor: (row: { idMembers: string[] }) => row.idMembers.length ? filterMemberName(row.idMembers) : 'Nie wybrano',
+      },
+      {
         Header: "Data oddania",
-        accessor: (row: any) => row.due ? dayjs(row.due).format('YYYY/MM/DD') : 'Nie wybrano', 
+        accessor: (row: { due: string }) => row.due ? dayjs(row.due).format('YYYY/MM/DD') : 'Nie wybrano',
+      },
+      {
+        Header: "Lista",
+        accessor: (row: { idList: string, closed: boolean }) => (
+          !row.closed ? filterListName(row.idList) : `Zarchiwizowana/${filterListName(row.idList)}`
+        ),
+      },
+      {
+        Header: "Wartość zl. (zł)",
+        accessor: (row: { desc: string }) => row.desc ? getDescriptionPrice(row.desc) : '',
       },
     ],
-    [cards, members]
+    [cards, members, boards, lists]
   );
 
   const tableHooks = (hooks: { visibleColumns: ((columns: any) => any[])[]; }) => {
@@ -76,8 +155,16 @@ const CardsTable: React.FC<CardsTableProps> = ({ cards, members }) => {
         Cell: ({ row }: any) => (
           <Button
             type={"button"}
-            onClick={() => console.log(row.original)}
-            style={{ width: 36, margin: 0, backgroundColor: '#f0f0f0' }}
+            onClick={(e) => {
+              setRowPopup(true)
+              setRowActions({
+                posY: e.clientY,
+                posX: e.clientX,
+                rowId: row.original.id,
+                rowUrl: row.original.url
+              })
+            }}
+            style={{ width: 36, margin: 0, opacity: 0.7 }}
             icon={<AiFillEdit fontSize={16} />}
           />
         ),
@@ -115,13 +202,36 @@ const CardsTable: React.FC<CardsTableProps> = ({ cards, members }) => {
   const isEven = (index: number) => index % 2 === 0
   const { pageIndex } = state
 
+
   return (
     <div className={styles.tableContainer}>
-      <Search
-        preGlobalFilteredRows={preGlobalFilteredRows}
-        setGlobalFilter={setGlobalFilter}
-        globalFilter={state.globalFilter}
-      />
+      <div className={styles.headerContainer}>
+        <>
+          <Search
+            preGlobalFilteredRows={preGlobalFilteredRows}
+            setGlobalFilter={setGlobalFilter}
+            globalFilter={state.globalFilter}
+          />
+        </>
+        <div style={{ display: 'flex' }}>
+          {filters.map((filter: { value: string; label: string }, index: number) => (
+            <Checkbox
+              key={index}
+              id={filter.value}
+              type={"radio"}
+              label={filter.label}
+              value={filter.value}
+              checked={selectedFilter === filter.value}
+              onChange={(e) => setFilter(e.target.value)}
+              style={{
+                width: 130,
+                height: 30,
+                margin: '0 0 0 12px'
+              }}
+            />
+          ))}
+        </div>
+      </div>
       <table {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (
@@ -194,38 +304,33 @@ const CardsTable: React.FC<CardsTableProps> = ({ cards, members }) => {
           style={{ width: 40, height: 30 }}
         />
       </div>
+      <Popup
+        title={'Akcje zlecenia'}
+        trigger={rowPopup}
+        closePopup={() => setRowPopup(false)}
+        style={{
+          padding: 10,
+          width: 300,
+          top: `calc(${rowActions.posY}px - 120px)`,
+          left: `calc(${rowActions.posX}px - 400px)`
+        }}
+      >
+        <a href={rowActions.rowUrl} target="_blank" rel="noopener noreferrer">
+          <Button
+            title={'Edytuj zlecenie w Trello'}
+            disabled={!canNextPage}
+            icon={<MdKeyboardArrowRight fontSize={'19px'} />}
+          />
+        </a>
+        <Button
+          title={'Usuń zlecenie'}
+          onClick={handleDeleteCard}
+          disabled={!canNextPage}
+          icon={<MdOutlineDeleteOutline fontSize={'19px'} />}
+        />
+      </Popup>
     </div>
   );
 }
 
 export default CardsTable;
-
-
-      // {
-      //   Header: "Kontrachent",
-      //   accessor: "title",
-      // },
-      // {
-      //   Header: "Zlecający",
-      //   accessor: "member",
-      // },
-      // {
-      //   Header: "Dział",
-      //   accessor: 'department'
-      // },
-      // {
-      //   Header: "Data przyjęcia",
-      //   accessor: 'startDate'
-      // },
-      // {
-      //   Header: "Data oddania",
-      //   accessor: 'endDate'
-      // },
-      // {
-      //   Header: "Koszt zlecenia (zł)",
-      //   accessor: 'orderCost'
-      // },
-      // {
-      //   Header: "Wartość zlecenia (zł)",
-      //   accessor: 'orderPrice'
-      // },

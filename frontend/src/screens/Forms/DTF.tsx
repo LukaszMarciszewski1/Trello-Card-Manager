@@ -45,7 +45,7 @@ const defaultSectionValues = {
 
 const DTFForm: React.FC = () => {
   dayjs.locale("pl");
-  const [createCardApi] = useCreateCardMutation()
+  // const [createCardApi] = useCreateCardMutation()
   const { addCardToTrello, trelloCardId, success, error, loading } = useTrelloApi()
 
   const {
@@ -118,27 +118,27 @@ const DTFForm: React.FC = () => {
     const listId = process.env.REACT_APP_TRELLO_DTF_LIST
     if (data && listId) {
       addCardToTrello(data, listId)
-      setDataForm(data)
+      // setDataForm(data)
       setSubmitMessage(true)
     }
   }
 
-  useEffect(() => {
-    if(dataForm && success) {
-      const member = searchNameById(traders, dataForm?.member)
-      createCardApi({
-        ...dataForm,
-        member,
-        trelloCardId
-      })
-    }
-  }, [dataForm, success])
+  // useEffect(() => {
+  //   if(dataForm && success) {
+  //     const member = searchNameById(traders, dataForm?.member)
+  //     createCardApi({
+  //       ...dataForm,
+  //       member,
+  //       trelloCardId
+  //     })
+  //   }
+  // }, [dataForm, success])
 
   const closeModal = () => {
-    // reset()
-    if(success){
-      setDataForm(null)
-    }
+    reset()
+    // if(success){
+    //   setDataForm(null)
+    // }
     setSubmitMessage(false)
   }
 
