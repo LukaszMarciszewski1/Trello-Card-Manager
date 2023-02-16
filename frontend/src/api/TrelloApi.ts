@@ -99,6 +99,7 @@ export function TrelloApi() {
     }
   }
 
+
   const getLists = async (filter: string) => {
     try {
       const boards = await getBoards()
@@ -142,10 +143,6 @@ export function TrelloApi() {
         }
         setMembers(filterUniqueArray())
       })
-    } catch (error) {
-      console.error(error);
-    }
-  }
 
   const getAllCards = async (filter: string) => {
     try {
@@ -169,7 +166,7 @@ export function TrelloApi() {
       console.error(error);
     }
   }
-
+  
   return { 
     addCardToTrello, 
     getAllCards, 
@@ -187,3 +184,4 @@ export function TrelloApi() {
     loading 
   }
 }
+

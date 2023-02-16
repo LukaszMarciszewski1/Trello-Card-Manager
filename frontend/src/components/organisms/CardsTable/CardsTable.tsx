@@ -202,7 +202,6 @@ const CardsTable: React.FC<CardsTableProps> = ({
   const isEven = (index: number) => index % 2 === 0
   const { pageIndex } = state
 
-
   return (
     <div className={styles.tableContainer}>
       <div className={styles.headerContainer}>
