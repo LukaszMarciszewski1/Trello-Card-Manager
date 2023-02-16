@@ -97,7 +97,8 @@ const CardsTable: React.FC<CardsTableProps> = ({
   }, [lists])
 
   const getDescriptionPrice = (text: any) => {
-    let value = text.match(/Wartość zlecenia: ([0-9]+.[0-9]+) zł/);
+    // let value = text.match(/Wartość zlecenia: ([0-9]+.[0-9]+) zł/);
+    let value = text.match(/Wartość zlecenia: (.+?) zł/);
     if (value) {
       return Number(value[1])
     }
@@ -317,14 +318,12 @@ const CardsTable: React.FC<CardsTableProps> = ({
         <a href={rowActions.rowUrl} target="_blank" rel="noopener noreferrer">
           <Button
             title={'Edytuj zlecenie w Trello'}
-            disabled={!canNextPage}
             icon={<MdKeyboardArrowRight fontSize={'19px'} />}
           />
         </a>
         <Button
           title={'Usuń zlecenie'}
           onClick={handleDeleteCard}
-          disabled={!canNextPage}
           icon={<MdOutlineDeleteOutline fontSize={'19px'} />}
         />
       </Popup>
