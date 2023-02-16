@@ -62,6 +62,7 @@ const initialFormData = (data: Card, listId: string) => {
   formData.append('due', endDate)
   formData.append('idMembers', `${member},${recipient}`)
   formData.append('customFieldItems', `${orderPrice}`)
+  formData.append('pos', 'top')
   return formData
 }
 

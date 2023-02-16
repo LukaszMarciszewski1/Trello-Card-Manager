@@ -10,6 +10,8 @@ export function TrelloApi() {
   const [cards, setCards] = useState([])
   const [boards, setBoards] = useState([])
   const [trelloCardId, setTrelloCardId] = useState<string>('')
+  const [members, setMembers] = useState([])
+  const [lists, setLists] = useState([])
 
   const config = {
     params: {
@@ -70,7 +72,6 @@ export function TrelloApi() {
 
       setLoading(false)
       setSuccess(true)
-      setTrelloCardId(res.data.id)
 
     } catch (err) {
       setError(true)
@@ -78,56 +79,109 @@ export function TrelloApi() {
     }
   };
 
+  const deleteCard = async (id: string) => {
+    try {
+      await axios.delete(`${process.env.REACT_APP_TRELLO_URL}/cards/${id}`, config)
+      setSuccess(true)
+    } catch (error) {
+      console.error(error);
+      setError(true)
+    }
+  }
+
   const getBoards = async () => {
     try {
-      const boards = await axios.get(`${process.env.REACT_APP_TRELLO_GET_BOARDS}`, config)
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  const getBoardId = async () => {
-    try {
       const res = await axios.get(`${process.env.REACT_APP_TRELLO_GET_BOARDS}`, config)
-      return res.data.map((board: { id: string }) => board.id)
+      setBoards(res.data)
+      return res.data
     } catch (error) {
       console.error(error);
     }
   }
 
-  const getAllCards = async (filter: string) => {
+
+  const getLists = async (filter: string) => {
     try {
-      // const boardsId = await getBoardId()
-      // const allCards = await Promise.all(
-      //   boardsId.map(async (id: string) => {
-      //    const boardCards = await axios.get(`${process.env.REACT_APP_TRELLO_URL}/boards/${id}/cards/${filter}`, config)
-      //   setCards(boardCards.data)
-      //   })
-      // )
-      // return [].concat(...allCards)
-      await axios.get(`${process.env.REACT_APP_TRELLO_URL}/boards/63adfba73c9cc503e6215d7f/cards`, 
-      config
-      )
-      .then(res => { 
-        setCards(res.data);
-        console.log(res.data)
+      const boards = await getBoards()
+      const allLists = await Promise.all(
+        boards
+          .map((board: { id: string }) => board.id)
+          .map(async (id: string) => {
+            const boardList = await axios.get(
+              `${process.env.REACT_APP_TRELLO_URL}/boards/${id}/lists/${filter}`, 
+              config
+            )
+        return boardList.data
+      }))
+      .then(res => {
+        const lists = [].concat(...res)
+        setLists(lists)
       })
     } catch (error) {
       console.error(error);
     }
   }
-  //63adfba73c9cc503e6215d7f
-  //https://api.trello.com/1/boards/{id}/cards/visible
 
+  const getMembers = async () => {
+    try {
+      const boards = await getBoards()
+      const allMembers = await Promise.all(
+        boards
+          .map((board: { id: string }) => board.id)
+          .map(async (id: string) => {
+            const boardMembers = await axios.get(
+              `${process.env.REACT_APP_TRELLO_URL}/boards/${id}/members`, 
+              config
+            )
+        return boardMembers.data
+      }))
+      .then(res => {
+        const filterUniqueArray = () => {
+          const allMembers = [].concat(...res)
+          const ids = allMembers?.map((o: any) => o.id)
+          return allMembers.filter(({id}, index) => !ids.includes(id, index + 1))
+        }
+        setMembers(filterUniqueArray())
+      })
+
+  const getAllCards = async (filter: string) => {
+    try {
+      const boards = await getBoards()
+      const allCards = await Promise.all(
+        boards
+         .map((board: { id: string }) => board.id)
+         .map(async (id: string) => {
+           const boardCards = await axios.get(
+            `${process.env.REACT_APP_TRELLO_URL}/boards/${id}/cards/${filter}`, 
+            config
+          )
+           return boardCards.data
+        })
+      )
+      .then(res => { 
+        const allCards = [].concat(...res)
+        setCards(allCards);
+      })
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  
   return { 
     addCardToTrello, 
-    getBoardId, 
     getAllCards, 
+    getMembers,
+    getLists,
     getBoards,
+    deleteCard,
     cards,
+    members,
+    lists,
+    boards,
     trelloCardId,
     success, 
     error, 
     loading 
   }
 }
+

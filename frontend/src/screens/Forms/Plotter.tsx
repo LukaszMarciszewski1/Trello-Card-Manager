@@ -126,7 +126,6 @@ const PlotterForm: React.FC = () => {
     const listId = process.env.REACT_APP_TRELLO_PLOTTER_LIST
     setWatchMaterialsForm(true)
     if (data && listId && validMaterialsForm) {
-      console.log(data)
       addCardToTrello(data, listId);
       setSubmitMessage(true)
     }

@@ -3,14 +3,16 @@ import styles from "./styles.module.scss";
 
 interface ButtonProps {
   title?: string;
-  onClick?: () => void;
+  onClick?: (e: any) => void;
   style?: {};
   icon?: JSX.Element
-  type: "button" | "submit" | "reset" | undefined
+  type?: "button" | "submit" | "reset" | undefined
   disabled?: any
+  ref?: any
+  
 }
 
-const Button: React.FC<ButtonProps> = ({ title, onClick, style, icon, type, disabled }) => {
+const Button: React.FC<ButtonProps> = ({ title, onClick, style, icon, type='button', disabled, ref }) => {
   return (
     <button
       onClick={onClick}

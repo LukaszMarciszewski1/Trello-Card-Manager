@@ -1,29 +1,65 @@
 import React, { useEffect, useState } from 'react'
 import CardsTable from 'components/organisms/CardsTable/CardsTable'
-import axios from "axios";
-import dayjs from "dayjs";
-import { Card } from 'models/card';
-import { BsChevronDoubleLeft } from 'react-icons/bs';
 import { useTrelloApi } from 'context/trelloContext';
-import { useGetAllCardsQuery } from 'store/cards/cards';
+
+const filters = [
+  {
+    value :'all',
+    label: 'Wszystkie',
+  },
+  {
+    value :'visible',
+    label: 'Aktywne',
+  },
+  // {
+  //   value :'open',
+  //   label: 'Otwarte',
+  // },
+  {
+    value :'closed',
+    label: 'Zarchiwizowane',
+  }
+]
 
 const CardsList = () => {
-  dayjs.locale("pl");
-  const { getAllCards, success, loading, cards } = useTrelloApi()
-  const { data, error, isLoading } = useGetAllCardsQuery()
+  const [selectedFilter, setSelectedFilter] = useState(filters[1].value);
+  
+  const { 
+    getAllCards, 
+    getMembers, 
+    getBoards,
+    getLists,
+    deleteCard,
+    cards,
+    members, 
+    boards, 
+    lists,
+
+  } = useTrelloApi()
 
   useEffect(() => {
-    getAllCards('cards')
-  }, [])
+    getAllCards(selectedFilter)
+    getMembers()
+    getBoards()
+    getLists('all')
+  }, [selectedFilter])
 
   return (
     <>
-      {error && <div>Wystąpił błąd serwera, nie można wyświetlić zawartości</div>}
-      {
-        isLoading ? <div>Loading...</div> : (
-          data !== undefined && <CardsTable cards={data} />
-        )
-      }
+    {
+      !cards.length ? <div>...Loading</div> : (
+        <CardsTable
+          cards={cards}
+          members={members}
+          boards={boards}
+          lists={lists}
+          filters={filters}
+          setFilter={setSelectedFilter}
+          selectedFilter={selectedFilter}
+          // deleteCard={() => console.log('delete')}
+        />
+      )
+    }
     </>
   )
 }
