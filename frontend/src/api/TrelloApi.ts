@@ -143,6 +143,11 @@ export function TrelloApi() {
         }
         setMembers(filterUniqueArray())
       })
+    } catch (error) {
+      console.error(error);
+    }
+  }
+    
 
   const getAllCards = async (filter: string) => {
     try {
@@ -184,4 +189,3 @@ export function TrelloApi() {
     loading 
   }
 }
-
