@@ -1,20 +1,21 @@
 import React from 'react'
 import Tabs from 'components/organisms/Tabs/Tabs'
 import TabsContent from 'components/organisms/Tabs/TabsContent/TabsContent'
-import Plotter from 'screens/Forms/Plotter'
-import Embroidery from 'screens/Forms/Embroidery'
-import DTF from 'screens/Forms/DTF'
+import Plotter from 'components/organisms/Forms/Plotter'
+import Embroidery from 'components/organisms/Forms/Embroidery'
+import DTF from 'components/organisms/Forms/DTF'
+import * as constants from 'constants/index';
 
 const TaskForms: React.FC = () => {
   return (
     <Tabs subcategory>
-      <TabsContent title="Ploterownia">
+      <TabsContent title={constants.PLOTTER}>
         <Plotter />
       </TabsContent>
-      <TabsContent title="Hafciarnia">
+      <TabsContent title={constants.EMBROIDERY}>
         <Embroidery />
       </TabsContent>
-      <TabsContent title="DTF">
+      <TabsContent title={constants.DTF}>
         <DTF />
       </TabsContent>
     </Tabs>
