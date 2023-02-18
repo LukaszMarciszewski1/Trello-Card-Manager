@@ -10,12 +10,12 @@ import { useTrelloApi } from 'hooks/useTrelloApi';
 import Checkbox from "components/common/Checkbox/Checkbox";
 import Popup from "components/common/Popup/Popup";
 import { AiFillEdit } from "react-icons/ai";
-import { 
-  MdSkipPrevious, 
-  MdKeyboardArrowLeft, 
-  MdKeyboardArrowRight, 
-  MdSkipNext, 
-  MdOutlineDeleteOutline 
+import {
+  MdSkipPrevious,
+  MdKeyboardArrowLeft,
+  MdKeyboardArrowRight,
+  MdSkipNext,
+  MdOutlineDeleteOutline
 } from "react-icons/md";
 
 interface Member {
@@ -82,14 +82,14 @@ const CardsTable: React.FC<CardsTableProps> = ({
 
   const filterBoardName = useCallback((row: string) => {
     if (boards?.length) {
-      const filteredBoards: any[] = boards?.filter((board: {id: string}) => row.includes(board.id));
+      const filteredBoards: any[] = boards?.filter((board: { id: string }) => row.includes(board.id));
       return filteredBoards[0].name
     }
   }, [boards])
 
   const filterListName = useCallback((row: string) => {
     if (lists?.length) {
-      const filteredLists: any[] = lists?.filter((list: {id: string}) => row.includes(list.id));
+      const filteredLists: any[] = lists?.filter((list: { id: string }) => row.includes(list.id));
       return filteredLists[0].name
     }
   }, [lists])
@@ -200,14 +200,12 @@ const CardsTable: React.FC<CardsTableProps> = ({
   return (
     <div className={styles.tableContainer}>
       <div className={styles.headerContainer}>
-        <>
-          <Search
-            preGlobalFilteredRows={preGlobalFilteredRows}
-            setGlobalFilter={setGlobalFilter}
-            globalFilter={state.globalFilter}
-          />
-        </>
-        <div style={{ display: 'flex' }}>
+        <Search
+          preGlobalFilteredRows={preGlobalFilteredRows}
+          setGlobalFilter={setGlobalFilter}
+          globalFilter={state.globalFilter}
+        />
+        <div style={{ display: 'flex', marginTop: 10 }}>
           {filters.map((filter: { value: string; label: string }, index: number) => (
             <Checkbox
               key={index}
