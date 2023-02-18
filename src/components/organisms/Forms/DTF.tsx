@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
-import dayjs from "dayjs";
+// import dayjs from "dayjs";
 
 import * as constants from 'constants/index';
 import { traders, fabric, departments } from "data/formData/index";
@@ -42,8 +42,7 @@ const defaultSectionValues = {
 };
 
 const DTFForm: React.FC = () => {
-  dayjs.locale("pl");
-  // const [createCardApi] = useCreateCardMutation()
+  // dayjs.locale("pl");
   const { addCard, success, error, loading } = useTrelloApi()
 
   const {
@@ -67,7 +66,6 @@ const DTFForm: React.FC = () => {
     control,
   });
 
-  const [dataForm, setDataForm] = useState<Card | null>(null)
   const watchForChangesInSectionForms = watch('description');
   const [sectionForms, setSectionForms] = useState<CardDescription[]>([])
   const [watchCustomPrice, setWatchCustomPrice] = useState('')
