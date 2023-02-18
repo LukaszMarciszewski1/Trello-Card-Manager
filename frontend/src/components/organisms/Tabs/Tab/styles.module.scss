@@ -44,17 +44,17 @@
   min-width: 200px;
   padding: 0.8rem 0;
   background-color: $lightGrey;
-  color: $matBlue;
+  color: $secondary-graphite;
   border-radius: 0.5rem;
-  border: 1px solid $lightBlue;
+  border: 1px solid $primary-gray;
   opacity: 1;
   &.active {
     background-color: darken($focusBg, 3%);
-    color: $matBlue;
+    color: $secondary-graphite;
   }
   &:hover{
     background-color: darken($focusBg, 3%);
-    color: $matBlue; 
+    color: $secondary-graphite; 
   }
   font: {
     size: 1rem;

@@ -1,11 +1,12 @@
+@import './colors.scss';
+
 *,
 *::after,
 *::before {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  color: #67788a;
-  color: #43505e;
+  color: $primary-graphite;
 
 }
 

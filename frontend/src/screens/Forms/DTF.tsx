@@ -44,7 +44,7 @@ const defaultSectionValues = {
 const DTFForm: React.FC = () => {
   dayjs.locale("pl");
   // const [createCardApi] = useCreateCardMutation()
-  const { addCardToTrello, success, error, loading } = useTrelloApi()
+  const { addCard, success, error, loading } = useTrelloApi()
 
   const {
     register,
@@ -115,7 +115,7 @@ const DTFForm: React.FC = () => {
   const handleSubmitForm = async (data: Card) => {
     const listId = process.env.REACT_APP_TRELLO_DTF_LIST
     if (data && listId) {
-      addCardToTrello(data, listId)
+      addCard(data, listId)
       // setDataForm(data)
       setSubmitMessage(true)
     }

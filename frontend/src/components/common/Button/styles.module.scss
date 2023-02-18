@@ -7,13 +7,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: $lightBlue;
+  background-color: $primary-gray;
   margin: 1rem 0;
   opacity: 0.9;
   border-radius: 6px;
   transition: 0.2s;
   &:hover {
-    background-color: darken($lightBlue, 5%);
+    background-color: darken($primary-gray, 5%);
   }
   &:disabled{
     background-color: rgb(230, 230, 230);
@@ -21,12 +21,12 @@
 }
 
 .button[type='submit'] {
-  background-color: lighten($blue, 6%);
+  background-color: $primary-blue;
   color: white;
   transition: 0.2s;
   font-size: 1.2rem;
   &:hover {
-    background-color: darken($blue, 3%);
+    background-color: $secondary-blue;
     -webkit-box-shadow: 0px 1px 11px -2px rgba(37, 101, 198, 0.4);
     -moz-box-shadow: 0px 1px 11px -2px rgba(37, 101, 198, 0.4);
     box-shadow: 0px 1px 11px -2px rgba(37, 101, 198, 0.4);

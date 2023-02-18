@@ -1,65 +1,60 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import CardsTable from 'components/organisms/CardsTable/CardsTable'
 import { useTrelloApi } from 'hooks/useTrelloApi';
+import Loading from 'components/common/Loading/Loading';
 
 const filters = [
   {
-    value :'all',
+    value: 'all',
     label: 'Wszystkie',
   },
   {
-    value :'visible',
+    value: 'open',
     label: 'Aktywne',
   },
-  // {
-  //   value :'open',
-  //   label: 'Otwarte',
-  // },
   {
-    value :'closed',
+    value: 'closed',
     label: 'Zarchiwizowane',
   }
 ]
 
 const CardsList = () => {
   const [selectedFilter, setSelectedFilter] = useState(filters[1].value);
-  
-  const { 
-    getAllCards, 
-    getMembers, 
+
+  const {
+    getCards,
+    getMembers,
     getBoards,
     getLists,
-    deleteCard,
     cards,
-    members, 
-    boards, 
+    members,
+    boards,
     lists,
 
   } = useTrelloApi()
 
   useEffect(() => {
-    getAllCards(selectedFilter)
+    getCards(selectedFilter)
     getMembers()
     getBoards()
-    getLists('all')
+    getLists(filters[0].value)
   }, [selectedFilter])
 
   return (
     <>
-    {
-      !cards.length ? <div>...Loading</div> : (
-        <CardsTable
-          cards={cards}
-          members={members}
-          boards={boards}
-          lists={lists}
-          filters={filters}
-          setFilter={setSelectedFilter}
-          selectedFilter={selectedFilter}
-          // deleteCard={() => console.log('delete')}
-        />
-      )
-    }
+      {
+        !cards.length ? <Loading size={70} /> : (
+          <CardsTable
+            cards={cards}
+            members={members}
+            boards={boards}
+            lists={lists}
+            filters={filters}
+            setFilter={setSelectedFilter}
+            selectedFilter={selectedFilter}
+          />
+        )
+      }
     </>
   )
 }

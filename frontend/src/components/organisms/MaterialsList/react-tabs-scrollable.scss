@@ -69,15 +69,15 @@
   cursor: pointer;
   background-color: transparent;
   border-radius: 40px;
-  border: 1px solid $matBlue;
+  border: 1px solid $secondary-graphite;
   transition: 0.2s all linear;
 }
 .rts___btn:hover {
-  background-color: $primary-gray;
+  background-color: $secondary-gray;
 }
 .rts___tab___selected {
-  background-color: $primary-gray;
-  color: $matBlue;
+  background-color: $secondary-gray;
+  color: $secondary-graphite;
   // box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 .rts___nav___btn {
@@ -89,7 +89,7 @@
   align-items: center;
 }
 .rts___nav___btn:hover {
-  background-color: $primary-gray;
+  background-color: $secondary-gray;
   transition: 0.3s all;
 }
 @media (max-width: 767.98px) {

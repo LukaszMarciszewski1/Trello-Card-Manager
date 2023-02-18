@@ -16,13 +16,3 @@ export const TrelloProvider: React.FC<TrelloProviderProps> = ({ children }) => {
     </TrelloApiContext.Provider>
   )
 }
-
-// export const useTrelloApi = () => {
-//   const trello = useContext(TrelloApiContext)
-
-//   if (!trello) {
-//     throw new Error('TrelloFormContext needs to be used inside TrelloContext')
-//   }
-
-//   return trello
-// }

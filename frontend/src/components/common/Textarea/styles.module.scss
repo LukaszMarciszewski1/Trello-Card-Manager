@@ -12,11 +12,11 @@
     resize: none;
     padding: 0.5rem;
     border-radius: 0.5rem;
-    border: 1px solid $matBlue;
+    border: 1px solid $secondary-graphite;
     background-color: $inputBg;
     &:focus {
       outline: none;
-      border: 1px solid $blue;
+      border: 1px solid $primary-blue;
       background-color: $focusBg;
     }
   }

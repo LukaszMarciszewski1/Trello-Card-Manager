@@ -51,7 +51,7 @@ const defaultSectionValues = {
 
 const PlotterForm: React.FC = () => {
   dayjs.locale("pl");
-  const { addCardToTrello, success, error, loading } = useTrelloApi()
+  const { addCard, success, error, loading } = useTrelloApi()
 
   const {
     register,
@@ -126,7 +126,7 @@ const PlotterForm: React.FC = () => {
     const listId = process.env.REACT_APP_TRELLO_PLOTTER_LIST
     setWatchMaterialsForm(true)
     if (data && listId && validMaterialsForm) {
-      addCardToTrello(data, listId);
+      addCard(data, listId);
       setSubmitMessage(true)
     }
   }

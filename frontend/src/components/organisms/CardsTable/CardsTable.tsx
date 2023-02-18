@@ -46,7 +46,7 @@ const CardsTable: React.FC<CardsTableProps> = ({
   selectedFilter,
   setFilter,
 }) => {
-  const { getAllCards, deleteCard } = useTrelloApi()
+  const { getCards, deleteCard } = useTrelloApi()
 
   const [rowPopup, setRowPopup] = useState(false)
   const [rowActions, setRowActions] = useState({
@@ -106,7 +106,7 @@ const CardsTable: React.FC<CardsTableProps> = ({
     if (!result) return
     await deleteCard(rowActions.rowId).then(async () => {
       alert('Karta została usunięta z tablicy w Trello')
-      await getAllCards(selectedFilter)
+      await getCards(selectedFilter)
       setRowPopup(false)
     })
   }

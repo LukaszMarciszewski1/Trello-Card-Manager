@@ -1,21 +1,30 @@
 import { useState } from 'react'
 import axios from 'axios'
-import { Card } from 'models/card'
+import { Card, CardDescription } from 'models/card'
 import { cardFormData } from './cardFormData/cardFormData'
 
 export function TrelloApi() {
-  const [error, setError] = useState(false)
-  const [success, setSuccess] = useState(false)
-  const [loading, setLoading] = useState(false)
+  const [status, setStatus] = useState({
+    loading: false,
+    success: false,
+    error: false,
+  })
   const [cards, setCards] = useState([])
   const [boards, setBoards] = useState([])
   const [members, setMembers] = useState([])
   const [lists, setLists] = useState([])
+  
+  const { 
+    REACT_APP_TRELLO_KEY, 
+    REACT_APP_TRELLO_TOKEN, 
+    REACT_APP_TRELLO_URL, 
+    REACT_APP_TRELLO_GET_BOARDS 
+  } = process.env;
 
   const config = {
     params: {
-      key: process.env.REACT_APP_TRELLO_KEY,
-      token: process.env.REACT_APP_TRELLO_TOKEN,
+      key: REACT_APP_TRELLO_KEY,
+      token: REACT_APP_TRELLO_TOKEN,
     },
     headers: {
       Accept: 'application/json',
@@ -23,43 +32,35 @@ export function TrelloApi() {
     },
   }
 
-  const addCardToTrello = async (data: Card, listId: string) => {
+  const addCard = async (data: Card, listId: string) => {
     const formInitialDataCard = cardFormData.initialFormData(data, listId)
     const formChecklistDataCard = cardFormData.checklistFormData()
+    setStatus({...status, loading: true})
 
-    setLoading(true)
-    setSuccess(false)
-    setError(false)
-    
     try {
       const res = await axios.post(
-        `${process.env.REACT_APP_TRELLO_URL}/cards`,
+        `${REACT_APP_TRELLO_URL}/cards`,
         formInitialDataCard,
         config
       )
       
       await Promise.all(
-        [...data.attachment]?.map(async (file) => {
-          const formFileDataCard = cardFormData.fileFormData(file)
-          console.log(data)
-          await axios.post(
-            `${process.env.REACT_APP_TRELLO_URL}/cards/${res.data.id}/attachments`,
-            formFileDataCard,
-            config
-          )
+        [...data.attachment]?.map(async (file: File) => {
+          const formFileDataCard = cardFormData.fileFormData(file);
+          await axios.post(`${REACT_APP_TRELLO_URL}/cards/${res.data.id}/attachments`, formFileDataCard, config);
         })
-      )
+      );
 
       const checklistRes = await axios.post(
-        `${process.env.REACT_APP_TRELLO_URL}/cards/${res.data.id}/checklists`,
+        `${REACT_APP_TRELLO_URL}/cards/${res.data.id}/checklists`,
         formChecklistDataCard,
         config
       )
 
       await Promise.all(
-        data?.description?.map(async (desc) => {
+        data?.description?.map(async (desc: CardDescription) => {
           await axios.post(
-            `${process.env.REACT_APP_TRELLO_URL}/checklists/${checklistRes.data.id}/checkItems`,
+            `${REACT_APP_TRELLO_URL}/checklists/${checklistRes.data.id}/checkItems`,
             {
               name: desc.logo,
               checked: false,
@@ -68,29 +69,26 @@ export function TrelloApi() {
           )
         })
       )
-
-      setLoading(false)
-      setSuccess(true)
+      setStatus({...status, success: true, loading: false})
 
     } catch (err) {
-      setError(true)
+      setStatus({...status, error: true})
       console.error(err)
     }
   };
 
   const deleteCard = async (id: string) => {
     try {
-      await axios.delete(`${process.env.REACT_APP_TRELLO_URL}/cards/${id}`, config)
-      setSuccess(true)
+      await axios.delete(`${REACT_APP_TRELLO_URL}/cards/${id}`, config)
+      setStatus({...status, success: true})
     } catch (error) {
       console.error(error);
-      setError(true)
     }
   }
 
   const getBoards = async () => {
     try {
-      const res = await axios.get(`${process.env.REACT_APP_TRELLO_GET_BOARDS}`, config)
+      const res = await axios.get(`${REACT_APP_TRELLO_GET_BOARDS}`, config)
       setBoards(res.data)
       return res.data
     } catch (error) {
@@ -98,16 +96,38 @@ export function TrelloApi() {
     }
   }
 
+  const getCards = async (filter: string) => {
+    try {
+      const boards = await getBoards()
+      await Promise.all(
+        boards
+         .map((board: { id: string }) => board.id)
+         .map(async (id: string) => {
+           const boardCards = await axios.get(
+            `${REACT_APP_TRELLO_URL}/boards/${id}/cards/${filter}`, 
+            config
+          )
+           return boardCards.data
+        })
+      )
+      .then(res => { 
+        const allCards = [].concat(...res)
+        setCards(allCards);
+      })
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   const getLists = async (filter: string) => {
     try {
       const boards = await getBoards()
-      const allLists = await Promise.all(
+      await Promise.all(
         boards
           .map((board: { id: string }) => board.id)
           .map(async (id: string) => {
             const boardList = await axios.get(
-              `${process.env.REACT_APP_TRELLO_URL}/boards/${id}/lists/${filter}`, 
+              `${REACT_APP_TRELLO_URL}/boards/${id}/lists/${filter}`, 
               config
             )
         return boardList.data
@@ -124,12 +144,12 @@ export function TrelloApi() {
   const getMembers = async () => {
     try {
       const boards = await getBoards()
-      const allMembers = await Promise.all(
+      await Promise.all(
         boards
           .map((board: { id: string }) => board.id)
           .map(async (id: string) => {
             const boardMembers = await axios.get(
-              `${process.env.REACT_APP_TRELLO_URL}/boards/${id}/members`, 
+              `${REACT_APP_TRELLO_URL}/boards/${id}/members`, 
               config
             )
         return boardMembers.data
@@ -146,34 +166,12 @@ export function TrelloApi() {
       console.error(error);
     }
   }
-    
 
-  const getAllCards = async (filter: string) => {
-    try {
-      const boards = await getBoards()
-      const allCards = await Promise.all(
-        boards
-         .map((board: { id: string }) => board.id)
-         .map(async (id: string) => {
-           const boardCards = await axios.get(
-            `${process.env.REACT_APP_TRELLO_URL}/boards/${id}/cards/${filter}`, 
-            config
-          )
-           return boardCards.data
-        })
-      )
-      .then(res => { 
-        const allCards = [].concat(...res)
-        setCards(allCards);
-      })
-    } catch (error) {
-      console.error(error);
-    }
-  }
-  
+  const { success, error, loading } = status
+
   return { 
-    addCardToTrello, 
-    getAllCards, 
+    addCard, 
+    getCards, 
     getMembers,
     getLists,
     getBoards,

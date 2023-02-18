@@ -43,7 +43,7 @@ const defaultSectionValues = {
 
 const EmbroideryForm: React.FC = () => {
   dayjs.locale("pl");
-  const { addCardToTrello, success, error, loading } = useTrelloApi()
+  const { addCard, success, error, loading } = useTrelloApi()
 
   const {
     register,
@@ -123,7 +123,7 @@ const EmbroideryForm: React.FC = () => {
   const handleSubmitForm = (data: Card) => {
     const listId = process.env.REACT_APP_TRELLO_EMBROIDERY_LIST
     if (data && listId) {
-      addCardToTrello(data, listId)
+      addCard(data, listId)
       setSubmitMessage(true)
     }
   }

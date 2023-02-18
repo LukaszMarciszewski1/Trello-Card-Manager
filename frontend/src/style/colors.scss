@@ -1,15 +1,13 @@
 $layoutBg: #fdfdfd;
 
-$blue: #0d6192;
-$lightBlue: #62b0de;
-$matBlue: #67788a;
-$lightBlue: #d5d7e1;
-$lightBlue: #d3d5df;
+$lightGrey: darken($layoutBg, 1%);
+$inputBg: #f9fafb;
 $focusBg: #f4f5fa;
 
-$lightGrey: darken($layoutBg, 1%);
-$inputBg: #fbfbfb;
-$inputBg: #f9fafb;
+$primary-blue: #0d6192;
+$secondary-blue: #4698c8;
+$primary-graphite: #43505e;
+$secondary-graphite: #67788a;
 
-$primary-gray: darken($focusBg, 9%);
-$secondary-gray: darken($focusBg, 2%);
+$primary-gray: #d3d5df;
+$secondary-gray: darken($focusBg, 9%);
