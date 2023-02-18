@@ -1,0 +1,14 @@
+@import 'style/mixins.scss';
+
+.container {
+  position: relative;
+  width: 100%;
+  margin-right: 10px;
+  label {
+    @include label
+  }
+  select {
+    @include select;
+  }
+}
+
