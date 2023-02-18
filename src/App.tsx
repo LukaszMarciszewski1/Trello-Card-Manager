@@ -5,8 +5,8 @@ import { Provider } from "react-redux";
 import { store } from 'store/index'
 import Tabs from "components/organisms//Tabs/Tabs";
 import TabsContent from "components/organisms//Tabs/TabsContent/TabsContent";
-import TaskList from "screens/TasksList";
-import TaskForms from "screens/TaskForms";
+import TaskList from "views/TasksList";
+import TaskForms from "views/TaskForms";
 
 function App() {
   return (
