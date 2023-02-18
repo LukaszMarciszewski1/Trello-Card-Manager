@@ -15,7 +15,7 @@ import {
   isMoreThanMaximumSize,
   getSelectedSizeName,
   isDisplayFabric
-} from "calculations/priceCalculations";
+} from "calculations/priceListOfServices";
 
 import FormLayout from "components/layouts/FormLayout/FormLayout";
 import FormSectionLayout from 'components/layouts/FormSectionLayout/FormSectionLayout'
@@ -29,7 +29,7 @@ import Textarea from "components/common/Textarea/Textarea";
 import MessageModal from "components/organisms/MessageModal/MessageModal";
 import MaterialsForm from "./Materials/Materials";
 import { RiAddLine } from "react-icons/ri";
-import { useTrelloApi } from "context/trelloContext";
+import { useTrelloApi } from "hooks/useTrelloApi";
 import { Material } from "models/material";
 
 const defaultSectionValues = {

@@ -22,19 +22,19 @@ const getSizeModifier = (width: number, height: number): number => {
 }
 
 const getSelectedMaterialPrice = (
-  selectedType: string | undefined,
+  selectedMaterialType: string | undefined,
   size: number,
   amount: number
 ): number => {
-  if (!selectedType) return 0
-  const comparisonOfType = [...materialsPriceList].filter(
-    (item: any) => item.type === selectedType
+  if (!selectedMaterialType) return 0
+  const comparisonOfMaterialType = [...materialsPriceList].filter(
+    (item: any) => item.type === selectedMaterialType
   )
-  const typePrice = comparisonOfType.filter(
+  const materialType = comparisonOfMaterialType.filter(
     (item) => item.size === size && item.amount >= amount
   )[0]
-  if (!typePrice) return 0
-  return typePrice.price
+  if (!materialType) return 0
+  return materialType.price
 }
 
 const getMaterialModifier = (value: string | undefined): number => {
@@ -46,41 +46,41 @@ const getMaterialModifier = (value: string | undefined): number => {
   }
 }
 
-const priceCalculator = (
+const calculateDefaultPrice = (
   amount: number,
-  selectedMaterial: string,
+  material: string,
   width: number,
   height: number
 ): number => {
-  const numberWidth = Number(width)
-  const numberHeight = Number(height)
-  const numberAmount = Number(amount)
-  const filteredSelectedMaterial = materials.filter(
-    (item) => item.value === selectedMaterial
+  const selectedWidth = Number(width)
+  const selectedHeight = Number(height)
+  const selectedAmount = Number(amount)
+  const selectedMaterial = materials.filter(
+    (item) => item.value === material
   )
 
-  if (!filteredSelectedMaterial[0]) return 0
+  if (!selectedMaterial[0]) return 0
   if (amount === 0) return 0
-  if (numberWidth * numberHeight === 0) return 0
+  if (selectedWidth * selectedHeight === 0) return 0
 
-  const modifier = getMaterialModifier(
-    filteredSelectedMaterial[0].priceModifier
+  const materialModifier = getMaterialModifier(
+    selectedMaterial[0].priceModifier
   )
-  const price = getSelectedMaterialPrice(
-    filteredSelectedMaterial[0].priceType,
-    getSizeModifier(numberWidth, numberHeight),
-    numberAmount
+  const materialPrice = getSelectedMaterialPrice(
+    selectedMaterial[0].priceType,
+    getSizeModifier(selectedWidth, selectedHeight),
+    selectedAmount
   )
-  const priceCalculations = price * modifier * numberAmount
-  return priceCalculations
+  const price = materialPrice * materialModifier * selectedAmount
+  return price
 }
 
-const getPriceForPacking = (data: CardDescription): number => {
+const calculatePackingPrice = (data: CardDescription): number => {
   const priceForPacking = data?.packing ? data.amount * packingPrice : 0
   return priceForPacking
 }
 
-const priceCustomArray = (data: CardDescription[]): number[] => {
+const customPrices = (data: CardDescription[]): number[] => {
   const sectionForms = [...data]
   const sectionPriceArray: number[] = []
   sectionForms
@@ -92,7 +92,7 @@ const priceCustomArray = (data: CardDescription[]): number[] => {
   return sectionPriceArray
 }
 
-const priceCalculatorArray = (
+const defaultPrices = (
   data: CardDescription[],
   onlyForOnePiece: boolean
 ): number[] => {
@@ -101,7 +101,7 @@ const priceCalculatorArray = (
     const material = (
       item.materials.length ? item.materials[0].field : ''
     ).toString()
-    const price = priceCalculator(
+    const price = calculateDefaultPrice(
       Number(item.amount),
       material,
       item.width,
@@ -112,7 +112,7 @@ const priceCalculatorArray = (
     } else {
       onlyForOnePiece
         ? prices.push(price / Number(item.amount))
-        : prices.push(price + getPriceForPacking(data[index]))
+        : prices.push(price + calculatePackingPrice(data[index]))
     }
   })
   return prices
@@ -143,7 +143,7 @@ export const getPriceForOnePieceOfSection = (
   const sectionForms = [...data]
   const sum = isMoreThanMaximumSize(sectionForms, index)
     ? sectionForms[index]?.priceForOnePiece
-    : priceCalculatorArray(sectionForms, true)[index]
+    : defaultPrices(sectionForms, true)[index]
 
   let price = Number(sum)
   if (isNaN(price)) {
@@ -157,10 +157,10 @@ export const getPriceForSection = (
   index: number
 ): number => {
   const sectionForms = [...data]
-  const calculatorPrice = priceCalculatorArray(sectionForms, false)[index]
+  const calculatorPrice = defaultPrices(sectionForms, false)[index]
   const customPrice = (
     sectionForms[index]?.priceForOnePiece * sectionForms[index]?.amount +
-    getPriceForPacking(sectionForms[index])
+    calculatePackingPrice(sectionForms[index])
   )
 
   const sum = isMoreThanMaximumSize(sectionForms, index)
@@ -213,18 +213,18 @@ export const isDisplayFabric = (data: CardDescription): boolean => {
 
 export const getTotalPrice = (data: CardDescription[]): number => {
   const sectionForms = [...data]
-  const calculatorPrice = Number(
-    priceCalculatorArray(sectionForms, false).reduce(
+  const totalDefaultPrice = Number(
+    defaultPrices(sectionForms, false).reduce(
       (accumulator, currentValue) => accumulator + currentValue,
       0
     )
   )
-  const customPrice = Number(
-    priceCustomArray(sectionForms).reduce(
+  const totalCustomPrice = Number(
+    customPrices(sectionForms).reduce(
       (accumulator, currentValue) => accumulator + currentValue,
       0
     )
   )
-  const price = customPrice > 0 ? calculatorPrice + customPrice : calculatorPrice
-  return Number(price.toFixed(1))
+  const totalPrice = totalCustomPrice > 0 ? (totalDefaultPrice + totalCustomPrice) : totalDefaultPrice
+  return Number(totalPrice.toFixed(1))
 }

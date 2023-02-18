@@ -62,17 +62,15 @@
     padding: 5px 20px;
   }
 }
-
 .rts___nav___btn___container {
   display: flex;
 }
-
 .rts___btn {
   cursor: pointer;
   background-color: transparent;
   border-radius: 40px;
   border: 1px solid $matBlue;
-  transition: 0.2s all linear; 
+  transition: 0.2s all linear;
 }
 .rts___btn:hover {
   background-color: $primary-gray;
@@ -93,9 +91,6 @@
 .rts___nav___btn:hover {
   background-color: $primary-gray;
   transition: 0.3s all;
-}
-.rts___nav___btn:hover > svg {
-  // stroke: var(--rts-white-color);
 }
 @media (max-width: 767.98px) {
   .rts___nav___btn > svg {

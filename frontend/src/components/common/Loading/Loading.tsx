@@ -6,11 +6,11 @@ interface LoadingProps {
   size: number
 }
 
-const Loading: React.FC<LoadingProps> = ({size}) => {
+const Loading: React.FC<LoadingProps> = ({ size }) => {
   return (
-  <div className={styles.loading}>
-     <MoonLoader size={size}/>
-  </div>
+    <div className={styles.loading}>
+      <MoonLoader size={size} />
+    </div>
   )
 }
 

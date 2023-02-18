@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import CardsTable from 'components/organisms/CardsTable/CardsTable'
-import { useTrelloApi } from 'context/trelloContext';
+import { useTrelloApi } from 'hooks/useTrelloApi';
 
 const filters = [
   {

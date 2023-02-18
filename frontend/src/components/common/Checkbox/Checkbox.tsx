@@ -8,8 +8,8 @@ interface CheckboxProps {
   value?: string
   name?: string
   style?: {}
-  onChange?: (e: any) => void
-  error?: {} | undefined | ((value: any) => void)
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
+  error?: {} | undefined | ((e: React.ChangeEvent<HTMLInputElement>) => void)
   checked?: boolean
   children?: JSX.Element | JSX.Element[]
 }

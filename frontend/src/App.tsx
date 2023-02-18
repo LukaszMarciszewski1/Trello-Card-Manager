@@ -1,6 +1,6 @@
 import Layout from "components/layouts/AppLayout/AppLayout";
 import * as constants from 'constants/index';
-import { TrelloProvider } from "context/trelloContext";
+import { TrelloProvider } from "context/trelloApiContext";
 import { Provider } from "react-redux";
 import { store } from 'store/index'
 import Tabs from "components/organisms//Tabs/Tabs";

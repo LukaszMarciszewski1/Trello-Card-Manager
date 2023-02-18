@@ -24,7 +24,12 @@ const Modal: React.FC<ModalProps> = ({ children, trigger, closeModal }) => {
               type={"button"}
               onClick={closeModal}
               title={constants.CONFIRM}
-              style={{ padding: 20, width: "80%", fontSize: '2rem', zIndex: 100 }}
+              style={{ 
+                padding: 20, 
+                width: "80%", 
+                fontSize: '2rem', 
+                zIndex: 100 
+              }}
             />
           </div>
         </div>

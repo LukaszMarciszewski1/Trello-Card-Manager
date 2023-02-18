@@ -6,14 +6,14 @@ import * as constants from 'constants/index';
 import { traders, fabric, departments } from "data/formData/index";
 import { useForm, useFieldArray } from "react-hook-form";
 import { Card, CardDescription } from "models/card";
-import { useTrelloApi } from "context/trelloContext";
+import { useTrelloApi } from "hooks/useTrelloApi";
 
 import {
   getPriceForOnePieceOfSection,
   getTotalPrice,
   getPriceForSection,
   getSelectedSizeName,
-} from "calculations/priceCalculations";
+} from "calculations/priceListOfServices";
 
 import FormLayout from "components/layouts/FormLayout/FormLayout";
 import FormSectionLayout from 'components/layouts/FormSectionLayout/FormSectionLayout'
@@ -136,7 +136,7 @@ const EmbroideryForm: React.FC = () => {
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
       <FormLayout>
-      <MessageModal
+        <MessageModal
           trigger={submitMessage}
           success={success}
           error={error}

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react"
+import { useCallback } from "react"
 import styles from './styles.module.scss'
 
 type Props = {
@@ -6,7 +6,7 @@ type Props = {
   index: number
   active: number
   setSelectedTab: (index: number) => void
-  setTabTitle: any
+  setTabTitle: (e: string) => void
 }
 
 const Tab: React.FC<Props> = ({ title, setSelectedTab, active, index, setTabTitle }) => {
@@ -30,4 +30,4 @@ const Tab: React.FC<Props> = ({ title, setSelectedTab, active, index, setTabTitl
   )
 }
 
-export default React.memo(Tab)
+export default Tab

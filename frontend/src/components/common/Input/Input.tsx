@@ -8,8 +8,8 @@ export type InputProps = {
   type?: 'text' | 'email' | 'number' | 'password' | 'date' | 'file';
   placeholder?: string
   disabled?: boolean
-  onChange?: (value: any) => void
-  error?: {} | undefined | ((value: any) => void)
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
+  error?: {} | undefined | ((e: React.ChangeEvent<HTMLInputElement>) => void)
   value?: number | string
   step?: string
   minValue?: number

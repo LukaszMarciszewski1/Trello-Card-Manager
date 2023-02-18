@@ -1,13 +1,10 @@
-import React from 'react'
-import styles from './styles.module.scss'
-
 type TabsContentProps = {
   title: string
-  children: any
+  children: JSX.Element | JSX.Element[]
 }
 
 const TabsContent: React.FC<TabsContentProps> = ({ title, children }) => {
-  return <div className={styles.container} title={title}>{children}</div>
+  return <div title={title}>{children}</div>
 }
 
 export default TabsContent

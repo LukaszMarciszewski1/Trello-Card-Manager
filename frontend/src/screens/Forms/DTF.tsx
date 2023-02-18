@@ -12,7 +12,7 @@ import {
   getTotalPrice,
   getPriceForSection,
   getSelectedSizeName,
-} from "calculations/priceCalculations";
+} from "calculations/priceListOfServices";
 
 import FormLayout from "components/layouts/FormLayout/FormLayout";
 import FormSectionLayout from 'components/layouts/FormSectionLayout/FormSectionLayout'
@@ -23,9 +23,7 @@ import Select from "components/common/Select/Select";
 import Textarea from "components/common/Textarea/Textarea";
 import MessageModal from "components/organisms/MessageModal/MessageModal";
 import { RiAddLine } from "react-icons/ri";
-import { useTrelloApi } from "context/trelloContext";
-import { useCreateCardMutation } from 'store/cards/cards';
-import { searchNameById } from "hooks/useSearchById";
+import { useTrelloApi } from "hooks/useTrelloApi";
 
 const defaultSectionValues = {
   materialAccess: false,
@@ -46,7 +44,7 @@ const defaultSectionValues = {
 const DTFForm: React.FC = () => {
   dayjs.locale("pl");
   // const [createCardApi] = useCreateCardMutation()
-  const { addCardToTrello, trelloCardId, success, error, loading } = useTrelloApi()
+  const { addCardToTrello, success, error, loading } = useTrelloApi()
 
   const {
     register,
@@ -113,7 +111,7 @@ const DTFForm: React.FC = () => {
   const handleWatchPacking = () => {
     setWatchPacking(!watchPacking)
   }
-  
+
   const handleSubmitForm = async (data: Card) => {
     const listId = process.env.REACT_APP_TRELLO_DTF_LIST
     if (data && listId) {

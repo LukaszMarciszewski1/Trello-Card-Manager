@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import styles from './styles.module.scss'
 import './react-tabs-scrollable.scss';
 import { Tabs, Tab } from 'react-tabs-scrollable'
@@ -8,7 +8,7 @@ import BoxColor from 'components/common/BoxColor/BoxColor';
 interface MaterialsListProps {
   options: Material[]
   checkedItems: string[]
-  handleChange: (e: any) => void
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 const optionTypes = (options: Material[]) => {
@@ -23,7 +23,7 @@ const MaterialsList: React.FC<MaterialsListProps> = ({ options, checkedItems, ha
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [selectedType, setSelectedType] = useState(optionTypes(options)[0])
 
-  const onTabClick = (e: any, index: number) => {
+  const onTabClick = (e: string, index: number) => {
     setSelectedIndex(index)
     setSelectedType(optionTypes(options)[index])
   }
@@ -75,4 +75,4 @@ const MaterialsList: React.FC<MaterialsListProps> = ({ options, checkedItems, ha
   )
 }
 
-export default React.memo(MaterialsList)
+export default MaterialsList

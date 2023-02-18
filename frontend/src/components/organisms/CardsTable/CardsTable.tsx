@@ -1,15 +1,13 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useCallback } from "react";
 import { traders } from "data/formData/index";
 import styles from './styles.module.scss'
 import dayjs from "dayjs";
-import { useTable, Column, useSortBy, useGlobalFilter, usePagination } from "react-table";
+import { useTable, Column, useSortBy, useGlobalFilter, usePagination, Row } from "react-table";
 import { Card } from "models/card";
 import Button from "components/common/Button/Button";
 import Search from "./Search/Search";
-import { useTrelloApi } from 'context/trelloContext';
+import { useTrelloApi } from 'hooks/useTrelloApi';
 import Checkbox from "components/common/Checkbox/Checkbox";
-import Filter from "./Filter/Filter";
 import Popup from "components/common/Popup/Popup";
 import { AiFillEdit } from "react-icons/ai";
 import { 
@@ -82,22 +80,21 @@ const CardsTable: React.FC<CardsTableProps> = ({
     }
   }, [members]);
 
-  const filterBoardName = useCallback((rows: any) => {
+  const filterBoardName = useCallback((row: string) => {
     if (boards?.length) {
-      const filteredBoards: any[] = boards?.filter((board: any) => rows.includes(board.id));
+      const filteredBoards: any[] = boards?.filter((board: {id: string}) => row.includes(board.id));
       return filteredBoards[0].name
     }
   }, [boards])
 
-  const filterListName = useCallback((rows: any) => {
+  const filterListName = useCallback((row: string) => {
     if (lists?.length) {
-      const filteredLists: any[] = lists?.filter((list: any) => rows.includes(list.id));
+      const filteredLists: any[] = lists?.filter((list: {id: string}) => row.includes(list.id));
       return filteredLists[0].name
     }
   }, [lists])
 
-  const getDescriptionPrice = (text: any) => {
-    // let value = text.match(/Wartość zlecenia: ([0-9]+.[0-9]+) zł/);
+  const getDescriptionPrice = (text: string) => {
     let value = text.match(/Wartość zlecenia: (.+?) zł/);
     if (value) {
       return Number(value[1])
@@ -156,7 +153,7 @@ const CardsTable: React.FC<CardsTableProps> = ({
         Cell: ({ row }: any) => (
           <Button
             type={"button"}
-            onClick={(e) => {
+            onClick={(e: { clientY: number; clientX: number; }) => {
               setRowPopup(true)
               setRowActions({
                 posY: e.clientY,
@@ -199,9 +196,6 @@ const CardsTable: React.FC<CardsTableProps> = ({
     usePagination,
     tableHooks as any
   );
-
-  const isEven = (index: number) => index % 2 === 0
-  const { pageIndex } = state
 
   return (
     <div className={styles.tableContainer}>
@@ -251,7 +245,7 @@ const CardsTable: React.FC<CardsTableProps> = ({
             return (
               <tr {...row.getRowProps()}>
                 {row.cells.map((cell) => (
-                  <td className={isEven(index) ? styles.evenRow : ''} {...cell.getCellProps()}>
+                  <td className={index % 2 === 0 ? styles.evenRow : ''} {...cell.getCellProps()}>
                     {cell.render("Cell")}
                   </td>
                 ))}
@@ -263,13 +257,13 @@ const CardsTable: React.FC<CardsTableProps> = ({
       <div className={styles.paginationContainer}>
         <span>
           Strona{' '}
-          <strong>{pageIndex + 1} z {pageOptions.length}</strong>{' '}
+          <strong>{state.pageIndex + 1} z {pageOptions.length}</strong>{' '}
         </span>
         <span>
           | idź do strony: {' '}
           <input
             type={'number'}
-            defaultValue={pageIndex + 1}
+            defaultValue={state.pageIndex + 1}
             max={pageOptions.length}
             min={1}
             onChange={(e) => {

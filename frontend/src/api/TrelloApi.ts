@@ -9,7 +9,6 @@ export function TrelloApi() {
   const [loading, setLoading] = useState(false)
   const [cards, setCards] = useState([])
   const [boards, setBoards] = useState([])
-  const [trelloCardId, setTrelloCardId] = useState<string>('')
   const [members, setMembers] = useState([])
   const [lists, setLists] = useState([])
 
@@ -183,7 +182,6 @@ export function TrelloApi() {
     members,
     lists,
     boards,
-    trelloCardId,
     success, 
     error, 
     loading 

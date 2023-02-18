@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import styles from './styles.module.scss'
-import { useAsyncDebounce } from "react-table";
+import { useAsyncDebounce, Row } from "react-table";
 import Input from "components/common/Input/Input";
 
 interface GlobalFilterProps {
-  preGlobalFilteredRows: any,
-  globalFilter: any,
-  setGlobalFilter: any,
+  preGlobalFilteredRows: Row[],
+  globalFilter: string | number | undefined,
+  setGlobalFilter: (e: string | undefined) => void,
 }
 
 
