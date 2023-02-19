@@ -1,4 +1,4 @@
-import { createContext } from 'react';
+import { createContext, useContext } from 'react';
 import { TrelloApi } from 'api/TrelloApi';
 interface TrelloProviderProps {
   children: React.ReactNode
@@ -15,4 +15,14 @@ export const TrelloApiContextProvider: React.FC<TrelloProviderProps> = ({ childr
       {children}
     </TrelloApiContext.Provider>
   )
+}
+
+export const useTrelloApi = () => {
+  const trelloApi = useContext(TrelloApiContext)
+
+  if (!trelloApi) {
+    throw new Error('useTrelloApi needs to be used inside TrelloApiContextProvider')
+  }
+
+  return trelloApi
 }

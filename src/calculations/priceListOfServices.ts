@@ -212,19 +212,18 @@ export const isDisplayFabric = (data: CardDescription): boolean => {
 }
 
 export const getTotalPrice = (data: CardDescription[]): number => {
-  const sectionForms = [...data]
+  const sectionForms = [...data];
+
   const totalDefaultPrice = Number(
     defaultPrices(sectionForms, false).reduce(
-      (accumulator, currentValue) => accumulator + currentValue,
-      0
+      (accumulator, currentValue) => accumulator + currentValue, 0
     )
-  )
+  );
   const totalCustomPrice = Number(
     customPrices(sectionForms).reduce(
-      (accumulator, currentValue) => accumulator + currentValue,
-      0
+      (accumulator, currentValue) => accumulator + currentValue, 0
     )
-  )
-  const totalPrice = totalCustomPrice > 0 ? (totalDefaultPrice + totalCustomPrice) : totalDefaultPrice
+  );
+  const totalPrice = totalCustomPrice > 0 ? (totalDefaultPrice + totalCustomPrice) : totalDefaultPrice;
   return Number(totalPrice.toFixed(1))
 }
