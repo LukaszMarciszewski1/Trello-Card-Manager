@@ -3,8 +3,6 @@ import { useContext, useState } from 'react';
 import styles from './styles.module.scss'
 import { useNavigate } from "react-router-dom";
 import { useForm } from 'react-hook-form';
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "config/firebase";
 import { User } from 'models/user'
 import { AuthContext } from 'context/AuthContext';
 
@@ -12,36 +10,24 @@ import Input from 'components/common/Input/Input'
 import Button from 'components/common/Button/Button';
 import bgCircles from 'assets/img/bg-circles.svg'
 
+
 const Login: React.FC = () => {
   const { signIn } = useContext(AuthContext)
   const navigate = useNavigate()
   const [error, setError] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  //isLoggedIn
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<User>();
-
-  // const handleSubmitForm = async (data: User) => {
-  //   setError(false)
-  //   try {
-  //     await signIn(data.email, data.password)
-  //     navigate('/')
-  //   } catch (err) {
-  //     setError(true)
-  //     console.log(err)
-  //   }
-  // }
+  
   const handleSubmitForm = async (data: any) => {
     setError(false)
     try {
       const userCredential = await signIn(data.email, data.password)
       if (userCredential) {
-        navigate('/')
+        navigate('/home')
       }
     } catch (err) {
       setError(true)
@@ -73,7 +59,7 @@ const Login: React.FC = () => {
           {errors.password && <div>'Hasło jest wymagane'</div>}
           <Button type='submit' title='Zaloguj' style={{ marginTop: 40 }} />
         </form>
-        <div className={styles.rightPanel}></div>
+        {/* <div className={styles.rightPanel}></div> */}
       </div>
       {/* <div className={styles.right} style={{ backgroundImage: `url(${bgCircles})` }}></div> */}
     </div>

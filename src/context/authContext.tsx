@@ -2,7 +2,6 @@ import { createContext, useEffect, useReducer, Dispatch, useState, useContext } 
 import { auth } from "config/firebase";
 import { User } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-
 import {
   signInWithEmailAndPassword,
   signOut,
@@ -15,18 +14,21 @@ interface AuthProviderProps {
 
 interface AuthContextData {
   user: User | null;
+  isLoading: boolean;
   signIn: (email: string, password: string) => Promise<any>;
   logout: () => Promise<any>;
 }
 
 export const AuthContext = createContext<AuthContextData>({
-  user: {} as User | null,
+  user: null,
+  isLoading: true,
   signIn: async () => {},
   logout: async () => {}
 });
 
 export const AuthContextProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate()
 
   const signIn = async (
@@ -47,16 +49,16 @@ export const AuthContextProvider: React.FC<AuthProviderProps> = ({ children }) =
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
+        setIsLoading(false);
         setUser(currentUser);
       }
     });
-    return () => {
-      unsubscribe()
-    };
-  }, [setUser]);
+    return () => unsubscribe();
+  }, []);
 
   const value = {
     user,
+    isLoading,
     signIn,
     logout,
   };

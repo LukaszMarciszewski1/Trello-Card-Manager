@@ -379,14 +379,25 @@ const PlotterForm: React.FC = () => {
                 id={"recipient"}
                 {...register("recipient")}
               />
-              <Input
+              <div style={{ display: 'none' }}>
+                <Input
+                  id={"startDate"}
+                  // placeholder={constants.START_DATE}
+                  // label={constants.START_DATE}
+                  value={new Date().toISOString().slice(0, 10)}
+                  type="date"
+                  style={{ display: 'none' }}
+                  {...register("startDate")}
+                />
+              </div>
+              {/* <Input
                 id={"startDate"}
                 placeholder={constants.START_DATE}
                 label={constants.START_DATE}
                 value={new Date().toISOString().slice(0, 10)}
                 type="date"
                 {...register("startDate")}
-              />
+              /> */}
               <Input
                 id={"endDate"}
                 placeholder={constants.END_DATE}

@@ -4,7 +4,7 @@ import { AuthContext } from 'context/AuthContext'
 import Button from 'components/common/Button/Button'
 
 const Navbar: React.FC = () => {
-  const { logout } = useContext(AuthContext)
+  // const { logout } = useContext(AuthContext)
   // const {dispatch} = useContext(AuthContext)
   // const { user, login, logout, authReady } = useContext(AuthContext)
 
@@ -16,7 +16,7 @@ const Navbar: React.FC = () => {
         {/* {!user && <li onClick={login} className={styles.navBtn}>Login/Signup</li>}
           {user && <li>{user}</li>}
           {user && <li onClick={logout} className={styles.navBtn}>Logout</li>} */}
-          <button onClick={logout}>Logout</button>
+          {/* <button onClick={logout}>Logout</button> */}
       </ul>
       {/* )} */}
     </div>
