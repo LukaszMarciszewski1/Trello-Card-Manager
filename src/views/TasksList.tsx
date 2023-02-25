@@ -50,8 +50,8 @@ const CardsList = () => {
             boards={boards}
             lists={lists}
             dataFilters={dataFilters}
-            setFilter={setSelectedFilter}
-            selectedFilter={selectedFilter}
+            setSelectedDataFilter={setSelectedFilter}
+            selectedDataFilter={selectedFilter}
           />
         )
       }

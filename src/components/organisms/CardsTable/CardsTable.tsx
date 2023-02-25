@@ -37,16 +37,9 @@ interface CardsTableProps {
   boards: any[]
   lists: any[]
   dataFilters: Filter[]
-  selectedFilter: string
-  setFilter: (e: string) => void
+  selectedDataFilter: string
+  setSelectedDataFilter: (e: string) => void
 }
-
-const localFilters = [
-  {
-    value: constants.ACCOUNTING,
-    label: constants.ACCOUNTING,
-  },
-]
 
 const CardsTable: React.FC<CardsTableProps> = ({
   cards,
@@ -54,12 +47,15 @@ const CardsTable: React.FC<CardsTableProps> = ({
   boards,
   lists,
   dataFilters,
-  selectedFilter,
-  setFilter,
+  selectedDataFilter,
+  setSelectedDataFilter,
 }) => {
   const { getCards, deleteCard, archiveCard } = useTrelloApi()
 
+  const [popupTrigger, setPopupTrigger] = useState(false)
+  const [tableFilters, setTableFilters] = useState<string[]>([]);
   const [rowPopup, setRowPopup] = useState(false)
+  const [checkedLocalFilter, setCheckedLocalFilter] = useState(false)
   const [currentRow, setCurrentRow] = useState({
     posY: 0,
     posX: 0,
@@ -88,7 +84,8 @@ const CardsTable: React.FC<CardsTableProps> = ({
         rows.includes(member.id)
       ));
       if (tradersNames.length) {
-        return tradersNames[0].fullName
+        const names = tradersNames.map(trader => trader.fullName).join(', ')
+        return names
       }
     }
   }, [members]);
@@ -119,7 +116,7 @@ const CardsTable: React.FC<CardsTableProps> = ({
     if (!result) return
     await deleteCard(currentRow.rowId).then(async () => {
       alert('Karta została usunięta z tablicy w Trello')
-      await getCards(selectedFilter)
+      await getCards(selectedDataFilter)
       setRowPopup(false)
     })
   }
@@ -129,7 +126,7 @@ const CardsTable: React.FC<CardsTableProps> = ({
     if (!result) return
     await archiveCard(currentRow.rowId).then(async () => {
       alert('Karta została zarchiwizowana')
-      await getCards(selectedFilter)
+      await getCards(selectedDataFilter)
       setRowPopup(false)
     })
   }
@@ -142,18 +139,42 @@ const CardsTable: React.FC<CardsTableProps> = ({
     return result
   }
 
-  const [selectedTraders, setSelectedTraders] = useState<any[]>([]);
-  console.log(selectedTraders)
+  const handleSelectedFilter = (id: string) => {
+    const newSelectedFilters = tableFilters.includes(id)
+      ? tableFilters.filter((t) => t !== id)
+      : [...tableFilters, id];
+    setTableFilters(newSelectedFilters);
+  }
 
   const filteredData = React.useMemo(() => {
-    if (!selectedTraders.length) {
+    let selectedFilters = []
+
+    const filteredAccountingColumn = cards.filter((row) => tableFilters.includes(filterListName(row.idList)))
+    const filteredMembers = cards.filter(row => row.idMembers.some((id: string) => tableFilters.includes(id)))
+
+    if (!tableFilters.length) {
       return cards;
     }
-    return cards.filter((row) => selectedTraders.includes(row.idMembers[0]));
-  }, [cards, selectedTraders]);
+    
+    if(filteredAccountingColumn.length){
+      selectedFilters.push(...filteredAccountingColumn)
+    }
+
+    if (filteredMembers.length && !filteredAccountingColumn.length) {
+      selectedFilters.push(...filteredMembers)
+    }
+
+    if (filteredMembers.length && filteredAccountingColumn.length) {
+      const memberWithAccounting = filteredAccountingColumn.filter(accounting => filteredMembers.includes(accounting))
+      selectedFilters = memberWithAccounting
+    }
+
+    return selectedFilters
+
+  }, [cards, tableFilters]);
+
 
   const data = React.useMemo<any[]>(() => filteredData, [filteredData]);
-  // const data = React.useMemo<Card[]>(() => cards, [cards]);
   const columns = React.useMemo<Column<any>[]>(
     () => [
       {
@@ -241,18 +262,6 @@ const CardsTable: React.FC<CardsTableProps> = ({
     tableHooks as any
   );
 
-  const [popupTrigger, setPopupTrigger] = useState(false)
-  const [checkedLocalFilter, setCheckedLocalFilter] = useState(false)
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target
-    const newSelectedTraders = selectedTraders.includes(value)
-      ? selectedTraders.filter((t) => t !== value)
-      : [...selectedTraders, value];
-    setSelectedTraders(newSelectedTraders);
-  }
-  // console.log(selectedTraders)
-
   return (
     <div className={styles.tableContainer}>
       <div className={styles.headerContainer}>
@@ -288,10 +297,10 @@ const CardsTable: React.FC<CardsTableProps> = ({
                   type={"radio"}
                   label={filter.label}
                   value={filter.value}
-                  checked={selectedFilter === filter.value}
+                  checked={selectedDataFilter === filter.value}
                   onChange={(e) => {
                     setCheckedLocalFilter(false)
-                    setFilter(e.target.value)
+                    setSelectedDataFilter(e.target.value)
                   }}
                   style={{
                     width: '100%',
@@ -308,11 +317,13 @@ const CardsTable: React.FC<CardsTableProps> = ({
                 type={"checkbox"}
                 label={constants.ACCOUNTING}
                 value={constants.ACCOUNTING}
-                checked={checkedLocalFilter}
-                onChange={(e) => {
-                  setGlobalFilter(!checkedLocalFilter ? constants.ACCOUNTING : '')
-                  setCheckedLocalFilter(prev => !prev)
-                }}
+                checked={tableFilters.includes(constants.ACCOUNTING)}
+                onChange={() => handleSelectedFilter(constants.ACCOUNTING)}
+                // checked={checkedLocalFilter}
+                // onChange={(e) => {
+                //   setGlobalFilter(!checkedLocalFilter ? constants.ACCOUNTING : '')
+                //   setCheckedLocalFilter(prev => !prev)
+                // }}
                 style={{
                   width: '100%',
                   margin: '0 0 10px 0'
@@ -322,20 +333,15 @@ const CardsTable: React.FC<CardsTableProps> = ({
             <div className={styles.popupContent}>
               <span>Handlowcy:</span>
               {
-                traders.map((trader, index) => (
+                traders.map((trader) => (
                   <Checkbox
                     key={trader.name}
                     id={trader.name}
                     type={"checkbox"}
                     label={trader.name}
                     value={trader.name}
-                    checked={selectedTraders.includes(trader.id)}
-                    onChange={() => {
-                      const newSelectedTraders = selectedTraders.includes(trader.id)
-                        ? selectedTraders.filter((t) => t !== trader.id)
-                        : [...selectedTraders, trader.id];
-                      setSelectedTraders(newSelectedTraders);
-                    }}
+                    checked={tableFilters.includes(trader.id)}
+                    onChange={() => handleSelectedFilter(trader.id)}
                     style={{
                       width: '100%',
                       margin: '0 0 10px 0'
@@ -453,3 +459,22 @@ const CardsTable: React.FC<CardsTableProps> = ({
 }
 
 export default CardsTable;
+
+
+
+// const filteredData = React.useMemo(() => {
+//   let selectedFilters = []
+
+//   if (!tableFilters.length) {
+//     return cards;
+//   } else {
+//     const accountingList = cards.filter((row) => tableFilters.includes(filterListName(row.idList)))
+//     selectedFilters.push(...accountingList)
+//     if(accountingList.length){
+//       const membersFilter = 0
+//     }
+//   }
+//   console.log(selectedFilters)
+//   return selectedFilters
+//   // return cards.filter((row) => row.idMembers.some((id: string) => tableFilters.includes(id)))
+// }, [cards, tableFilters]);
