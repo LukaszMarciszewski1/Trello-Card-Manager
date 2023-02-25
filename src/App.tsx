@@ -18,7 +18,7 @@ function App() {
   const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     const { user, isLoading } = useContext(AuthContext);
     if (isLoading) {
-      return <></>;
+      return <><h1>404 Page not found!</h1></>;
     }
     return user ? <>{children}</> : <Navigate to="/" />;
   }

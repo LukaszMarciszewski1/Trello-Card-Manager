@@ -85,9 +85,16 @@ const checklistFormData = () => {
   return formData
 }
 
+// const archiveFormData = () => {
+//   const formData = new FormData()
+//   formData.append('closed', 'true')
+//   return formData
+// }
+
 export const cardFormData = {
   initialFormData,
   fileFormData,
   checklistFormData,
-  customFieldsFormData
+  customFieldsFormData,
+  // archiveFormData
 }

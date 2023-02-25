@@ -86,6 +86,18 @@ export function TrelloApi() {
     }
   }
 
+  const archiveCard = async (id: string) => {
+    try {
+      await axios.put(`${REACT_APP_TRELLO_URL}/cards/${id}/`, {
+        closed: true,
+        key: REACT_APP_TRELLO_KEY,
+        token: REACT_APP_TRELLO_TOKEN
+      })
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   const getBoards = async () => {
     try {
       const res = await axios.get(`${REACT_APP_TRELLO_GET_BOARDS}`, config)
@@ -176,6 +188,7 @@ export function TrelloApi() {
     getLists,
     getBoards,
     deleteCard,
+    archiveCard,
     cards,
     members,
     lists,

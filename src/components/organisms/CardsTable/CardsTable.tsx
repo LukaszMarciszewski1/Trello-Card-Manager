@@ -15,8 +15,10 @@ import {
   MdKeyboardArrowLeft,
   MdKeyboardArrowRight,
   MdSkipNext,
-  MdOutlineDeleteOutline
+  MdOutlineDeleteOutline,
+  MdOutlineArchive
 } from "react-icons/md";
+import * as constants from 'constants/index';
 
 interface Member {
   fullName: string
@@ -46,14 +48,16 @@ const CardsTable: React.FC<CardsTableProps> = ({
   selectedFilter,
   setFilter,
 }) => {
-  const { getCards, deleteCard } = useTrelloApi()
+  const { getCards, deleteCard, archiveCard } = useTrelloApi()
 
   const [rowPopup, setRowPopup] = useState(false)
-  const [rowActions, setRowActions] = useState({
+  const [currentRow, setCurrentRow] = useState({
     posY: 0,
     posX: 0,
     rowId: '',
-    rowUrl: ''
+    rowUrl: '',
+    listId: '',
+    name: '',
   })
 
   const compareArrays = (array1: { id: string; }[], array2: { id: string; }[]) => {
@@ -102,14 +106,35 @@ const CardsTable: React.FC<CardsTableProps> = ({
   }
 
   const handleDeleteCard = async () => {
-    const result = window.confirm("Ta akcja spowoduje usunięcie karty z Trello, czy chcesz usunąć kartę?")
+    const result = window.confirm(`Ta akcja spowoduje usunięcie karty ${currentRow.name} z Trello, czy chcesz usunąć kartę?`)
     if (!result) return
-    await deleteCard(rowActions.rowId).then(async () => {
+    await deleteCard(currentRow.rowId).then(async () => {
       alert('Karta została usunięta z tablicy w Trello')
       await getCards(selectedFilter)
       setRowPopup(false)
     })
   }
+
+  const handleArchiveCard = async () => {
+    const result = window.confirm(`Ta akcja spowoduje zarchiwizowanie karty ${currentRow.name} w Trello, czy chcesz zarchiwizować kartę?`)
+    if (!result) return
+    await archiveCard(currentRow.rowId).then(async () => {
+      alert('Karta została zarchiwizowana')
+      await getCards(selectedFilter)
+      setRowPopup(false)
+    })
+  }
+
+  const isTheSameListName = (listName: string): boolean => {
+    let result = true
+    if (currentRow.listId) {
+      result = filterListName(currentRow.listId).toLowerCase() === listName.toLowerCase() ? false : true
+    }
+    return result
+  }
+
+
+
 
   const data = React.useMemo<Card[]>(() => cards, [cards]);
   const columns = React.useMemo<Column<any>[]>(
@@ -155,11 +180,13 @@ const CardsTable: React.FC<CardsTableProps> = ({
             type={"button"}
             onClick={(e: { clientY: number; clientX: number; }) => {
               setRowPopup(true)
-              setRowActions({
+              setCurrentRow({
                 posY: e.clientY,
                 posX: e.clientX,
                 rowId: row.original.id,
-                rowUrl: row.original.url
+                rowUrl: row.original.url,
+                listId: row.original.idList,
+                name: row.original.name
               })
             }}
             style={{ width: 36, margin: 0, opacity: 0.7 }}
@@ -303,16 +330,22 @@ const CardsTable: React.FC<CardsTableProps> = ({
         style={{
           padding: 10,
           width: 300,
-          top: `calc(${rowActions.posY}px - 120px)`,
-          left: `calc(${rowActions.posX}px - 400px)`
+          top: `calc(${currentRow.posY}px - 120px)`,
+          left: `calc(${currentRow.posX}px - 400px)`
         }}
       >
-        <a href={rowActions.rowUrl} target="_blank" rel="noopener noreferrer">
+        <a href={currentRow.rowUrl} target="_blank" rel="noopener noreferrer">
           <Button
             title={'Edytuj zlecenie w Trello'}
             icon={<MdKeyboardArrowRight fontSize={'19px'} />}
           />
         </a>
+        <Button
+          title={'Zarchiwizuj'}
+          onClick={handleArchiveCard}
+          icon={<MdOutlineArchive fontSize={'19px'} />}
+          disabled={isTheSameListName(constants.ACCOUNTING)}
+        />
         <Button
           title={'Usuń zlecenie'}
           onClick={handleDeleteCard}
