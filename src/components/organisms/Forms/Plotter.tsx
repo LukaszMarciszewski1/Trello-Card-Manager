@@ -188,6 +188,7 @@ const PlotterForm: React.FC = () => {
                   value={trader.id}
                   label={trader.initial}
                   error={errors.member}
+                  style={{height: 48}}
                   {...register("member", { required: true })}
                 />
               ))}

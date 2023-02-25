@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect, useMemo } from "react";
 import { traders } from "data/formData/index";
 import styles from './styles.module.scss'
 import dayjs from "dayjs";
@@ -9,6 +9,7 @@ import Search from "./Search/Search";
 import { useTrelloApi } from 'hooks/useTrelloApi';
 import Checkbox from "components/common/Checkbox/Checkbox";
 import Popup from "components/common/Popup/Popup";
+import Select from 'components/common/Select/Select'
 import { AiFillEdit } from "react-icons/ai";
 import {
   MdSkipPrevious,
@@ -16,7 +17,8 @@ import {
   MdKeyboardArrowRight,
   MdSkipNext,
   MdOutlineDeleteOutline,
-  MdOutlineArchive
+  MdOutlineArchive,
+  MdOutlineFilterList
 } from "react-icons/md";
 import * as constants from 'constants/index';
 
@@ -30,21 +32,28 @@ interface Filter {
   label: string
 }
 interface CardsTableProps {
-  cards: Card[]
+  cards: any[]
   members: Member[]
   boards: any[]
   lists: any[]
-  filters: Filter[]
+  dataFilters: Filter[]
   selectedFilter: string
   setFilter: (e: string) => void
 }
+
+const localFilters = [
+  {
+    value: constants.ACCOUNTING,
+    label: constants.ACCOUNTING,
+  },
+]
 
 const CardsTable: React.FC<CardsTableProps> = ({
   cards,
   members,
   boards,
   lists,
-  filters,
+  dataFilters,
   selectedFilter,
   setFilter,
 }) => {
@@ -133,10 +142,18 @@ const CardsTable: React.FC<CardsTableProps> = ({
     return result
   }
 
+  const [selectedTraders, setSelectedTraders] = useState<any[]>([]);
+  console.log(selectedTraders)
 
+  const filteredData = React.useMemo(() => {
+    if (!selectedTraders.length) {
+      return cards;
+    }
+    return cards.filter((row) => selectedTraders.includes(row.idMembers[0]));
+  }, [cards, selectedTraders]);
 
-
-  const data = React.useMemo<Card[]>(() => cards, [cards]);
+  const data = React.useMemo<any[]>(() => filteredData, [filteredData]);
+  // const data = React.useMemo<Card[]>(() => cards, [cards]);
   const columns = React.useMemo<Column<any>[]>(
     () => [
       {
@@ -159,7 +176,7 @@ const CardsTable: React.FC<CardsTableProps> = ({
         Header: "Lista",
         accessor: (row: { idList: string, closed: boolean }) => (
           !row.closed ? filterListName(row.idList) : `Zarchiwizowana/${filterListName(row.idList)}`
-        ),
+        )
       },
       {
         Header: "Wartość zl. (zł)",
@@ -224,6 +241,18 @@ const CardsTable: React.FC<CardsTableProps> = ({
     tableHooks as any
   );
 
+  const [popupTrigger, setPopupTrigger] = useState(false)
+  const [checkedLocalFilter, setCheckedLocalFilter] = useState(false)
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target
+    const newSelectedTraders = selectedTraders.includes(value)
+      ? selectedTraders.filter((t) => t !== value)
+      : [...selectedTraders, value];
+    setSelectedTraders(newSelectedTraders);
+  }
+  // console.log(selectedTraders)
+
   return (
     <div className={styles.tableContainer}>
       <div className={styles.headerContainer}>
@@ -232,23 +261,90 @@ const CardsTable: React.FC<CardsTableProps> = ({
           setGlobalFilter={setGlobalFilter}
           globalFilter={state.globalFilter}
         />
-        <div style={{ display: 'flex', marginTop: 10 }}>
-          {filters.map((filter: { value: string; label: string }, index: number) => (
-            <Checkbox
-              key={index}
-              id={filter.value}
-              type={"radio"}
-              label={filter.label}
-              value={filter.value}
-              checked={selectedFilter === filter.value}
-              onChange={(e) => setFilter(e.target.value)}
-              style={{
-                width: 130,
-                height: 30,
-                margin: '0 0 0 12px'
-              }}
-            />
-          ))}
+        <div style={{ display: 'flex', alignItems: 'end', marginTop: 10 }}>
+          <Button
+            title={'Filtruj'}
+            onClick={() => setPopupTrigger(true)}
+            icon={<MdOutlineFilterList fontSize={'19px'} />}
+            style={{ width: 120, margin: 0 }}
+          />
+          <Popup
+            title={'Filtruj'}
+            trigger={popupTrigger}
+            closePopup={() => setPopupTrigger(false)}
+            style={{
+              padding: 10,
+              width: 350,
+              left: 'calc(100% - 350px)',
+              top: 0
+            }}
+          >
+            <div className={styles.popupContent}>
+              <span>Tablice:</span>
+              {dataFilters.map((filter: { value: string; label: string }, index: number) => (
+                <Checkbox
+                  key={index}
+                  id={filter.value}
+                  type={"radio"}
+                  label={filter.label}
+                  value={filter.value}
+                  checked={selectedFilter === filter.value}
+                  onChange={(e) => {
+                    setCheckedLocalFilter(false)
+                    setFilter(e.target.value)
+                  }}
+                  style={{
+                    width: '100%',
+                    margin: '0 0 10px 0'
+                  }}
+                />
+              ))}
+              <small>Filtrowanie tablic powoduje reset filtrów poniżej</small>
+            </div>
+            <div className={styles.popupContent}>
+              <span>Listy:</span>
+              <Checkbox
+                id={constants.ACCOUNTING}
+                type={"checkbox"}
+                label={constants.ACCOUNTING}
+                value={constants.ACCOUNTING}
+                checked={checkedLocalFilter}
+                onChange={(e) => {
+                  setGlobalFilter(!checkedLocalFilter ? constants.ACCOUNTING : '')
+                  setCheckedLocalFilter(prev => !prev)
+                }}
+                style={{
+                  width: '100%',
+                  margin: '0 0 10px 0'
+                }}
+              />
+            </div>
+            <div className={styles.popupContent}>
+              <span>Handlowcy:</span>
+              {
+                traders.map((trader, index) => (
+                  <Checkbox
+                    key={trader.name}
+                    id={trader.name}
+                    type={"checkbox"}
+                    label={trader.name}
+                    value={trader.name}
+                    checked={selectedTraders.includes(trader.id)}
+                    onChange={() => {
+                      const newSelectedTraders = selectedTraders.includes(trader.id)
+                        ? selectedTraders.filter((t) => t !== trader.id)
+                        : [...selectedTraders, trader.id];
+                      setSelectedTraders(newSelectedTraders);
+                    }}
+                    style={{
+                      width: '100%',
+                      margin: '0 0 10px 0'
+                    }}
+                  />
+                ))
+              }
+            </div>
+          </Popup>
         </div>
       </div>
       <table {...getTableProps()}>
