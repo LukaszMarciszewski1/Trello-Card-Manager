@@ -4,7 +4,7 @@ import styles from './styles.module.scss'
 import { useNavigate } from "react-router-dom";
 import { useForm } from 'react-hook-form';
 import { User } from 'models/user'
-import { AuthContext } from 'context/AuthContext';
+import { AuthContext } from 'context/authContext'
 
 import Input from 'components/common/Input/Input'
 import Button from 'components/common/Button/Button';
@@ -21,7 +21,7 @@ const Login: React.FC = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<User>();
-  
+
   const handleSubmitForm = async (data: any) => {
     setError(false)
     try {

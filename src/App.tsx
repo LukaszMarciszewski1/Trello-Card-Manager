@@ -1,15 +1,14 @@
 import { BrowserRouter, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import Layout from "components/layouts/AppLayout/AppLayout";
 import * as constants from 'constants/index';
-import { TrelloApiContextProvider } from "context/TrelloApiContext";
-import { AuthContext } from "context/AuthContext";
+import { TrelloApiContextProvider } from 'context/trelloApiContext'
+import { AuthContext, AuthContextProvider } from 'context/authContext'
 import Tabs from "components/organisms//Tabs/Tabs";
 import TabsContent from "components/organisms//Tabs/TabsContent/TabsContent";
 import Navbar from "components/organisms/Navbar/Navbar";
 import TaskList from "views/TasksList";
 import TaskForms from "views/TaskForms";
 import Login from "views/Login/Login";
-import { AuthContextProvider } from 'context/AuthContext';
 import { useContext } from "react";
 
 

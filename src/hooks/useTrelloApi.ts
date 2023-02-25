@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { TrelloApiContext } from 'context/TrelloApiContext'
+import { TrelloApiContext } from 'context/trelloApiContext'
 
 export const useTrelloApi = () => {
   const trelloApi = useContext(TrelloApiContext)
