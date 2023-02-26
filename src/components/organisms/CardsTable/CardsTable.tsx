@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect, useMemo } from "react";
 import { traders } from "data/formData/index";
 import styles from './styles.module.scss'
 import dayjs from "dayjs";
@@ -9,6 +9,7 @@ import Search from "./Search/Search";
 import { useTrelloApi } from 'hooks/useTrelloApi';
 import Checkbox from "components/common/Checkbox/Checkbox";
 import Popup from "components/common/Popup/Popup";
+import Select from 'components/common/Select/Select'
 import { AiFillEdit } from "react-icons/ai";
 import {
   MdSkipPrevious,
@@ -16,7 +17,8 @@ import {
   MdKeyboardArrowRight,
   MdSkipNext,
   MdOutlineDeleteOutline,
-  MdOutlineArchive
+  MdOutlineArchive,
+  MdOutlineFilterList
 } from "react-icons/md";
 import * as constants from 'constants/index';
 
@@ -30,13 +32,13 @@ interface Filter {
   label: string
 }
 interface CardsTableProps {
-  cards: Card[]
+  cards: any[]
   members: Member[]
   boards: any[]
   lists: any[]
-  filters: Filter[]
-  selectedFilter: string
-  setFilter: (e: string) => void
+  dataFilters: Filter[]
+  selectedDataFilter: string
+  setSelectedDataFilter: (e: string) => void
 }
 
 const CardsTable: React.FC<CardsTableProps> = ({
@@ -44,12 +46,14 @@ const CardsTable: React.FC<CardsTableProps> = ({
   members,
   boards,
   lists,
-  filters,
-  selectedFilter,
-  setFilter,
+  dataFilters,
+  selectedDataFilter,
+  setSelectedDataFilter,
 }) => {
   const { getCards, deleteCard, archiveCard } = useTrelloApi()
 
+  const [popupTrigger, setPopupTrigger] = useState(false)
+  const [tableFilters, setTableFilters] = useState<string[]>([]);
   const [rowPopup, setRowPopup] = useState(false)
   const [currentRow, setCurrentRow] = useState({
     posY: 0,
@@ -79,7 +83,8 @@ const CardsTable: React.FC<CardsTableProps> = ({
         rows.includes(member.id)
       ));
       if (tradersNames.length) {
-        return tradersNames[0].fullName
+        const names = tradersNames.map(trader => trader.fullName).join(', ')
+        return names
       }
     }
   }, [members]);
@@ -110,7 +115,7 @@ const CardsTable: React.FC<CardsTableProps> = ({
     if (!result) return
     await deleteCard(currentRow.rowId).then(async () => {
       alert('Karta została usunięta z tablicy w Trello')
-      await getCards(selectedFilter)
+      await getCards(selectedDataFilter)
       setRowPopup(false)
     })
   }
@@ -120,7 +125,7 @@ const CardsTable: React.FC<CardsTableProps> = ({
     if (!result) return
     await archiveCard(currentRow.rowId).then(async () => {
       alert('Karta została zarchiwizowana')
-      await getCards(selectedFilter)
+      await getCards(selectedDataFilter)
       setRowPopup(false)
     })
   }
@@ -133,10 +138,42 @@ const CardsTable: React.FC<CardsTableProps> = ({
     return result
   }
 
+  const handleSelectedFilter = (id: string) => {
+    const newSelectedFilters = tableFilters.includes(id)
+      ? tableFilters.filter((t) => t !== id)
+      : [...tableFilters, id];
+    setTableFilters(newSelectedFilters);
+  }
+
+  const filteredData = React.useMemo(() => {
+    let selectedFilters = []
+
+    const filteredAccountingColumn = cards.filter((row) => tableFilters.includes(filterListName(row.idList)))
+    const filteredMembers = cards.filter(row => row.idMembers.some((id: string) => tableFilters.includes(id)))
+
+    if (!tableFilters.length) {
+      return cards;
+    }
+    
+    if(filteredAccountingColumn.length){
+      selectedFilters.push(...filteredAccountingColumn)
+    }
+
+    if (filteredMembers.length && !filteredAccountingColumn.length) {
+      selectedFilters.push(...filteredMembers)
+    }
+
+    if (filteredMembers.length && filteredAccountingColumn.length) {
+      const memberWithAccounting = filteredAccountingColumn.filter(accounting => filteredMembers.includes(accounting))
+      selectedFilters = memberWithAccounting
+    }
+
+    return selectedFilters
+
+  }, [cards, tableFilters]);
 
 
-
-  const data = React.useMemo<Card[]>(() => cards, [cards]);
+  const data = React.useMemo<any[]>(() => filteredData, [filteredData]);
   const columns = React.useMemo<Column<any>[]>(
     () => [
       {
@@ -159,7 +196,7 @@ const CardsTable: React.FC<CardsTableProps> = ({
         Header: "Lista",
         accessor: (row: { idList: string, closed: boolean }) => (
           !row.closed ? filterListName(row.idList) : `Zarchiwizowana/${filterListName(row.idList)}`
-        ),
+        )
       },
       {
         Header: "Wartość zl. (zł)",
@@ -232,23 +269,78 @@ const CardsTable: React.FC<CardsTableProps> = ({
           setGlobalFilter={setGlobalFilter}
           globalFilter={state.globalFilter}
         />
-        <div style={{ display: 'flex', marginTop: 10 }}>
-          {filters.map((filter: { value: string; label: string }, index: number) => (
-            <Checkbox
-              key={index}
-              id={filter.value}
-              type={"radio"}
-              label={filter.label}
-              value={filter.value}
-              checked={selectedFilter === filter.value}
-              onChange={(e) => setFilter(e.target.value)}
-              style={{
-                width: 130,
-                height: 30,
-                margin: '0 0 0 12px'
-              }}
-            />
-          ))}
+        <div style={{ display: 'flex', alignItems: 'end', marginTop: 10 }}>
+          <Button
+            title={'Filtruj'}
+            onClick={() => setPopupTrigger(true)}
+            icon={<MdOutlineFilterList fontSize={'19px'} />}
+            style={{ width: 120, margin: 0 }}
+          />
+          <Popup
+            title={'Filtruj'}
+            trigger={popupTrigger}
+            closePopup={() => setPopupTrigger(false)}
+            style={{
+              padding: 10,
+              width: 350,
+              left: 'calc(100% - 350px)',
+              top: 0
+            }}
+          >
+            <div className={styles.popupContent}>
+              <span>Tablice:</span>
+              {dataFilters.map((filter: { value: string; label: string }, index: number) => (
+                <Checkbox
+                  key={index}
+                  id={filter.value}
+                  type={"radio"}
+                  label={filter.label}
+                  value={filter.value}
+                  checked={selectedDataFilter === filter.value}
+                  onChange={(e) => setSelectedDataFilter(e.target.value)}
+                  style={{
+                    width: '100%',
+                    margin: '0 0 10px 0'
+                  }}
+                />
+              ))}
+            </div>
+            <div className={styles.popupContent}>
+              <span>Listy:</span>
+              <Checkbox
+                id={constants.ACCOUNTING}
+                type={"checkbox"}
+                label={constants.ACCOUNTING}
+                value={constants.ACCOUNTING}
+                checked={tableFilters.includes(constants.ACCOUNTING)}
+                onChange={() => handleSelectedFilter(constants.ACCOUNTING)}
+                style={{
+                  width: '100%',
+                  margin: '0 0 10px 0'
+                }}
+              />
+            </div>
+            <div className={styles.popupContent}>
+              <span>Zlecający:</span>
+              {
+                traders.map((trader) => (
+                  <Checkbox
+                    key={trader.name}
+                    id={trader.name}
+                    type={"checkbox"}
+                    label={trader.name}
+                    value={trader.name}
+                    checked={tableFilters.includes(trader.id)}
+                    onChange={() => handleSelectedFilter(trader.id)}
+                    style={{
+                      width: '100%',
+                      margin: '0 0 10px 0'
+                    }}
+                  />
+                ))
+              }
+            </div>
+          </Popup>
         </div>
       </div>
       <table {...getTableProps()}>
@@ -357,3 +449,22 @@ const CardsTable: React.FC<CardsTableProps> = ({
 }
 
 export default CardsTable;
+
+
+
+// const filteredData = React.useMemo(() => {
+//   let selectedFilters = []
+
+//   if (!tableFilters.length) {
+//     return cards;
+//   } else {
+//     const accountingList = cards.filter((row) => tableFilters.includes(filterListName(row.idList)))
+//     selectedFilters.push(...accountingList)
+//     if(accountingList.length){
+//       const membersFilter = 0
+//     }
+//   }
+//   console.log(selectedFilters)
+//   return selectedFilters
+//   // return cards.filter((row) => row.idMembers.some((id: string) => tableFilters.includes(id)))
+// }, [cards, tableFilters]);

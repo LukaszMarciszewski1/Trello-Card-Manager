@@ -23,6 +23,7 @@ export interface CardDescription {
 }
 
 export interface Card {
+  idList: string
   _id?: string
   trelloCardId? : string
   title: string

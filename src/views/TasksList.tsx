@@ -3,7 +3,7 @@ import CardsTable from 'components/organisms/CardsTable/CardsTable'
 import { useTrelloApi } from 'hooks/useTrelloApi';
 import Loading from 'components/common/Loading/Loading';
 
-const filters = [
+const dataFilters = [
   {
     value: 'all',
     label: 'Wszystkie',
@@ -19,7 +19,7 @@ const filters = [
 ]
 
 const CardsList = () => {
-  const [selectedFilter, setSelectedFilter] = useState(filters[1].value);
+  const [selectedFilter, setSelectedFilter] = useState(dataFilters[1].value);
 
   const {
     getCards,
@@ -37,7 +37,7 @@ const CardsList = () => {
     getCards(selectedFilter)
     getMembers()
     getBoards()
-    getLists(filters[0].value)
+    getLists(dataFilters[0].value)
   }, [selectedFilter])
 
   return (
@@ -49,9 +49,9 @@ const CardsList = () => {
             members={members}
             boards={boards}
             lists={lists}
-            filters={filters}
-            setFilter={setSelectedFilter}
-            selectedFilter={selectedFilter}
+            dataFilters={dataFilters}
+            setSelectedDataFilter={setSelectedFilter}
+            selectedDataFilter={selectedFilter}
           />
         )
       }

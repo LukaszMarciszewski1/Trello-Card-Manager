@@ -10,6 +10,7 @@ import TaskList from "views/TasksList";
 import TaskForms from "views/TaskForms";
 import Login from "views/Login/Login";
 import { useContext } from "react";
+import Loading from "components/common/Loading/Loading";
 
 
 function App() {
@@ -17,7 +18,7 @@ function App() {
   const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     const { user, isLoading } = useContext(AuthContext);
     if (isLoading) {
-      return <><h1>404 Page not found!</h1></>;
+      return <Loading size={70} />;
     }
     return user ? <>{children}</> : <Navigate to="/" />;
   }

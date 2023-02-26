@@ -4,10 +4,8 @@
   position: relative;
   margin-top: 1rem;
   width: 100%;
-  // max-height: 700px;
   padding-bottom: 1rem;
   background-color: white;
-  // overflow-y: scroll;
 }
 
 table {
@@ -28,18 +26,13 @@ td {
 thead th {
   text-align: left;
   background-color: $focusBg;
+  white-space: nowrap;
   &:last-child {
     text-align: center;
   }
   &:hover {
     background-color: darken($focusBg, 3%);
   }
-  // span {
-  //   position: absolute;
-  //   right: 15px;
-  //   top: 46%;
-  //   transform: translateY(-46%);
-  // }
 }
 
 .evenRow {
@@ -48,38 +41,53 @@ thead th {
 
 tbody td {
   position: relative;
-  &:last-child button{
+  &:last-child button {
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
   }
-  &:hover{
+  &:hover {
     background-color: darken($lightGrey, 3%);
   }
 }
 
-.paginationContainer{
+.paginationContainer {
   padding: 2rem 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  span{
+  span {
     margin-right: 10px;
   }
-  button{
+  button {
     padding: 5px;
     margin: 0 5px;
   }
-  input{
-    margin-left: .5rem;
+  input {
+    margin-left: 0.5rem;
   }
 }
 
-.headerContainer{
+.headerContainer {
+  width: 100%;
+  position: relative;
   display: flex;
   justify-content: space-between;
+  align-items: flex-end;
   flex-wrap: wrap;
-  align-items: end;
   margin: 2rem 0;
+}
+
+.popupContent {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid $primary-gray;
+  &:last-child {
+    border-bottom: none;
+  }
+  span {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+  }
 }

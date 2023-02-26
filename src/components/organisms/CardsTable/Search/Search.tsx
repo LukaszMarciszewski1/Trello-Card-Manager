@@ -26,7 +26,7 @@ const GlobalFilter: React.FC<GlobalFilterProps> = ({
       <Input
         id={"search"}
         placeholder={`${count} pozycji...`}
-        label={'Wyszukaj:'}
+        label={'Szukaj:'}
         value={value || ""}
         type="text"
         onChange={(e) => {
