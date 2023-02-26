@@ -4,10 +4,8 @@
   position: relative;
   margin-top: 1rem;
   width: 100%;
-  // max-height: 700px;
   padding-bottom: 1rem;
   background-color: white;
-  // overflow-y: scroll;
 }
 
 table {
@@ -35,12 +33,6 @@ thead th {
   &:hover {
     background-color: darken($focusBg, 3%);
   }
-  // span {
-  //   position: absolute;
-  //   right: 15px;
-  //   top: 46%;
-  //   transform: translateY(-46%);
-  // }
 }
 
 .evenRow {
@@ -84,7 +76,6 @@ tbody td {
   justify-content: space-between;
   align-items: flex-end;
   flex-wrap: wrap;
-  // align-items: end;
   margin: 2rem 0;
 }
 
@@ -92,8 +83,11 @@ tbody td {
   padding-top: 1rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid $primary-gray;
-  span{
+  &:last-child {
+    border-bottom: none;
+  }
+  span {
     display: inline-block;
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
   }
 }

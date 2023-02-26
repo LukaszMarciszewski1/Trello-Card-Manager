@@ -55,7 +55,6 @@ const CardsTable: React.FC<CardsTableProps> = ({
   const [popupTrigger, setPopupTrigger] = useState(false)
   const [tableFilters, setTableFilters] = useState<string[]>([]);
   const [rowPopup, setRowPopup] = useState(false)
-  const [checkedLocalFilter, setCheckedLocalFilter] = useState(false)
   const [currentRow, setCurrentRow] = useState({
     posY: 0,
     posX: 0,
@@ -298,17 +297,13 @@ const CardsTable: React.FC<CardsTableProps> = ({
                   label={filter.label}
                   value={filter.value}
                   checked={selectedDataFilter === filter.value}
-                  onChange={(e) => {
-                    setCheckedLocalFilter(false)
-                    setSelectedDataFilter(e.target.value)
-                  }}
+                  onChange={(e) => setSelectedDataFilter(e.target.value)}
                   style={{
                     width: '100%',
                     margin: '0 0 10px 0'
                   }}
                 />
               ))}
-              <small>Filtrowanie tablic powoduje reset filtrów poniżej</small>
             </div>
             <div className={styles.popupContent}>
               <span>Listy:</span>
@@ -319,11 +314,6 @@ const CardsTable: React.FC<CardsTableProps> = ({
                 value={constants.ACCOUNTING}
                 checked={tableFilters.includes(constants.ACCOUNTING)}
                 onChange={() => handleSelectedFilter(constants.ACCOUNTING)}
-                // checked={checkedLocalFilter}
-                // onChange={(e) => {
-                //   setGlobalFilter(!checkedLocalFilter ? constants.ACCOUNTING : '')
-                //   setCheckedLocalFilter(prev => !prev)
-                // }}
                 style={{
                   width: '100%',
                   margin: '0 0 10px 0'
@@ -331,7 +321,7 @@ const CardsTable: React.FC<CardsTableProps> = ({
               />
             </div>
             <div className={styles.popupContent}>
-              <span>Handlowcy:</span>
+              <span>Zlecający:</span>
               {
                 traders.map((trader) => (
                   <Checkbox
