@@ -59,9 +59,7 @@ const calculateDefaultPrice = (
     (item) => item.value === material
   )
 
-  if (!selectedMaterial[0]) return 0
-  if (amount === 0) return 0
-  if (selectedWidth * selectedHeight === 0) return 0
+  if (!selectedMaterial[0] || amount === 0 || selectedWidth * selectedHeight === 0) return 0
 
   const materialModifier = getMaterialModifier(
     selectedMaterial[0].priceModifier
