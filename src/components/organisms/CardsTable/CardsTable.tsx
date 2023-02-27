@@ -1,15 +1,14 @@
-import React, { useState, useCallback, useEffect, useMemo } from "react";
+import React, { useState, useCallback } from "react";
 import { traders } from "data/formData/index";
 import styles from './styles.module.scss'
 import dayjs from "dayjs";
-import { useTable, Column, useSortBy, useGlobalFilter, usePagination, Row } from "react-table";
+import { useTable, Column, useSortBy, useGlobalFilter, usePagination } from "react-table";
 import { Card } from "models/card";
 import Button from "components/common/Button/Button";
 import Search from "./Search/Search";
 import { useTrelloApi } from 'hooks/useTrelloApi';
 import Checkbox from "components/common/Checkbox/Checkbox";
 import Popup from "components/common/Popup/Popup";
-import Select from 'components/common/Select/Select'
 import { AiFillEdit } from "react-icons/ai";
 import {
   MdSkipPrevious,
