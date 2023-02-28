@@ -30,6 +30,10 @@ const TaskForms: React.FC = () => {
     getLists('all')
   }, [])
 
+  console.log(members)
+
+
+
   const getFirstListOfCurrentBoard = useCallback((boardName: string): string | undefined => {
     if (boards.length && lists.length) {
       const currentBoard = boards
@@ -45,17 +49,20 @@ const TaskForms: React.FC = () => {
       <TabsContent title={PLOTTER}>
         <PlotterForm
           listId={getFirstListOfCurrentBoard(PLOTTER)}
-          boardName={PLOTTER} />
+          boardName={PLOTTER}
+          members={members} />
       </TabsContent>
       <TabsContent title={EMBROIDERY}>
         <EmbroideryForm
           listId={getFirstListOfCurrentBoard(EMBROIDERY)}
-          boardName={EMBROIDERY} />
+          boardName={EMBROIDERY}
+          members={members} />
       </TabsContent>
       <TabsContent title={DTF}>
         <DTFForm
           listId={getFirstListOfCurrentBoard(DTF)}
-          boardName={DTF} />
+          boardName={DTF} 
+          members={members} />
       </TabsContent>
     </Tabs>
   )

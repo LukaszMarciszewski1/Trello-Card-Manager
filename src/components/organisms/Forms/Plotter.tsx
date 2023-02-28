@@ -1,12 +1,14 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 import dayjs from "dayjs";
 
 import * as constants from 'constants/index';
 import { Card, CardDescription } from "models/card";
-import { traders, fabric, departments } from "data/formData/index";
+import { Member } from "models/member";
+import { fabric, departments } from "data/formData/index";
 import { materials } from "data/formData/materials";
 import { useForm, useFieldArray } from "react-hook-form";
+import getInitials from "helpers/getInitials";
 
 import {
   getPriceForOnePieceOfSection,
@@ -35,8 +37,8 @@ import { Material } from "models/material";
 interface FormProps {
   listId: any
   boardName: string
+  members: Member[]
 }
-
 
 const defaultSectionValues = {
   materialAccess: true,
@@ -55,7 +57,7 @@ const defaultSectionValues = {
   materials: []
 };
 
-const PlotterForm: React.FC<FormProps> = ({boardName, listId}) => {
+const PlotterForm: React.FC<FormProps> = ({boardName, listId, members}) => {
   dayjs.locale("pl");
   const { addCard, success, error, loading, boards, lists } = useTrelloApi()
 
@@ -145,14 +147,6 @@ const PlotterForm: React.FC<FormProps> = ({boardName, listId}) => {
     ))
   }
 
-  const getListId = useCallback(() => {
-    if (boards.length && lists.length) {
-      const currentBoard: any = boards.find((board: { name: string }) => board.name.toLowerCase() === boardName.toLowerCase())
-      const firstListOfCurrentBoard: any = lists.find((list: { idBoard: string }) => list.idBoard === currentBoard.id)
-      return firstListOfCurrentBoard.id
-    }
-  }, [boards, lists])
-
   const handleSubmitForm = (data: Card) => {
     // const listId = listId
     setWatchMaterialsForm(true)
@@ -194,13 +188,13 @@ const PlotterForm: React.FC<FormProps> = ({boardName, listId}) => {
               />
             </>
             <div className={styles.checkboxListContainer}>
-              {traders?.map((trader, index) => (
+              {members?.map((member: Member) => (
                 <Checkbox
-                  key={index}
-                  id={trader.initial}
+                  key={member.id}
+                  id={member.id}
                   type={"radio"}
-                  value={trader.id}
-                  label={trader.initial}
+                  value={member.id}
+                  label={getInitials(member.fullName)}
                   error={errors.member}
                   style={{ height: 48 }}
                   {...register("member", { required: true })}
