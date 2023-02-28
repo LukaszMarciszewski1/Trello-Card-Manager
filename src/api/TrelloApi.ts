@@ -3,6 +3,25 @@ import axios from 'axios'
 import { Card, CardDescription } from 'models/card'
 import { cardFormData } from './cardFormData/cardFormData'
 
+interface Member {
+  fullName: string
+  id: string
+  username: string
+}
+
+interface List {
+  closed: boolean
+  id: string
+  idBoard: string
+  name: string
+  pos: number
+}
+
+interface Board {
+  id: string 
+  name: string 
+}
+
 export function TrelloApi() {
   const [status, setStatus] = useState({
     loading: false,
@@ -10,16 +29,16 @@ export function TrelloApi() {
     error: false,
   })
   const [cards, setCards] = useState([])
-  const [boards, setBoards] = useState([])
-  const [members, setMembers] = useState([])
-  const [lists, setLists] = useState([])
-  
-  const { 
-    REACT_APP_TRELLO_KEY, 
-    REACT_APP_TRELLO_TOKEN, 
-    REACT_APP_TRELLO_URL, 
-    REACT_APP_TRELLO_GET_BOARDS 
-  } = process.env;
+  const [boards, setBoards] = useState<Board[]>([])
+  const [members, setMembers] = useState<Member[]>([])
+  const [lists, setLists] = useState<List[]>([])
+
+  const {
+    REACT_APP_TRELLO_KEY,
+    REACT_APP_TRELLO_TOKEN,
+    REACT_APP_TRELLO_URL,
+    REACT_APP_TRELLO_GET_BOARDS,
+  } = process.env
 
   const config = {
     params: {
@@ -35,7 +54,7 @@ export function TrelloApi() {
   const addCard = async (data: Card, listId: string) => {
     const formInitialDataCard = cardFormData.initialFormData(data, listId)
     const formChecklistDataCard = cardFormData.checklistFormData()
-    setStatus({...status, loading: true})
+    setStatus({ ...status, loading: true })
 
     try {
       const res = await axios.post(
@@ -43,13 +62,17 @@ export function TrelloApi() {
         formInitialDataCard,
         config
       )
-      
+
       await Promise.all(
         [...data.attachment]?.map(async (file: File) => {
-          const formFileDataCard = cardFormData.fileFormData(file);
-          await axios.post(`${REACT_APP_TRELLO_URL}/cards/${res.data.id}/attachments`, formFileDataCard, config);
+          const formFileDataCard = cardFormData.fileFormData(file)
+          await axios.post(
+            `${REACT_APP_TRELLO_URL}/cards/${res.data.id}/attachments`,
+            formFileDataCard,
+            config
+          )
         })
-      );
+      )
 
       const checklistRes = await axios.post(
         `${REACT_APP_TRELLO_URL}/cards/${res.data.id}/checklists`,
@@ -69,20 +92,19 @@ export function TrelloApi() {
           )
         })
       )
-      setStatus({...status, success: true, loading: false})
-
+      setStatus({ ...status, success: true, loading: false })
     } catch (err) {
-      setStatus({...status, error: true})
+      setStatus({ ...status, error: true })
       console.error(err)
     }
-  };
+  }
 
   const deleteCard = async (id: string) => {
     try {
       await axios.delete(`${REACT_APP_TRELLO_URL}/cards/${id}`, config)
-      setStatus({...status, success: true})
+      setStatus({ ...status, success: true })
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
   }
 
@@ -91,10 +113,10 @@ export function TrelloApi() {
       await axios.put(`${REACT_APP_TRELLO_URL}/cards/${id}/`, {
         closed: true,
         key: REACT_APP_TRELLO_KEY,
-        token: REACT_APP_TRELLO_TOKEN
+        token: REACT_APP_TRELLO_TOKEN,
       })
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
   }
 
@@ -104,7 +126,7 @@ export function TrelloApi() {
       setBoards(res.data)
       return res.data
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
   }
 
@@ -113,21 +135,20 @@ export function TrelloApi() {
       const boards = await getBoards()
       await Promise.all(
         boards
-         .map((board: { id: string }) => board.id)
-         .map(async (id: string) => {
-           const boardCards = await axios.get(
-            `${REACT_APP_TRELLO_URL}/boards/${id}/cards/${filter}`, 
-            config
-          )
-           return boardCards.data
-        })
-      )
-      .then(res => { 
+          .map((board: { id: string }) => board.id)
+          .map(async (id: string) => {
+            const boardCards = await axios.get(
+              `${REACT_APP_TRELLO_URL}/boards/${id}/cards/${filter}`,
+              config
+            )
+            return boardCards.data
+          })
+      ).then((res) => {
         const allCards = [].concat(...res)
-        setCards(allCards);
+        setCards(allCards)
       })
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
   }
 
@@ -139,17 +160,17 @@ export function TrelloApi() {
           .map((board: { id: string }) => board.id)
           .map(async (id: string) => {
             const boardList = await axios.get(
-              `${REACT_APP_TRELLO_URL}/boards/${id}/lists/${filter}`, 
+              `${REACT_APP_TRELLO_URL}/boards/${id}/lists/${filter}`,
               config
             )
-        return boardList.data
-      }))
-      .then(res => {
+            return boardList.data
+          })
+      ).then((res) => {
         const lists = [].concat(...res)
         setLists(lists)
       })
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
   }
 
@@ -161,29 +182,31 @@ export function TrelloApi() {
           .map((board: { id: string }) => board.id)
           .map(async (id: string) => {
             const boardMembers = await axios.get(
-              `${REACT_APP_TRELLO_URL}/boards/${id}/members`, 
+              `${REACT_APP_TRELLO_URL}/boards/${id}/members`,
               config
             )
-        return boardMembers.data
-      }))
-      .then(res => {
+            return boardMembers.data
+          })
+      ).then((res) => {
         const filterUniqueArray = () => {
           const allMembers = [].concat(...res)
-          const ids = allMembers?.map((o: any) => o.id)
-          return allMembers.filter(({id}, index) => !ids.includes(id, index + 1))
+          const ids = allMembers?.map((obj: Member) => obj.id)
+          return allMembers.filter(
+            ({ id }, index) => !ids.includes(id, index + 1)
+          )
         }
         setMembers(filterUniqueArray())
       })
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
   }
 
   const { success, error, loading } = status
 
-  return { 
-    addCard, 
-    getCards, 
+  return {
+    addCard,
+    getCards,
     getMembers,
     getLists,
     getBoards,
@@ -193,8 +216,8 @@ export function TrelloApi() {
     members,
     lists,
     boards,
-    success, 
-    error, 
-    loading 
+    success,
+    error,
+    loading,
   }
 }

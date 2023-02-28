@@ -7,6 +7,8 @@ import { traders, fabric, departments } from "data/formData/index";
 import { useForm, useFieldArray } from "react-hook-form";
 import { Card, CardDescription } from "models/card";
 import { useTrelloApi } from "hooks/useTrelloApi";
+import { Member } from "models/member";
+import getInitials from "helpers/getInitials";
 
 import {
   getPriceForOnePieceOfSection,
@@ -25,6 +27,11 @@ import Textarea from "components/common/Textarea/Textarea";
 import MessageModal from "components/organisms/MessageModal/MessageModal";
 import { RiAddLine } from "react-icons/ri";
 
+interface FormProps {
+  listId: any
+  boardName: string
+  members: Member[]
+}
 const defaultSectionValues = {
   materialAccess: false,
   logo: '',
@@ -41,7 +48,7 @@ const defaultSectionValues = {
   materials: []
 };
 
-const EmbroideryForm: React.FC = () => {
+const EmbroideryForm: React.FC<FormProps> = ({boardName, listId, members}) => {
   dayjs.locale("pl");
   const { addCard, success, error, loading } = useTrelloApi()
 
@@ -56,7 +63,7 @@ const EmbroideryForm: React.FC = () => {
   } = useForm<Card>({
     defaultValues: {
       description: [defaultSectionValues],
-      department: constants.EMBROIDERY
+      department: boardName
     },
     mode: "onBlur",
   });
@@ -121,7 +128,7 @@ const EmbroideryForm: React.FC = () => {
   }
 
   const handleSubmitForm = (data: Card) => {
-    const listId = process.env.REACT_APP_TRELLO_EMBROIDERY_LIST
+    // const listId = process.env.REACT_APP_TRELLO_EMBROIDERY_LIST
     if (data && listId) {
       addCard(data, listId)
       setSubmitMessage(true)
@@ -142,7 +149,7 @@ const EmbroideryForm: React.FC = () => {
           error={error}
           loading={loading}
           closeModal={closeModal}
-          boardName={constants.EMBROIDERY}
+          boardName={boardName}
         />
         <div className={styles.formColumnContainer}>
           <div className={styles.formGroupRow}>
@@ -158,15 +165,15 @@ const EmbroideryForm: React.FC = () => {
               />
             </>
             <div className={styles.checkboxListContainer}>
-              {traders?.map((trader, index) => (
+              {members?.map((member: Member) => (
                 <Checkbox
-                  key={index}
-                  id={trader.initial}
+                  key={member.id}
+                  id={member.id}
                   type={"radio"}
-                  value={trader.id}
-                  label={trader.initial}
+                  value={member.id}
+                  label={getInitials(member.fullName)}
                   error={errors.member}
-                  style={{height: 48}}
+                  style={{ height: 48 }}
                   {...register("member", { required: true })}
                 />
               ))}

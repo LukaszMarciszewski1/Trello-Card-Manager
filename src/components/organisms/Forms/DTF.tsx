@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
-// import dayjs from "dayjs";
 
 import * as constants from 'constants/index';
-import { traders, fabric, departments } from "data/formData/index";
+import { fabric, departments } from "data/formData/index";
 import { useForm, useFieldArray } from "react-hook-form";
 import { Card, CardDescription } from "models/card";
+import { Member } from "models/member";
+import getInitials from "helpers/getInitials";
 
 import {
   getPriceForOnePieceOfSection,
@@ -25,6 +26,12 @@ import MessageModal from "components/organisms/MessageModal/MessageModal";
 import { RiAddLine } from "react-icons/ri";
 import { useTrelloApi } from "hooks/useTrelloApi";
 
+interface FormProps {
+  listId: any
+  boardName: string
+  members: Member[]
+}
+
 const defaultSectionValues = {
   materialAccess: false,
   logo: '',
@@ -41,8 +48,7 @@ const defaultSectionValues = {
   materials: []
 };
 
-const DTFForm: React.FC = () => {
-  // dayjs.locale("pl");
+const DTFForm: React.FC<FormProps> = ({boardName, listId, members}) => {
   const { addCard, success, error, loading } = useTrelloApi()
 
   const {
@@ -56,7 +62,7 @@ const DTFForm: React.FC = () => {
   } = useForm<Card>({
     defaultValues: {
       description: [defaultSectionValues],
-      department: constants.DTF
+      department: boardName
     },
     mode: "onBlur",
   });
@@ -111,30 +117,14 @@ const DTFForm: React.FC = () => {
   }
 
   const handleSubmitForm = async (data: Card) => {
-    const listId = process.env.REACT_APP_TRELLO_DTF_LIST
     if (data && listId) {
       addCard(data, listId)
-      // setDataForm(data)
       setSubmitMessage(true)
     }
   }
 
-  // useEffect(() => {
-  //   if(dataForm && success) {
-  //     const member = searchNameById(traders, dataForm?.member)
-  //     createCardApi({
-  //       ...dataForm,
-  //       member,
-  //       trelloCardId
-  //     })
-  //   }
-  // }, [dataForm, success])
-
   const closeModal = () => {
     reset()
-    // if(success){
-    //   setDataForm(null)
-    // }
     setSubmitMessage(false)
   }
 
@@ -147,7 +137,7 @@ const DTFForm: React.FC = () => {
           error={error}
           loading={loading}
           closeModal={closeModal}
-          boardName={constants.DTF}
+          boardName={boardName}
         />
         <div className={styles.formColumnContainer}>
           <div className={styles.formGroupRow}>
@@ -162,13 +152,13 @@ const DTFForm: React.FC = () => {
               />
             </>
             <div className={styles.checkboxListContainer}>
-              {traders?.map((trader, index) => (
+              {members?.map((member: Member) => (
                 <Checkbox
-                  key={index}
-                  id={trader.initial}
+                  key={member.id}
+                  id={member.id}
                   type={"radio"}
-                  value={trader.id}
-                  label={trader.initial}
+                  value={member.id}
+                  label={getInitials(member.fullName)}
                   error={errors.member}
                   style={{ height: 48 }}
                   {...register("member", { required: true })}

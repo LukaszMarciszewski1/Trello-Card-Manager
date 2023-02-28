@@ -3,7 +3,7 @@ import { traders } from "data/formData/index";
 import styles from './styles.module.scss'
 import dayjs from "dayjs";
 import { useTable, Column, useSortBy, useGlobalFilter, usePagination } from "react-table";
-import { Card } from "models/card";
+import { Member } from "models/member";
 import Button from "components/common/Button/Button";
 import Search from "./Search/Search";
 import { useTrelloApi } from 'hooks/useTrelloApi';
@@ -21,11 +21,6 @@ import {
 } from "react-icons/md";
 import * as constants from 'constants/index';
 
-interface Member {
-  fullName: string
-  id: string
-  username: string
-}
 interface Filter {
   value: string
   label: string
@@ -78,7 +73,7 @@ const CardsTable: React.FC<CardsTableProps> = ({
   const filterMemberName = useCallback((rows: string[]) => {
     if (members?.length) {
       const filteredMembers = compareArrays(members, traders)
-      const tradersNames: Member[] = filteredMembers?.filter((member: { id: string; }) => (
+      const tradersNames: Member[] = members?.filter((member: { id: string; }) => (
         rows.includes(member.id)
       ));
       if (tradersNames.length) {
@@ -322,15 +317,15 @@ const CardsTable: React.FC<CardsTableProps> = ({
             <div className={styles.popupContent}>
               <span>Zlecający:</span>
               {
-                traders.map((trader) => (
+                members.map((member) => (
                   <Checkbox
-                    key={trader.name}
-                    id={trader.name}
+                    key={member.id}
+                    id={member.id}
                     type={"checkbox"}
-                    label={trader.name}
-                    value={trader.name}
-                    checked={tableFilters.includes(trader.id)}
-                    onChange={() => handleSelectedFilter(trader.id)}
+                    label={member.fullName}
+                    value={member.fullName}
+                    checked={tableFilters.includes(member.id)}
+                    onChange={() => handleSelectedFilter(member.id)}
                     style={{
                       width: '100%',
                       margin: '0 0 10px 0'
