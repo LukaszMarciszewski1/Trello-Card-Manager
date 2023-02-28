@@ -38,7 +38,7 @@ REACT_APP_FIREBASE_PROJECT_ID=your_firebase_project_id
 REACT_APP_FIREBASE_STORAGE_BUCKET=your_firebase_storage_bucket
 REACT_APP_FIREBASE_MESSAGING_SENDER_ID=your_firebase_messaging_sender_id
 REACT_APP_FIREBASE_APP_ID=your_firebase_app_id
+```
 Install the required libraries using the command npm install
 Run the application using the command npm start
-```
 Open a web browser and navigate to http://localhost:3000/
