@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 import dayjs from "dayjs";
 
@@ -32,6 +32,12 @@ import { RiAddLine } from "react-icons/ri";
 import { useTrelloApi } from "hooks/useTrelloApi";
 import { Material } from "models/material";
 
+interface FormProps {
+  listId: any
+  boardName: string
+}
+
+
 const defaultSectionValues = {
   materialAccess: true,
   materialType: materials[0]?.application,
@@ -49,9 +55,9 @@ const defaultSectionValues = {
   materials: []
 };
 
-const PlotterForm: React.FC = () => {
+const PlotterForm: React.FC<FormProps> = ({boardName, listId}) => {
   dayjs.locale("pl");
-  const { addCard, success, error, loading } = useTrelloApi()
+  const { addCard, success, error, loading, boards, lists } = useTrelloApi()
 
   const {
     register,
@@ -64,7 +70,7 @@ const PlotterForm: React.FC = () => {
   } = useForm<Card>({
     defaultValues: {
       description: [defaultSectionValues],
-      department: constants.PLOTTER
+      department: boardName
     },
     mode: "onBlur",
   });
@@ -122,15 +128,6 @@ const PlotterForm: React.FC = () => {
     setWatchPacking(!watchPacking)
   }
 
-  const handleSubmitForm = (data: Card) => {
-    const listId = process.env.REACT_APP_TRELLO_PLOTTER_LIST
-    setWatchMaterialsForm(true)
-    if (data && listId && validMaterialsForm) {
-      addCard(data, listId);
-      setSubmitMessage(true)
-    }
-  }
-
   const closeModal = () => {
     setWatchMaterialsForm(false)
     setSubmitMessage(false)
@@ -146,6 +143,23 @@ const PlotterForm: React.FC = () => {
     return materials.filter(material => (
       material.application.toLowerCase() === sectionForms[index]?.materialType?.toLowerCase()
     ))
+  }
+
+  const getListId = useCallback(() => {
+    if (boards.length && lists.length) {
+      const currentBoard: any = boards.find((board: { name: string }) => board.name.toLowerCase() === boardName.toLowerCase())
+      const firstListOfCurrentBoard: any = lists.find((list: { idBoard: string }) => list.idBoard === currentBoard.id)
+      return firstListOfCurrentBoard.id
+    }
+  }, [boards, lists])
+
+  const handleSubmitForm = (data: Card) => {
+    // const listId = listId
+    setWatchMaterialsForm(true)
+    if (data && listId && validMaterialsForm) {
+      addCard(data, listId);
+      setSubmitMessage(true)
+    }
   }
 
   const materialTabsValues: string[] = [
@@ -164,7 +178,7 @@ const PlotterForm: React.FC = () => {
           error={error}
           loading={loading}
           closeModal={closeModal}
-          boardName={constants.PLOTTER}
+          boardName={boardName}
         />
         <div className={styles.formColumnContainer}>
           <div className={styles.formGroupRow}>
@@ -188,7 +202,7 @@ const PlotterForm: React.FC = () => {
                   value={trader.id}
                   label={trader.initial}
                   error={errors.member}
-                  style={{height: 48}}
+                  style={{ height: 48 }}
                   {...register("member", { required: true })}
                 />
               ))}

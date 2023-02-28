@@ -25,6 +25,11 @@ import Textarea from "components/common/Textarea/Textarea";
 import MessageModal from "components/organisms/MessageModal/MessageModal";
 import { RiAddLine } from "react-icons/ri";
 
+interface FormProps {
+  listId: any
+  boardName: string
+}
+
 const defaultSectionValues = {
   materialAccess: false,
   logo: '',
@@ -41,7 +46,7 @@ const defaultSectionValues = {
   materials: []
 };
 
-const EmbroideryForm: React.FC = () => {
+const EmbroideryForm: React.FC<FormProps> = ({boardName, listId}) => {
   dayjs.locale("pl");
   const { addCard, success, error, loading } = useTrelloApi()
 
@@ -56,7 +61,7 @@ const EmbroideryForm: React.FC = () => {
   } = useForm<Card>({
     defaultValues: {
       description: [defaultSectionValues],
-      department: constants.EMBROIDERY
+      department: boardName
     },
     mode: "onBlur",
   });
@@ -121,7 +126,7 @@ const EmbroideryForm: React.FC = () => {
   }
 
   const handleSubmitForm = (data: Card) => {
-    const listId = process.env.REACT_APP_TRELLO_EMBROIDERY_LIST
+    // const listId = process.env.REACT_APP_TRELLO_EMBROIDERY_LIST
     if (data && listId) {
       addCard(data, listId)
       setSubmitMessage(true)
@@ -142,7 +147,7 @@ const EmbroideryForm: React.FC = () => {
           error={error}
           loading={loading}
           closeModal={closeModal}
-          boardName={constants.EMBROIDERY}
+          boardName={boardName}
         />
         <div className={styles.formColumnContainer}>
           <div className={styles.formGroupRow}>
