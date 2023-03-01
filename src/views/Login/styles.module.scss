@@ -1,6 +1,5 @@
 @import 'style/mixins.scss';
 @import 'style/colors.scss';
-// @import 'assets/style/theme.scss';
 
 .auth {
   width: 100vw;
@@ -12,7 +11,7 @@
 }
 
 .formContainer {
-  width: 700px;
+  width: 600px;
   height: 500px;
   display: flex;
   justify-content: center;

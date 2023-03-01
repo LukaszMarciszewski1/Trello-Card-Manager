@@ -157,6 +157,7 @@ const DTFForm: React.FC<FormProps> = ({boardName, listId, members}) => {
                   key={member.id}
                   id={member.id}
                   type={"radio"}
+                  title={member.fullName}
                   value={member.id}
                   label={getInitials(member.fullName)}
                   error={errors.member}
@@ -303,8 +304,6 @@ const DTFForm: React.FC<FormProps> = ({boardName, listId, members}) => {
               <div style={{ display: 'none' }}>
                 <Input
                   id={"startDate"}
-                  // placeholder={constants.START_DATE}
-                  // label={constants.START_DATE}
                   value={new Date().toISOString().slice(0, 10)}
                   type="date"
                   {...register("startDate")}

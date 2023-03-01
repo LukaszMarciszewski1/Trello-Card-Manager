@@ -148,7 +148,6 @@ const PlotterForm: React.FC<FormProps> = ({boardName, listId, members}) => {
   }
 
   const handleSubmitForm = (data: Card) => {
-    // const listId = listId
     setWatchMaterialsForm(true)
     if (data && listId && validMaterialsForm) {
       addCard(data, listId);
@@ -194,6 +193,7 @@ const PlotterForm: React.FC<FormProps> = ({boardName, listId, members}) => {
                   id={member.id}
                   type={"radio"}
                   value={member.id}
+                  title={member.fullName}
                   label={getInitials(member.fullName)}
                   error={errors.member}
                   style={{ height: 48 }}
@@ -391,22 +391,12 @@ const PlotterForm: React.FC<FormProps> = ({boardName, listId, members}) => {
               <div style={{ display: 'none' }}>
                 <Input
                   id={"startDate"}
-                  // placeholder={constants.START_DATE}
-                  // label={constants.START_DATE}
                   value={new Date().toISOString().slice(0, 10)}
                   type="date"
                   style={{ display: 'none' }}
                   {...register("startDate")}
                 />
               </div>
-              {/* <Input
-                id={"startDate"}
-                placeholder={constants.START_DATE}
-                label={constants.START_DATE}
-                value={new Date().toISOString().slice(0, 10)}
-                type="date"
-                {...register("startDate")}
-              /> */}
               <Input
                 id={"endDate"}
                 placeholder={constants.END_DATE}

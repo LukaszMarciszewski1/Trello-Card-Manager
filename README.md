@@ -12,7 +12,7 @@ Firebase,
 Module SCSS
 
 ## Demo
-👉  https://print-control-m.netlify.app/
+👉  https://trello-card-manager.netlify.app/
 
 ### Demo Account Credentials
 Login:  `demo@gmail.com`

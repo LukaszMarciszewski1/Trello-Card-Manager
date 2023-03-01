@@ -6,7 +6,6 @@ import { AuthContextProvider } from 'context/authContext'
 import { useAuth } from "hooks/useAuth";
 import Tabs from "components/organisms//Tabs/Tabs";
 import TabsContent from "components/organisms//Tabs/TabsContent/TabsContent";
-import Navbar from "components/organisms/Navbar/Navbar";
 import TaskList from "views/TasksList";
 import TaskForms from "views/TaskForms";
 import Login from "views/Login/Login";
@@ -31,7 +30,6 @@ function App() {
           <ProtectedRoute>
             <Layout>
               <TrelloApiContextProvider>
-                <Navbar />
                 <Tabs>
                   <TabsContent title={constants.ADD_TASK_TAB}>
                     <TaskForms />
