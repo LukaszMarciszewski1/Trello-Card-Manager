@@ -30,10 +30,6 @@ const TaskForms: React.FC = () => {
     getLists('all')
   }, [])
 
-  console.log(members)
-
-
-
   const getFirstListOfCurrentBoard = useCallback((boardName: string): string | undefined => {
     if (boards.length && lists.length) {
       const currentBoard = boards

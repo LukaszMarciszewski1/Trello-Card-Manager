@@ -166,7 +166,6 @@ const CardsTable: React.FC<CardsTableProps> = ({
 
   }, [cards, tableFilters]);
 
-
   const data = React.useMemo<any[]>(() => filteredData, [filteredData]);
   const columns = React.useMemo<Column<any>[]>(
     () => [
