@@ -27,7 +27,7 @@ import { RiAddLine } from "react-icons/ri";
 import { useTrelloApi } from "hooks/useTrelloApi";
 
 interface FormProps {
-  listId: any
+  listId: string | undefined
   boardName: string
   members: Member[]
 }

@@ -35,7 +35,7 @@ import { useTrelloApi } from "hooks/useTrelloApi";
 import { Material } from "models/material";
 
 interface FormProps {
-  listId: any
+  listId: string | undefined
   boardName: string
   members: Member[]
 }
