@@ -15,7 +15,7 @@ Module SCSS
 👉  https://trello-card-manager.netlify.app/
 
 ### Demo Account Credentials
-Login:  `demo@gmail.com`
+Login:  `admin@demo.pl`
 Password:  `Demo1234` 
 
 ### Trello board sharing link:
