@@ -28,7 +28,7 @@ import MessageModal from "components/organisms/MessageModal/MessageModal";
 import { RiAddLine } from "react-icons/ri";
 
 interface FormProps {
-  listId: any
+  listId: string | undefined
   boardName: string
   members: Member[]
 }
