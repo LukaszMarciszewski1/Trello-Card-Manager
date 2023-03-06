@@ -1,26 +1,8 @@
 import { useState } from 'react'
 import axios from 'axios'
 import { Card, CardDescription } from 'models/card'
+import { Member, Board, List } from "models/trelloModels/index";
 import { cardFormData } from './cardFormData/cardFormData'
-
-interface Member {
-  fullName: string
-  id: string
-  username: string
-}
-
-interface List {
-  closed: boolean
-  id: string
-  idBoard: string
-  name: string
-  pos: number
-}
-
-interface Board {
-  id: string 
-  name: string 
-}
 
 export function TrelloApi() {
   const [status, setStatus] = useState({

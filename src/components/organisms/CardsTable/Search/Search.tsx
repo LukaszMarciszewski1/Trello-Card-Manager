@@ -9,7 +9,6 @@ interface GlobalFilterProps {
   setGlobalFilter: (e: string | undefined) => void,
 }
 
-
 const GlobalFilter: React.FC<GlobalFilterProps> = ({
   preGlobalFilteredRows,
   globalFilter,

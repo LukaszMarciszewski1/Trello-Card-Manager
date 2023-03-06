@@ -4,15 +4,15 @@ import * as constants from 'constants/index';
 import { useAuth } from "hooks/useAuth";
 import Tabs from "components/organisms//Tabs/Tabs";
 import TabsContent from "components/organisms//Tabs/TabsContent/TabsContent";
-import TaskList from "views/TasksList";
-import TaskForms from "views/TaskForms";
-import Login from "views/Login/Login";
+import TaskList from "views/Authenticated/TasksList";
+import TaskForms from "views/Authenticated/TaskForms";
+import Login from "views/Unauthenticated/Login";
 import Loading from "components/common/Loading/Loading";
 import AppProviders from "providers/AppProviders";
 import Navbar from "components/organisms/Navbar/Navbar";
 
 
-function App() {
+function Root() {
 
   const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     const { user, isLoading } = useAuth();
@@ -29,7 +29,7 @@ function App() {
         <Route index path="/home" element={
           <ProtectedRoute>
             <Layout>
-                <Navbar />
+              <Navbar />
               <Tabs>
                 <TabsContent title={constants.ADD_TASK_TAB}>
                   <TaskForms />
@@ -46,4 +46,4 @@ function App() {
   );
 }
 
-export default App;
+export default Root;

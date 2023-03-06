@@ -5,7 +5,7 @@ import * as constants from 'constants/index';
 import { fabric, departments } from "data/formData/index";
 import { useForm, useFieldArray } from "react-hook-form";
 import { Card, CardDescription } from "models/card";
-import { Member } from "models/member";
+import { Member } from "models/trelloModels/member";
 import getInitials from "helpers/getInitials";
 
 import {
@@ -48,7 +48,7 @@ const defaultSectionValues = {
   materials: []
 };
 
-const DTFForm: React.FC<FormProps> = ({boardName, listId}) => {
+const DTFForm: React.FC<FormProps> = ({ boardName, listId }) => {
   const { addCard, success, error, loading, members } = useTrelloApi()
 
   const {

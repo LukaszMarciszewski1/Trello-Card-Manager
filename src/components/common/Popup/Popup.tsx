@@ -21,8 +21,7 @@ const Popup: React.FC<PopupProps> = ({
   trigger,
   title,
   closePopup,
-  style,
-  ...props
+  style
 }) => {
   const refPopup = useRef(null)
   useOnClickOutside(refPopup, closePopup)
