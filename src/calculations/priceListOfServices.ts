@@ -59,9 +59,7 @@ const calculateDefaultPrice = (
     (item) => item.value === material
   )
 
-  if (!selectedMaterial[0]) return 0
-  if (amount === 0) return 0
-  if (selectedWidth * selectedHeight === 0) return 0
+  if (!selectedMaterial[0] || amount === 0 || selectedWidth * selectedHeight === 0) return 0
 
   const materialModifier = getMaterialModifier(
     selectedMaterial[0].priceModifier
@@ -212,19 +210,18 @@ export const isDisplayFabric = (data: CardDescription): boolean => {
 }
 
 export const getTotalPrice = (data: CardDescription[]): number => {
-  const sectionForms = [...data]
+  const sectionForms = [...data];
+
   const totalDefaultPrice = Number(
     defaultPrices(sectionForms, false).reduce(
-      (accumulator, currentValue) => accumulator + currentValue,
-      0
+      (accumulator, currentValue) => accumulator + currentValue, 0
     )
-  )
+  );
   const totalCustomPrice = Number(
     customPrices(sectionForms).reduce(
-      (accumulator, currentValue) => accumulator + currentValue,
-      0
+      (accumulator, currentValue) => accumulator + currentValue, 0
     )
-  )
-  const totalPrice = totalCustomPrice > 0 ? (totalDefaultPrice + totalCustomPrice) : totalDefaultPrice
+  );
+  const totalPrice = totalCustomPrice > 0 ? (totalDefaultPrice + totalCustomPrice) : totalDefaultPrice;
   return Number(totalPrice.toFixed(1))
 }

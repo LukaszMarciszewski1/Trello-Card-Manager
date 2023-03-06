@@ -18,10 +18,10 @@ const mapDescriptionToText = (description: CardDescription[], department: string
         \n\
         \n***Sekcja: ${i + 1} >>>>>>>>>>>>>>>>>>>>>***
         \n- Logo: ${desc.logo}
-        \n- Ilość: ${desc.amount}
+        \n- Ilość: ${desc.amount} szt
         \n- Tkanina: ${desc.fabric}
-        \n- Szerokość: ${desc.width}cm
-        \n- Wysokość: ${desc.height}cm
+        \n- Szerokość: ${desc.width} cm
+        \n- Wysokość: ${desc.height} cm
         \n- Rozmiar: ${desc.size}
         \n- Pakowanie: ${desc.packing ? 'TAK' : 'NIE'}
         ${descMaterials}
@@ -89,5 +89,5 @@ export const cardFormData = {
   initialFormData,
   fileFormData,
   checklistFormData,
-  customFieldsFormData
+  customFieldsFormData,
 }

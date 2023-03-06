@@ -1,23 +1,23 @@
 export const departments = {
   plotter: [
    {
-     label: 'MARCIN',
-     value: '6350f5d4c2c662005aa115e2', 
-     initial: 'MP',
+     label: 'Łukasz',
+     value: '6180f488ac3041197071a9bd', 
+     initial: 'ŁM',
    },
   ],
   embroidery: [
-   {
-     label: 'KASIA',
-     value: '63cfc0d81acae9ad99ce0a20',
-     initial: 'HD',
-   },
+    {
+      label: 'Łukasz',
+      value: '6180f488ac3041197071a9bd', 
+      initial: 'ŁM',
+    },
   ],
   dtf: [
-   {
-     label: 'MARCIN',
-     value: '6350f5d4c2c662005aa115e2', 
-     initial: 'MP',
-   },
+    {
+      label: 'Łukasz',
+      value: '6180f488ac3041197071a9bd', 
+      initial: 'ŁM',
+    },
   ]
  }

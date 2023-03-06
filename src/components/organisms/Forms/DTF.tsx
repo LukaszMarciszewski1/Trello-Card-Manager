@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
-import dayjs from "dayjs";
 
 import * as constants from 'constants/index';
-import { traders, fabric, departments } from "data/formData/index";
+import { fabric, departments } from "data/formData/index";
 import { useForm, useFieldArray } from "react-hook-form";
 import { Card, CardDescription } from "models/card";
+import { Member } from "models/member";
+import getInitials from "helpers/getInitials";
 
 import {
   getPriceForOnePieceOfSection,
@@ -25,6 +26,12 @@ import MessageModal from "components/organisms/MessageModal/MessageModal";
 import { RiAddLine } from "react-icons/ri";
 import { useTrelloApi } from "hooks/useTrelloApi";
 
+interface FormProps {
+  listId: string | undefined
+  boardName: string
+
+}
+
 const defaultSectionValues = {
   materialAccess: false,
   logo: '',
@@ -41,10 +48,8 @@ const defaultSectionValues = {
   materials: []
 };
 
-const DTFForm: React.FC = () => {
-  dayjs.locale("pl");
-  // const [createCardApi] = useCreateCardMutation()
-  const { addCard, success, error, loading } = useTrelloApi()
+const DTFForm: React.FC<FormProps> = ({boardName, listId}) => {
+  const { addCard, success, error, loading, members } = useTrelloApi()
 
   const {
     register,
@@ -57,7 +62,7 @@ const DTFForm: React.FC = () => {
   } = useForm<Card>({
     defaultValues: {
       description: [defaultSectionValues],
-      department: constants.DTF
+      department: boardName
     },
     mode: "onBlur",
   });
@@ -67,7 +72,6 @@ const DTFForm: React.FC = () => {
     control,
   });
 
-  const [dataForm, setDataForm] = useState<Card | null>(null)
   const watchForChangesInSectionForms = watch('description');
   const [sectionForms, setSectionForms] = useState<CardDescription[]>([])
   const [watchCustomPrice, setWatchCustomPrice] = useState('')
@@ -113,30 +117,14 @@ const DTFForm: React.FC = () => {
   }
 
   const handleSubmitForm = async (data: Card) => {
-    const listId = process.env.REACT_APP_TRELLO_DTF_LIST
     if (data && listId) {
       addCard(data, listId)
-      // setDataForm(data)
       setSubmitMessage(true)
     }
   }
 
-  // useEffect(() => {
-  //   if(dataForm && success) {
-  //     const member = searchNameById(traders, dataForm?.member)
-  //     createCardApi({
-  //       ...dataForm,
-  //       member,
-  //       trelloCardId
-  //     })
-  //   }
-  // }, [dataForm, success])
-
   const closeModal = () => {
     reset()
-    // if(success){
-    //   setDataForm(null)
-    // }
     setSubmitMessage(false)
   }
 
@@ -149,7 +137,7 @@ const DTFForm: React.FC = () => {
           error={error}
           loading={loading}
           closeModal={closeModal}
-          boardName={constants.DTF}
+          boardName={boardName}
         />
         <div className={styles.formColumnContainer}>
           <div className={styles.formGroupRow}>
@@ -164,14 +152,16 @@ const DTFForm: React.FC = () => {
               />
             </>
             <div className={styles.checkboxListContainer}>
-              {traders?.map((trader, index) => (
+              {members?.map((member: Member) => (
                 <Checkbox
-                  key={index}
-                  id={trader.initial}
+                  key={member.id}
+                  id={member.id}
                   type={"radio"}
-                  value={trader.id}
-                  label={trader.initial}
+                  title={member.fullName}
+                  value={member.id}
+                  label={getInitials(member.fullName)}
                   error={errors.member}
+                  style={{ height: 48 }}
                   {...register("member", { required: true })}
                 />
               ))}
@@ -311,14 +301,14 @@ const DTFForm: React.FC = () => {
                 id={"recipient"}
                 {...register("recipient")}
               />
-              <Input
-                id={"startDate"}
-                placeholder={constants.START_DATE}
-                label={constants.START_DATE}
-                value={new Date().toISOString().slice(0, 10)}
-                type="date"
-                {...register("startDate")}
-              />
+              <div style={{ display: 'none' }}>
+                <Input
+                  id={"startDate"}
+                  value={new Date().toISOString().slice(0, 10)}
+                  type="date"
+                  {...register("startDate")}
+                />
+              </div>
               <Input
                 id={"endDate"}
                 placeholder={constants.END_DATE}

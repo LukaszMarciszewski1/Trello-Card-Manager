@@ -7,6 +7,8 @@ import { traders, fabric, departments } from "data/formData/index";
 import { useForm, useFieldArray } from "react-hook-form";
 import { Card, CardDescription } from "models/card";
 import { useTrelloApi } from "hooks/useTrelloApi";
+import { Member } from "models/member";
+import getInitials from "helpers/getInitials";
 
 import {
   getPriceForOnePieceOfSection,
@@ -25,6 +27,11 @@ import Textarea from "components/common/Textarea/Textarea";
 import MessageModal from "components/organisms/MessageModal/MessageModal";
 import { RiAddLine } from "react-icons/ri";
 
+interface FormProps {
+  listId: string | undefined
+  boardName: string
+
+}
 const defaultSectionValues = {
   materialAccess: false,
   logo: '',
@@ -41,9 +48,9 @@ const defaultSectionValues = {
   materials: []
 };
 
-const EmbroideryForm: React.FC = () => {
+const EmbroideryForm: React.FC<FormProps> = ({boardName, listId}) => {
   dayjs.locale("pl");
-  const { addCard, success, error, loading } = useTrelloApi()
+  const { addCard, success, error, loading, members } = useTrelloApi()
 
   const {
     register,
@@ -56,7 +63,7 @@ const EmbroideryForm: React.FC = () => {
   } = useForm<Card>({
     defaultValues: {
       description: [defaultSectionValues],
-      department: constants.EMBROIDERY
+      department: boardName
     },
     mode: "onBlur",
   });
@@ -121,7 +128,7 @@ const EmbroideryForm: React.FC = () => {
   }
 
   const handleSubmitForm = (data: Card) => {
-    const listId = process.env.REACT_APP_TRELLO_EMBROIDERY_LIST
+    // const listId = process.env.REACT_APP_TRELLO_EMBROIDERY_LIST
     if (data && listId) {
       addCard(data, listId)
       setSubmitMessage(true)
@@ -142,7 +149,7 @@ const EmbroideryForm: React.FC = () => {
           error={error}
           loading={loading}
           closeModal={closeModal}
-          boardName={constants.EMBROIDERY}
+          boardName={boardName}
         />
         <div className={styles.formColumnContainer}>
           <div className={styles.formGroupRow}>
@@ -158,14 +165,16 @@ const EmbroideryForm: React.FC = () => {
               />
             </>
             <div className={styles.checkboxListContainer}>
-              {traders?.map((trader, index) => (
+              {members?.map((member: Member) => (
                 <Checkbox
-                  key={index}
-                  id={trader.initial}
+                  key={member.id}
+                  id={member.id}
                   type={"radio"}
-                  value={trader.id}
-                  label={trader.initial}
+                  value={member.id}
+                  title={member.fullName}
+                  label={getInitials(member.fullName)}
                   error={errors.member}
+                  style={{ height: 48 }}
                   {...register("member", { required: true })}
                 />
               ))}
@@ -302,14 +311,14 @@ const EmbroideryForm: React.FC = () => {
                 id={"recipient"}
                 {...register("recipient")}
               />
-              <Input
-                id={"startDate"}
-                placeholder={constants.START_DATE}
-                label={constants.START_DATE}
-                value={new Date().toISOString().slice(0, 10)}
-                type="date"
-                {...register("startDate")}
-              />
+              <div style={{ display: 'none' }}>
+                <Input
+                  id={"startDate"}
+                  value={new Date().toISOString().slice(0, 10)}
+                  type="date"
+                  {...register("startDate")}
+                />
+              </div>
               <Input
                 id={"endDate"}
                 placeholder={constants.END_DATE}

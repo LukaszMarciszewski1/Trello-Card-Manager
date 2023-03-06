@@ -8,6 +8,7 @@ export const traders = [
     id: '6368b5afeaaa0400bb987771',
     name: 'Tomasz Jankowski',
     initial: 'TJ',
+    value: 'Tomasz'
   },
   {
     id: '5fb806726a71580c3b3fdbd4',
@@ -26,7 +27,7 @@ export const traders = [
   },
   {
     id: '63a062e9f196040308b23174',
-    name: 'Maciej Witak',
+    name: 'Maciek Witak',
     initial: 'MW',
   },
 ]

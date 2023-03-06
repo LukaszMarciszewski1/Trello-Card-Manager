@@ -4,9 +4,11 @@ import dayjs from "dayjs";
 
 import * as constants from 'constants/index';
 import { Card, CardDescription } from "models/card";
-import { traders, fabric, departments } from "data/formData/index";
+import { Member } from "models/member";
+import { fabric, departments } from "data/formData/index";
 import { materials } from "data/formData/materials";
 import { useForm, useFieldArray } from "react-hook-form";
+import getInitials from "helpers/getInitials";
 
 import {
   getPriceForOnePieceOfSection,
@@ -32,6 +34,12 @@ import { RiAddLine } from "react-icons/ri";
 import { useTrelloApi } from "hooks/useTrelloApi";
 import { Material } from "models/material";
 
+interface FormProps {
+  listId: string | undefined
+  boardName: string
+ 
+}
+
 const defaultSectionValues = {
   materialAccess: true,
   materialType: materials[0]?.application,
@@ -49,9 +57,9 @@ const defaultSectionValues = {
   materials: []
 };
 
-const PlotterForm: React.FC = () => {
+const PlotterForm: React.FC<FormProps> = ({boardName, listId}) => {
   dayjs.locale("pl");
-  const { addCard, success, error, loading } = useTrelloApi()
+  const { addCard, success, error, loading, members } = useTrelloApi()
 
   const {
     register,
@@ -64,7 +72,7 @@ const PlotterForm: React.FC = () => {
   } = useForm<Card>({
     defaultValues: {
       description: [defaultSectionValues],
-      department: constants.PLOTTER
+      department: boardName
     },
     mode: "onBlur",
   });
@@ -122,15 +130,6 @@ const PlotterForm: React.FC = () => {
     setWatchPacking(!watchPacking)
   }
 
-  const handleSubmitForm = (data: Card) => {
-    const listId = process.env.REACT_APP_TRELLO_PLOTTER_LIST
-    setWatchMaterialsForm(true)
-    if (data && listId && validMaterialsForm) {
-      addCard(data, listId);
-      setSubmitMessage(true)
-    }
-  }
-
   const closeModal = () => {
     setWatchMaterialsForm(false)
     setSubmitMessage(false)
@@ -146,6 +145,14 @@ const PlotterForm: React.FC = () => {
     return materials.filter(material => (
       material.application.toLowerCase() === sectionForms[index]?.materialType?.toLowerCase()
     ))
+  }
+
+  const handleSubmitForm = (data: Card) => {
+    setWatchMaterialsForm(true)
+    if (data && listId && validMaterialsForm) {
+      addCard(data, listId);
+      setSubmitMessage(true)
+    }
   }
 
   const materialTabsValues: string[] = [
@@ -164,7 +171,7 @@ const PlotterForm: React.FC = () => {
           error={error}
           loading={loading}
           closeModal={closeModal}
-          boardName={constants.PLOTTER}
+          boardName={boardName}
         />
         <div className={styles.formColumnContainer}>
           <div className={styles.formGroupRow}>
@@ -180,14 +187,16 @@ const PlotterForm: React.FC = () => {
               />
             </>
             <div className={styles.checkboxListContainer}>
-              {traders?.map((trader, index) => (
+              {members?.map((member: Member) => (
                 <Checkbox
-                  key={index}
-                  id={trader.initial}
+                  key={member.id}
+                  id={member.id}
                   type={"radio"}
-                  value={trader.id}
-                  label={trader.initial}
+                  value={member.id}
+                  title={member.fullName}
+                  label={getInitials(member.fullName)}
                   error={errors.member}
+                  style={{ height: 48 }}
                   {...register("member", { required: true })}
                 />
               ))}
@@ -379,14 +388,15 @@ const PlotterForm: React.FC = () => {
                 id={"recipient"}
                 {...register("recipient")}
               />
-              <Input
-                id={"startDate"}
-                placeholder={constants.START_DATE}
-                label={constants.START_DATE}
-                value={new Date().toISOString().slice(0, 10)}
-                type="date"
-                {...register("startDate")}
-              />
+              <div style={{ display: 'none' }}>
+                <Input
+                  id={"startDate"}
+                  value={new Date().toISOString().slice(0, 10)}
+                  type="date"
+                  style={{ display: 'none' }}
+                  {...register("startDate")}
+                />
+              </div>
               <Input
                 id={"endDate"}
                 placeholder={constants.END_DATE}

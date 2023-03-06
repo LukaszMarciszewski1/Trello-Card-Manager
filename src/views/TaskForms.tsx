@@ -1,22 +1,63 @@
-import React from 'react'
+import React, { useCallback, useEffect } from 'react'
 import Tabs from 'components/organisms/Tabs/Tabs'
 import TabsContent from 'components/organisms/Tabs/TabsContent/TabsContent'
-import Plotter from 'components/organisms/Forms/Plotter'
-import Embroidery from 'components/organisms/Forms/Embroidery'
-import DTF from 'components/organisms/Forms/DTF'
+import PlotterForm from 'components/organisms/Forms/Plotter'
+import EmbroideryForm from 'components/organisms/Forms/Embroidery'
+import DTFForm from 'components/organisms/Forms/DTF'
 import * as constants from 'constants/index';
+import { useTrelloApi } from 'hooks/useTrelloApi'
 
 const TaskForms: React.FC = () => {
+
+  const {
+    PLOTTER,
+    EMBROIDERY,
+    DTF
+  } = constants;
+
+  const {
+    getBoards,
+    getLists,
+    getMembers,
+    boards,
+    lists,
+  } = useTrelloApi()
+
+  useEffect(() => {
+    getMembers()
+    getBoards()
+    getLists('all')
+  }, [])
+
+  const getFirstListOfCurrentBoard = useCallback((boardName: string): string | undefined => {
+    if (boards.length && lists.length) {
+      const currentBoard = boards
+        .find((board: { name: string }) => board.name.toLowerCase() === boardName.toLowerCase())
+      const firstListOfCurrentBoard = currentBoard ? lists
+        .find((list: { idBoard: string | undefined }) => list.idBoard === currentBoard.id) : undefined
+      return firstListOfCurrentBoard?.id
+    }
+  }, [boards, lists])
+
   return (
     <Tabs subcategory>
-      <TabsContent title={constants.PLOTTER}>
-        <Plotter />
+      <TabsContent title={PLOTTER}>
+        <PlotterForm
+          listId={getFirstListOfCurrentBoard(PLOTTER)}
+          boardName={PLOTTER}
+           />
       </TabsContent>
-      <TabsContent title={constants.EMBROIDERY}>
-        <Embroidery />
+      <TabsContent title={EMBROIDERY}>
+        <EmbroideryForm
+          listId={getFirstListOfCurrentBoard(EMBROIDERY)}
+          boardName={EMBROIDERY}
+           />
       </TabsContent>
-      <TabsContent title={constants.DTF}>
-        <DTF />
+      <TabsContent title={DTF}>
+        <DTFForm
+          listId={getFirstListOfCurrentBoard(DTF)}
+          boardName={DTF} 
+           />
       </TabsContent>
     </Tabs>
   )

@@ -2,39 +2,37 @@ import React, { useState, useCallback } from "react";
 import { traders } from "data/formData/index";
 import styles from './styles.module.scss'
 import dayjs from "dayjs";
-import { useTable, Column, useSortBy, useGlobalFilter, usePagination, Row } from "react-table";
-import { Card } from "models/card";
+import { useTable, Column, useSortBy, useGlobalFilter, usePagination } from "react-table";
+import { Member } from "models/member";
 import Button from "components/common/Button/Button";
 import Search from "./Search/Search";
 import { useTrelloApi } from 'hooks/useTrelloApi';
 import Checkbox from "components/common/Checkbox/Checkbox";
 import Popup from "components/common/Popup/Popup";
 import { AiFillEdit } from "react-icons/ai";
-import { 
-  MdSkipPrevious, 
-  MdKeyboardArrowLeft, 
-  MdKeyboardArrowRight, 
-  MdSkipNext, 
-  MdOutlineDeleteOutline 
+import {
+  MdSkipPrevious,
+  MdKeyboardArrowLeft,
+  MdKeyboardArrowRight,
+  MdSkipNext,
+  MdOutlineDeleteOutline,
+  MdOutlineArchive,
+  MdOutlineFilterList
 } from "react-icons/md";
+import * as constants from 'constants/index';
 
-interface Member {
-  fullName: string
-  id: string
-  username: string
-}
 interface Filter {
   value: string
   label: string
 }
 interface CardsTableProps {
-  cards: Card[]
+  cards: any[]
   members: Member[]
   boards: any[]
   lists: any[]
-  filters: Filter[]
-  selectedFilter: string
-  setFilter: (e: string) => void
+  dataFilters: Filter[]
+  selectedDataFilter: string
+  setSelectedDataFilter: (e: string) => void
 }
 
 const CardsTable: React.FC<CardsTableProps> = ({
@@ -42,18 +40,22 @@ const CardsTable: React.FC<CardsTableProps> = ({
   members,
   boards,
   lists,
-  filters,
-  selectedFilter,
-  setFilter,
+  dataFilters,
+  selectedDataFilter,
+  setSelectedDataFilter,
 }) => {
-  const { getCards, deleteCard } = useTrelloApi()
+  const { getCards, deleteCard, archiveCard } = useTrelloApi()
 
+  const [popupTrigger, setPopupTrigger] = useState(false)
+  const [tableFilters, setTableFilters] = useState<string[]>([]);
   const [rowPopup, setRowPopup] = useState(false)
-  const [rowActions, setRowActions] = useState({
+  const [currentRow, setCurrentRow] = useState({
     posY: 0,
     posX: 0,
     rowId: '',
-    rowUrl: ''
+    rowUrl: '',
+    listId: '',
+    name: '',
   })
 
   const compareArrays = (array1: { id: string; }[], array2: { id: string; }[]) => {
@@ -71,25 +73,26 @@ const CardsTable: React.FC<CardsTableProps> = ({
   const filterMemberName = useCallback((rows: string[]) => {
     if (members?.length) {
       const filteredMembers = compareArrays(members, traders)
-      const tradersNames: Member[] = filteredMembers?.filter((member: { id: string; }) => (
+      const tradersNames: Member[] = members?.filter((member: { id: string; }) => (
         rows.includes(member.id)
       ));
       if (tradersNames.length) {
-        return tradersNames[0].fullName
+        const names = tradersNames.map(trader => trader.fullName).join(', ')
+        return names
       }
     }
   }, [members]);
 
   const filterBoardName = useCallback((row: string) => {
     if (boards?.length) {
-      const filteredBoards: any[] = boards?.filter((board: {id: string}) => row.includes(board.id));
+      const filteredBoards: any[] = boards?.filter((board: { id: string }) => row.includes(board.id));
       return filteredBoards[0].name
     }
   }, [boards])
 
   const filterListName = useCallback((row: string) => {
     if (lists?.length) {
-      const filteredLists: any[] = lists?.filter((list: {id: string}) => row.includes(list.id));
+      const filteredLists: any[] = lists?.filter((list: { id: string }) => row.includes(list.id));
       return filteredLists[0].name
     }
   }, [lists])
@@ -102,16 +105,68 @@ const CardsTable: React.FC<CardsTableProps> = ({
   }
 
   const handleDeleteCard = async () => {
-    const result = window.confirm("Ta akcja spowoduje usunięcie karty z Trello, czy chcesz usunąć kartę?")
+    const result = window.confirm(`Ta akcja spowoduje usunięcie karty ${currentRow.name} z Trello, czy chcesz usunąć kartę?`)
     if (!result) return
-    await deleteCard(rowActions.rowId).then(async () => {
+    await deleteCard(currentRow.rowId).then(async () => {
       alert('Karta została usunięta z tablicy w Trello')
-      await getCards(selectedFilter)
+      await getCards(selectedDataFilter)
       setRowPopup(false)
     })
   }
 
-  const data = React.useMemo<Card[]>(() => cards, [cards]);
+  const handleArchiveCard = async () => {
+    const result = window.confirm(`Ta akcja spowoduje zarchiwizowanie karty ${currentRow.name} w Trello, czy chcesz zarchiwizować kartę?`)
+    if (!result) return
+    await archiveCard(currentRow.rowId).then(async () => {
+      alert('Karta została zarchiwizowana')
+      await getCards(selectedDataFilter)
+      setRowPopup(false)
+    })
+  }
+
+  const isTheSameListName = (listName: string): boolean => {
+    let result = true
+    if (currentRow.listId) {
+      result = filterListName(currentRow.listId).toLowerCase() === listName.toLowerCase() ? false : true
+    }
+    return result
+  }
+
+  const handleSelectedFilter = (id: string) => {
+    const newSelectedFilters = tableFilters.includes(id)
+      ? tableFilters.filter((t) => t !== id)
+      : [...tableFilters, id];
+    setTableFilters(newSelectedFilters);
+  }
+
+  const filteredData = React.useMemo(() => {
+    let selectedFilters = []
+
+    const filteredAccountingColumn = cards.filter((row) => tableFilters.includes(filterListName(row.idList)))
+    const filteredMembers = cards.filter(row => row.idMembers.some((id: string) => tableFilters.includes(id)))
+
+    if (!tableFilters.length) {
+      return cards;
+    }
+    
+    if(filteredAccountingColumn.length){
+      selectedFilters.push(...filteredAccountingColumn)
+    }
+
+    if (filteredMembers.length && !filteredAccountingColumn.length) {
+      selectedFilters.push(...filteredMembers)
+    }
+
+    if (filteredMembers.length && filteredAccountingColumn.length) {
+      const memberWithAccounting = filteredAccountingColumn.filter(accounting => filteredMembers.includes(accounting))
+      selectedFilters = memberWithAccounting
+    }
+
+    return selectedFilters
+
+  }, [cards, tableFilters]);
+
+  const data = React.useMemo<any[]>(() => filteredData, [filteredData]);
   const columns = React.useMemo<Column<any>[]>(
     () => [
       {
@@ -134,7 +189,7 @@ const CardsTable: React.FC<CardsTableProps> = ({
         Header: "Lista",
         accessor: (row: { idList: string, closed: boolean }) => (
           !row.closed ? filterListName(row.idList) : `Zarchiwizowana/${filterListName(row.idList)}`
-        ),
+        )
       },
       {
         Header: "Wartość zl. (zł)",
@@ -155,11 +210,13 @@ const CardsTable: React.FC<CardsTableProps> = ({
             type={"button"}
             onClick={(e: { clientY: number; clientX: number; }) => {
               setRowPopup(true)
-              setRowActions({
+              setCurrentRow({
                 posY: e.clientY,
                 posX: e.clientX,
                 rowId: row.original.id,
-                rowUrl: row.original.url
+                rowUrl: row.original.url,
+                listId: row.original.idList,
+                name: row.original.name
               })
             }}
             style={{ width: 36, margin: 0, opacity: 0.7 }}
@@ -200,30 +257,83 @@ const CardsTable: React.FC<CardsTableProps> = ({
   return (
     <div className={styles.tableContainer}>
       <div className={styles.headerContainer}>
-        <>
-          <Search
-            preGlobalFilteredRows={preGlobalFilteredRows}
-            setGlobalFilter={setGlobalFilter}
-            globalFilter={state.globalFilter}
+        <Search
+          preGlobalFilteredRows={preGlobalFilteredRows}
+          setGlobalFilter={setGlobalFilter}
+          globalFilter={state.globalFilter}
+        />
+        <div style={{ display: 'flex', alignItems: 'end', marginTop: 10 }}>
+          <Button
+            title={'Filtruj'}
+            onClick={() => setPopupTrigger(true)}
+            icon={<MdOutlineFilterList fontSize={'19px'} />}
+            style={{ width: 120, margin: 0 }}
           />
-        </>
-        <div style={{ display: 'flex' }}>
-          {filters.map((filter: { value: string; label: string }, index: number) => (
-            <Checkbox
-              key={index}
-              id={filter.value}
-              type={"radio"}
-              label={filter.label}
-              value={filter.value}
-              checked={selectedFilter === filter.value}
-              onChange={(e) => setFilter(e.target.value)}
-              style={{
-                width: 130,
-                height: 30,
-                margin: '0 0 0 12px'
-              }}
-            />
-          ))}
+          <Popup
+            title={'Filtruj'}
+            trigger={popupTrigger}
+            closePopup={() => setPopupTrigger(false)}
+            style={{
+              padding: 10,
+              width: 350,
+              left: 'calc(100% - 350px)',
+              top: 0
+            }}
+          >
+            <div className={styles.popupContent}>
+              <span>Tablice:</span>
+              {dataFilters.map((filter: { value: string; label: string }, index: number) => (
+                <Checkbox
+                  key={index}
+                  id={filter.value}
+                  type={"radio"}
+                  label={filter.label}
+                  value={filter.value}
+                  checked={selectedDataFilter === filter.value}
+                  onChange={(e) => setSelectedDataFilter(e.target.value)}
+                  style={{
+                    width: '100%',
+                    margin: '0 0 10px 0'
+                  }}
+                />
+              ))}
+            </div>
+            <div className={styles.popupContent}>
+              <span>Listy:</span>
+              <Checkbox
+                id={constants.ACCOUNTING}
+                type={"checkbox"}
+                label={constants.ACCOUNTING}
+                value={constants.ACCOUNTING}
+                checked={tableFilters.includes(constants.ACCOUNTING)}
+                onChange={() => handleSelectedFilter(constants.ACCOUNTING)}
+                style={{
+                  width: '100%',
+                  margin: '0 0 10px 0'
+                }}
+              />
+            </div>
+            <div className={styles.popupContent}>
+              <span>Zlecający:</span>
+              {
+                members.map((member) => (
+                  <Checkbox
+                    key={member.id}
+                    id={member.id}
+                    type={"checkbox"}
+                    label={member.fullName}
+                    value={member.fullName}
+                    checked={tableFilters.includes(member.id)}
+                    onChange={() => handleSelectedFilter(member.id)}
+                    style={{
+                      width: '100%',
+                      margin: '0 0 10px 0'
+                    }}
+                  />
+                ))
+              }
+            </div>
+          </Popup>
         </div>
       </div>
       <table {...getTableProps()}>
@@ -305,16 +415,22 @@ const CardsTable: React.FC<CardsTableProps> = ({
         style={{
           padding: 10,
           width: 300,
-          top: `calc(${rowActions.posY}px - 120px)`,
-          left: `calc(${rowActions.posX}px - 400px)`
+          top: `calc(${currentRow.posY}px - 120px)`,
+          left: `calc(${currentRow.posX}px - 400px)`
         }}
       >
-        <a href={rowActions.rowUrl} target="_blank" rel="noopener noreferrer">
+        <a href={currentRow.rowUrl} target="_blank" rel="noopener noreferrer">
           <Button
             title={'Edytuj zlecenie w Trello'}
             icon={<MdKeyboardArrowRight fontSize={'19px'} />}
           />
         </a>
+        <Button
+          title={'Zarchiwizuj'}
+          onClick={handleArchiveCard}
+          icon={<MdOutlineArchive fontSize={'19px'} />}
+          disabled={isTheSameListName(constants.ACCOUNTING)}
+        />
         <Button
           title={'Usuń zlecenie'}
           onClick={handleDeleteCard}
@@ -326,3 +442,22 @@ const CardsTable: React.FC<CardsTableProps> = ({
 }
 
 export default CardsTable;
+
+
+
+// const filteredData = React.useMemo(() => {
+//   let selectedFilters = []
+
+//   if (!tableFilters.length) {
+//     return cards;
+//   } else {
+//     const accountingList = cards.filter((row) => tableFilters.includes(filterListName(row.idList)))
+//     selectedFilters.push(...accountingList)
+//     if(accountingList.length){
+//       const membersFilter = 0
+//     }
+//   }
+//   console.log(selectedFilters)
+//   return selectedFilters
+//   // return cards.filter((row) => row.idMembers.some((id: string) => tableFilters.includes(id)))
+// }, [cards, tableFilters]);
