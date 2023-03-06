@@ -9,6 +9,7 @@ import TaskForms from "views/TaskForms";
 import Login from "views/Login/Login";
 import Loading from "components/common/Loading/Loading";
 import AppProviders from "providers/AppProviders";
+import Navbar from "components/organisms/Navbar/Navbar";
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
         <Route index path="/home" element={
           <ProtectedRoute>
             <Layout>
+                <Navbar />
               <Tabs>
                 <TabsContent title={constants.ADD_TASK_TAB}>
                   <TaskForms />
