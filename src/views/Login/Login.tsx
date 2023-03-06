@@ -1,5 +1,4 @@
 import { useContext } from 'react';
-
 import styles from './styles.module.scss'
 import { useNavigate } from "react-router-dom";
 import { useForm } from 'react-hook-form';
@@ -28,6 +27,7 @@ const Login: React.FC = () => {
         navigate('/home')
       }
     } catch (err) {
+      alert('Nieprawidłowy email lub hasło')
       console.log(err)
     }
   }
