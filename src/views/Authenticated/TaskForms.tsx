@@ -21,7 +21,6 @@ const TaskForms: React.FC = () => {
     getMembers,
     boards,
     lists,
-    members,
   } = useTrelloApi()
 
   useEffect(() => {
@@ -46,19 +45,19 @@ const TaskForms: React.FC = () => {
         <PlotterForm
           listId={getFirstListOfCurrentBoard(PLOTTER)}
           boardName={PLOTTER}
-          members={members} />
+           />
       </TabsContent>
       <TabsContent title={EMBROIDERY}>
         <EmbroideryForm
           listId={getFirstListOfCurrentBoard(EMBROIDERY)}
           boardName={EMBROIDERY}
-          members={members} />
+           />
       </TabsContent>
       <TabsContent title={DTF}>
         <DTFForm
           listId={getFirstListOfCurrentBoard(DTF)}
           boardName={DTF} 
-          members={members} />
+           />
       </TabsContent>
     </Tabs>
   )

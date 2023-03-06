@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 
 import * as constants from 'constants/index';
 import { Card, CardDescription } from "models/card";
-import { Member } from "models/member";
+import { Member } from "models/trelloModels/member";
 import { fabric, departments } from "data/formData/index";
 import { materials } from "data/formData/materials";
 import { useForm, useFieldArray } from "react-hook-form";
@@ -37,7 +37,7 @@ import { Material } from "models/material";
 interface FormProps {
   listId: string | undefined
   boardName: string
-  members: Member[]
+
 }
 
 const defaultSectionValues = {
@@ -57,9 +57,9 @@ const defaultSectionValues = {
   materials: []
 };
 
-const PlotterForm: React.FC<FormProps> = ({boardName, listId, members}) => {
+const PlotterForm: React.FC<FormProps> = ({ boardName, listId }) => {
   dayjs.locale("pl");
-  const { addCard, success, error, loading, boards, lists } = useTrelloApi()
+  const { addCard, success, error, loading, members } = useTrelloApi()
 
   const {
     register,

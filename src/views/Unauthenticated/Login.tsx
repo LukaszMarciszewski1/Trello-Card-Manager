@@ -1,5 +1,4 @@
-import { useContext, useState } from 'react';
-
+import { useContext } from 'react';
 import styles from './styles.module.scss'
 import { useNavigate } from "react-router-dom";
 import { useForm } from 'react-hook-form';
@@ -14,7 +13,6 @@ import bgCircles from 'assets/img/bg-circles.svg'
 const Login: React.FC = () => {
   const { signIn } = useContext(AuthContext)
   const navigate = useNavigate()
-  const [error, setError] = useState(false);
 
   const {
     register,
@@ -23,14 +21,13 @@ const Login: React.FC = () => {
   } = useForm<User>();
 
   const handleSubmitForm = async (data: any) => {
-    setError(false)
     try {
       const userCredential = await signIn(data.email, data.password)
       if (userCredential) {
         navigate('/home')
       }
     } catch (err) {
-      setError(true)
+      alert('Nieprawidłowy email lub hasło')
       console.log(err)
     }
   }
@@ -38,7 +35,6 @@ const Login: React.FC = () => {
   return (
     <div className={styles.auth} style={{ backgroundImage: `url(${bgCircles})` }}>
       <div className={styles.formContainer}>
-        {/* {loading ? <Loading /> : null} */}
         <form className={styles.form} onSubmit={handleSubmit(handleSubmitForm)}>
           <h1>Zaloguj się</h1>
           <Input
@@ -59,9 +55,7 @@ const Login: React.FC = () => {
           {errors.password && <div>'Hasło jest wymagane'</div>}
           <Button type='submit' title='Zaloguj' style={{ marginTop: 40 }} />
         </form>
-        {/* <div className={styles.rightPanel}></div> */}
       </div>
-      {/* <div className={styles.right} style={{ backgroundImage: `url(${bgCircles})` }}></div> */}
     </div>
   )
 }

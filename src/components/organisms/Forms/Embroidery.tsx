@@ -7,7 +7,7 @@ import { traders, fabric, departments } from "data/formData/index";
 import { useForm, useFieldArray } from "react-hook-form";
 import { Card, CardDescription } from "models/card";
 import { useTrelloApi } from "hooks/useTrelloApi";
-import { Member } from "models/member";
+import { Member } from "models/trelloModels/member";
 import getInitials from "helpers/getInitials";
 
 import {
@@ -30,7 +30,7 @@ import { RiAddLine } from "react-icons/ri";
 interface FormProps {
   listId: string | undefined
   boardName: string
-  members: Member[]
+
 }
 const defaultSectionValues = {
   materialAccess: false,
@@ -48,9 +48,9 @@ const defaultSectionValues = {
   materials: []
 };
 
-const EmbroideryForm: React.FC<FormProps> = ({boardName, listId, members}) => {
+const EmbroideryForm: React.FC<FormProps> = ({ boardName, listId }) => {
   dayjs.locale("pl");
-  const { addCard, success, error, loading } = useTrelloApi()
+  const { addCard, success, error, loading, members } = useTrelloApi()
 
   const {
     register,

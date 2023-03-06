@@ -1,9 +1,8 @@
 import React, { useState, useCallback } from "react";
-import { traders } from "data/formData/index";
 import styles from './styles.module.scss'
 import dayjs from "dayjs";
 import { useTable, Column, useSortBy, useGlobalFilter, usePagination } from "react-table";
-import { Member } from "models/member";
+import { Member, Board, List } from "models/trelloModels/index";
 import Button from "components/common/Button/Button";
 import Search from "./Search/Search";
 import { useTrelloApi } from 'hooks/useTrelloApi';
@@ -28,8 +27,8 @@ interface Filter {
 interface CardsTableProps {
   cards: any[]
   members: Member[]
-  boards: any[]
-  lists: any[]
+  boards: Board[]
+  lists: List[]
   dataFilters: Filter[]
   selectedDataFilter: string
   setSelectedDataFilter: (e: string) => void
@@ -58,21 +57,21 @@ const CardsTable: React.FC<CardsTableProps> = ({
     name: '',
   })
 
-  const compareArrays = (array1: { id: string; }[], array2: { id: string; }[]) => {
-    let result: any[] = [];
-    array1.map((obj1: { id: string; }) => {
-      array2.map((obj2: { id: string; }) => {
-        if (obj1.id === obj2.id) {
-          result.push(obj1);
-        }
-      });
-    });
-    return result;
-  };
+  const filterBoardName = useCallback((row: string) => {
+    if (!boards.length) return ''
+      const filteredBoards = boards?.filter((board: { id: string }) => row.includes(board.id));
+      return filteredBoards[0].name
+  }, [boards])
+
+  const filterListName = useCallback((row: string) => {
+    if (!lists.length) return ''
+      const filteredLists = lists?.filter((list: { id: string }) => row.includes(list.id));
+      return filteredLists[0].name
+    
+  }, [lists])
 
   const filterMemberName = useCallback((rows: string[]) => {
     if (members?.length) {
-      const filteredMembers = compareArrays(members, traders)
       const tradersNames: Member[] = members?.filter((member: { id: string; }) => (
         rows.includes(member.id)
       ));
@@ -82,20 +81,6 @@ const CardsTable: React.FC<CardsTableProps> = ({
       }
     }
   }, [members]);
-
-  const filterBoardName = useCallback((row: string) => {
-    if (boards?.length) {
-      const filteredBoards: any[] = boards?.filter((board: { id: string }) => row.includes(board.id));
-      return filteredBoards[0].name
-    }
-  }, [boards])
-
-  const filterListName = useCallback((row: string) => {
-    if (lists?.length) {
-      const filteredLists: any[] = lists?.filter((list: { id: string }) => row.includes(list.id));
-      return filteredLists[0].name
-    }
-  }, [lists])
 
   const getDescriptionPrice = (text: string) => {
     let value = text.match(/Wartość zlecenia: (.+?) zł/);
@@ -127,7 +112,7 @@ const CardsTable: React.FC<CardsTableProps> = ({
   const isTheSameListName = (listName: string): boolean => {
     let result = true
     if (currentRow.listId) {
-      result = filterListName(currentRow.listId).toLowerCase() === listName.toLowerCase() ? false : true
+      result = filterListName(currentRow.listId)?.toLowerCase() === listName.toLowerCase() ? false : true
     }
     return result
   }
@@ -148,8 +133,8 @@ const CardsTable: React.FC<CardsTableProps> = ({
     if (!tableFilters.length) {
       return cards;
     }
-    
-    if(filteredAccountingColumn.length){
+
+    if (filteredAccountingColumn.length) {
       selectedFilters.push(...filteredAccountingColumn)
     }
 
@@ -442,22 +427,3 @@ const CardsTable: React.FC<CardsTableProps> = ({
 }
 
 export default CardsTable;
-
-
-
-// const filteredData = React.useMemo(() => {
-//   let selectedFilters = []
-
-//   if (!tableFilters.length) {
-//     return cards;
-//   } else {
-//     const accountingList = cards.filter((row) => tableFilters.includes(filterListName(row.idList)))
-//     selectedFilters.push(...accountingList)
-//     if(accountingList.length){
-//       const membersFilter = 0
-//     }
-//   }
-//   console.log(selectedFilters)
-//   return selectedFilters
-//   // return cards.filter((row) => row.idMembers.some((id: string) => tableFilters.includes(id)))
-// }, [cards, tableFilters]);
