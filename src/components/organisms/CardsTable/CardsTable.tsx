@@ -56,6 +56,7 @@ const CardsTable: React.FC<CardsTableProps> = ({
     listId: '',
     name: '',
   })
+  console.log(cards)
 
   const filterBoardName = useCallback((row: string) => {
     if (!boards.length) return ''
@@ -72,11 +73,11 @@ const CardsTable: React.FC<CardsTableProps> = ({
 
   const filterMemberName = useCallback((rows: string[]) => {
     if (members?.length) {
-      const tradersNames: Member[] = members?.filter((member: { id: string; }) => (
+      const membersName: Member[] = members?.filter((member: { id: string; }) => (
         rows.includes(member.id)
       ));
-      if (tradersNames.length) {
-        const names = tradersNames.map(trader => trader.fullName).join(', ')
+      if (membersName.length) {
+        const names = membersName.map(member => member.fullName)[0]
         return names
       }
     }
@@ -165,6 +166,10 @@ const CardsTable: React.FC<CardsTableProps> = ({
       {
         Header: "Zlecający",
         accessor: (row: { idMembers: string[] }) => row.idMembers.length ? filterMemberName(row.idMembers) : 'Nie wybrano',
+      },
+      {
+        Header: "Data dodania",
+        accessor: (row: { start: string }) => row.start ? dayjs(row.start).format('YYYY/MM/DD') : 'Nie wybrano',
       },
       {
         Header: "Data oddania",
