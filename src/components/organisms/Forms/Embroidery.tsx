@@ -164,20 +164,23 @@ const EmbroideryForm: React.FC<FormProps> = ({ boardName, listId }) => {
                 {...register("title", { required: true })}
               />
             </>
-            <div className={styles.checkboxListContainer}>
-              {members?.map((member: Member) => (
-                <Checkbox
-                  key={member.id}
-                  id={member.id}
-                  type={"radio"}
-                  value={member.id}
-                  title={member.fullName}
-                  label={getInitials(member.fullName)}
-                  error={errors.member}
-                  style={{ height: 48 }}
-                  {...register("member", { required: true })}
-                />
-              ))}
+            <div className={styles.checkboxesListContainer}>
+              <span>{constants.TRADERS}</span>
+              <div className={styles.checkboxesList}>
+                {members?.map((member: Member) => (
+                  <Checkbox
+                    key={member.id}
+                    id={member.id}
+                    type={"radio"}
+                    value={member.id}
+                    title={member.fullName}
+                    label={getInitials(member.fullName)}
+                    error={errors.member}
+                    style={{ height: 48 }}
+                    {...register("member", { required: true })}
+                  />
+                ))}
+              </div>
             </div>
           </div>
           {fields.map((field, index) => {
