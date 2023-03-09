@@ -33,7 +33,7 @@ const Login: React.FC = () => {
   }
 
   return (
-    <div className={styles.auth} style={{ backgroundImage: `url(${bgCircles})` }}>
+    <div className={styles.loginContainer} style={{ backgroundImage: `url(${bgCircles})` }}>
       <div className={styles.formContainer}>
         <form className={styles.form} onSubmit={handleSubmit(handleSubmitForm)}>
           <h1>Zaloguj się</h1>
@@ -56,6 +56,7 @@ const Login: React.FC = () => {
           <Button type='submit' title='Zaloguj' style={{ marginTop: 40 }} />
         </form>
       </div>
+      <div className={styles.loginDescription}><h1>Trello Card Manager</h1></div>
     </div>
   )
 }

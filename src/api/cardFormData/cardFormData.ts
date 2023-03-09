@@ -54,13 +54,16 @@ export const generateDescData = (data: Card) => {
 const initialFormData = (data: Card, listId: string) => {
   const { title, startDate, endDate, member, recipient, orderPrice } = data
   const description = generateDescData(data)
+  const membersArray = `${member},${recipient}`.split(',');
+  membersArray.unshift(member);
   const formData = new FormData()
   formData.append('idList', listId)
   formData.append('name', title)
   formData.append('desc', description)
   formData.append('start', startDate)
   formData.append('due', endDate)
-  formData.append('idMembers', `${member},${recipient}`)
+  formData.append('idMembers', membersArray.join(','))
+  // formData.append('idMembers', `${member},${recipient}`)
   formData.append('customFieldItems', `${orderPrice}`)
   formData.append('pos', 'top')
   return formData
