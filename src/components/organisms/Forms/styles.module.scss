@@ -10,7 +10,7 @@
 .formGroupRow {
   display: flex;
   align-items: flex-end;
-  margin-bottom: 2rem;
+  margin-bottom: 1.6rem;
   @media (max-width: $md) {
     flex-wrap: wrap;
     margin-bottom: 1rem;
@@ -31,10 +31,22 @@
   }
 }
 
-.checkboxListContainer {
-  display: flex;
-  align-items: center;
-  margin-left: 30px;
+.checkboxesListContainer {
+  margin-left: 1rem;
+  span {
+    display: inline-block;
+    margin-bottom: 6px;
+  }
+  .checkboxesList {
+    display: flex;
+    align-items: center;
+    label {
+      margin-left: 10px;
+    }
+    label:first-of-type {
+      margin-left: 0;
+    }
+  }
   @media (max-width: $md) {
     margin-left: 0;
     margin-top: 1rem;
@@ -90,5 +102,5 @@
   width: 20px;
   height: 20px;
   margin-left: 10px;
-  cursor: pointer
+  cursor: pointer;
 }
