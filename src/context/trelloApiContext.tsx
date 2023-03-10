@@ -4,8 +4,8 @@ interface TrelloProviderProps {
   children: React.ReactNode
 }
 
-export const TrelloApiContext = createContext<TrelloApiContextType | null>(null)
 type TrelloApiContextType = ReturnType<typeof TrelloApi>
+export const TrelloApiContext = createContext<TrelloApiContextType | null>(null)
 
 export const TrelloApiContextProvider: React.FC<TrelloProviderProps> = ({ children }) => {
   const value = TrelloApi()
