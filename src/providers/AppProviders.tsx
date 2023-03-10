@@ -1,6 +1,6 @@
 import { AuthContextProvider } from 'context/authContext';
 import { TrelloApiContextProvider } from 'context/trelloApiContext';
-import { WatchFormContextProvider } from 'context/watchFormContext';
+import { WatchSectionFormContextProvider } from 'context/watchSectionFormContext';
 
 interface AppProvidersProps {
   children: React.ReactNode
@@ -10,9 +10,9 @@ const AppProviders: React.FC<AppProvidersProps> = ({ children }) => {
   return (
     <AuthContextProvider>
       <TrelloApiContextProvider>
-        <WatchFormContextProvider>
+        <WatchSectionFormContextProvider>
           {children}
-        </WatchFormContextProvider>
+        </WatchSectionFormContextProvider>
       </TrelloApiContextProvider>
     </AuthContextProvider>
   )

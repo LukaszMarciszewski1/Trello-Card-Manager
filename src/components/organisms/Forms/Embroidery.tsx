@@ -6,7 +6,7 @@ import { fabric, departments } from "data/formData/index";
 import { useForm, useFieldArray } from "react-hook-form";
 import { Card, CardDescription } from "models/card";
 import { useTrelloApi } from "hooks/useTrelloApi";
-import { useWatchForm } from "context/watchFormContext";
+import { useWatchSectionForm } from "hooks/useWatchSectionForm";
 import { Member } from "models/trelloModels/member";
 import getInitials from "helpers/getInitials";
 
@@ -50,8 +50,7 @@ const defaultSectionValues = {
 
 const EmbroideryForm: React.FC<FormProps> = ({ boardName, listId }) => {
   const { addCard, success, error, loading, members } = useTrelloApi()
-  const { watchForm, setWatchForm } = useWatchForm()
-  console.log(watchForm)
+  const { watchSectionForm, setWatchSectionForm } = useWatchSectionForm()
 
   const {
     register,
@@ -91,10 +90,10 @@ const EmbroideryForm: React.FC<FormProps> = ({ boardName, listId }) => {
     })
   }, [
     getTotalPrice(sectionForms),
-    watchForm.customPrice,
-    watchForm.sizeWidth,
-    watchForm.sizeHeight,
-    watchForm.packing
+    watchSectionForm.customPrice,
+    watchSectionForm.sizeWidth,
+    watchSectionForm.sizeHeight,
+    watchSectionForm.packing
   ])
 
   useEffect(() => {
@@ -102,44 +101,44 @@ const EmbroideryForm: React.FC<FormProps> = ({ boardName, listId }) => {
       setValue(`description.${index}.size`, getSelectedSizeName(sectionForms, index))
     })
   }, [
-    watchForm.sizeWidth,
-    watchForm.sizeHeight,
+    watchSectionForm.sizeWidth,
+    watchSectionForm.sizeHeight,
     sectionForms
   ])
 
   const handleWatchCustomPriceValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setWatchForm({ ...watchForm, customPrice: e.target.value })
+    setWatchSectionForm({ ...watchSectionForm, customPrice: e.target.value })
   }
 
   const handleWatchFormSizeWidthValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setWatchForm({ ...watchForm, sizeWidth: e.target.value })
+    setWatchSectionForm({ ...watchSectionForm, sizeWidth: e.target.value })
   }
 
   const handleWatchFormSizeHeightValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setWatchForm({ ...watchForm, sizeHeight: e.target.value })
+    setWatchSectionForm({ ...watchSectionForm, sizeHeight: e.target.value })
   }
 
   const handleWatchPacking = () => {
-    setWatchForm({ ...watchForm, packing: !watchForm.packing })
+    setWatchSectionForm({ ...watchSectionForm, packing: !watchSectionForm.packing })
   }
 
   const handleSubmitForm = (data: Card) => {
     if (data && listId) {
       addCard(data, listId)
-      setWatchForm({ ...watchForm, message: true })
+      setWatchSectionForm({ ...watchSectionForm, message: true })
     }
   }
 
   const closeModal = () => {
     reset()
-    setWatchForm({ ...watchForm, message: false })
+    setWatchSectionForm({ ...watchSectionForm, message: false })
   }
 
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
       <FormLayout>
         <MessageModal
-          trigger={watchForm.message}
+          trigger={watchSectionForm.message}
           success={success}
           error={error}
           loading={loading}

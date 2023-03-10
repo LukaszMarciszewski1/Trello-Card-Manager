@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import styles from './styles.module.scss'
 import { useFieldArray, UseFormRegister, Control } from "react-hook-form";
-import { useWatchForm } from "context/watchFormContext";
+import { useWatchSectionForm } from "hooks/useWatchSectionForm";
 import { Material } from 'models/material';
 import { CardDescription } from 'models/card';
 import Popup from 'components/common/Popup/Popup';
@@ -28,7 +28,7 @@ const NestedMaterialsForm: React.FC<NestedMaterialsFormProps> = (
     dataForm,
     materialsType,
   }) => {
-  const { watchForm, setWatchForm } = useWatchForm()
+    const { watchSectionForm, setWatchSectionForm } = useWatchSectionForm()
   const [popupTrigger, setPopupTrigger] = useState(false)
   const [checkedItems, setCheckedItems] = useState<string[]>([])
   const [validForm, setValidForm] = useState(false)
@@ -92,16 +92,16 @@ const NestedMaterialsForm: React.FC<NestedMaterialsFormProps> = (
   }, [materialsType])
 
   useEffect(() => {
-    if (watchForm.materials && setWatchForm) {
+    if (watchSectionForm.materials && setWatchSectionForm) {
       if (sortedMaterialsFields.length) {
         setValidForm(false)
-        setWatchForm({ ...watchForm, validationMaterials: true })
+        setWatchSectionForm({ ...watchSectionForm, validationMaterials: true })
       } else {
         setValidForm(true)
-        setWatchForm({ ...watchForm, validationMaterials: false })
+        setWatchSectionForm({ ...watchSectionForm, validationMaterials: false })
       }
     }
-  }, [sortedMaterialsFields.length, watchForm.materials])
+  }, [sortedMaterialsFields.length, watchSectionForm.materials])
 
   return (
     <div className={styles.materialsList}>
