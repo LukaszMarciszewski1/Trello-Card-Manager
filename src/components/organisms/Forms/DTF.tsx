@@ -7,6 +7,7 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { Card, CardDescription } from "models/card";
 import { Member } from "models/trelloModels/member";
 import getInitials from "helpers/getInitials";
+import { useTrelloApi } from "hooks/useTrelloApi";
 
 import {
   getPriceForOnePieceOfSection,
@@ -24,7 +25,6 @@ import Select from "components/common/Select/Select";
 import Textarea from "components/common/Textarea/Textarea";
 import MessageModal from "components/organisms/MessageModal/MessageModal";
 import { RiAddLine } from "react-icons/ri";
-import { useTrelloApi } from "hooks/useTrelloApi";
 
 interface FormProps {
   listId: string | undefined

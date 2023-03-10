@@ -10,7 +10,7 @@ export function TrelloApi() {
     success: false,
     error: false,
   })
-  const [cards, setCards] = useState([])
+  const [cards, setCards] = useState<Card[]>([])
   const [boards, setBoards] = useState<Board[]>([])
   const [members, setMembers] = useState<Member[]>([])
   const [lists, setLists] = useState<List[]>([])

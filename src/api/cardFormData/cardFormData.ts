@@ -56,6 +56,7 @@ const initialFormData = (data: Card, listId: string) => {
   const description = generateDescData(data)
   const membersArray = `${member},${recipient}`.split(',');
   membersArray.unshift(member);
+  
   const formData = new FormData()
   formData.append('idList', listId)
   formData.append('name', title)

@@ -77,7 +77,6 @@ const CardsTable: React.FC<CardsTableProps> = ({
       ));
       if (membersName.length) {
         //getting the first id in the array, setting the assignee to the first index in the array has been configured in the cardFormData file
-        // const names = membersName.map(member => member.fullName).join(', ')
         const names = membersName.map(member => member.fullName)[0]
         return names
       }
@@ -134,16 +133,15 @@ const CardsTable: React.FC<CardsTableProps> = ({
       .filter((row: { idList: string }) => tableFilters.includes(filterListName(row.idList)))
 
     //filtered members
-    const newCards = cards.map(card => {
+    const filteredMembers = cards.map(card => {
       return {
         ...card,
         idMembers: card.idMembers[0]
       };
-    });
+    }).filter(card => tableFilters.includes(card.idMembers))
 
-    const filteredMembers = newCards
-      .filter(card => card.idMembers === tableFilters
-        .find(filterId => filterId === card.idMembers))
+    // const filteredMembers = newCards.filter(card => tableFilters.includes(card.idMembers))
+    // .find(filterId => filterId === card.idMembers))
     // .some((id: string) => tableFilters.includes(id)))
 
 

@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 import dayjs from "dayjs";
+import { useForm, useFieldArray } from "react-hook-form";
 
 import * as constants from 'constants/index';
-import { Card, CardDescription } from "models/card";
-import { Member } from "models/trelloModels/member";
 import { fabric, departments } from "data/formData/index";
+import { Card, CardDescription } from "models/card";
+import { Material } from "models/material";
+import { Member } from "models/trelloModels/member";
 import { materials } from "data/formData/materials";
-import { useForm, useFieldArray } from "react-hook-form";
+import { useTrelloApi } from "hooks/useTrelloApi";
 import getInitials from "helpers/getInitials";
 
 import {
@@ -31,8 +33,7 @@ import Textarea from "components/common/Textarea/Textarea";
 import MessageModal from "components/organisms/MessageModal/MessageModal";
 import MaterialsForm from "./Materials/Materials";
 import { RiAddLine } from "react-icons/ri";
-import { useTrelloApi } from "hooks/useTrelloApi";
-import { Material } from "models/material";
+
 
 interface FormProps {
   listId: string | undefined
