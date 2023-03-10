@@ -7,6 +7,8 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { Card, CardDescription } from "models/card";
 import { Member } from "models/trelloModels/member";
 import getInitials from "helpers/getInitials";
+import { useTrelloApi } from "hooks/useTrelloApi";
+import { useWatchForm } from "context/watchFormContext";
 
 import {
   getPriceForOnePieceOfSection,
@@ -24,12 +26,10 @@ import Select from "components/common/Select/Select";
 import Textarea from "components/common/Textarea/Textarea";
 import MessageModal from "components/organisms/MessageModal/MessageModal";
 import { RiAddLine } from "react-icons/ri";
-import { useTrelloApi } from "hooks/useTrelloApi";
 
 interface FormProps {
   listId: string | undefined
   boardName: string
-
 }
 
 const defaultSectionValues = {
@@ -50,6 +50,8 @@ const defaultSectionValues = {
 
 const DTFForm: React.FC<FormProps> = ({ boardName, listId }) => {
   const { addCard, success, error, loading, members } = useTrelloApi()
+  const { watchForm, setWatchForm } = useWatchForm()
+  console.log(watchForm)
 
   const {
     register,
@@ -74,11 +76,6 @@ const DTFForm: React.FC<FormProps> = ({ boardName, listId }) => {
 
   const watchForChangesInSectionForms = watch('description');
   const [sectionForms, setSectionForms] = useState<CardDescription[]>([])
-  const [watchCustomPrice, setWatchCustomPrice] = useState('')
-  const [watchFormSizeWidth, setWatchFormSizeWidth] = useState('')
-  const [watchFormSizeHeight, setWatchFormSizeHeight] = useState('')
-  const [watchPacking, setWatchPacking] = useState(false)
-  const [submitMessage, setSubmitMessage] = useState(false)
 
   useEffect(() => {
     setSectionForms(watchForChangesInSectionForms)
@@ -92,47 +89,53 @@ const DTFForm: React.FC<FormProps> = ({ boardName, listId }) => {
       setValue(`description.${index}.price`, getPriceForSection(sectionForms, index))
       setValue(`description.${index}.priceForOnePiece`, getPriceForOnePieceOfSection(sectionForms, index))
     })
-  }, [getTotalPrice(sectionForms), watchCustomPrice, watchFormSizeWidth, watchFormSizeHeight, watchPacking])
+  }, [
+    getTotalPrice(sectionForms),
+    watchForm.customPrice,
+    watchForm.sizeWidth,
+    watchForm.sizeHeight,
+    watchForm.packing
+  ])
 
   useEffect(() => {
     fields.map((item, index) => {
       setValue(`description.${index}.size`, getSelectedSizeName(sectionForms, index))
     })
-  }, [watchFormSizeWidth, watchFormSizeHeight, sectionForms])
+  }, [watchForm.sizeWidth, watchForm.sizeHeight, sectionForms])
 
   const handleWatchCustomPriceValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setWatchCustomPrice(e.target.value)
+    setWatchForm({ ...watchForm, customPrice: e.target.value })
   }
 
   const handleWatchFormSizeWidthValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setWatchFormSizeWidth(e.target.value)
+    setWatchForm({ ...watchForm, sizeWidth: e.target.value })
   }
 
   const handleWatchFormSizeHeightValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setWatchFormSizeHeight(e.target.value)
+    setWatchForm({ ...watchForm, sizeHeight: e.target.value })
   }
 
   const handleWatchPacking = () => {
-    setWatchPacking(!watchPacking)
+    setWatchForm({ ...watchForm, packing: !watchForm.packing })
   }
 
   const handleSubmitForm = async (data: Card) => {
     if (data && listId) {
       addCard(data, listId)
-      setSubmitMessage(true)
+      setWatchForm({ ...watchForm, message: true })
     }
   }
 
   const closeModal = () => {
     reset()
-    setSubmitMessage(false)
+    setWatchForm({ ...watchForm, message: false })
   }
 
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
       <FormLayout>
         <MessageModal
-          trigger={submitMessage}
+          trigger={watchForm.message}
           success={success}
           error={error}
           loading={loading}

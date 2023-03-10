@@ -17,7 +17,7 @@ const mapDescriptionToText = (description: CardDescription[], department: string
       return `
         \n\
         \n***Sekcja: ${i + 1} >>>>>>>>>>>>>>>>>>>>>***
-        \n- Logo: ${desc.logo}
+        \n- Nazwa sekcji: ${desc.logo}
         \n- Ilość: ${desc.amount} szt
         \n- Tkanina: ${desc.fabric}
         \n- Szerokość: ${desc.width} cm
@@ -56,6 +56,7 @@ const initialFormData = (data: Card, listId: string) => {
   const description = generateDescData(data)
   const membersArray = `${member},${recipient}`.split(',');
   membersArray.unshift(member);
+  
   const formData = new FormData()
   formData.append('idList', listId)
   formData.append('name', title)
@@ -63,15 +64,8 @@ const initialFormData = (data: Card, listId: string) => {
   formData.append('start', startDate)
   formData.append('due', endDate)
   formData.append('idMembers', membersArray.join(','))
-  // formData.append('idMembers', `${member},${recipient}`)
   formData.append('customFieldItems', `${orderPrice}`)
   formData.append('pos', 'top')
-  return formData
-}
-
-const customFieldsFormData = (data: any) => {
-  const formData = new FormData()
-  formData.append('value', data)
   return formData
 }
 
@@ -92,5 +86,4 @@ export const cardFormData = {
   initialFormData,
   fileFormData,
   checklistFormData,
-  customFieldsFormData,
 }

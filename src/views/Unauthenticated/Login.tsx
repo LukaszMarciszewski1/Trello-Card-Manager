@@ -7,8 +7,9 @@ import { AuthContext } from 'context/authContext'
 
 import Input from 'components/common/Input/Input'
 import Button from 'components/common/Button/Button';
-import bgCircles from 'assets/img/bg-circles.svg'
-
+import bgLogin from 'assets/img/bg-login.svg'
+import bgLoginHeader from 'assets/img/bg-login-header.svg'
+import { HiOutlineUser } from "react-icons/hi"
 
 const Login: React.FC = () => {
   const { signIn } = useContext(AuthContext)
@@ -33,10 +34,16 @@ const Login: React.FC = () => {
   }
 
   return (
-    <div className={styles.loginContainer} style={{ backgroundImage: `url(${bgCircles})` }}>
+    <div className={styles.loginContainer} style={{ backgroundImage: `url(${bgLogin})` }}>
       <div className={styles.formContainer}>
+        <div className={styles.formHeader} style={{ backgroundImage: `url(${bgLogin})` }}>
+          <h1>Trello Card Manager</h1>
+        </div>
+        <div className={styles.icon}>
+          <HiOutlineUser fontSize='5rem' />
+        </div>
         <form className={styles.form} onSubmit={handleSubmit(handleSubmitForm)}>
-          <h1>Zaloguj się</h1>
+          <h2>Zaloguj się</h2>
           <Input
             id={'email'}
             placeholder={'email'}
@@ -56,7 +63,6 @@ const Login: React.FC = () => {
           <Button type='submit' title='Zaloguj' style={{ marginTop: 40 }} />
         </form>
       </div>
-      <div className={styles.loginDescription}><h1>Trello Card Manager</h1></div>
     </div>
   )
 }
