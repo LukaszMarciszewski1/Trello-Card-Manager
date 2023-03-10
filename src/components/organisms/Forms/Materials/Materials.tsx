@@ -1,13 +1,14 @@
-import React, { useEffect, useState, SetStateAction, Dispatch } from 'react'
+import { useEffect, useState } from 'react'
 import styles from './styles.module.scss'
 import { useFieldArray, UseFormRegister, Control } from "react-hook-form";
+import { useWatchSectionForm } from "hooks/useWatchSectionForm";
+import { Material } from 'models/material';
+import { CardDescription } from 'models/card';
 import Popup from 'components/common/Popup/Popup';
 import Button from 'components/common/Button/Button';
 import Input from 'components/common/Input/Input';
 import MaterialsList from 'components/organisms/MaterialsList/MaterialsList';
 import { AiOutlineAppstoreAdd } from 'react-icons/ai';
-import { Material  } from 'models/material';
-import { CardDescription } from 'models/card';
 
 interface NestedMaterialsFormProps {
   register: UseFormRegister<any>
@@ -16,8 +17,6 @@ interface NestedMaterialsFormProps {
   control: Control<any>
   dataForm: CardDescription
   materialsType: string | undefined
-  setValidMaterialsForm: Dispatch<SetStateAction<boolean>>
-  watchMaterialsForm: boolean
 }
 
 const NestedMaterialsForm: React.FC<NestedMaterialsFormProps> = (
@@ -28,9 +27,8 @@ const NestedMaterialsForm: React.FC<NestedMaterialsFormProps> = (
     control,
     dataForm,
     materialsType,
-    setValidMaterialsForm,
-    watchMaterialsForm,
   }) => {
+    const { watchSectionForm, setWatchSectionForm } = useWatchSectionForm()
   const [popupTrigger, setPopupTrigger] = useState(false)
   const [checkedItems, setCheckedItems] = useState<string[]>([])
   const [validForm, setValidForm] = useState(false)
@@ -69,7 +67,7 @@ const NestedMaterialsForm: React.FC<NestedMaterialsFormProps> = (
 
   const selectedMaterialsArray = [...materials]
     .filter(material => [...checkedItems]
-    .includes(material.value))
+      .includes(material.value))
     .sort((a, b) => {
       if (checkedItems.indexOf(a.value) === checkedItems.indexOf(b.value)) {
         return Number(a.value) - Number(b.value);
@@ -94,16 +92,16 @@ const NestedMaterialsForm: React.FC<NestedMaterialsFormProps> = (
   }, [materialsType])
 
   useEffect(() => {
-    if (watchMaterialsForm && setValidMaterialsForm) {
+    if (watchSectionForm.materials && setWatchSectionForm) {
       if (sortedMaterialsFields.length) {
         setValidForm(false)
-        setValidMaterialsForm(true)
+        setWatchSectionForm({ ...watchSectionForm, validationMaterials: true })
       } else {
         setValidForm(true)
-        setValidMaterialsForm(false)
+        setWatchSectionForm({ ...watchSectionForm, validationMaterials: false })
       }
     }
-  }, [sortedMaterialsFields.length, watchMaterialsForm])
+  }, [sortedMaterialsFields.length, watchSectionForm.materials])
 
   return (
     <div className={styles.materialsList}>
@@ -179,4 +177,4 @@ const NestedMaterialsForm: React.FC<NestedMaterialsFormProps> = (
   )
 }
 
-export default React.memo(NestedMaterialsForm)
+export default NestedMaterialsForm

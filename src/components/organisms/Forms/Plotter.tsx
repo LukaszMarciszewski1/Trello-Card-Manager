@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
-import dayjs from "dayjs";
+import { useForm, useFieldArray } from "react-hook-form";
 
 import * as constants from 'constants/index';
-import { Card, CardDescription } from "models/card";
-import { Member } from "models/trelloModels/member";
 import { fabric, departments } from "data/formData/index";
+import { Card, CardDescription } from "models/card";
+import { Material } from "models/material";
+import { Member } from "models/trelloModels/member";
 import { materials } from "data/formData/materials";
-import { useForm, useFieldArray } from "react-hook-form";
+import { useTrelloApi } from "hooks/useTrelloApi";
+import { useWatchSectionForm } from "hooks/useWatchSectionForm";
 import getInitials from "helpers/getInitials";
 
 import {
@@ -31,13 +33,10 @@ import Textarea from "components/common/Textarea/Textarea";
 import MessageModal from "components/organisms/MessageModal/MessageModal";
 import MaterialsForm from "./Materials/Materials";
 import { RiAddLine } from "react-icons/ri";
-import { useTrelloApi } from "hooks/useTrelloApi";
-import { Material } from "models/material";
 
 interface FormProps {
   listId: string | undefined
   boardName: string
-
 }
 
 const defaultSectionValues = {
@@ -58,8 +57,8 @@ const defaultSectionValues = {
 };
 
 const PlotterForm: React.FC<FormProps> = ({ boardName, listId }) => {
-  dayjs.locale("pl");
   const { addCard, success, error, loading, members } = useTrelloApi()
+  const { watchSectionForm, setWatchSectionForm } = useWatchSectionForm()
 
   const {
     register,
@@ -83,15 +82,7 @@ const PlotterForm: React.FC<FormProps> = ({ boardName, listId }) => {
   });
 
   const watchForChangesInSectionForms = watch('description');
-
   const [sectionForms, setSectionForms] = useState<CardDescription[]>([])
-  const [watchCustomPrice, setWatchCustomPrice] = useState('')
-  const [watchFormSizeWidth, setWatchFormSizeWidth] = useState('')
-  const [watchFormSizeHeight, setWatchFormSizeHeight] = useState('')
-  const [watchPacking, setWatchPacking] = useState(false)
-  const [submitMessage, setSubmitMessage] = useState(false)
-  const [validMaterialsForm, setValidMaterialsForm] = useState(false)
-  const [watchMaterialsForm, setWatchMaterialsForm] = useState(false)
 
   useEffect(() => {
     setSectionForms(watchForChangesInSectionForms)
@@ -104,39 +95,40 @@ const PlotterForm: React.FC<FormProps> = ({ boardName, listId }) => {
       setValue(`description.${index}.price`, getPriceForSection(sectionForms, index))
       setValue(`description.${index}.priceForOnePiece`, getPriceForOnePieceOfSection(sectionForms, index))
     })
-  }, [getTotalPrice(sectionForms), watchCustomPrice, watchFormSizeWidth, watchFormSizeHeight, watchPacking])
+  }, [
+    getTotalPrice(sectionForms),
+    watchSectionForm.customPrice,
+    watchSectionForm.sizeWidth,
+    watchSectionForm.sizeHeight,
+    watchSectionForm.packing
+  ])
 
   useEffect(() => {
     fields.map((item, index) => {
       setValue(`description.${index}.customPrice`, isMoreThanMaximumSize(sectionForms, index))
       setValue(`description.${index}.size`, getSelectedSizeName(sectionForms, index))
     })
-  }, [watchFormSizeWidth, watchFormSizeHeight, sectionForms])
+  }, [
+    watchSectionForm.sizeWidth,
+    watchSectionForm.sizeHeight,
+    sectionForms
+  ])
 
   const handleWatchCustomPriceValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setWatchCustomPrice(e.target.value)
+    setWatchSectionForm({ ...watchSectionForm, customPrice: e.target.value })
   }
 
   const handleWatchFormSizeWidthValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setWatchFormSizeWidth(e.target.value)
-    console.log(e.target.value)
+    setWatchSectionForm({ ...watchSectionForm, sizeWidth: e.target.value })
   }
 
   const handleWatchFormSizeHeightValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setWatchFormSizeHeight(e.target.value)
+    setWatchSectionForm({ ...watchSectionForm, sizeHeight: e.target.value })
   }
 
   const handleWatchPacking = () => {
-    setWatchPacking(!watchPacking)
+    setWatchSectionForm({ ...watchSectionForm, packing: !watchSectionForm.packing })
   }
-
-  const closeModal = () => {
-    setWatchMaterialsForm(false)
-    setSubmitMessage(false)
-    setValidMaterialsForm(false)
-    reset()
-  }
-
   interface GetMaterials {
     (index: number): Material[];
   }
@@ -148,11 +140,25 @@ const PlotterForm: React.FC<FormProps> = ({ boardName, listId }) => {
   }
 
   const handleSubmitForm = (data: Card) => {
-    setWatchMaterialsForm(true)
-    if (data && listId && validMaterialsForm) {
+    setWatchSectionForm({ ...watchSectionForm, materials: true })
+    if (data && listId && watchSectionForm.materials) {
       addCard(data, listId);
-      setSubmitMessage(true)
+      setWatchSectionForm({
+        ...watchSectionForm,
+        message: true,
+        materials: false
+      })
     }
+  }
+
+  const closeModal = () => {
+    setWatchSectionForm({
+      ...watchSectionForm,
+      materials: false,
+      validationMaterials: false,
+      message: false
+    })
+    reset()
   }
 
   const materialTabsValues: string[] = [
@@ -166,7 +172,7 @@ const PlotterForm: React.FC<FormProps> = ({ boardName, listId }) => {
     <form onSubmit={handleSubmit(handleSubmitForm)}>
       <FormLayout>
         <MessageModal
-          trigger={submitMessage}
+          trigger={watchSectionForm.message}
           success={success}
           error={error}
           loading={loading}
@@ -186,20 +192,23 @@ const PlotterForm: React.FC<FormProps> = ({ boardName, listId }) => {
                 {...register("title", { required: true })}
               />
             </>
-            <div className={styles.checkboxListContainer}>
-              {members?.map((member: Member) => (
-                <Checkbox
-                  key={member.id}
-                  id={member.id}
-                  type={"radio"}
-                  value={member.id}
-                  title={member.fullName}
-                  label={getInitials(member.fullName)}
-                  error={errors.member}
-                  style={{ height: 48 }}
-                  {...register("member", { required: true })}
-                />
-              ))}
+            <div className={styles.checkboxesListContainer}>
+              <span>{constants.TRADERS}</span>
+              <div className={styles.checkboxesList}>
+                {members?.map((member: Member) => (
+                  <Checkbox
+                    key={member.id}
+                    id={member.id}
+                    type={"radio"}
+                    value={member.id}
+                    title={member.fullName}
+                    label={getInitials(member.fullName)}
+                    error={errors.member}
+                    style={{ height: 48 }}
+                    {...register("member", { required: true })}
+                  />
+                ))}
+              </div>
             </div>
           </div>
           {fields.map((field, index) => {
@@ -230,8 +239,6 @@ const PlotterForm: React.FC<FormProps> = ({ boardName, listId }) => {
                               materials={getMaterials(index)}
                               dataForm={sectionForms[index]}
                               materialsType={sectionForms[index]?.materialType}
-                              setValidMaterialsForm={setValidMaterialsForm}
-                              watchMaterialsForm={watchMaterialsForm}
                             />
                           </SectionTabsContent>
                         ))
@@ -447,4 +454,4 @@ const PlotterForm: React.FC<FormProps> = ({ boardName, listId }) => {
   );
 };
 
-export default React.memo(PlotterForm);
+export default PlotterForm

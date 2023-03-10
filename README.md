@@ -1,6 +1,7 @@
 # Trello Card Manager
 
 ## Project Description
+This is a commercial project for a printing company named Dreamtex.
 The application allows generating orders based on a form template. The generated orders are represented as cards in the Trello application and automatically placed in the selected board, along with attachments, checklists, members, dates, and other information added to the order.
 
 This enables the user to easily manage orders without the need to manually add this information. All cards are displayed in a dynamic table that allows for easy filtering and sorting, making it easier for the user to find the information they need and focus on the most important tasks.

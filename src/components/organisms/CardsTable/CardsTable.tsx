@@ -59,24 +59,25 @@ const CardsTable: React.FC<CardsTableProps> = ({
 
   const filterBoardName = useCallback((row: string) => {
     if (!boards.length) return ''
-      const filteredBoards = boards?.filter((board: { id: string }) => row.includes(board.id));
-      return filteredBoards[0].name
+    const filteredBoards = boards?.filter((board: { id: string }) => row.includes(board.id));
+    return filteredBoards[0].name
   }, [boards])
 
   const filterListName = useCallback((row: string) => {
     if (!lists.length) return ''
-      const filteredLists = lists?.filter((list: { id: string }) => row.includes(list.id));
-      return filteredLists[0].name
-    
+    const filteredLists = lists?.filter((list: { id: string }) => row.includes(list.id));
+    return filteredLists[0].name
+
   }, [lists])
 
   const filterMemberName = useCallback((rows: string[]) => {
     if (members?.length) {
-      const tradersNames: Member[] = members?.filter((member: { id: string; }) => (
+      const membersName: Member[] = members?.filter((member: { id: string; }) => (
         rows.includes(member.id)
       ));
-      if (tradersNames.length) {
-        const names = tradersNames.map(trader => trader.fullName).join(', ')
+      if (membersName.length) {
+        //getting the first id in the array, setting the assignee to the first index in the array has been configured in the cardFormData file
+        const names = membersName.map(member => member.fullName)[0]
         return names
       }
     }
@@ -127,8 +128,22 @@ const CardsTable: React.FC<CardsTableProps> = ({
   const filteredData = React.useMemo(() => {
     let selectedFilters = []
 
-    const filteredAccountingColumn = cards.filter((row) => tableFilters.includes(filterListName(row.idList)))
-    const filteredMembers = cards.filter(row => row.idMembers.some((id: string) => tableFilters.includes(id)))
+    //filtered lists
+    const filteredAccountingColumn = cards
+      .filter((row: { idList: string }) => tableFilters.includes(filterListName(row.idList)))
+
+    //filtered members
+    const filteredMembers = cards.map(card => {
+      return {
+        ...card,
+        idMembers: card.idMembers[0]
+      };
+    }).filter(card => tableFilters.includes(card.idMembers))
+
+    // const filteredMembers = newCards.filter(card => tableFilters.includes(card.idMembers))
+    // .find(filterId => filterId === card.idMembers))
+    // .some((id: string) => tableFilters.includes(id)))
+
 
     if (!tableFilters.length) {
       return cards;
@@ -165,6 +180,10 @@ const CardsTable: React.FC<CardsTableProps> = ({
       {
         Header: "Zlecający",
         accessor: (row: { idMembers: string[] }) => row.idMembers.length ? filterMemberName(row.idMembers) : 'Nie wybrano',
+      },
+      {
+        Header: "Data dodania",
+        accessor: (row: { start: string }) => row.start ? dayjs(row.start).format('YYYY/MM/DD') : 'Nie wybrano',
       },
       {
         Header: "Data oddania",

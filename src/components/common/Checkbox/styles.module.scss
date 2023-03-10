@@ -21,7 +21,6 @@
   justify-content: center;
   align-items: center;
   padding: 10px 20px;
-  margin-left: 10px;
   width: 65px;
   height: 35px;
   border: 1px solid $secondary-graphite;
@@ -33,9 +32,6 @@
   &:hover {
     background-color: darken($focusBg, 3%);
     cursor: pointer;
-  }
-  &:first-child{
-    margin: 0;
   }
 }
 
