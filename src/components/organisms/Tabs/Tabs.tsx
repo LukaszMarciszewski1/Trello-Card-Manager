@@ -1,14 +1,14 @@
-import { ReactElement, useState } from "react"
-import styles from './styles.module.scss'
-import Tab from "./Tab/Tab"
+import { ReactElement, useState } from 'react';
+import styles from './styles.module.scss';
+import Tab from './Tab/Tab';
 
 type TabsProps = {
-  children: ReactElement[]
-  subcategory?: boolean
-}
+  children: ReactElement[];
+  subcategory?: boolean;
+};
 
 const Tabs: React.FC<TabsProps> = ({ children, subcategory }) => {
-  const [selectedTab, setSelectedTab] = useState(0)
+  const [selectedTab, setSelectedTab] = useState(0);
 
   return (
     <div className={styles.layout}>
@@ -26,7 +26,7 @@ const Tabs: React.FC<TabsProps> = ({ children, subcategory }) => {
       </ul>
       {children[selectedTab]}
     </div>
-  )
-}
+  );
+};
 
-export default Tabs
+export default Tabs;

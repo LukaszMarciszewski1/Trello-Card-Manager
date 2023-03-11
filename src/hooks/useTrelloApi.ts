@@ -1,12 +1,12 @@
-import { useContext } from 'react'
-import { TrelloApiContext } from 'context/trelloApiContext'
+import { useContext } from 'react';
+import { TrelloApiContext } from 'context/trelloApiContext';
 
 export const useTrelloApi = () => {
-  const trelloApi = useContext(TrelloApiContext)
+  const trelloApi = useContext(TrelloApiContext);
 
   if (!trelloApi) {
-    throw new Error('useTrelloApi needs to be used inside TrelloApiContextProvider')
+    throw new Error('useTrelloApi needs to be used inside TrelloApiContextProvider');
   }
 
-  return trelloApi
-}
+  return trelloApi;
+};

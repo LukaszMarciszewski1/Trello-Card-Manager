@@ -1,23 +1,23 @@
-import React, { forwardRef } from 'react'
-import styles from './styles.module.scss'
+import React, { forwardRef } from 'react';
+import styles from './styles.module.scss';
 
 export type InputProps = {
   id: string;
   name?: string;
   label?: string;
   type?: 'text' | 'email' | 'number' | 'password' | 'date' | 'file';
-  placeholder?: string
-  disabled?: boolean
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
-  error?: {} | undefined | ((e: React.ChangeEvent<HTMLInputElement>) => void)
-  value?: number | string
-  step?: string
-  minValue?: number
-  maxValue?: number
-  defaultValue?: string | number
-  style?: {}
-  readOnly?: boolean
-}
+  placeholder?: string;
+  disabled?: boolean;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  error?: {} | undefined | ((e: React.ChangeEvent<HTMLInputElement>) => void);
+  value?: number | string;
+  step?: string;
+  minValue?: number;
+  maxValue?: number;
+  defaultValue?: string | number;
+  style?: {};
+  readOnly?: boolean;
+};
 
 const Input: React.FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
   (
@@ -42,7 +42,7 @@ const Input: React.FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
     ref
   ) => {
     return (
-      <div className={styles.container} >
+      <div className={styles.container}>
         <label htmlFor={id}>{label}</label>
         <input
           id={id}
@@ -66,8 +66,8 @@ const Input: React.FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
           {...props}
         />
       </div>
-    )
+    );
   }
-)
+);
 
-export default React.memo(Input)
+export default React.memo(Input);

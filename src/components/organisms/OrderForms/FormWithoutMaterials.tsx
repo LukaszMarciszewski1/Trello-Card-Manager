@@ -1,36 +1,35 @@
-import React, { useEffect, useState } from "react";
-import styles from "./styles.module.scss";
-import { useForm, useFieldArray } from "react-hook-form";
+import React, { useEffect, useState } from 'react';
+import styles from './styles.module.scss';
+import { useForm, useFieldArray } from 'react-hook-form';
 import * as constants from 'constants/index';
 
-import { fabric, departments } from "data/formData/index";
-import { Card, CardDescription } from "models/card";
-import { Member } from "models/trelloDataModels/member";
-import { useTrelloApi } from "hooks/useTrelloApi";
-import { useWatchSectionForm } from "hooks/useWatchSectionForm";
-import getInitials from "helpers/getInitials";
+import { fabric, departments } from 'data/formData/index';
+import { Card, CardDescription } from 'models/card';
+import { Member } from 'models/trelloDataModels/member';
+import { useTrelloApi } from 'hooks/useTrelloApi';
+import { useWatchSectionForm } from 'hooks/useWatchSectionForm';
+import getInitials from 'helpers/getInitials';
 
 import {
   getPriceForOnePieceOfSection,
   getTotalPrice,
   getPriceForSection,
   getSelectedSizeName,
-} from "calculations/priceListOfServices";
+} from 'calculations/priceListOfServices';
 
-import FormLayout from "components/layouts/FormLayout/FormLayout";
-import FormSectionLayout from 'components/layouts/FormSectionLayout/FormSectionLayout'
-import Input from "components/common/Input/Input";
-import Button from "components/common/Button/Button";
-import Checkbox from "components/common/Checkbox/Checkbox";
-import Select from "components/common/Select/Select";
-import Textarea from "components/common/Textarea/Textarea";
-import MessageModal from "components/organisms/MessageModal/MessageModal";
-import { RiAddLine } from "react-icons/ri";
+import FormLayout from 'components/layouts/FormLayout/FormLayout';
+import FormSectionLayout from 'components/layouts/FormSectionLayout/FormSectionLayout';
+import Input from 'components/common/Input/Input';
+import Button from 'components/common/Button/Button';
+import Checkbox from 'components/common/Checkbox/Checkbox';
+import Select from 'components/common/Select/Select';
+import Textarea from 'components/common/Textarea/Textarea';
+import MessageModal from 'components/organisms/MessageModal/MessageModal';
+import { RiAddLine } from 'react-icons/ri';
 
 interface FormWithoutMaterialsProps {
-  listId: string | undefined
-  boardName: string
-
+  listId: string | undefined;
+  boardName: string;
 }
 const defaultSectionValues = {
   materialAccess: false,
@@ -45,12 +44,12 @@ const defaultSectionValues = {
   customPrice: false,
   packing: false,
   additionalDesc: '',
-  materials: []
+  materials: [],
 };
 
 const FormWithoutMaterials: React.FC<FormWithoutMaterialsProps> = ({ boardName, listId }) => {
-  const { addCard, success, error, loading, members } = useTrelloApi()
-  const { watchSectionForm, setWatchSectionForm } = useWatchSectionForm()
+  const { addCard, success, error, loading, members } = useTrelloApi();
+  const { watchSectionForm, setWatchSectionForm } = useWatchSectionForm();
 
   const {
     register,
@@ -63,76 +62,72 @@ const FormWithoutMaterials: React.FC<FormWithoutMaterialsProps> = ({ boardName, 
   } = useForm<Card>({
     defaultValues: {
       description: [defaultSectionValues],
-      department: boardName
+      department: boardName,
     },
-    mode: "onBlur",
+    mode: 'onBlur',
   });
 
   const { fields, append, remove } = useFieldArray({
-    name: "description",
+    name: 'description',
     control,
   });
 
   const watchForChangesInSectionForms = watch('description');
-  const [sectionForms, setSectionForms] = useState<CardDescription[]>([])
+  const [sectionForms, setSectionForms] = useState<CardDescription[]>([]);
 
   useEffect(() => {
-    setSectionForms(watchForChangesInSectionForms)
-  }, [watchForChangesInSectionForms])
+    setSectionForms(watchForChangesInSectionForms);
+  }, [watchForChangesInSectionForms]);
 
   useEffect(() => {
-    setValue('orderPrice', getTotalPrice(sectionForms))
-    setValue('orderCost', Number((getTotalPrice(sectionForms) * 0.75).toFixed(1)))
+    setValue('orderPrice', getTotalPrice(sectionForms));
+    setValue('orderCost', Number((getTotalPrice(sectionForms) * 0.75).toFixed(1)));
     fields.map((item, index) => {
-      setValue(`description.${index}.customPrice`, true)
-      setValue(`description.${index}.price`, getPriceForSection(sectionForms, index))
-      setValue(`description.${index}.priceForOnePiece`, getPriceForOnePieceOfSection(sectionForms, index))
-    })
+      setValue(`description.${index}.customPrice`, true);
+      setValue(`description.${index}.price`, getPriceForSection(sectionForms, index));
+      setValue(`description.${index}.priceForOnePiece`, getPriceForOnePieceOfSection(sectionForms, index));
+    });
   }, [
     getTotalPrice(sectionForms),
     watchSectionForm.customPrice,
     watchSectionForm.sizeWidth,
     watchSectionForm.sizeHeight,
-    watchSectionForm.packing
-  ])
+    watchSectionForm.packing,
+  ]);
 
   useEffect(() => {
     fields.map((item, index) => {
-      setValue(`description.${index}.size`, getSelectedSizeName(sectionForms, index))
-    })
-  }, [
-    watchSectionForm.sizeWidth,
-    watchSectionForm.sizeHeight,
-    sectionForms
-  ])
+      setValue(`description.${index}.size`, getSelectedSizeName(sectionForms, index));
+    });
+  }, [watchSectionForm.sizeWidth, watchSectionForm.sizeHeight, sectionForms]);
 
   const handleWatchCustomPriceValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setWatchSectionForm({ ...watchSectionForm, customPrice: e.target.value })
-  }
+    setWatchSectionForm({ ...watchSectionForm, customPrice: e.target.value });
+  };
 
   const handleWatchFormSizeWidthValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setWatchSectionForm({ ...watchSectionForm, sizeWidth: e.target.value })
-  }
+    setWatchSectionForm({ ...watchSectionForm, sizeWidth: e.target.value });
+  };
 
   const handleWatchFormSizeHeightValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setWatchSectionForm({ ...watchSectionForm, sizeHeight: e.target.value })
-  }
+    setWatchSectionForm({ ...watchSectionForm, sizeHeight: e.target.value });
+  };
 
   const handleWatchPacking = () => {
-    setWatchSectionForm({ ...watchSectionForm, packing: !watchSectionForm.packing })
-  }
+    setWatchSectionForm({ ...watchSectionForm, packing: !watchSectionForm.packing });
+  };
 
   const handleSubmitForm = (data: Card) => {
     if (data && listId) {
-      addCard(data, listId)
-      setWatchSectionForm({ ...watchSectionForm, message: true })
+      addCard(data, listId);
+      setWatchSectionForm({ ...watchSectionForm, message: true });
     }
-  }
+  };
 
   const closeModal = () => {
-    reset()
-    setWatchSectionForm({ ...watchSectionForm, message: false })
-  }
+    reset();
+    setWatchSectionForm({ ...watchSectionForm, message: false });
+  };
 
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
@@ -149,13 +144,13 @@ const FormWithoutMaterials: React.FC<FormWithoutMaterialsProps> = ({ boardName, 
           <div className={styles.formGroupRow}>
             <>
               <Input
-                id={"title"}
-                placeholder={""}
+                id={'title'}
+                placeholder={''}
                 label={constants.CONTRACTOR}
-                type="text"
+                type='text'
                 error={errors.title}
-                style={{ padding: "10px", height: 48, fontSize: 17 }}
-                {...register("title", { required: true })}
+                style={{ padding: '10px', height: 48, fontSize: 17 }}
+                {...register('title', { required: true })}
               />
             </>
             <div className={styles.checkboxesListContainer}>
@@ -165,13 +160,13 @@ const FormWithoutMaterials: React.FC<FormWithoutMaterialsProps> = ({ boardName, 
                   <Checkbox
                     key={member.id}
                     id={member.id}
-                    type={"radio"}
+                    type={'radio'}
                     value={member.id}
                     title={member.fullName}
                     label={getInitials(member.fullName)}
                     error={errors.member}
                     style={{ height: 48 }}
-                    {...register("member", { required: true })}
+                    {...register('member', { required: true })}
                   />
                 ))}
               </div>
@@ -184,7 +179,7 @@ const FormWithoutMaterials: React.FC<FormWithoutMaterialsProps> = ({ boardName, 
                   <Input
                     id={field.id}
                     label={constants.LOGO}
-                    type="text"
+                    type='text'
                     error={errors.description}
                     {...register(`description.${index}.logo` as const, {
                       required: true,
@@ -209,39 +204,42 @@ const FormWithoutMaterials: React.FC<FormWithoutMaterialsProps> = ({ boardName, 
                   <Input
                     id={field.id}
                     label={constants.AMOUNT}
-                    type="number"
-                    step={"1"}
+                    type='number'
+                    step={'1'}
                     min={0}
-                    {...register(`description.${index}.amount` as const,
-                      { onChange: handleWatchCustomPriceValue, required: true })
-                    }
+                    {...register(`description.${index}.amount` as const, {
+                      onChange: handleWatchCustomPriceValue,
+                      required: true,
+                    })}
                   />
                   <div className={styles.rowWrapper}>
                     <Input
                       id={field.id}
                       label={constants.WIDTH}
-                      type="number"
-                      step={"0.1"}
+                      type='number'
+                      step={'0.1'}
                       min={0}
-                      {...register(`description.${index}.width` as const,
-                        { onChange: handleWatchFormSizeWidthValue, required: true })
-                      }
+                      {...register(`description.${index}.width` as const, {
+                        onChange: handleWatchFormSizeWidthValue,
+                        required: true,
+                      })}
                     />
                     <Input
                       id={field.id}
                       label={constants.HEIGHT}
-                      type="number"
-                      step={"0.1"}
+                      type='number'
+                      step={'0.1'}
                       min={0}
-                      {...register(`description.${index}.height` as const,
-                        { onChange: handleWatchFormSizeHeightValue, required: true })
-                      }
+                      {...register(`description.${index}.height` as const, {
+                        onChange: handleWatchFormSizeHeightValue,
+                        required: true,
+                      })}
                     />
                   </div>
                   <Input
                     id={field.id}
                     label={constants.SIZE}
-                    type="text"
+                    type='text'
                     {...register(`description.${index}.size` as const)}
                     readOnly
                   />
@@ -261,42 +259,40 @@ const FormWithoutMaterials: React.FC<FormWithoutMaterialsProps> = ({ boardName, 
                           id={field.id}
                           label={constants.PRICE_FOR_ONE_PIECE}
                           style={{ border: '2px solid green' }}
-                          type="number"
+                          type='number'
                           min={0}
-                          {...register(`description.${index}.priceForOnePiece` as const,
-                            { onChange: handleWatchCustomPriceValue })
-                          }
+                          {...register(`description.${index}.priceForOnePiece` as const, {
+                            onChange: handleWatchCustomPriceValue,
+                          })}
                         />
                       </div>
                       <Input
                         id={field.id}
                         label={constants.SECTION_PRICE}
-                        type="number"
+                        type='number'
                         {...register(`description.${index}.price` as const)}
                         readOnly
                       />
                     </>
                   </div>
-                  {
-                    sectionForms.length > 1 ? (
-                      <Button
-                        type={"button"}
-                        title={constants.DELETE_SECTION}
-                        onClick={() => remove(index)}
-                        style={{ margin: '20px 0 0' }}
-                      />
-                    ) : null
-                  }
+                  {sectionForms.length > 1 ? (
+                    <Button
+                      type={'button'}
+                      title={constants.DELETE_SECTION}
+                      onClick={() => remove(index)}
+                      style={{ margin: '20px 0 0' }}
+                    />
+                  ) : null}
                 </div>
               </FormSectionLayout>
             );
           })}
           <Button
-            type={"button"}
+            type={'button'}
             title={constants.ADD_SECTION}
             onClick={() => append(defaultSectionValues)}
-            style={{ fontSize: "1.2rem" }}
-            icon={<RiAddLine fontSize={"1.5rem"} fontWeight={"bold"} />}
+            style={{ fontSize: '1.2rem' }}
+            icon={<RiAddLine fontSize={'1.5rem'} fontWeight={'bold'} />}
           />
         </div>
         <div className={`${styles.formColumnContainer} ${styles.rightColumnContainer}`}>
@@ -305,59 +301,42 @@ const FormWithoutMaterials: React.FC<FormWithoutMaterialsProps> = ({ boardName, 
               <Select
                 label={constants.RECIPIENT}
                 options={departments.embroidery}
-                id={"recipient"}
-                {...register("recipient")}
+                id={'recipient'}
+                {...register('recipient')}
               />
               <div style={{ display: 'none' }}>
                 <Input
-                  id={"startDate"}
+                  id={'startDate'}
                   value={new Date().toISOString().slice(0, 10)}
-                  type="date"
-                  {...register("startDate")}
+                  type='date'
+                  {...register('startDate')}
                 />
               </div>
               <Input
-                id={"endDate"}
+                id={'endDate'}
                 placeholder={constants.END_DATE}
                 label={constants.END_DATE}
-                type="date"
+                type='date'
                 error={errors.endDate}
-                {...register("endDate", { required: true })}
+                {...register('endDate', { required: true })}
               />
             </div>
             <div className={styles.divider}>
               <div className={styles.inputContainer}>
+                <Input id={'attachment'} label={constants.ATTACHMENT} type='file' {...register('attachment')} />
                 <Input
-                  id={"attachment"}
-                  label={constants.ATTACHMENT}
-                  type="file"
-                  {...register("attachment")}
-                />
-                <Input
-                  id={"filePath"}
+                  id={'filePath'}
                   placeholder={constants.FILE_PATH_PLACEHOLDER}
                   label={constants.FILE_PATH}
-                  type="text"
+                  type='text'
                   {...register(`filePath`)}
                 />
               </div>
             </div>
-            <Input
-              id={'orderPrice'}
-              label={constants.ORDER_PRICE}
-              type="number"
-              {...register(`orderPrice`)}
-              readOnly
-            />
-            <Input
-              id={'orderCost'}
-              label={constants.ORDER_COST}
-              type="number"
-              {...register(`orderCost`)}
-              readOnly
-            />
+            <Input id={'orderPrice'} label={constants.ORDER_PRICE} type='number' {...register(`orderPrice`)} readOnly />
+            <Input id={'orderCost'} label={constants.ORDER_COST} type='number' {...register(`orderCost`)} readOnly />
             <div className={styles.divider}>
-              <Button type={"submit"} title={constants.SUBMIT_TASK} />
+              <Button type={'submit'} title={constants.SUBMIT_TASK} />
             </div>
           </div>
         </div>

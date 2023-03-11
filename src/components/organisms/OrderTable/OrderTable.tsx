@@ -1,14 +1,14 @@
-import React, { useState, useCallback } from "react";
-import styles from './styles.module.scss'
-import dayjs from "dayjs";
-import { useTable, Column, useSortBy, useGlobalFilter, usePagination } from "react-table";
-import { Member, Board, List } from "models/trelloDataModels/index";
-import Button from "components/common/Button/Button";
-import Search from "./Search/Search";
+import React, { useState, useCallback } from 'react';
+import styles from './styles.module.scss';
+import dayjs from 'dayjs';
+import { useTable, Column, useSortBy, useGlobalFilter, usePagination } from 'react-table';
+import { Member, Board, List } from 'models/trelloDataModels/index';
+import Button from 'components/common/Button/Button';
+import Search from './Search/Search';
 import { useTrelloApi } from 'hooks/useTrelloApi';
-import Checkbox from "components/common/Checkbox/Checkbox";
-import Popup from "components/common/Popup/Popup";
-import { AiFillEdit } from "react-icons/ai";
+import Checkbox from 'components/common/Checkbox/Checkbox';
+import Popup from 'components/common/Popup/Popup';
+import { AiFillEdit } from 'react-icons/ai';
 import {
   MdSkipPrevious,
   MdKeyboardArrowLeft,
@@ -16,22 +16,22 @@ import {
   MdSkipNext,
   MdOutlineDeleteOutline,
   MdOutlineArchive,
-  MdOutlineFilterList
-} from "react-icons/md";
+  MdOutlineFilterList,
+} from 'react-icons/md';
 import * as constants from 'constants/index';
 
 interface Filter {
-  value: string
-  label: string
+  value: string;
+  label: string;
 }
 interface CardsTableProps {
-  cards: any[]
-  members: Member[]
-  boards: Board[]
-  lists: List[]
-  dataFilters: Filter[]
-  selectedDataFilter: string
-  setSelectedDataFilter: (e: string) => void
+  cards: any[];
+  members: Member[];
+  boards: Board[];
+  lists: List[];
+  dataFilters: Filter[];
+  selectedDataFilter: string;
+  setSelectedDataFilter: (e: string) => void;
 }
 
 const OrderTable: React.FC<CardsTableProps> = ({
@@ -43,11 +43,11 @@ const OrderTable: React.FC<CardsTableProps> = ({
   selectedDataFilter,
   setSelectedDataFilter,
 }) => {
-  const { getCards, deleteCard, archiveCard } = useTrelloApi()
+  const { getCards, deleteCard, archiveCard } = useTrelloApi();
 
-  const [popupTrigger, setPopupTrigger] = useState(false)
+  const [popupTrigger, setPopupTrigger] = useState(false);
   const [tableFilters, setTableFilters] = useState<string[]>([]);
-  const [rowPopup, setRowPopup] = useState(false)
+  const [rowPopup, setRowPopup] = useState(false);
   const [currentRow, setCurrentRow] = useState({
     posY: 0,
     posX: 0,
@@ -55,168 +55,180 @@ const OrderTable: React.FC<CardsTableProps> = ({
     rowUrl: '',
     listId: '',
     name: '',
-  })
+  });
 
-  const filterBoardName = useCallback((row: string) => {
-    if (!boards.length) return ''
-    const filteredBoards = boards?.filter((board: { id: string }) => row.includes(board.id));
-    return filteredBoards[0].name
-  }, [boards])
+  const filterBoardName = useCallback(
+    (row: string) => {
+      if (!boards.length) return '';
+      const filteredBoards = boards?.filter((board: { id: string }) => row.includes(board.id));
+      return filteredBoards[0].name;
+    },
+    [boards]
+  );
 
-  const filterListName = useCallback((row: string) => {
-    if (!lists.length) return ''
-    const filteredLists = lists?.filter((list: { id: string }) => row.includes(list.id));
-    return filteredLists[0].name
+  const filterListName = useCallback(
+    (row: string) => {
+      if (!lists.length) return '';
+      const filteredLists = lists?.filter((list: { id: string }) => row.includes(list.id));
+      return filteredLists[0].name;
+    },
+    [lists]
+  );
 
-  }, [lists])
-
-  const filterMemberName = useCallback((rows: string[]) => {
-    if (members?.length) {
-      const membersName: Member[] = members?.filter((member: { id: string; }) => (
-        rows.includes(member.id)
-      ));
-      if (membersName.length) {
-        //getting the first id in the array, setting the assignee to the first index in the array has been configured in the cardFormData file
-        const names = membersName.map(member => member.fullName)[0]
-        return names
+  const filterMemberName = useCallback(
+    (rows: string[]) => {
+      if (members?.length) {
+        const membersName: Member[] = members?.filter((member: { id: string }) => rows.includes(member.id));
+        if (membersName.length) {
+          //getting the first id in the array, setting the assignee to the first index in the array has been configured in the cardFormData file
+          const names = membersName.map((member) => member.fullName)[0];
+          return names;
+        }
       }
-    }
-  }, [members]);
+    },
+    [members]
+  );
 
   const getDescriptionPrice = (text: string) => {
     let value = text.match(/Wartość zlecenia: (.+?) zł/);
     if (value) {
-      return Number(value[1])
+      return Number(value[1]);
     }
-  }
+  };
 
   const handleDeleteCard = async () => {
-    const result = window.confirm(`Ta akcja spowoduje usunięcie karty ${currentRow.name} z Trello, czy chcesz usunąć kartę?`)
-    if (!result) return
+    const result = window.confirm(
+      `Ta akcja spowoduje usunięcie karty ${currentRow.name} z Trello, czy chcesz usunąć kartę?`
+    );
+    if (!result) return;
     await deleteCard(currentRow.rowId).then(async () => {
-      alert('Karta została usunięta z tablicy w Trello')
-      await getCards(selectedDataFilter)
-      setRowPopup(false)
-    })
-  }
+      alert('Karta została usunięta z tablicy w Trello');
+      await getCards(selectedDataFilter);
+      setRowPopup(false);
+    });
+  };
 
   const handleArchiveCard = async () => {
-    const result = window.confirm(`Ta akcja spowoduje zarchiwizowanie karty ${currentRow.name} w Trello, czy chcesz zarchiwizować kartę?`)
-    if (!result) return
+    const result = window.confirm(
+      `Ta akcja spowoduje zarchiwizowanie karty ${currentRow.name} w Trello, czy chcesz zarchiwizować kartę?`
+    );
+    if (!result) return;
     await archiveCard(currentRow.rowId).then(async () => {
-      alert('Karta została zarchiwizowana')
-      await getCards(selectedDataFilter)
-      setRowPopup(false)
-    })
-  }
+      alert('Karta została zarchiwizowana');
+      await getCards(selectedDataFilter);
+      setRowPopup(false);
+    });
+  };
 
   const isTheSameListName = (listName: string): boolean => {
-    let result = true
+    let result = true;
     if (currentRow.listId) {
-      result = filterListName(currentRow.listId)?.toLowerCase() === listName.toLowerCase() ? false : true
+      result = filterListName(currentRow.listId)?.toLowerCase() === listName.toLowerCase() ? false : true;
     }
-    return result
-  }
+    return result;
+  };
 
   const handleSelectedFilter = (id: string) => {
-    const newSelectedFilters = tableFilters.includes(id)
-      ? tableFilters.filter((t) => t !== id)
-      : [...tableFilters, id];
+    const newSelectedFilters = tableFilters.includes(id) ? tableFilters.filter((t) => t !== id) : [...tableFilters, id];
     setTableFilters(newSelectedFilters);
-  }
+  };
 
   const filteredData = React.useMemo(() => {
-    let selectedFilters = []
+    let selectedFilters = [];
 
     //filtered lists
-    const filteredAccountingColumn = cards
-      .filter((row: { idList: string }) => tableFilters.includes(filterListName(row.idList)))
+    const filteredAccountingColumn = cards.filter((row: { idList: string }) =>
+      tableFilters.includes(filterListName(row.idList))
+    );
 
     //filtered members
-    const filteredMembers = cards.map(card => {
-      return {
-        ...card,
-        idMembers: card.idMembers[0]
-      };
-    }).filter(card => tableFilters.includes(card.idMembers))
+    const filteredMembers = cards
+      .map((card) => {
+        return {
+          ...card,
+          idMembers: card.idMembers[0],
+        };
+      })
+      .filter((card) => tableFilters.includes(card.idMembers));
 
     if (!tableFilters.length) {
       return cards;
     }
 
     if (filteredAccountingColumn.length) {
-      selectedFilters.push(...filteredAccountingColumn)
+      selectedFilters.push(...filteredAccountingColumn);
     }
 
     if (filteredMembers.length && !filteredAccountingColumn.length) {
-      selectedFilters.push(...filteredMembers)
+      selectedFilters.push(...filteredMembers);
     }
 
     if (filteredMembers.length && filteredAccountingColumn.length) {
-      const memberWithAccounting = filteredAccountingColumn.filter(accounting => filteredMembers.includes(accounting))
-      selectedFilters = memberWithAccounting
+      const memberWithAccounting = filteredAccountingColumn.filter((accounting) =>
+        filteredMembers.includes(accounting)
+      );
+      selectedFilters = memberWithAccounting;
     }
 
-    return selectedFilters
-
+    return selectedFilters;
   }, [cards, tableFilters]);
 
   const data = React.useMemo<any[]>(() => filteredData, [filteredData]);
   const columns = React.useMemo<Column<any>[]>(
     () => [
       {
-        Header: "Kontrachent",
-        accessor: "name",
+        Header: 'Kontrachent',
+        accessor: 'name',
       },
       {
-        Header: "Dział",
+        Header: 'Dział',
         accessor: (row: { idBoard: string }) => filterBoardName(row.idBoard),
       },
       {
-        Header: "Zlecający",
-        accessor: (row: { idMembers: string[] }) => row.idMembers.length ? filterMemberName(row.idMembers) : 'Nie wybrano',
+        Header: 'Zlecający',
+        accessor: (row: { idMembers: string[] }) =>
+          row.idMembers.length ? filterMemberName(row.idMembers) : 'Nie wybrano',
       },
       {
-        Header: "Data dodania",
-        accessor: (row: { start: string }) => row.start ? dayjs(row.start).format('YYYY/MM/DD') : 'Nie wybrano',
+        Header: 'Data dodania',
+        accessor: (row: { start: string }) => (row.start ? dayjs(row.start).format('YYYY/MM/DD') : 'Nie wybrano'),
       },
       {
-        Header: "Data oddania",
-        accessor: (row: { due: string }) => row.due ? dayjs(row.due).format('YYYY/MM/DD') : 'Nie wybrano',
+        Header: 'Data oddania',
+        accessor: (row: { due: string }) => (row.due ? dayjs(row.due).format('YYYY/MM/DD') : 'Nie wybrano'),
       },
       {
-        Header: "Lista",
-        accessor: (row: { idList: string, closed: boolean }) => (
-          !row.closed ? filterListName(row.idList) : `Zarchiwizowana/${filterListName(row.idList)}`
-        )
+        Header: 'Lista',
+        accessor: (row: { idList: string; closed: boolean }) =>
+          !row.closed ? filterListName(row.idList) : `Zarchiwizowana/${filterListName(row.idList)}`,
       },
       {
-        Header: "Wartość zl. (zł)",
-        accessor: (row: { desc: string }) => row.desc ? getDescriptionPrice(row.desc) : '',
+        Header: 'Wartość zl. (zł)',
+        accessor: (row: { desc: string }) => (row.desc ? getDescriptionPrice(row.desc) : ''),
       },
     ],
     [cards, members, boards, lists]
   );
 
-  const tableHooks = (hooks: { visibleColumns: ((columns: any) => any[])[]; }) => {
+  const tableHooks = (hooks: { visibleColumns: ((columns: any) => any[])[] }) => {
     hooks.visibleColumns.push((columns) => [
       ...columns,
       {
-        id: "Edit",
-        Header: "Edytuj",
+        id: 'Edit',
+        Header: 'Edytuj',
         Cell: ({ row }: any) => (
           <Button
-            type={"button"}
-            onClick={(e: { clientY: number; clientX: number; }) => {
-              setRowPopup(true)
+            type={'button'}
+            onClick={(e: { clientY: number; clientX: number }) => {
+              setRowPopup(true);
               setCurrentRow({
                 posY: e.clientY,
                 posX: e.clientX,
                 rowId: row.original.id,
                 rowUrl: row.original.url,
                 listId: row.original.idList,
-                name: row.original.name
-              })
+                name: row.original.name,
+              });
             }}
             style={{ width: 36, margin: 0, opacity: 0.7 }}
             icon={<AiFillEdit fontSize={16} />}
@@ -276,7 +288,7 @@ const OrderTable: React.FC<CardsTableProps> = ({
               padding: 10,
               width: 350,
               left: 'calc(100% - 350px)',
-              top: 0
+              top: 0,
             }}
           >
             <div className={styles.popupContent}>
@@ -285,14 +297,14 @@ const OrderTable: React.FC<CardsTableProps> = ({
                 <Checkbox
                   key={index}
                   id={filter.value}
-                  type={"radio"}
+                  type={'radio'}
                   label={filter.label}
                   value={filter.value}
                   checked={selectedDataFilter === filter.value}
                   onChange={(e) => setSelectedDataFilter(e.target.value)}
                   style={{
                     width: '100%',
-                    margin: '0 0 10px 0'
+                    margin: '0 0 10px 0',
                   }}
                 />
               ))}
@@ -301,36 +313,34 @@ const OrderTable: React.FC<CardsTableProps> = ({
               <span>Listy:</span>
               <Checkbox
                 id={constants.ACCOUNTING}
-                type={"checkbox"}
+                type={'checkbox'}
                 label={constants.ACCOUNTING}
                 value={constants.ACCOUNTING}
                 checked={tableFilters.includes(constants.ACCOUNTING)}
                 onChange={() => handleSelectedFilter(constants.ACCOUNTING)}
                 style={{
                   width: '100%',
-                  margin: '0 0 10px 0'
+                  margin: '0 0 10px 0',
                 }}
               />
             </div>
             <div className={styles.popupContent}>
               <span>Zlecający:</span>
-              {
-                members.map((member) => (
-                  <Checkbox
-                    key={member.id}
-                    id={member.id}
-                    type={"checkbox"}
-                    label={member.fullName}
-                    value={member.fullName}
-                    checked={tableFilters.includes(member.id)}
-                    onChange={() => handleSelectedFilter(member.id)}
-                    style={{
-                      width: '100%',
-                      margin: '0 0 10px 0'
-                    }}
-                  />
-                ))
-              }
+              {members.map((member) => (
+                <Checkbox
+                  key={member.id}
+                  id={member.id}
+                  type={'checkbox'}
+                  label={member.fullName}
+                  value={member.fullName}
+                  checked={tableFilters.includes(member.id)}
+                  onChange={() => handleSelectedFilter(member.id)}
+                  style={{
+                    width: '100%',
+                    margin: '0 0 10px 0',
+                  }}
+                />
+              ))}
             </div>
           </Popup>
         </div>
@@ -341,8 +351,8 @@ const OrderTable: React.FC<CardsTableProps> = ({
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column: any) => (
                 <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                  {column.render("Header")}
-                  <span>{column.isSorted ? (column.isSortedDesc ? " ▼" : " ▲") : " "}</span>
+                  {column.render('Header')}
+                  <span>{column.isSorted ? (column.isSortedDesc ? ' ▼' : ' ▲') : ' '}</span>
                 </th>
               ))}
             </tr>
@@ -355,7 +365,7 @@ const OrderTable: React.FC<CardsTableProps> = ({
               <tr {...row.getRowProps()}>
                 {row.cells.map((cell) => (
                   <td className={index % 2 === 0 ? styles.evenRow : ''} {...cell.getCellProps()}>
-                    {cell.render("Cell")}
+                    {cell.render('Cell')}
                   </td>
                 ))}
               </tr>
@@ -366,18 +376,20 @@ const OrderTable: React.FC<CardsTableProps> = ({
       <div className={styles.paginationContainer}>
         <span>
           Strona{' '}
-          <strong>{state.pageIndex + 1} z {pageOptions.length}</strong>{' '}
+          <strong>
+            {state.pageIndex + 1} z {pageOptions.length}
+          </strong>{' '}
         </span>
         <span>
-          | idź do strony: {' '}
+          | idź do strony:{' '}
           <input
             type={'number'}
             defaultValue={state.pageIndex + 1}
             max={pageOptions.length}
             min={1}
             onChange={(e) => {
-              const pageNumber = e.target.value ? Number(e.target.value) - 1 : 0
-              gotoPage(pageNumber)
+              const pageNumber = e.target.value ? Number(e.target.value) - 1 : 0;
+              gotoPage(pageNumber);
             }}
             style={{ width: 60, height: 30, padding: 3, borderRadius: 3, border: '2px solid #67788a' }}
           />
@@ -415,14 +427,11 @@ const OrderTable: React.FC<CardsTableProps> = ({
           padding: 10,
           width: 300,
           top: `calc(${currentRow.posY}px - 120px)`,
-          left: `calc(${currentRow.posX}px - 400px)`
+          left: `calc(${currentRow.posX}px - 400px)`,
         }}
       >
-        <a href={currentRow.rowUrl} target="_blank" rel="noopener noreferrer">
-          <Button
-            title={'Edytuj zlecenie w Trello'}
-            icon={<MdKeyboardArrowRight fontSize={'19px'} />}
-          />
+        <a href={currentRow.rowUrl} target='_blank' rel='noopener noreferrer'>
+          <Button title={'Edytuj zlecenie w Trello'} icon={<MdKeyboardArrowRight fontSize={'19px'} />} />
         </a>
         <Button
           title={'Zarchiwizuj'}
@@ -438,6 +447,6 @@ const OrderTable: React.FC<CardsTableProps> = ({
       </Popup>
     </div>
   );
-}
+};
 
 export default OrderTable;

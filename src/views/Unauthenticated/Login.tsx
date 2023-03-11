@@ -1,18 +1,18 @@
 import { useContext } from 'react';
-import styles from './styles.module.scss'
-import { useNavigate } from "react-router-dom";
+import styles from './styles.module.scss';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { User } from 'models/user'
-import { AuthContext } from 'context/authContext'
+import { User } from 'models/user';
+import { AuthContext } from 'context/authContext';
 
-import Input from 'components/common/Input/Input'
+import Input from 'components/common/Input/Input';
 import Button from 'components/common/Button/Button';
-import { HiOutlineUser } from "react-icons/hi"
-import bgLogin from 'assets/img/bg-login.svg'
+import { HiOutlineUser } from 'react-icons/hi';
+import bgLogin from 'assets/img/bg-login.svg';
 
 const Login: React.FC = () => {
-  const { signIn } = useContext(AuthContext)
-  const navigate = useNavigate()
+  const { signIn } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -22,15 +22,15 @@ const Login: React.FC = () => {
 
   const handleSubmitForm = async (data: any) => {
     try {
-      const userCredential = await signIn(data.email, data.password)
+      const userCredential = await signIn(data.email, data.password);
       if (userCredential) {
-        navigate('/')
+        navigate('/');
       }
     } catch (err) {
-      alert('Nieprawidłowy email lub hasło')
-      console.log(err)
+      alert('Nieprawidłowy email lub hasło');
+      console.log(err);
     }
-  }
+  };
 
   return (
     <div className={styles.loginContainer} style={{ backgroundImage: `url(${bgLogin})` }}>
@@ -47,23 +47,23 @@ const Login: React.FC = () => {
             id={'email'}
             placeholder={'email'}
             label={'Email'}
-            type="text"
-            {...register("email", { required: true })}
+            type='text'
+            {...register('email', { required: true })}
           />
           {errors.email && <div>'Email jest wymagany'</div>}
           <Input
             id={'password'}
             placeholder={'password'}
             label={'Hasło'}
-            type="password"
-            {...register("password", { required: true })}
+            type='password'
+            {...register('password', { required: true })}
           />
           {errors.password && <div>'Hasło jest wymagane'</div>}
           <Button type='submit' title='Zaloguj' style={{ marginTop: 40 }} />
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

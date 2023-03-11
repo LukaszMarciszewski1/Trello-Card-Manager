@@ -1,19 +1,15 @@
-import React, { useState } from "react";
-import styles from './styles.module.scss'
-import { useAsyncDebounce, Row } from "react-table";
-import Input from "components/common/Input/Input";
+import React, { useState } from 'react';
+import styles from './styles.module.scss';
+import { useAsyncDebounce, Row } from 'react-table';
+import Input from 'components/common/Input/Input';
 
 interface GlobalFilterProps {
-  preGlobalFilteredRows: Row[],
-  globalFilter: string | number | undefined,
-  setGlobalFilter: (e: string | undefined) => void,
+  preGlobalFilteredRows: Row[];
+  globalFilter: string | number | undefined;
+  setGlobalFilter: (e: string | undefined) => void;
 }
 
-const GlobalFilter: React.FC<GlobalFilterProps> = ({
-  preGlobalFilteredRows,
-  globalFilter,
-  setGlobalFilter,
-}) => {
+const GlobalFilter: React.FC<GlobalFilterProps> = ({ preGlobalFilteredRows, globalFilter, setGlobalFilter }) => {
   const count = preGlobalFilteredRows.length;
   const [value, setValue] = useState(globalFilter);
   const onChange = useAsyncDebounce((value) => {
@@ -23,11 +19,11 @@ const GlobalFilter: React.FC<GlobalFilterProps> = ({
   return (
     <div className={styles.searchContainer}>
       <Input
-        id={"search"}
+        id={'search'}
         placeholder={`${count} pozycji...`}
         label={'Szukaj:'}
-        value={value || ""}
-        type="text"
+        value={value || ''}
+        type='text'
         onChange={(e) => {
           setValue(e.target.value);
           onChange(e.target.value);
@@ -35,5 +31,6 @@ const GlobalFilter: React.FC<GlobalFilterProps> = ({
       />
     </div>
   );
-}
-export default GlobalFilter
+};
+
+export default GlobalFilter;
