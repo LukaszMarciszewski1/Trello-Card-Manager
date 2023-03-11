@@ -1,12 +1,7 @@
-import Confetti from 'react-confetti'
+import Confetti from 'react-confetti';
 
 const Success = () => {
-  return (
-    <Confetti
-      width={1000}
-      height={1000}
-    />
-  )
-}
+  return <Confetti width={1000} height={1000} />;
+};
 
-export default Success
+export default Success;

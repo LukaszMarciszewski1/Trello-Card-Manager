@@ -1,10 +1,10 @@
 import { createContext, useState } from 'react';
 
 interface WatchSectionFormContextProviderProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
-type WatchSectionFormContextContextData = ReturnType<typeof useProvidersWatchSectionForm>
+type WatchSectionFormContextContextData = ReturnType<typeof useProvidersWatchSectionForm>;
 export const WatchSectionFormContext = createContext<WatchSectionFormContextContextData | null>(null);
 
 const useProvidersWatchSectionForm = () => {
@@ -15,19 +15,16 @@ const useProvidersWatchSectionForm = () => {
     packing: false,
     message: false,
     materials: false,
-    validationMaterials: false
-  })
+    validationMaterials: false,
+  });
 
   return {
-    watchSectionForm, setWatchSectionForm
-  }
-}
+    watchSectionForm,
+    setWatchSectionForm,
+  };
+};
 
 export const WatchSectionFormContextProvider: React.FC<WatchSectionFormContextProviderProps> = ({ children }) => {
-  const value = useProvidersWatchSectionForm()
-  return (
-    <WatchSectionFormContext.Provider value={value}>
-      {children}
-    </WatchSectionFormContext.Provider>
-  );
+  const value = useProvidersWatchSectionForm();
+  return <WatchSectionFormContext.Provider value={value}>{children}</WatchSectionFormContext.Provider>;
 };

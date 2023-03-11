@@ -1,15 +1,11 @@
 import { createContext, useEffect, useState } from 'react';
-import { auth } from "config/firebase";
-import { User } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
-import {
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged,
-} from 'firebase/auth';
+import { auth } from 'config/firebase';
+import { User } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
+import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
 
 interface AuthProviderProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 interface AuthContextData {
@@ -23,26 +19,23 @@ export const AuthContext = createContext<AuthContextData>({
   user: null,
   isLoading: true,
   signIn: async () => {},
-  logout: async () => {}
+  logout: async () => {},
 });
 
 export const AuthContextProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const signIn = async (
-    email: string, 
-    password: string
-  ) => {
+  const signIn = async (email: string, password: string) => {
     if (!email && !password) return;
-    return await signInWithEmailAndPassword(auth, email, password)
-  }
+    return await signInWithEmailAndPassword(auth, email, password);
+  };
 
   const logout = async () => {
     await signOut(auth).then(() => {
-      setUser(null)
-      navigate('/login')
+      setUser(null);
+      navigate('/login');
     });
   };
 
@@ -63,9 +56,5 @@ export const AuthContextProvider: React.FC<AuthProviderProps> = ({ children }) =
     logout,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

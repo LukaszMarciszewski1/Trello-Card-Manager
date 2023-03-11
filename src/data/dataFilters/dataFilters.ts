@@ -10,5 +10,5 @@ export const dataFilters = [
   {
     value: 'closed',
     label: 'Zarchiwizowane',
-  }
-]
+  },
+];

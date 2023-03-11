@@ -1,5 +1,5 @@
-import React, { forwardRef } from "react";
-import styles from "./styles.module.scss";
+import React, { forwardRef } from 'react';
+import styles from './styles.module.scss';
 
 export type SelectProps = {
   id: string;
@@ -9,23 +9,11 @@ export type SelectProps = {
   value?: number | string;
   defaultValue?: string | number;
   style?: {};
-  options: { value: string | number; label: string }[]
+  options: { value: string | number; label: string }[];
 };
 
 const Input: React.FC<SelectProps> = forwardRef<HTMLInputElement, SelectProps>(
-  (
-    {
-      id,
-      label,
-      value,
-      defaultValue,
-      style,
-      options,
-      onChange,
-      ...props
-    },
-    ref
-  ) => {
+  ({ id, label, value, defaultValue, style, options, onChange, ...props }, ref) => {
     return (
       <div className={styles.container} ref={ref} style={style}>
         <label htmlFor={id}>{label}</label>

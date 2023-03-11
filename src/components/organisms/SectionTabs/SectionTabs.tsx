@@ -1,15 +1,15 @@
-import React, { ReactElement, useState } from "react"
-import styles from './styles.module.scss'
-import Tab from "./Tab/Tab"
+import React, { ReactElement, useState } from 'react';
+import styles from './styles.module.scss';
+import Tab from './Tab/Tab';
 
 type TabsProps = {
-  children: ReactElement[]
-  tabsLabel: string
-  setTabTitle: (e: string) => void
-}
+  children: ReactElement[];
+  tabsLabel: string;
+  setTabTitle: (e: string) => void;
+};
 
 const Tabs: React.FC<TabsProps> = ({ children, tabsLabel, setTabTitle }) => {
-  const [selectedTab, setSelectedTab] = useState(0)
+  const [selectedTab, setSelectedTab] = useState(0);
 
   return (
     <div className={styles.layout}>
@@ -28,7 +28,7 @@ const Tabs: React.FC<TabsProps> = ({ children, tabsLabel, setTabTitle }) => {
       </ul>
       {children[selectedTab]}
     </div>
-  )
-}
+  );
+};
 
-export default React.memo(Tabs)
+export default Tabs;

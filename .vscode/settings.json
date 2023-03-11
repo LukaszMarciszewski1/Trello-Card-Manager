@@ -1,5 +1,8 @@
 {
   "cSpell.words": [
     "autosize"
-  ]
+  ],
+  "prettier.singleQuote": true,
+  "prettier.useTabs": true,
+  "reactSnippets.settings.prettierEnabled": false
 }

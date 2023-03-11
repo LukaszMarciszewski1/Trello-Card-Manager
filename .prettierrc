@@ -1,0 +1,6 @@
+{
+  "singleQuote": true,
+  "jsxSingleQuote": true,
+  "printWidth": 120,
+  "jsx-max-props-per-line": 2
+}
