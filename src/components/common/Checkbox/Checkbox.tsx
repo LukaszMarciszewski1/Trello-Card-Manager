@@ -1,10 +1,11 @@
 import React, { forwardRef } from 'react'
 import styles from './styles.module.scss'
+
 interface CheckboxProps {
   id: string
   type: string
   label?: string
-  title?:string
+  title?: string
   value?: string
   name?: string
   style?: {}
@@ -50,7 +51,7 @@ const Checkbox: React.FC<CheckboxProps> = forwardRef<HTMLInputElement, CheckboxP
           style={style}
           title={title}
           className={`${styles.label} ${error && styles.error}`}
-          >
+        >
           {children}
           {label}
         </label>

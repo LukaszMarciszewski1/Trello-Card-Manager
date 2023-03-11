@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import axios from 'axios'
 import { Card, CardDescription } from 'models/card'
-import { Member, Board, List } from "models/trelloModels/index";
+import { Member, Board, List } from 'models/trelloDataModels/index'
 import { cardFormData } from './cardFormData/cardFormData'
 
 export function TrelloApi() {

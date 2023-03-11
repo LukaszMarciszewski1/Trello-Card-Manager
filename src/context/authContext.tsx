@@ -42,7 +42,7 @@ export const AuthContextProvider: React.FC<AuthProviderProps> = ({ children }) =
   const logout = async () => {
     await signOut(auth).then(() => {
       setUser(null)
-      navigate('/')
+      navigate('/login')
     });
   };
 

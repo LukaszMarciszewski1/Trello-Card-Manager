@@ -7,9 +7,8 @@ import { AuthContext } from 'context/authContext'
 
 import Input from 'components/common/Input/Input'
 import Button from 'components/common/Button/Button';
-import bgLogin from 'assets/img/bg-login.svg'
-import bgLoginHeader from 'assets/img/bg-login-header.svg'
 import { HiOutlineUser } from "react-icons/hi"
+import bgLogin from 'assets/img/bg-login.svg'
 
 const Login: React.FC = () => {
   const { signIn } = useContext(AuthContext)
@@ -25,7 +24,7 @@ const Login: React.FC = () => {
     try {
       const userCredential = await signIn(data.email, data.password)
       if (userCredential) {
-        navigate('/home')
+        navigate('/')
       }
     } catch (err) {
       alert('Nieprawidłowy email lub hasło')

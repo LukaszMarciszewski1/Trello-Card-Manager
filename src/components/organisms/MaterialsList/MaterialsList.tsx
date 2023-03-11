@@ -2,8 +2,9 @@ import { useState } from 'react'
 import styles from './styles.module.scss'
 import './react-tabs-scrollable.scss';
 import { Tabs, Tab } from 'react-tabs-scrollable'
-import Checkbox from 'components/common/Checkbox/Checkbox'
+
 import { Material } from 'models/material';
+import Checkbox from 'components/common/Checkbox/Checkbox'
 import BoxColor from 'components/common/BoxColor/BoxColor';
 interface MaterialsListProps {
   options: Material[]

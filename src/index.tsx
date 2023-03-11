@@ -1,8 +1,8 @@
 import React from 'react';
+import 'style/base.scss';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from "react-router-dom";
 import Root from 'views/Root';
-import 'style/base.scss';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

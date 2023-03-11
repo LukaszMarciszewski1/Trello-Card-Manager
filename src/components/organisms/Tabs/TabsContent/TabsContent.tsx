@@ -1,4 +1,3 @@
-
 type TabsContentProps = {
   title: string
   children: JSX.Element | JSX.Element[];

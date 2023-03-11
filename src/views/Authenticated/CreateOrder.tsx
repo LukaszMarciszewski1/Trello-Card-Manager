@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect } from 'react'
+import * as constants from 'constants/index';
+import { dataFilters } from 'data/dataFilters/dataFilters'
+import { useTrelloApi } from 'hooks/useTrelloApi'
+
 import Tabs from 'components/organisms/Tabs/Tabs'
 import TabsContent from 'components/organisms/Tabs/TabsContent/TabsContent'
-import PlotterForm from 'components/organisms/Forms/Plotter'
-import EmbroideryForm from 'components/organisms/Forms/Embroidery'
-import DTFForm from 'components/organisms/Forms/DTF'
-import * as constants from 'constants/index';
-import { useTrelloApi } from 'hooks/useTrelloApi'
+import FormWithMaterials from 'components/organisms/OrderForms/FormWithMaterials'
+import FormWithoutMaterials from 'components/organisms/OrderForms/FormWithoutMaterials'
 
 const TaskForms: React.FC = () => {
 
@@ -26,7 +27,7 @@ const TaskForms: React.FC = () => {
   useEffect(() => {
     getMembers()
     getBoards()
-    getLists('all')
+    getLists(dataFilters[0].value)
   }, [])
 
   const getFirstListOfCurrentBoard = useCallback((boardName: string): string | undefined => {
@@ -42,22 +43,22 @@ const TaskForms: React.FC = () => {
   return (
     <Tabs subcategory>
       <TabsContent title={PLOTTER}>
-        <PlotterForm
+        <FormWithMaterials
           listId={getFirstListOfCurrentBoard(PLOTTER)}
           boardName={PLOTTER}
-           />
+        />
       </TabsContent>
       <TabsContent title={EMBROIDERY}>
-        <EmbroideryForm
+        <FormWithoutMaterials
           listId={getFirstListOfCurrentBoard(EMBROIDERY)}
           boardName={EMBROIDERY}
-           />
+        />
       </TabsContent>
       <TabsContent title={DTF}>
-        <DTFForm
+        <FormWithoutMaterials
           listId={getFirstListOfCurrentBoard(DTF)}
-          boardName={DTF} 
-           />
+          boardName={DTF}
+        />
       </TabsContent>
     </Tabs>
   )
