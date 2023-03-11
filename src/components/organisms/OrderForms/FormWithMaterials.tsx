@@ -1,39 +1,47 @@
 import React, { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
-
-import * as constants from 'constants/index';
-import { fabric, departments } from "data/formData/index";
 import { useForm, useFieldArray } from "react-hook-form";
+import * as constants from 'constants/index';
+
+import { materials } from "data/formData/materials";
+import { fabric, departments } from "data/formData/index";
 import { Card, CardDescription } from "models/card";
+import { Material } from "models/material";
+import { Member } from "models/trelloDataModels/member";
 import { useTrelloApi } from "hooks/useTrelloApi";
 import { useWatchSectionForm } from "hooks/useWatchSectionForm";
-import { Member } from "models/trelloModels/member";
 import getInitials from "helpers/getInitials";
 
 import {
   getPriceForOnePieceOfSection,
   getTotalPrice,
   getPriceForSection,
+  isMoreThanMaximumSize,
   getSelectedSizeName,
+  isDisplayFabric
 } from "calculations/priceListOfServices";
 
 import FormLayout from "components/layouts/FormLayout/FormLayout";
 import FormSectionLayout from 'components/layouts/FormSectionLayout/FormSectionLayout'
+import SectionTabs from "components/organisms/SectionTabs/SectionTabs";
+import SectionTabsContent from 'components/organisms/SectionTabs/TabsContent/TabsContent'
 import Input from "components/common/Input/Input";
 import Button from "components/common/Button/Button";
 import Checkbox from "components/common/Checkbox/Checkbox";
 import Select from "components/common/Select/Select";
 import Textarea from "components/common/Textarea/Textarea";
 import MessageModal from "components/organisms/MessageModal/MessageModal";
+import MaterialsForm from "./Materials/Materials";
 import { RiAddLine } from "react-icons/ri";
 
-interface FormProps {
+interface FormWithMaterialsProps {
   listId: string | undefined
   boardName: string
-
 }
+
 const defaultSectionValues = {
-  materialAccess: false,
+  materialAccess: true,
+  materialType: materials[0]?.application,
   logo: '',
   amount: 1,
   fabric: fabric[0].value,
@@ -48,7 +56,7 @@ const defaultSectionValues = {
   materials: []
 };
 
-const EmbroideryForm: React.FC<FormProps> = ({ boardName, listId }) => {
+const FormWithMaterials: React.FC<FormWithMaterialsProps> = ({ boardName, listId }) => {
   const { addCard, success, error, loading, members } = useTrelloApi()
   const { watchSectionForm, setWatchSectionForm } = useWatchSectionForm()
 
@@ -84,7 +92,6 @@ const EmbroideryForm: React.FC<FormProps> = ({ boardName, listId }) => {
     setValue('orderPrice', getTotalPrice(sectionForms))
     setValue('orderCost', Number((getTotalPrice(sectionForms) * 0.75).toFixed(1)))
     fields.map((item, index) => {
-      setValue(`description.${index}.customPrice`, true)
       setValue(`description.${index}.price`, getPriceForSection(sectionForms, index))
       setValue(`description.${index}.priceForOnePiece`, getPriceForOnePieceOfSection(sectionForms, index))
     })
@@ -98,6 +105,7 @@ const EmbroideryForm: React.FC<FormProps> = ({ boardName, listId }) => {
 
   useEffect(() => {
     fields.map((item, index) => {
+      setValue(`description.${index}.customPrice`, isMoreThanMaximumSize(sectionForms, index))
       setValue(`description.${index}.size`, getSelectedSizeName(sectionForms, index))
     })
   }, [
@@ -121,18 +129,44 @@ const EmbroideryForm: React.FC<FormProps> = ({ boardName, listId }) => {
   const handleWatchPacking = () => {
     setWatchSectionForm({ ...watchSectionForm, packing: !watchSectionForm.packing })
   }
+  interface GetMaterials {
+    (index: number): Material[];
+  }
+
+  const getMaterials: GetMaterials = (index: number) => {
+    return materials.filter(material => (
+      material.application.toLowerCase() === sectionForms[index]?.materialType?.toLowerCase()
+    ))
+  }
 
   const handleSubmitForm = (data: Card) => {
-    if (data && listId) {
-      addCard(data, listId)
-      setWatchSectionForm({ ...watchSectionForm, message: true })
+    setWatchSectionForm({ ...watchSectionForm, materials: true })
+    if (data && listId && watchSectionForm.materials) {
+      addCard(data, listId);
+      setWatchSectionForm({
+        ...watchSectionForm,
+        message: true,
+        materials: false
+      })
     }
   }
 
   const closeModal = () => {
+    setWatchSectionForm({
+      ...watchSectionForm,
+      materials: false,
+      validationMaterials: false,
+      message: false
+    })
     reset()
-    setWatchSectionForm({ ...watchSectionForm, message: false })
   }
+
+  const materialTabsValues: string[] = [
+    constants.FLEX_FLOCK,
+    constants.SOLVENT,
+    constants.SUBLIMATION,
+    constants.TRANSFERS,
+  ]
 
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
@@ -180,17 +214,37 @@ const EmbroideryForm: React.FC<FormProps> = ({ boardName, listId }) => {
           {fields.map((field, index) => {
             return (
               <FormSectionLayout key={field.id}>
-                <div className={styles.formGroupColumn} style={{ justifyContent: 'space-between' }}>
+                <div className={styles.formGroupColumn}>
                   <Input
                     id={field.id}
                     label={constants.LOGO}
                     type="text"
-                    error={errors.description}
+                    error={errors.description?.[index]?.logo}
                     {...register(`description.${index}.logo` as const, {
                       required: true,
                     })}
                     defaultValue={field.logo}
                   />
+                  <div className={styles.sectionTabsContainer}>
+                    <SectionTabs
+                      tabsLabel={constants.CHOOSE_MATERIAL_TYPE}
+                      setTabTitle={(e: string) => setValue(`description.${index}.materialType`, e)}
+                    >
+                      {
+                        materialTabsValues.map((value, i) => (
+                          <SectionTabsContent title={value} key={i}>
+                            <MaterialsForm
+                              {...{ control, register }}
+                              registerName={`description[${index}].materials`}
+                              materials={getMaterials(index)}
+                              dataForm={sectionForms[index]}
+                              materialsType={sectionForms[index]?.materialType}
+                            />
+                          </SectionTabsContent>
+                        ))
+                      }
+                    </SectionTabs>
+                  </div>
                   <Textarea
                     id={field.id}
                     label={constants.ADDITIONAL_DESC}
@@ -199,19 +253,25 @@ const EmbroideryForm: React.FC<FormProps> = ({ boardName, listId }) => {
                   />
                 </div>
                 <div className={styles.formGroupColumn}>
-                  <Select
-                    label={constants.FABRIC}
-                    options={fabric}
-                    id={field.id}
-                    defaultValue={field.fabric}
-                    {...register(`description.${index}.fabric` as const)}
-                  />
+                  {
+                    !isDisplayFabric(sectionForms[index]) ? (
+                      <Select
+                        label={constants.FABRIC}
+                        options={fabric}
+                        id={field.id}
+                        defaultValue={field.fabric}
+                        {...register(`description.${index}.fabric` as const)}
+                      />
+                    ) : null
+                  }
                   <Input
                     id={field.id}
+                    placeholder={constants.AMOUNT}
                     label={constants.AMOUNT}
                     type="number"
                     step={"1"}
-                    min={0}
+                    min={1}
+                    error={errors.description?.[index]?.amount}
                     {...register(`description.${index}.amount` as const,
                       { onChange: handleWatchCustomPriceValue, required: true })
                     }
@@ -219,20 +279,24 @@ const EmbroideryForm: React.FC<FormProps> = ({ boardName, listId }) => {
                   <div className={styles.rowWrapper}>
                     <Input
                       id={field.id}
+                      placeholder={constants.WIDTH}
                       label={constants.WIDTH}
                       type="number"
                       step={"0.1"}
-                      min={0}
+                      min={0.1}
+                      error={errors.description?.[index]?.width}
                       {...register(`description.${index}.width` as const,
                         { onChange: handleWatchFormSizeWidthValue, required: true })
                       }
                     />
                     <Input
                       id={field.id}
+                      placeholder={constants.HEIGHT}
                       label={constants.HEIGHT}
                       type="number"
                       step={"0.1"}
-                      min={0}
+                      min={0.1}
+                      error={errors.description?.[index]?.height}
                       {...register(`description.${index}.height` as const,
                         { onChange: handleWatchFormSizeHeightValue, required: true })
                       }
@@ -255,27 +319,50 @@ const EmbroideryForm: React.FC<FormProps> = ({ boardName, listId }) => {
                     />
                   </div>
                   <div className={styles.rowWrapper}>
-                    <>
-                      <div style={{ width: 120, marginRight: 15 }}>
-                        <Input
-                          id={field.id}
-                          label={constants.PRICE_FOR_ONE_PIECE}
-                          style={{ border: '2px solid green' }}
-                          type="number"
-                          min={0}
-                          {...register(`description.${index}.priceForOnePiece` as const,
-                            { onChange: handleWatchCustomPriceValue })
-                          }
-                        />
-                      </div>
-                      <Input
-                        id={field.id}
-                        label={constants.SECTION_PRICE}
-                        type="number"
-                        {...register(`description.${index}.price` as const)}
-                        readOnly
-                      />
-                    </>
+                    {
+                      isMoreThanMaximumSize(sectionForms, index) ? (
+                        <>
+                          <div style={{ width: 120, marginRight: 15 }}>
+                            <Input
+                              id={field.id}
+                              label={constants.PRICE_FOR_ONE_PIECE}
+                              style={{ border: '2px solid green' }}
+                              type="number"
+                              min={0}
+                              {...register(`description.${index}.priceForOnePiece` as const,
+                                { onChange: handleWatchCustomPriceValue })
+                              }
+                            />
+                          </div>
+                          <Input
+                            id={field.id}
+                            label={constants.SECTION_PRICE}
+                            type="number"
+                            {...register(`description.${index}.price` as const)}
+                            readOnly
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <div style={{ width: 120, marginRight: 15 }}>
+                            <Input
+                              id={field.id}
+                              label={constants.PRICE_FOR_ONE_PIECE}
+                              type="number"
+                              {...register(`description.${index}.priceForOnePiece` as const)}
+                              readOnly
+                            />
+                          </div>
+                          <Input
+                            id={field.id}
+                            label={constants.SECTION_PRICE}
+                            type="number"
+                            {...register(`description.${index}.price` as const)}
+                            readOnly
+                          />
+                        </>
+                      )
+                    }
                   </div>
                   {
                     sectionForms.length > 1 ? (
@@ -304,7 +391,7 @@ const EmbroideryForm: React.FC<FormProps> = ({ boardName, listId }) => {
             <div className={styles.inputContainer}>
               <Select
                 label={constants.RECIPIENT}
-                options={departments.embroidery}
+                options={departments.plotter}
                 id={"recipient"}
                 {...register("recipient")}
               />
@@ -313,6 +400,7 @@ const EmbroideryForm: React.FC<FormProps> = ({ boardName, listId }) => {
                   id={"startDate"}
                   value={new Date().toISOString().slice(0, 10)}
                   type="date"
+                  style={{ display: 'none' }}
                   {...register("startDate")}
                 />
               </div>
@@ -366,4 +454,4 @@ const EmbroideryForm: React.FC<FormProps> = ({ boardName, listId }) => {
   );
 };
 
-export default EmbroideryForm;
+export default FormWithMaterials

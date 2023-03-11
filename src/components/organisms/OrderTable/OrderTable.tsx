@@ -2,7 +2,7 @@ import React, { useState, useCallback } from "react";
 import styles from './styles.module.scss'
 import dayjs from "dayjs";
 import { useTable, Column, useSortBy, useGlobalFilter, usePagination } from "react-table";
-import { Member, Board, List } from "models/trelloModels/index";
+import { Member, Board, List } from "models/trelloDataModels/index";
 import Button from "components/common/Button/Button";
 import Search from "./Search/Search";
 import { useTrelloApi } from 'hooks/useTrelloApi';
@@ -34,7 +34,7 @@ interface CardsTableProps {
   setSelectedDataFilter: (e: string) => void
 }
 
-const CardsTable: React.FC<CardsTableProps> = ({
+const OrderTable: React.FC<CardsTableProps> = ({
   cards,
   members,
   boards,
@@ -139,11 +139,6 @@ const CardsTable: React.FC<CardsTableProps> = ({
         idMembers: card.idMembers[0]
       };
     }).filter(card => tableFilters.includes(card.idMembers))
-
-    // const filteredMembers = newCards.filter(card => tableFilters.includes(card.idMembers))
-    // .find(filterId => filterId === card.idMembers))
-    // .some((id: string) => tableFilters.includes(id)))
-
 
     if (!tableFilters.length) {
       return cards;
@@ -445,4 +440,4 @@ const CardsTable: React.FC<CardsTableProps> = ({
   );
 }
 
-export default CardsTable;
+export default OrderTable;

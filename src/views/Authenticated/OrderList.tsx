@@ -1,22 +1,8 @@
 import { useEffect, useState } from 'react'
-import CardsTable from 'components/organisms/CardsTable/CardsTable'
+import { dataFilters } from 'data/dataFilters/dataFilters'
 import { useTrelloApi } from 'hooks/useTrelloApi';
+import OrderTable from 'components/organisms/OrderTable/OrderTable'
 import Loading from 'components/common/Loading/Loading';
-
-const dataFilters = [
-  {
-    value: 'all',
-    label: 'Wszystkie',
-  },
-  {
-    value: 'open',
-    label: 'Aktywne',
-  },
-  {
-    value: 'closed',
-    label: 'Zarchiwizowane',
-  }
-]
 
 const CardsList = () => {
   const [selectedFilter, setSelectedFilter] = useState(dataFilters[1].value);
@@ -44,7 +30,7 @@ const CardsList = () => {
     <>
       {
         !cards.length ? <Loading size={70} /> : (
-          <CardsTable
+          <OrderTable
             cards={cards}
             members={members}
             boards={boards}

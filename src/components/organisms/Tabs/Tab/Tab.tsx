@@ -1,4 +1,4 @@
-import React, { useCallback } from "react"
+import { useCallback } from "react"
 import styles from './styles.module.scss'
 
 type Props = {
@@ -30,4 +30,4 @@ const Tab: React.FC<Props> = ({ title, setSelectedTab, active, index, subcategor
   )
 }
 
-export default React.memo(Tab)
+export default Tab

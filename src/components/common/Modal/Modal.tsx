@@ -1,8 +1,8 @@
 import React, { useRef } from 'react'
 import styles from './styles.module.scss'
+import * as constants from 'constants/index';
 import useOnClickOutside from 'hooks/useOnClickOutside'
 import Button from '../Button/Button';
-import * as constants from 'constants/index';
 
 type ModalProps = {
   trigger: boolean

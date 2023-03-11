@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
-
-import * as constants from 'constants/index';
-import { fabric, departments } from "data/formData/index";
 import { useForm, useFieldArray } from "react-hook-form";
+import * as constants from 'constants/index';
+
+import { fabric, departments } from "data/formData/index";
 import { Card, CardDescription } from "models/card";
-import { Member } from "models/trelloModels/member";
-import getInitials from "helpers/getInitials";
+import { Member } from "models/trelloDataModels/member";
 import { useTrelloApi } from "hooks/useTrelloApi";
 import { useWatchSectionForm } from "hooks/useWatchSectionForm";
+import getInitials from "helpers/getInitials";
 
 import {
   getPriceForOnePieceOfSection,
@@ -27,11 +27,11 @@ import Textarea from "components/common/Textarea/Textarea";
 import MessageModal from "components/organisms/MessageModal/MessageModal";
 import { RiAddLine } from "react-icons/ri";
 
-interface FormProps {
+interface FormWithoutMaterialsProps {
   listId: string | undefined
   boardName: string
-}
 
+}
 const defaultSectionValues = {
   materialAccess: false,
   logo: '',
@@ -48,10 +48,9 @@ const defaultSectionValues = {
   materials: []
 };
 
-const DTFForm: React.FC<FormProps> = ({ boardName, listId }) => {
+const FormWithoutMaterials: React.FC<FormWithoutMaterialsProps> = ({ boardName, listId }) => {
   const { addCard, success, error, loading, members } = useTrelloApi()
   const { watchSectionForm, setWatchSectionForm } = useWatchSectionForm()
-  console.log(watchSectionForm)
 
   const {
     register,
@@ -123,7 +122,7 @@ const DTFForm: React.FC<FormProps> = ({ boardName, listId }) => {
     setWatchSectionForm({ ...watchSectionForm, packing: !watchSectionForm.packing })
   }
 
-  const handleSubmitForm = async (data: Card) => {
+  const handleSubmitForm = (data: Card) => {
     if (data && listId) {
       addCard(data, listId)
       setWatchSectionForm({ ...watchSectionForm, message: true })
@@ -151,6 +150,7 @@ const DTFForm: React.FC<FormProps> = ({ boardName, listId }) => {
             <>
               <Input
                 id={"title"}
+                placeholder={""}
                 label={constants.CONTRACTOR}
                 type="text"
                 error={errors.title}
@@ -208,7 +208,6 @@ const DTFForm: React.FC<FormProps> = ({ boardName, listId }) => {
                   />
                   <Input
                     id={field.id}
-                    placeholder={constants.AMOUNT}
                     label={constants.AMOUNT}
                     type="number"
                     step={"1"}
@@ -220,7 +219,6 @@ const DTFForm: React.FC<FormProps> = ({ boardName, listId }) => {
                   <div className={styles.rowWrapper}>
                     <Input
                       id={field.id}
-                      placeholder={constants.WIDTH}
                       label={constants.WIDTH}
                       type="number"
                       step={"0.1"}
@@ -231,7 +229,6 @@ const DTFForm: React.FC<FormProps> = ({ boardName, listId }) => {
                     />
                     <Input
                       id={field.id}
-                      placeholder={constants.HEIGHT}
                       label={constants.HEIGHT}
                       type="number"
                       step={"0.1"}
@@ -307,7 +304,7 @@ const DTFForm: React.FC<FormProps> = ({ boardName, listId }) => {
             <div className={styles.inputContainer}>
               <Select
                 label={constants.RECIPIENT}
-                options={departments.plotter}
+                options={departments.embroidery}
                 id={"recipient"}
                 {...register("recipient")}
               />
@@ -369,4 +366,4 @@ const DTFForm: React.FC<FormProps> = ({ boardName, listId }) => {
   );
 };
 
-export default DTFForm;
+export default FormWithoutMaterials;

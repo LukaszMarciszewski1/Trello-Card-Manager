@@ -1,6 +1,6 @@
-import React, { ReactElement, useState } from "react"
-import Tab from "./Tab/Tab"
+import { ReactElement, useState } from "react"
 import styles from './styles.module.scss'
+import Tab from "./Tab/Tab"
 
 type TabsProps = {
   children: ReactElement[]
@@ -29,4 +29,4 @@ const Tabs: React.FC<TabsProps> = ({ children, subcategory }) => {
   )
 }
 
-export default React.memo(Tabs)
+export default Tabs

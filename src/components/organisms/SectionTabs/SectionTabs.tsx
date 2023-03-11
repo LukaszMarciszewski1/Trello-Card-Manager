@@ -1,6 +1,6 @@
 import React, { ReactElement, useState } from "react"
-import Tab from "./Tab/Tab"
 import styles from './styles.module.scss'
+import Tab from "./Tab/Tab"
 
 type TabsProps = {
   children: ReactElement[]

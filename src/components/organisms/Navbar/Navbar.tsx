@@ -1,6 +1,6 @@
 import styles from './styles.module.scss'
-import Button from 'components/common/Button/Button'
 import { useAuth } from 'hooks/useAuth'
+import Button from 'components/common/Button/Button'
 
 const Navbar: React.FC = () => {
   const { logout, user } = useAuth()

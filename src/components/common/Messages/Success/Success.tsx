@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './styles.module.scss'
-import Confetti from 'components/common/Messages/Success/Confetti/Confetti'
 import * as constants from 'constants/index';
+import Confetti from 'components/common/Messages/Success/Confetti/Confetti'
 
 interface SuccessProps {
   title: string
