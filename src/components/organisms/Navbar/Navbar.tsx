@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styles from './styles.module.scss';
 import { useAuth } from 'hooks/useAuth';
 import Button from 'components/common/Button/Button';
@@ -12,7 +13,7 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <div className={styles.navbar}>
+    <nav className={styles.navbar}>
       {user && (
         <div>
           <span className={styles.avatar}>{getUserInitial(user?.email)}</span>
@@ -20,7 +21,7 @@ const Navbar: React.FC = () => {
         </div>
       )}
       {user && <Button onClick={logout} title={'Wyloguj'} style={{ width: 90, margin: 0 }} />}
-    </div>
+    </nav>
   );
 };
 
