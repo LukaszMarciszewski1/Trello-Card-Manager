@@ -10,31 +10,34 @@ interface AuthProviderProps {
 
 interface AuthContextData {
   user: User | null;
-  isLoading: boolean;
   signIn: (email: string, password: string) => Promise<any>;
   logout: () => Promise<any>;
 }
 
 export const AuthContext = createContext<AuthContextData>({
   user: null,
-  isLoading: true,
   signIn: async () => {},
   logout: async () => {},
 });
 
 export const AuthContextProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   const signIn = async (email: string, password: string) => {
     if (!email && !password) return;
-    return await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    if (userCredential) {
+      localStorage.setItem('user', JSON.stringify(userCredential.user));
+      navigate('/');
+    }
+    return userCredential
   };
 
   const logout = async () => {
     await signOut(auth).then(() => {
       setUser(null);
+      localStorage.removeItem('user');
       navigate('/login');
     });
   };
@@ -42,8 +45,12 @@ export const AuthContextProvider: React.FC<AuthProviderProps> = ({ children }) =
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
-        setIsLoading(false);
         setUser(currentUser);
+      }  else {
+        const userFromLocalStorage = localStorage.getItem('user');
+        if (userFromLocalStorage) {
+          setUser(JSON.parse(userFromLocalStorage));
+        }
       }
     });
     return () => unsubscribe();
@@ -51,7 +58,6 @@ export const AuthContextProvider: React.FC<AuthProviderProps> = ({ children }) =
 
   const value = {
     user,
-    isLoading,
     signIn,
     logout,
   };
