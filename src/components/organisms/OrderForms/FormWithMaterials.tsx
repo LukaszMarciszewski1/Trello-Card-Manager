@@ -19,7 +19,7 @@ import {
   isMoreThanMaximumSize,
   getSelectedSizeName,
   isDisplayFabric,
-} from 'calculations/priceListOfServices';
+} from 'services/calculator';
 
 import FormLayout from 'components/layouts/FormLayout/FormLayout';
 import FormSectionLayout from 'components/layouts/FormSectionLayout/FormSectionLayout';

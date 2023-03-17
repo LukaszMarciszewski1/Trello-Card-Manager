@@ -22,6 +22,9 @@ Password:  `Demo1234`
 ### Trello board sharing link:
 https://trello.com/invite/b/SqDigaOB/ATTI1a6e35ad35cc6aa4d3f14f40112f03bf66AA5F1D/ploterownia
 
+### Demo video
+https://user-images.githubusercontent.com/66526279/224669345-bd8d3d10-79e5-49bb-84c9-3dbee1058090.mp4
+
 ## Running the Application
 To run the project as a demo version, a .env file with pre-configured variables must be provided. 
 This file should contain the necessary environment variables for the application to run, including the Trello and Firebase API keys and authentication tokens.
