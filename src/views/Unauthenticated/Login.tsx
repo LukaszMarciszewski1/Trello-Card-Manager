@@ -1,6 +1,5 @@
 import { useContext } from 'react';
 import styles from './styles.module.scss';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { User } from 'models/user';
 import { AuthContext } from 'context/authContext';
@@ -12,8 +11,6 @@ import bgLogin from 'assets/img/bg-login.svg';
 
 const Login: React.FC = () => {
   const { signIn } = useContext(AuthContext);
-  const navigate = useNavigate();
-  const location = useLocation();
 
   const {
     register,
@@ -24,9 +21,6 @@ const Login: React.FC = () => {
   const handleSubmitForm = async (data: any) => {
     try {
       await signIn(data.email, data.password);
-      // if (userCredential) {
-      //   navigate('/');
-      // }
     } catch (err) {
       alert('Nieprawidłowy email lub hasło');
       console.log(err);

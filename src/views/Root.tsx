@@ -1,7 +1,5 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
-import { useAuth } from 'hooks/useAuth';
+import { Routes, Route } from 'react-router-dom';
 import AppProviders from 'providers/AppProviders';
-import Loading from 'components/common/Loading/Loading';
 import Authenticated from 'views/Authenticated/Authenticated';
 import Login from 'views/Unauthenticated/Login';
 
