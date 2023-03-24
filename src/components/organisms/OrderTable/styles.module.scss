@@ -7,6 +7,7 @@
 }
 
 table {
+  position: relative;
   width: 100%;
   overflow: hidden;
   background-color: rgb(234, 234, 234);
@@ -87,4 +88,14 @@ tbody td {
     display: inline-block;
     margin-bottom: 0.5rem;
   }
+}
+
+.refreshContainer {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 100;
+  background-color: #fcfcfc6d;
 }
