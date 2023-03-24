@@ -47,6 +47,7 @@ const OrderTable: React.FC<CardsTableProps> = ({
 }) => {
   const { getCards, deleteCard, archiveCard } = useTrelloApi();
 
+ const [isRefresh, setIsRefresh] = useState(false);
   const [popupTrigger, setPopupTrigger] = useState(false);
   const [tableFilters, setTableFilters] = useState<string[]>([]);
   const [rowPopup, setRowPopup] = useState(false);
@@ -58,6 +59,17 @@ const OrderTable: React.FC<CardsTableProps> = ({
     listId: '',
     name: '',
   });
+
+  const handleRefreshData = () => {
+    setIsRefresh(true);
+
+    const interval = setInterval(() => {
+      setIsRefresh(false);
+      clearInterval(interval);
+    }, 500);
+
+    getCards(selectedDataFilter);
+  };
 
   const filterBoardName = useCallback(
     (row: string) => {
@@ -266,19 +278,6 @@ const OrderTable: React.FC<CardsTableProps> = ({
     usePagination,
     tableHooks as any
   );
-
-  const [isRefresh, setIsRefresh] = useState(false);
-
-  const handleRefreshData = () => {
-    setIsRefresh(true);
-
-    const interval = setInterval(() => {
-      setIsRefresh(false);
-      clearInterval(interval);
-    }, 500);
-
-    getCards(selectedDataFilter);
-  };
 
   return (
     <div className={styles.tableContainer}>
