@@ -8,6 +8,7 @@ import Search from './Search/Search';
 import { useTrelloApi } from 'hooks/useTrelloApi';
 import Checkbox from 'components/common/Checkbox/Checkbox';
 import Popup from 'components/common/Popup/Popup';
+import Loading from 'components/common/Loading/Loading';
 import { AiFillEdit } from 'react-icons/ai';
 import {
   MdSkipPrevious,
@@ -18,6 +19,7 @@ import {
   MdOutlineArchive,
   MdOutlineFilterList,
 } from 'react-icons/md';
+import { TbRefresh } from 'react-icons/tb';
 import * as constants from 'constants/index';
 
 interface Filter {
@@ -265,6 +267,19 @@ const OrderTable: React.FC<CardsTableProps> = ({
     tableHooks as any
   );
 
+  const [isRefresh, setIsRefresh] = useState(false);
+
+  const handleRefreshData = () => {
+    setIsRefresh(true);
+
+    const interval = setInterval(() => {
+      setIsRefresh(false);
+      clearInterval(interval);
+    }, 500);
+
+    getCards(selectedDataFilter);
+  };
+
   return (
     <div className={styles.tableContainer}>
       <div className={styles.headerContainer}>
@@ -274,6 +289,12 @@ const OrderTable: React.FC<CardsTableProps> = ({
           globalFilter={state.globalFilter}
         />
         <div style={{ display: 'flex', alignItems: 'end', marginTop: 10 }}>
+          <Button
+            title={' Odśwież'}
+            onClick={handleRefreshData}
+            icon={<TbRefresh fontSize={'19px'} />}
+            style={{ width: 120, margin: 0, marginRight: 20 }}
+          />
           <Button
             title={'Filtruj'}
             onClick={() => setPopupTrigger(true)}
@@ -346,6 +367,11 @@ const OrderTable: React.FC<CardsTableProps> = ({
         </div>
       </div>
       <table {...getTableProps()}>
+        {isRefresh ? (
+          <div className={styles.refreshContainer}>
+            <Loading size={60} />
+          </div>
+        ) : null}
         <thead>
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>

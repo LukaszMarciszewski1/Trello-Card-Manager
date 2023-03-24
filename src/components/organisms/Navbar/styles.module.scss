@@ -1,9 +1,46 @@
-.navbar {
+@import 'style/colors.scss';
+@import 'style/mixins.scss';
+.nav {
+  width: 100%;
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  div {
-    margin-right: 1rem;
+  flex-direction: column;
+  .top {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    div {
+      margin-right: 1rem;
+    }
+  }
+  ul {
+    display: flex;
+    border-bottom: 1px solid $secondary-gray;
+    li {
+      margin-right: 1.7rem;
+      .navLink {
+        position: relative;
+        display: inline-block;
+        text-decoration: none;
+        background-color: transparent;
+        padding-bottom: 8px;
+        opacity: 0.7;
+        &.active {
+          opacity: 1;
+          &::before {
+            content: '';
+            position: absolute;
+            right: 0;
+            bottom: 0px;
+            width: 100%;
+            border-bottom: 3px solid $secondary-blue;
+          }
+        }
+        font: {
+          size: 1.05rem;
+          weight: bold;
+        }
+      }
+    }
   }
 }
 
