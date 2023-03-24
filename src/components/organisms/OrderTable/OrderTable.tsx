@@ -18,6 +18,7 @@ import {
   MdOutlineArchive,
   MdOutlineFilterList,
 } from 'react-icons/md';
+import { FiRefreshCw } from 'react-icons/fi';
 import * as constants from 'constants/index';
 
 interface Filter {
@@ -274,6 +275,11 @@ const OrderTable: React.FC<CardsTableProps> = ({
           globalFilter={state.globalFilter}
         />
         <div style={{ display: 'flex', alignItems: 'end', marginTop: 10 }}>
+          <Button
+            onClick={() => getCards(selectedDataFilter)}
+            icon={<FiRefreshCw fontSize={'19px'} />}
+            style={{ width: 'auto', margin: 0, marginRight: 25 }}
+          />
           <Button
             title={'Filtruj'}
             onClick={() => setPopupTrigger(true)}
