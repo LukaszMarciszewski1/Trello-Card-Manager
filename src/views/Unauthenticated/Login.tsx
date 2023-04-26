@@ -1,42 +1,46 @@
-import { useContext } from 'react';
-import styles from './styles.module.scss';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { User } from 'models/user';
-import { AuthContext } from 'context/authContext';
 
+import AuthLayout from 'layouts/AuthLayout/AuthLayout';
 import Input from 'components/common/Input/Input';
 import Button from 'components/common/Button/Button';
-import { HiOutlineUser } from 'react-icons/hi';
-import bgLogin from 'assets/img/bg-login.svg';
+import { useAuth } from 'hooks/useAuth';
 
 const Login: React.FC = () => {
-  const { signIn } = useContext(AuthContext);
+  const { signIn } = useAuth();
+  const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<User>();
 
-  const handleSubmitForm = async (data: any) => {
+  const handleSubmitForm = async (data: User) => {
+    const { email, password } = data;
     try {
-      await signIn(data.email, data.password);
+      await signIn(email, password);
+      navigate('/');
+      reset();
     } catch (err) {
       alert('Nieprawidłowy email lub hasło');
       console.log(err);
     }
   };
 
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      navigate('/');
+    }
+  }, []);
+
   return (
-    <div className={styles.loginContainer} style={{ backgroundImage: `url(${bgLogin})` }}>
-      <div className={styles.formContainer}>
-        <div className={styles.formHeader} style={{ backgroundImage: `url(${bgLogin})` }}>
-          <h1>Trello Card Manager</h1>
-        </div>
-        <div className={styles.icon}>
-          <HiOutlineUser fontSize='5rem' />
-        </div>
-        <form className={styles.form} onSubmit={handleSubmit(handleSubmitForm)}>
+    <AuthLayout>
+        <form onSubmit={handleSubmit(handleSubmitForm)}>
           <h2>Zaloguj się</h2>
           <Input
             id={'email'}
@@ -56,8 +60,7 @@ const Login: React.FC = () => {
           {errors.password && <div>'Hasło jest wymagane'</div>}
           <Button type='submit' title='Zaloguj' style={{ marginTop: 40 }} />
         </form>
-      </div>
-    </div>
+      </AuthLayout>
   );
 };
 

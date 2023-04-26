@@ -1,8 +1,6 @@
-import { createContext, useEffect, useState } from 'react';
-import { auth } from 'config/firebase';
-import { User } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
-import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
+import axios from 'axios';
+import { User } from 'models/user';
+import { createContext, useState } from 'react';
 
 interface AuthProviderProps {
   children: React.ReactNode;
@@ -11,53 +9,59 @@ interface AuthProviderProps {
 interface AuthContextData {
   user: User | null;
   signIn: (email: string, password: string) => Promise<any>;
-  logout: () => Promise<any>;
+  signUp: (name: string, email: string, password: string) => Promise<any>;
+  logout: () => void;
 }
 
 export const AuthContext = createContext<AuthContextData>({
   user: null,
   signIn: async () => {},
-  logout: async () => {},
+  signUp: async () => {},
+  logout: () => {},
 });
 
-export const AuthContextProvider: React.FC<AuthProviderProps> = ({ children }) => {
+export const AuthContextProvider: React.FC<AuthProviderProps> = ({
+  children,
+}) => {
   const [user, setUser] = useState<User | null>(null);
-  const navigate = useNavigate();
+
+  const signUp = async (name: string, email: string, password: string) => {
+    if (!name && !email && !password) return;
+    try {
+      await axios.post('http://localhost:5000/api/auth/register', {
+        name,
+        email,
+        password,
+      });
+    } catch (e) {
+      alert('Oops, something went wrong! Try again later');
+      console.log(e)
+    }
+  };
 
   const signIn = async (email: string, password: string) => {
     if (!email && !password) return;
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    if (userCredential) {
-      localStorage.setItem('user', JSON.stringify(userCredential.user));
-      navigate('/');
+    try {
+      const response = await axios.post('http://localhost:5000/api/auth/login', {
+        email,
+        password,
+      });
+      setUser(response.data);
+      localStorage.setItem('token', response.data.token);
+    } catch (e) {
+      alert('Invalid email or password');
+      console.log(e)
     }
-    return userCredential
   };
 
-  const logout = async () => {
-    await signOut(auth).then(() => {
-      setUser(null);
-      localStorage.removeItem('user');
-      navigate('/login');
-    });
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem('token');
   };
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        setUser(currentUser);
-      }  else {
-        const userFromLocalStorage = localStorage.getItem('user');
-        if (userFromLocalStorage) {
-          setUser(JSON.parse(userFromLocalStorage));
-        }
-      }
-    });
-    return () => unsubscribe();
-  }, []);
 
   const value = {
     user,
+    signUp,
     signIn,
     logout,
   };

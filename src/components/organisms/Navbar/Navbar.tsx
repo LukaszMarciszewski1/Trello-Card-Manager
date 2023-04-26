@@ -1,24 +1,10 @@
-import { Link,NavLink, useLocation } from 'react-router-dom';
-import styles from './styles.module.scss';
 import { useAuth } from 'hooks/useAuth';
 import Button from 'components/common/Button/Button';
-
-
+import styles from './styles.module.scss';
 
 const Navbar: React.FC = () => {
-
-  // const menuItems = [
-  //   {
-  //     name: 'Dodaj zlecenie',
-  //     path: '/',
-  //   },
-  //   {
-  //     name: 'Lista zleceń',
-  //     path: '/lista-zlecen',
-  //   },
-  // ];
-  const { logout, user } = useAuth();
-  const location = useLocation()
+  const { logout } = useAuth();
+  const storedUser = localStorage.getItem('token');
 
   const getUserInitial = (text: string | null) => {
     if (!text) return '';
@@ -29,23 +15,14 @@ const Navbar: React.FC = () => {
   return (
     <nav className={styles.nav}>
       <div className={styles.top}>
-        {user && (
+        {storedUser && (
           <div>
-            <span className={styles.avatar}>{getUserInitial(user?.email)}</span>
-            <span>{user?.email}</span>
+            <span className={styles.avatar}>{getUserInitial('admin@demo')}</span>
+            <span>{'admin@demo'}</span>
           </div>
         )}
-        {user && <Button onClick={logout} title={'Wyloguj'} style={{ width: 90, margin: 0 }} />}
+        {storedUser && <Button onClick={logout} title={'Wyloguj'} style={{ width: 90, margin: 0 }} />}
       </div>
-      {/* <ul className={styles.linksContainer}>
-        {menuItems.map((item) => (
-          <li key={item.name} className={styles.navItem}>
-            <NavLink to={item.path} className={`${styles.navLink} ${location.pathname === item.path ? styles.active : styles.navLink}`}>
-              {item.name}
-            </NavLink>
-          </li>
-        ))}
-      </ul> */}
     </nav>
   );
 };

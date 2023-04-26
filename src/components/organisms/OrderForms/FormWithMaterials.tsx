@@ -21,8 +21,8 @@ import {
   isDisplayFabric,
 } from 'services/calculator';
 
-import FormLayout from 'components/layouts/FormLayout/FormLayout';
-import FormSectionLayout from 'components/layouts/FormSectionLayout/FormSectionLayout';
+import FormLayout from 'layouts/FormLayout/FormLayout';
+import FormSectionLayout from 'layouts/FormSectionLayout/FormSectionLayout';
 import SectionTabs from 'components/organisms/SectionTabs/SectionTabs';
 import SectionTabsContent from 'components/organisms/SectionTabs/TabsContent/TabsContent';
 import Input from 'components/common/Input/Input';

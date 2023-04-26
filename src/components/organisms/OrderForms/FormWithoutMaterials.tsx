@@ -17,8 +17,8 @@ import {
   getSelectedSizeName,
 } from 'services/calculator';
 
-import FormLayout from 'components/layouts/FormLayout/FormLayout';
-import FormSectionLayout from 'components/layouts/FormSectionLayout/FormSectionLayout';
+import FormLayout from 'layouts/FormLayout/FormLayout';
+import FormSectionLayout from 'layouts/FormSectionLayout/FormSectionLayout';
 import Input from 'components/common/Input/Input';
 import Button from 'components/common/Button/Button';
 import Checkbox from 'components/common/Checkbox/Checkbox';
