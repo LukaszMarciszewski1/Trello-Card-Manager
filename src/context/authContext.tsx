@@ -20,9 +20,7 @@ export const AuthContext = createContext<AuthContextData>({
   logout: () => {},
 });
 
-export const AuthContextProvider: React.FC<AuthProviderProps> = ({
-  children,
-}) => {
+export const AuthContextProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
 
   const signUp = async (name: string, email: string, password: string) => {
@@ -35,7 +33,7 @@ export const AuthContextProvider: React.FC<AuthProviderProps> = ({
       });
     } catch (e) {
       alert('Oops, something went wrong! Try again later');
-      console.log(e)
+      console.log(e);
     }
   };
 
@@ -46,11 +44,12 @@ export const AuthContextProvider: React.FC<AuthProviderProps> = ({
         email,
         password,
       });
-      setUser(response.data);
-      localStorage.setItem('token', response.data.token);
+      const { token } = response.data;
+      setUser(token);
+      localStorage.setItem('token', token);
     } catch (e) {
       alert('Invalid email or password');
-      console.log(e)
+      console.log(e);
     }
   };
 

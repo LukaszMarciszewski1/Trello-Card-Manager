@@ -1,10 +1,12 @@
 import { useAuth } from 'hooks/useAuth';
 import Button from 'components/common/Button/Button';
 import styles from './styles.module.scss';
+import { getDecodedToken } from "helpers/getDecodedToken";
 
 const Navbar: React.FC = () => {
   const { logout } = useAuth();
-  const storedUser = localStorage.getItem('token');
+  const storageToken = localStorage.getItem('token') ?? '';
+  const decodedToken = getDecodedToken(storageToken);
 
   const getUserInitial = (text: string | null) => {
     if (!text) return '';
@@ -15,13 +17,13 @@ const Navbar: React.FC = () => {
   return (
     <nav className={styles.nav}>
       <div className={styles.top}>
-        {storedUser && (
+        {storageToken && (
           <div>
-            <span className={styles.avatar}>{getUserInitial('admin@demo')}</span>
-            <span>{'admin@demo'}</span>
+            <span className={styles.avatar}>{getUserInitial(decodedToken?.user.email)}</span>
+            <span>{decodedToken?.user.email}</span>
           </div>
         )}
-        {storedUser && <Button onClick={logout} title={'Wyloguj'} style={{ width: 90, margin: 0 }} />}
+        {storageToken && <Button onClick={logout} title={'Wyloguj'} style={{ width: 90, margin: 0 }} />}
       </div>
     </nav>
   );
