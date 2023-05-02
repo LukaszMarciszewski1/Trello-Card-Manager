@@ -24,4 +24,4 @@ export const FILE_PATH = 'Ścieżka do pliku produkcyjnego';
 export const FILE_PATH_PLACEHOLDER = 'Wklej sciężkę pliku...';
 export const ORDER_PRICE = 'Wartość zlecenia';
 export const ORDER_COST = 'Koszt zlecenia (Wartość zlecenia * 0,75)';
-export const TRADERS = 'Handlowcy:'
+export const TRADERS = 'Zlecający:'

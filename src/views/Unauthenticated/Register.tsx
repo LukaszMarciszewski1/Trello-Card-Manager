@@ -1,44 +1,34 @@
-import { useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { LoginUser } from 'models/user';
+import { RegisterUser } from 'models/user';
 
 import AuthLayout from 'layouts/AuthLayout/AuthLayout';
 import Input from 'components/common/Input/Input';
 import Button from 'components/common/Button/Button';
 import { useAuth } from 'hooks/useAuth';
 
-const Login: React.FC = () => {
+const Register: React.FC = () => {
+  const { signUp } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
-  const { signIn } = useAuth();
 
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors },
-  } = useForm<LoginUser>();
+  } = useForm<RegisterUser>();
 
-  useEffect(() => {
-    if (location.state) {
-      setValue('email', location.state.email);
-      setValue('password', location.state.password);
-    }
-  }, [location.state, setValue]);
-
-  useEffect(() => {
-    const jwt = localStorage.getItem('jwt');
-    if (jwt) {
-      navigate('/');
-    }
-  }, [navigate]);
-
-  const handleSubmitForm = async (data: LoginUser) => {
-    const { email, password } = data;
+  const handleSubmitForm = async (data: RegisterUser) => {
+    const { username, email, password } = data;
     try {
-      await signIn(email, password);
-      navigate('/');
+      const result = await signUp(username, email, password);
+      if (result) {
+        navigate('/login', {
+          state: {
+            email,
+            password,
+          },
+        });
+      }
     } catch (err) {
       alert('Nieprawidłowy email lub hasło');
       console.log(err);
@@ -48,7 +38,15 @@ const Login: React.FC = () => {
   return (
     <AuthLayout>
       <form onSubmit={handleSubmit(handleSubmitForm)}>
-        <h2>Zaloguj się</h2>
+        <h2>Zarejestruj się</h2>
+        <Input
+          id={'username'}
+          placeholder={'trello username'}
+          label={'Trello username'}
+          type='text'
+          {...register('username', { required: true })}
+        />
+        {errors.email && <div>'Email jest wymagany'</div>}
         <Input
           id={'email'}
           placeholder={'email'}
@@ -65,14 +63,14 @@ const Login: React.FC = () => {
           {...register('password', { required: true })}
         />
         {errors.password && <div>'Hasło jest wymagane'</div>}
-        <Button type='submit' title='Zaloguj się' style={{ marginTop: 40 }} />
+        <Button type='submit' title='Zarejestruj się' style={{ marginTop: 40 }} />
         <div>
-          <span>Nie masz konta?</span>
-          <Link to={'/register'}>Zarejestruj się</Link>
+          <span>Masz już konto?</span>
+          <Link to={'/login'}>Zaloguj się</Link>
         </div>
       </form>
     </AuthLayout>
   );
 };
 
-export default Login;
+export default Register;

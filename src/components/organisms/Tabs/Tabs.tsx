@@ -4,15 +4,15 @@ import Tab from './Tab/Tab';
 
 type TabsProps = {
   children: ReactElement[];
-  subcategory?: boolean;
 };
 
-const Tabs: React.FC<TabsProps> = ({ children, subcategory }) => {
+const Tabs: React.FC<TabsProps> = ({ children }) => {
   const [selectedTab, setSelectedTab] = useState(0);
 
   return (
     <div className={styles.layout}>
-      <ul className={`${subcategory ? styles.subcategoryContainer : styles.mainContainer}`}>
+      <ul className={styles.tabsContainer}>
+        <h3 className={styles.tabsHeading}>Tablica: </h3>
         {children.map((item, index) => (
           <Tab
             key={index}
@@ -20,7 +20,6 @@ const Tabs: React.FC<TabsProps> = ({ children, subcategory }) => {
             index={index}
             setSelectedTab={setSelectedTab}
             active={selectedTab}
-            subcategory={subcategory}
           />
         ))}
       </ul>

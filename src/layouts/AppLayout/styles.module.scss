@@ -3,9 +3,8 @@
 
 .appLayout {
   max-width: 1600px;
-  padding: 1rem 4rem;
   margin: 0 auto;
-  background-color: $layoutBg;
+  background-color: $app-bg;
   @media (max-width: $lg) {
     padding: 1.5rem;
   }

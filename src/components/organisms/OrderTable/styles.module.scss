@@ -2,7 +2,7 @@
 
 .tableContainer {
   position: relative;
-  margin-top: 1rem;
+  // margin-top: 1rem;
   width: 100%;
 }
 
@@ -51,7 +51,7 @@ tbody td {
 }
 
 .paginationContainer {
-  padding: 2rem 0;
+  padding: 2rem 0 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -74,7 +74,7 @@ tbody td {
   justify-content: space-between;
   align-items: flex-end;
   flex-wrap: wrap;
-  margin: 1rem 0 2rem;
+  margin-bottom: 2rem;
 }
 
 .popupContent {

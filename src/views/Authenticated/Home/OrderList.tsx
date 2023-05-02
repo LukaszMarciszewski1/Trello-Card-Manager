@@ -15,8 +15,6 @@ const CardsList = () => {
     getLists(dataFilters[0].value);
   }, [selectedFilter]);
 
-  console.log(members)
-
   return (
     <>
       {!cards.length ? (

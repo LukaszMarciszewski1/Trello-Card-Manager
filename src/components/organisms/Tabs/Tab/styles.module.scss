@@ -2,62 +2,33 @@
 @import 'style/mixins.scss';
 
 .tabContainer {
-  margin-right: 2rem;
-}
-.subcategoryTabContainer {
-  margin-left: 1rem;
-}
-
-.tab,
-.subcategoryTab {
-  position: relative;
-  border: none;
-  transition: all 0.2s;
-  font: {
-    size: 1rem;
-  }
+  // margin-right: 2rem;
 }
 
 .tab {
+  position: relative;
+  border: none;
+  transition: all 0.2s;
   background-color: transparent;
-  padding-bottom: 8px;
+  padding: .5rem 1rem;
+  // padding-bottom: 8px;
   opacity: 0.7;
   &.active {
+    z-index: 1;
     opacity: 1;
-    &::before {
+    &::before{
       content: '';
       position: absolute;
-      right: 0;
-      bottom: 0px;
+      left: 0;
+      top: 0;
       width: 100%;
-      border-bottom: 3px solid $secondary-blue;
+      height: 100%;
+      background-color: darken($focusBg, 3%);
+      z-index: -1;
     }
   }
   font: {
     size: 1rem;
     weight: bold;
-  }
-}
-
-.subcategoryTab {
-  width: fit-content;
-  min-width: 200px;
-  padding: 0.6rem 0;
-  background-color: $lightGrey;
-  color: $secondary-graphite;
-  border-radius: 0.5rem;
-  border: 1px solid $primary-gray;
-  opacity: 1;
-  &.active {
-    background-color: darken($focusBg, 3%);
-    color: $secondary-graphite;
-  }
-  &:hover {
-    background-color: darken($focusBg, 3%);
-    color: $secondary-graphite;
-  }
-  font: {
-    size: 1rem;
-    weight: normal;
   }
 }

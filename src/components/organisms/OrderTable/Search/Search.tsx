@@ -20,8 +20,8 @@ const GlobalFilter: React.FC<GlobalFilterProps> = ({ preGlobalFilteredRows, glob
     <div className={styles.searchContainer}>
       <Input
         id={'search'}
-        placeholder={`${count} pozycji...`}
-        label={'Szukaj:'}
+        placeholder={`Wyszukaj z ${count} pozycji...`}
+        // label={'Szukaj:'}
         value={value || ''}
         type='text'
         onChange={(e) => {

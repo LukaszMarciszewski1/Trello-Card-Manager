@@ -1,15 +1,16 @@
 import axios from 'axios';
-import { User } from 'models/user';
-import { createContext, useState } from 'react';
+import { DisplayUser, LoginUser, RegisterUser } from 'models/user';
+import { createContext, useEffect, useState } from 'react';
+import authService from 'services/api/authService';
 
 interface AuthProviderProps {
   children: React.ReactNode;
 }
 
 interface AuthContextData {
-  user: User | null;
+  user: DisplayUser | null;
   signIn: (email: string, password: string) => Promise<any>;
-  signUp: (name: string, email: string, password: string) => Promise<any>;
+  signUp: (username: string, email: string, password: string) => Promise<any>;
   logout: () => void;
 }
 
@@ -20,14 +21,16 @@ export const AuthContext = createContext<AuthContextData>({
   logout: () => {},
 });
 
-export const AuthContextProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
+export const AuthContextProvider: React.FC<AuthProviderProps> = ({
+  children,
+}) => {
+  const [user, setUser] = useState<DisplayUser | null>(null);
 
-  const signUp = async (name: string, email: string, password: string) => {
-    if (!name && !email && !password) return;
+  const signUp = async (username: string, email: string, password: string) => {
+    if (!username && !email && !password) return;
     try {
-      await axios.post('http://localhost:5000/api/auth/register', {
-        name,
+      await authService.register({
+        username,
         email,
         password,
       });
@@ -40,13 +43,13 @@ export const AuthContextProvider: React.FC<AuthProviderProps> = ({ children }) =
   const signIn = async (email: string, password: string) => {
     if (!email && !password) return;
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', {
+      const response = await authService.login({
         email,
         password,
       });
-      const { token } = response.data;
-      setUser(token);
-      localStorage.setItem('token', token);
+      if (response) {
+        setUser(response.user);
+      }
     } catch (e) {
       alert('Invalid email or password');
       console.log(e);
@@ -54,9 +57,17 @@ export const AuthContextProvider: React.FC<AuthProviderProps> = ({ children }) =
   };
 
   const logout = () => {
+    authService.logout();
     setUser(null);
-    localStorage.removeItem('token');
   };
+
+  useEffect(() => {
+    const userFromLocalStorage = localStorage.getItem('user');
+    const user = userFromLocalStorage ? JSON.parse(userFromLocalStorage) : null
+    if (user) {
+      setUser(user);
+    }
+  }, []);
 
   const value = {
     user,

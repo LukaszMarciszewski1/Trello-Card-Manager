@@ -15,8 +15,12 @@ export function TrelloApi() {
   const [members, setMembers] = useState<Member[]>([]);
   const [lists, setLists] = useState<List[]>([]);
 
-  const { REACT_APP_TRELLO_KEY, REACT_APP_TRELLO_TOKEN, REACT_APP_TRELLO_URL, REACT_APP_TRELLO_GET_BOARDS } =
-    process.env;
+  const {
+    REACT_APP_TRELLO_KEY,
+    REACT_APP_TRELLO_TOKEN,
+    REACT_APP_TRELLO_URL,
+    REACT_APP_TRELLO_GET_BOARDS,
+  } = process.env;
 
   const config = {
     params: {
@@ -35,19 +39,27 @@ export function TrelloApi() {
     setStatus({ ...status, loading: true });
 
     try {
-      const res = await axios.post(`${REACT_APP_TRELLO_URL}/cards`, formInitialDataCard, config);
+      const res = await axios.post(
+        `${REACT_APP_TRELLO_URL}/cards`,
+        formInitialDataCard,
+        config,
+      );
 
       await Promise.all(
         [...data.attachment]?.map(async (file: File) => {
           const formFileDataCard = cardFormData.fileFormData(file);
-          await axios.post(`${REACT_APP_TRELLO_URL}/cards/${res.data.id}/attachments`, formFileDataCard, config);
-        })
+          await axios.post(
+            `${REACT_APP_TRELLO_URL}/cards/${res.data.id}/attachments`,
+            formFileDataCard,
+            config,
+          );
+        }),
       );
 
       const checklistRes = await axios.post(
         `${REACT_APP_TRELLO_URL}/cards/${res.data.id}/checklists`,
         formChecklistDataCard,
-        config
+        config,
       );
 
       await Promise.all(
@@ -58,9 +70,9 @@ export function TrelloApi() {
               name: desc.logo,
               checked: false,
             },
-            config
+            config,
           );
-        })
+        }),
       );
       setStatus({ ...status, success: true, loading: false });
     } catch (err) {
@@ -107,9 +119,12 @@ export function TrelloApi() {
         boards
           .map((board: { id: string }) => board.id)
           .map(async (id: string) => {
-            const boardCards = await axios.get(`${REACT_APP_TRELLO_URL}/boards/${id}/cards/${filter}`, config);
+            const boardCards = await axios.get(
+              `${REACT_APP_TRELLO_URL}/boards/${id}/cards/${filter}`,
+              config,
+            );
             return boardCards.data;
-          })
+          }),
       ).then((res) => {
         const allCards = [].concat(...res);
         setCards(allCards);
@@ -126,9 +141,12 @@ export function TrelloApi() {
         boards
           .map((board: { id: string }) => board.id)
           .map(async (id: string) => {
-            const boardList = await axios.get(`${REACT_APP_TRELLO_URL}/boards/${id}/lists/${filter}`, config);
+            const boardList = await axios.get(
+              `${REACT_APP_TRELLO_URL}/boards/${id}/lists/${filter}`,
+              config,
+            );
             return boardList.data;
-          })
+          }),
       ).then((res) => {
         const lists = [].concat(...res);
         setLists(lists);
@@ -142,23 +160,34 @@ export function TrelloApi() {
     try {
       const boards = await getBoards();
       await Promise.all(
-        boards
-          .map((board: { id: string }) => board.id)
-          .map(async (id: string) => {
-            const boardMembers = await axios.get(`${REACT_APP_TRELLO_URL}/boards/${id}/members`, config);
-            return boardMembers.data;
-          })
+        boards.map(async (board: { id: string }) => {
+          const boardMembers = await axios.get(
+            `${REACT_APP_TRELLO_URL}/boards/${board.id}/members`,
+            config,
+          );
+          return boardMembers.data;
+        }),
       ).then((res) => {
         const filterUniqueArray = () => {
           const allMembers = [].concat(...res);
           const ids = allMembers?.map((obj: Member) => obj.id);
-          return allMembers.filter(({ id }, index) => !ids.includes(id, index + 1));
+          return allMembers.filter(
+            ({ id }, index) => !ids.includes(id, index + 1),
+          );
         };
         setMembers(filterUniqueArray());
       });
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const getCurrentTrelloMember = (username: string | undefined): Member | undefined => {
+    if(username) {
+      const currentMember =  members?.find((member) => member.username.includes(username));
+      return currentMember
+    }
+    return undefined
   };
 
   const { success, error, loading } = status;
@@ -171,6 +200,7 @@ export function TrelloApi() {
     getBoards,
     deleteCard,
     archiveCard,
+    getCurrentTrelloMember,
     cards,
     members,
     lists,

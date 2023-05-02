@@ -7,10 +7,19 @@ import Tabs from 'components/organisms/Tabs/Tabs';
 import TabsContent from 'components/organisms/Tabs/TabsContent/TabsContent';
 import FormWithMaterials from 'components/organisms/OrderForms/FormWithMaterials';
 import FormWithoutMaterials from 'components/organisms/OrderForms/FormWithoutMaterials';
+import { useAuth } from 'hooks/useAuth';
 
 const TaskForms: React.FC = () => {
+  const { user } = useAuth();
   const { PLOTTER, EMBROIDERY, DTF } = constants;
-  const { getBoards, getLists, getMembers, boards, lists } = useTrelloApi();
+  const {
+    getBoards,
+    getLists,
+    getMembers,
+    getCurrentTrelloMember,
+    boards,
+    lists,
+  } = useTrelloApi();
 
   useEffect(() => {
     getMembers();
@@ -22,27 +31,43 @@ const TaskForms: React.FC = () => {
     (boardName: string): string | undefined => {
       if (boards.length && lists.length) {
         const currentBoard = boards.find(
-          (board: { name: string }) => board.name.toLowerCase() === boardName.toLowerCase()
+          (board: { name: string }) =>
+            board.name.toLowerCase() === boardName.toLowerCase(),
         );
         const firstListOfCurrentBoard = currentBoard
-          ? lists.find((list: { idBoard: string | undefined }) => list.idBoard === currentBoard.id)
+          ? lists.find(
+              (list: { idBoard: string | undefined }) =>
+                list.idBoard === currentBoard.id,
+            )
           : undefined;
         return firstListOfCurrentBoard?.id;
       }
     },
-    [boards, lists]
+    [boards, lists],
   );
 
   return (
-    <Tabs subcategory>
+    <Tabs>
       <TabsContent title={PLOTTER}>
-        <FormWithMaterials listId={getFirstListOfCurrentBoard(PLOTTER)} boardName={PLOTTER} />
+        <FormWithMaterials
+          boardName={PLOTTER}
+          listId={getFirstListOfCurrentBoard(PLOTTER)}
+          member={getCurrentTrelloMember(user?.username)}
+        />
       </TabsContent>
       <TabsContent title={EMBROIDERY}>
-        <FormWithoutMaterials listId={getFirstListOfCurrentBoard(EMBROIDERY)} boardName={EMBROIDERY} />
+        <FormWithoutMaterials
+          listId={getFirstListOfCurrentBoard(EMBROIDERY)}
+          boardName={EMBROIDERY}
+          member={getCurrentTrelloMember(user?.username)}
+        />
       </TabsContent>
       <TabsContent title={DTF}>
-        <FormWithoutMaterials listId={getFirstListOfCurrentBoard(DTF)} boardName={DTF} />
+        <FormWithoutMaterials
+          listId={getFirstListOfCurrentBoard(DTF)}
+          boardName={DTF}
+          member={getCurrentTrelloMember(user?.username)}
+        />
       </TabsContent>
     </Tabs>
   );

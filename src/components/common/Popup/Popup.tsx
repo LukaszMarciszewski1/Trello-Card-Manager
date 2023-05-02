@@ -11,7 +11,7 @@ interface PopupPosition {
 
 interface PopupProps extends PopupPosition {
   trigger: boolean;
-  title: string;
+  title: string | JSX.Element;
   closePopup: () => void;
   style?: {};
   children: JSX.Element | JSX.Element[];
@@ -24,7 +24,11 @@ const Popup: React.FC<PopupProps> = ({ children, trigger, title, closePopup, sty
     <div className={styles.popup} ref={refPopup} style={style}>
       <div className={styles.header}>
         <h4>{title}</h4>
-        <Button type={'button'} onClick={closePopup} style={{ width: 30, margin: 0 }} icon={<AiOutlineClose />} />
+        {
+          typeof title === 'string' ? (
+            <Button type={'button'} onClick={closePopup} style={{ width: 30, margin: 0 }} icon={<AiOutlineClose />} />
+          ) : null
+        }
       </div>
       <div className={styles.popupContent}>{children}</div>
     </div>

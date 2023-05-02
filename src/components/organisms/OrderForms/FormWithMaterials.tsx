@@ -10,7 +10,6 @@ import { Material } from 'models/material';
 import { Member } from 'models/trelloDataModels/member';
 import { useTrelloApi } from 'hooks/useTrelloApi';
 import { useWatchSectionForm } from 'hooks/useWatchSectionForm';
-import getInitials from 'helpers/getInitials';
 
 import {
   getPriceForOnePieceOfSection,
@@ -37,6 +36,7 @@ import { RiAddLine } from 'react-icons/ri';
 interface FormWithMaterialsProps {
   listId: string | undefined;
   boardName: string;
+  member: Member | undefined;
 }
 
 const defaultSectionValues = {
@@ -56,7 +56,11 @@ const defaultSectionValues = {
   materials: [],
 };
 
-const FormWithMaterials: React.FC<FormWithMaterialsProps> = ({ boardName, listId }) => {
+const FormWithMaterials: React.FC<FormWithMaterialsProps> = ({
+  boardName,
+  listId,
+  member,
+}) => {
   const { addCard, success, error, loading, members } = useTrelloApi();
   const { watchSectionForm, setWatchSectionForm } = useWatchSectionForm();
 
@@ -90,10 +94,19 @@ const FormWithMaterials: React.FC<FormWithMaterialsProps> = ({ boardName, listId
 
   useEffect(() => {
     setValue('orderPrice', getTotalPrice(sectionForms));
-    setValue('orderCost', Number((getTotalPrice(sectionForms) * 0.75).toFixed(1)));
+    setValue(
+      'orderCost',
+      Number((getTotalPrice(sectionForms) * 0.75).toFixed(1)),
+    );
     fields.map((item, index) => {
-      setValue(`description.${index}.price`, getPriceForSection(sectionForms, index));
-      setValue(`description.${index}.priceForOnePiece`, getPriceForOnePieceOfSection(sectionForms, index));
+      setValue(
+        `description.${index}.price`,
+        getPriceForSection(sectionForms, index),
+      );
+      setValue(
+        `description.${index}.priceForOnePiece`,
+        getPriceForOnePieceOfSection(sectionForms, index),
+      );
     });
   }, [
     getTotalPrice(sectionForms),
@@ -105,25 +118,40 @@ const FormWithMaterials: React.FC<FormWithMaterialsProps> = ({ boardName, listId
 
   useEffect(() => {
     fields.map((item, index) => {
-      setValue(`description.${index}.customPrice`, isMoreThanMaximumSize(sectionForms, index));
-      setValue(`description.${index}.size`, getSelectedSizeName(sectionForms, index));
+      setValue(
+        `description.${index}.customPrice`,
+        isMoreThanMaximumSize(sectionForms, index),
+      );
+      setValue(
+        `description.${index}.size`,
+        getSelectedSizeName(sectionForms, index),
+      );
     });
   }, [watchSectionForm.sizeWidth, watchSectionForm.sizeHeight, sectionForms]);
 
-  const handleWatchCustomPriceValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleWatchCustomPriceValue = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     setWatchSectionForm({ ...watchSectionForm, customPrice: e.target.value });
   };
 
-  const handleWatchFormSizeWidthValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleWatchFormSizeWidthValue = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     setWatchSectionForm({ ...watchSectionForm, sizeWidth: e.target.value });
   };
 
-  const handleWatchFormSizeHeightValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleWatchFormSizeHeightValue = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     setWatchSectionForm({ ...watchSectionForm, sizeHeight: e.target.value });
   };
 
   const handleWatchPacking = () => {
-    setWatchSectionForm({ ...watchSectionForm, packing: !watchSectionForm.packing });
+    setWatchSectionForm({
+      ...watchSectionForm,
+      packing: !watchSectionForm.packing,
+    });
   };
   interface GetMaterials {
     (index: number): Material[];
@@ -131,7 +159,9 @@ const FormWithMaterials: React.FC<FormWithMaterialsProps> = ({ boardName, listId
 
   const getMaterials: GetMaterials = (index: number) => {
     return materials.filter(
-      (material) => material.application.toLowerCase() === sectionForms[index]?.materialType?.toLowerCase()
+      (material) =>
+        material.application.toLowerCase() ===
+        sectionForms[index]?.materialType?.toLowerCase(),
     );
   };
 
@@ -191,19 +221,20 @@ const FormWithMaterials: React.FC<FormWithMaterialsProps> = ({ boardName, listId
             <div className={styles.checkboxesListContainer}>
               <span>{constants.TRADERS}</span>
               <div className={styles.checkboxesList}>
-                {members?.map((member: Member) => (
+                {member ? (
                   <Checkbox
                     key={member.id}
                     id={member.id}
                     type={'radio'}
                     value={member.id}
                     title={member.fullName}
-                    label={getInitials(member.fullName)}
+                    label={member.fullName}
                     error={errors.member}
-                    style={{ height: 48 }}
+                    checked={true}
+                    style={{ height: 48, width: 'auto', whiteSpace: 'nowrap' }}
                     {...register('member', { required: true })}
                   />
-                ))}
+                ) : null}
               </div>
             </div>
           </div>
@@ -224,7 +255,9 @@ const FormWithMaterials: React.FC<FormWithMaterialsProps> = ({ boardName, listId
                   <div className={styles.sectionTabsContainer}>
                     <SectionTabs
                       tabsLabel={constants.CHOOSE_MATERIAL_TYPE}
-                      setTabTitle={(e: string) => setValue(`description.${index}.materialType`, e)}
+                      setTabTitle={(e: string) =>
+                        setValue(`description.${index}.materialType`, e)
+                      }
                     >
                       {materialTabsValues.map((value, i) => (
                         <SectionTabsContent title={value} key={i}>
@@ -243,7 +276,9 @@ const FormWithMaterials: React.FC<FormWithMaterialsProps> = ({ boardName, listId
                     id={field.id}
                     label={constants.ADDITIONAL_DESC}
                     maxRow={30}
-                    {...register(`description.${index}.additionalDesc` as const)}
+                    {...register(
+                      `description.${index}.additionalDesc` as const,
+                    )}
                   />
                 </div>
                 <div className={styles.formGroupColumn}>
@@ -304,13 +339,18 @@ const FormWithMaterials: React.FC<FormWithMaterialsProps> = ({ boardName, listId
                     {...register(`description.${index}.size` as const)}
                     readOnly
                   />
-                  <div className={styles.formGroupRow} style={{ margin: '10px 0 5px' }}>
+                  <div
+                    className={styles.formGroupRow}
+                    style={{ margin: '10px 0 5px' }}
+                  >
                     <label>{constants.PACKING}</label>
                     <input
                       id={field.id}
                       className={styles.checkbox}
                       type={'checkbox'}
-                      {...register(`description.${index}.packing` as const, { onChange: handleWatchPacking })}
+                      {...register(`description.${index}.packing` as const, {
+                        onChange: handleWatchPacking,
+                      })}
                     />
                   </div>
                   <div className={styles.rowWrapper}>
@@ -323,9 +363,12 @@ const FormWithMaterials: React.FC<FormWithMaterialsProps> = ({ boardName, listId
                             style={{ border: '2px solid green' }}
                             type='number'
                             min={0}
-                            {...register(`description.${index}.priceForOnePiece` as const, {
-                              onChange: handleWatchCustomPriceValue,
-                            })}
+                            {...register(
+                              `description.${index}.priceForOnePiece` as const,
+                              {
+                                onChange: handleWatchCustomPriceValue,
+                              },
+                            )}
                           />
                         </div>
                         <Input
@@ -343,7 +386,9 @@ const FormWithMaterials: React.FC<FormWithMaterialsProps> = ({ boardName, listId
                             id={field.id}
                             label={constants.PRICE_FOR_ONE_PIECE}
                             type='number'
-                            {...register(`description.${index}.priceForOnePiece` as const)}
+                            {...register(
+                              `description.${index}.priceForOnePiece` as const,
+                            )}
                             readOnly
                           />
                         </div>
@@ -377,8 +422,12 @@ const FormWithMaterials: React.FC<FormWithMaterialsProps> = ({ boardName, listId
             icon={<RiAddLine fontSize={'1.5rem'} fontWeight={'bold'} />}
           />
         </div>
-        <div className={`${styles.formColumnContainer} ${styles.rightColumnContainer}`}>
-          <div className={`${styles.formGroupColumn} ${styles.rightGroupColumn}`}>
+        <div
+          className={`${styles.formColumnContainer} ${styles.rightColumnContainer}`}
+        >
+          <div
+            className={`${styles.formGroupColumn} ${styles.rightGroupColumn}`}
+          >
             <div className={styles.inputContainer}>
               <Select
                 label={constants.RECIPIENT}
@@ -406,7 +455,12 @@ const FormWithMaterials: React.FC<FormWithMaterialsProps> = ({ boardName, listId
             </div>
             <div className={styles.divider}>
               <div className={styles.inputContainer}>
-                <Input id={'attachment'} label={constants.ATTACHMENT} type='file' {...register('attachment')} />
+                <Input
+                  id={'attachment'}
+                  label={constants.ATTACHMENT}
+                  type='file'
+                  {...register('attachment')}
+                />
                 <Input
                   id={'filePath'}
                   placeholder={constants.FILE_PATH_PLACEHOLDER}
@@ -416,8 +470,20 @@ const FormWithMaterials: React.FC<FormWithMaterialsProps> = ({ boardName, listId
                 />
               </div>
             </div>
-            <Input id={'orderPrice'} label={constants.ORDER_PRICE} type='number' {...register(`orderPrice`)} readOnly />
-            <Input id={'orderCost'} label={constants.ORDER_COST} type='number' {...register(`orderCost`)} readOnly />
+            <Input
+              id={'orderPrice'}
+              label={constants.ORDER_PRICE}
+              type='number'
+              {...register(`orderPrice`)}
+              readOnly
+            />
+            <Input
+              id={'orderCost'}
+              label={constants.ORDER_COST}
+              type='number'
+              {...register(`orderCost`)}
+              readOnly
+            />
             <div className={styles.divider}>
               <Button type={'submit'} title={constants.SUBMIT_TASK} />
             </div>

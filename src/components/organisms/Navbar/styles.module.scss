@@ -3,53 +3,47 @@
 .nav {
   width: 100%;
   display: flex;
-  flex-direction: column;
-  .top {
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 0.8rem 2rem;
+  background-color: $white-bg;
+  .left {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    #logo {
+      margin-right: 2rem;
+      text-decoration: none;
+    }
+  }
+  .right {
+    position: relative;
     div {
       margin-right: 1rem;
     }
   }
-  ul {
-    display: flex;
-    border-bottom: 1px solid $secondary-gray;
-    li {
-      margin-right: 1.7rem;
-      .navLink {
-        position: relative;
-        display: inline-block;
-        text-decoration: none;
-        background-color: transparent;
-        padding-bottom: 8px;
-        opacity: 0.7;
-        &.active {
-          opacity: 1;
-          &::before {
-            content: '';
-            position: absolute;
-            right: 0;
-            bottom: 0px;
-            width: 100%;
-            border-bottom: 3px solid $secondary-blue;
-          }
-        }
-        font: {
-          size: 1.05rem;
-          weight: bold;
-        }
-      }
-    }
-  }
 }
 
+.userBtn,
 .avatar {
+  display: inline-block;
   width: 40px;
   height: 40px;
   border-radius: 50%;
   color: white;
-  background-color: green;
+  background-color: rgb(5, 123, 113);
   margin-right: 10px;
-  padding: 0.3rem;
+  padding: 0.5rem;
+  text-align: center;
+  border: none;
+}
+
+.popupHeader {
+  display: flex;
+  span {
+    white-space: nowrap;
+  }
+  span:last-of-type {
+    font-weight: normal;
+  }
 }

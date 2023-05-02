@@ -1,0 +1,19 @@
+@import 'style/colors.scss';
+
+.linksContainer {
+  display: flex;
+  li {
+    font-size: 1.05rem;
+    font-weight: bold;
+    margin-right: 1.5rem;
+    a {
+      text-decoration: none;
+    }
+    .navLink {
+      padding: 0.5rem 0;
+      &.active {
+        border-bottom: 3px solid $secondary-blue;
+      }
+    }
+  }
+}
