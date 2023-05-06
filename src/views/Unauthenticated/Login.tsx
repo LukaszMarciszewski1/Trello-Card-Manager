@@ -37,8 +37,7 @@ const Login: React.FC = () => {
   const handleSubmitForm = async (data: LoginUser) => {
     const { email, password } = data;
     try {
-      await signIn(email, password);
-      navigate('/');
+      await signIn(email, password).then(() => navigate('/'));
     } catch (err) {
       alert('Nieprawidłowy email lub hasło');
       console.log(err);

@@ -27,17 +27,18 @@ import {
 } from 'react-icons/md';
 import { TbRefresh } from 'react-icons/tb';
 import * as constants from 'constants/index';
+import EditButton from './EditButton/EditButton';
 
 interface Filter {
   value: string;
   label: string;
 }
 interface CardsTableProps {
-  cards: any[];
-  members: Member[];
+  dataResponse: object[];
+  handleEditRow: (e: any) => void;
 }
 
-const Table: React.FC<CardsTableProps> = ({ cards, members }) => {
+const Table: React.FC<CardsTableProps> = ({ dataResponse, handleEditRow }) => {
   const { getCards, deleteCard, archiveCard } = useTrelloApi();
 
   const [isRefresh, setIsRefresh] = useState(false);
@@ -53,7 +54,7 @@ const Table: React.FC<CardsTableProps> = ({ cards, members }) => {
     name: '',
   });
 
-  const data = React.useMemo<any[]>(() => cards, [cards]);
+  const data = React.useMemo<any[]>(() => dataResponse, [dataResponse]);
   const columns = React.useMemo<Column<any>[]>(
     () => [
       {
@@ -73,7 +74,7 @@ const Table: React.FC<CardsTableProps> = ({ cards, members }) => {
         accessor: 'role',
       },
     ],
-    [cards, members],
+    [dataResponse],
   );
 
   const tableHooks = (hooks: {
@@ -83,10 +84,9 @@ const Table: React.FC<CardsTableProps> = ({ cards, members }) => {
       ...columns,
       {
         id: 'Edit',
-        Header: 'Edytuj',
+        Header: '',
         Cell: ({ row }: any) => (
-          <Button
-            type={'button'}
+          <EditButton
             onClick={(e: { clientY: number; clientX: number }) => {
               setRowPopup(true);
               setCurrentRow({
@@ -98,8 +98,6 @@ const Table: React.FC<CardsTableProps> = ({ cards, members }) => {
                 name: row.original.name,
               });
             }}
-            style={{ width: 36, margin: 0, opacity: 0.7, backgroundColor: 'transparent' }}
-            icon={<BiDotsHorizontalRounded fontSize={20} />}
           />
         ),
       },
@@ -164,7 +162,11 @@ const Table: React.FC<CardsTableProps> = ({ cards, members }) => {
           {page.map((row) => {
             prepareRow(row);
             return (
-              <tr {...row.getRowProps()} className={styles.tableRow} onClick={() =>console.log(row)}>
+              <tr
+                {...row.getRowProps()}
+                className={styles.tableRow}
+                onClick={() => handleEditRow(row.original)}
+              >
                 {row.cells.map((cell) => (
                   <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                 ))}

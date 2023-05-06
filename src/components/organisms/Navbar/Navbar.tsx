@@ -16,7 +16,6 @@ import getInitials from 'helpers/getInitials';
 const Navbar: React.FC = () => {
   const { logout, user } = useAuth();
   const navigate = useNavigate();
-  const { trelloUser } = useTrelloApi();
   const [userPopup, setUserPopup] = useState(false);
 
   const getUserInitial = (text: string | null) => {
@@ -41,16 +40,16 @@ const Navbar: React.FC = () => {
       <div className={styles.right}>
       <NavLinks />
         <button className={styles.userBtn} onClick={() => setUserPopup(true)}>
-          {trelloUser ? getInitials(trelloUser.fullName) : null}
+          {user ? getInitials(user?.name) : null}
         </button>
         <Popup
           title={
             <div className={styles.popupHeader}>
               <div className={styles.avatar}>
-                {trelloUser ? getInitials(trelloUser.fullName) : null}
+                {user ? getInitials(user?.name) : null}
               </div>
               <div>
-                <span>{trelloUser?.fullName}</span> <br />{' '}
+                <span>{user?.name}</span> <br />{' '}
                 <span>{user?.email}</span>
               </div>
             </div>

@@ -25,11 +25,12 @@ import Select from 'components/common/Select/Select';
 import Textarea from 'components/common/Textarea/Textarea';
 import MessageModal from 'components/organisms/MessageModal/MessageModal';
 import { RiAddLine } from 'react-icons/ri';
+import { DisplayUser } from 'models/user';
 
 interface FormWithoutMaterialsProps {
   listId: string | undefined;
   boardName: string;
-  member: Member | undefined;
+  member: DisplayUser | null;
 }
 const defaultSectionValues = {
   materialAccess: false,
@@ -184,9 +185,9 @@ const FormWithoutMaterials: React.FC<FormWithoutMaterialsProps> = ({
                 <Checkbox
                   id={member.id}
                   type={'radio'}
-                  value={member.id}
-                  title={member.fullName}
-                  label={member.fullName}
+                  value={member.trelloId}
+                  title={member.name}
+                  label={member.name}
                   checked={true}
                   style={{
                     height: 48,

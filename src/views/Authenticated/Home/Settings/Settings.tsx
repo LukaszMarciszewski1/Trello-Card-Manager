@@ -1,32 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import Sidebar from 'components/organisms/Sidebar/Sidebar';
 import Tabs from 'components/organisms/Tabs/Tabs';
 import TabsContent from 'components/organisms/Tabs/TabsContent/TabsContent';
 import styles from './styles.module.scss';
-import CmsTable from 'components/organisms/Table/Table';
+import Table from 'components/organisms/Table/Table';
 import { useTrelloApi } from 'hooks/useTrelloApi';
 import { dataFilters } from 'data/dataFilters/dataFilters';
 import { useSettingsApi } from 'hooks/useSettings';
+import Modal from './components/Modal/Modal';
+import Users from './containers/Users/Users';
 
 const Settings = () => {
-  const [selectedFilter, setSelectedFilter] = useState(dataFilters[1].value);
-  const { getCards, getMembers, cards, members } = useTrelloApi();
-  const { users, getAllUsers } = useSettingsApi();
-
-  useEffect(() => {
-    getCards(selectedFilter);
-    getMembers();
-  }, [selectedFilter]);
-
-  useEffect(() => {
-    getAllUsers()
-  }, [])
-  console.log(users)
-
   return (
     <Tabs navTitle={'Ustawienia:'}>
       <TabsContent title={'Użytkownicy'}>
-        <CmsTable cards={users} members={members} />
+        <Users header={'Użytkownicy'}/>
       </TabsContent>
       <TabsContent title={'Produkty'}>
         <div />

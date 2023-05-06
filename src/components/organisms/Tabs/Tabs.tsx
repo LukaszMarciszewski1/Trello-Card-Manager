@@ -11,7 +11,7 @@ const Tabs: React.FC<TabsProps> = ({ children, navTitle }) => {
   const [selectedTab, setSelectedTab] = useState(0);
 
   return (
-    <div className={styles.layout}>
+    <div className={styles.tabs}>
       <ul className={styles.tabsContainer}>
         <h3 className={styles.tabsHeading}>{navTitle}</h3>
         {children.map((item, index) => (

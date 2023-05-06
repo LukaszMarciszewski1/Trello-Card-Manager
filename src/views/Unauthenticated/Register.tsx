@@ -20,15 +20,14 @@ const Register: React.FC = () => {
   const handleSubmitForm = async (data: RegisterUser) => {
     const { username, email, password } = data;
     try {
-      const result = await signUp(username, email, password);
-      if (result) {
+      await signUp(username, email, password).then(() => {
         navigate('/login', {
           state: {
             email,
             password,
           },
         });
-      }
+      });
     } catch (err) {
       alert('Nieprawidłowy email lub hasło');
       console.log(err);
@@ -63,7 +62,11 @@ const Register: React.FC = () => {
           {...register('password', { required: true })}
         />
         {errors.password && <div>'Hasło jest wymagane'</div>}
-        <Button type='submit' title='Zarejestruj się' style={{ marginTop: 40 }} />
+        <Button
+          type='submit'
+          title='Zarejestruj się'
+          style={{ marginTop: 40 }}
+        />
         <div>
           <span>Masz już konto?</span>
           <Link to={'/login'}>Zaloguj się</Link>

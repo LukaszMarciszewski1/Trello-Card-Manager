@@ -1,10 +1,3 @@
-export interface NewUser {
-  id: string;
-  username: string;
-  email: string;
-  role: string
-}
-
 export interface RegisterUser {
   username: string;
   email: string;
@@ -18,9 +11,11 @@ export interface LoginUser {
 
 export interface DisplayUser {
   id: string;
+  name: string;
+  trelloId: string;
   username: string;
   email: string;
-  role: string
+  role: string;
 }
 
 export interface DecodedJwt {
@@ -29,4 +24,8 @@ export interface DecodedJwt {
   iat: number;
 }
 
-export type Jwt = string | null;
+export enum Role {
+  User = 'user',
+  Admin = 'admin',
+}
+

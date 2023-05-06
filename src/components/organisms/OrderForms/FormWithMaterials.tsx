@@ -32,11 +32,12 @@ import Textarea from 'components/common/Textarea/Textarea';
 import MessageModal from 'components/organisms/MessageModal/MessageModal';
 import MaterialsForm from './Materials/Materials';
 import { RiAddLine } from 'react-icons/ri';
+import { DisplayUser } from 'models/user';
 
 interface FormWithMaterialsProps {
   listId: string | undefined;
   boardName: string;
-  member: Member | undefined;
+  member: DisplayUser | null;
 }
 
 const defaultSectionValues = {
@@ -222,11 +223,11 @@ const FormWithMaterials: React.FC<FormWithMaterialsProps> = ({
               <span>{constants.TRADERS}</span>
               {member ? (
                 <Checkbox
-                  id={member.id}
+                  id={member.trelloId}
                   type={'radio'}
                   value={member.id}
-                  title={member.fullName}
-                  label={member.fullName}
+                  title={member.name}
+                  label={member.name}
                   checked={true}
                   style={{
                     height: 46,

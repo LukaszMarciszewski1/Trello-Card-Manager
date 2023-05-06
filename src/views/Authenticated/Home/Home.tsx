@@ -4,7 +4,7 @@ import MainLayout from 'layouts/MainLayout/MainLayout';
 import Navbar from 'components/organisms/Navbar/Navbar';
 import OrderList from './OrderList';
 import CreateOrder from './CreateOrder';
-import Settings from './Settings';
+import Settings from './Settings/Settings';
 
 const Home = () => {
   return (

@@ -74,6 +74,16 @@ export const AuthContextProvider: React.FC<AuthProviderProps> = ({
     setUser(null);
   };
 
+  useEffect(() => {
+    if (!user) {
+      const userStorage = localStorage.getItem('user');
+      const currentUser = userStorage ? JSON.parse(userStorage) : null
+      if(currentUser){
+        setUser(currentUser)
+      }
+    }
+  }, []);
+
   const value = {
     success,
     error,

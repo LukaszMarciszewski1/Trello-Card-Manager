@@ -4,7 +4,6 @@ import { Card, CardDescription } from 'models/card';
 import { Member, Board, List } from 'models/trelloDataModels/index';
 import trelloApi from 'api/trello/trelloApi';
 import { createContext, useContext } from 'react';
-import { useAuth } from 'hooks/useAuth';
 
 interface TrelloApiProviderProps {
   children: React.ReactNode;
@@ -22,7 +21,6 @@ interface TrelloApiContextData {
   boards: Board[] | [];
   lists: List[] | [];
   members: Member[] | [];
-  trelloUser: Member | undefined;
   addCard: (data: Card, listId: string) => Promise<void>;
   deleteCard: (id: string) => Promise<void>;
   archiveCard: (id: string) => Promise<void>;
@@ -42,7 +40,6 @@ export const TrelloApiContext = createContext<TrelloApiContextData>({
   boards: [],
   lists: [],
   members: [],
-  trelloUser: undefined,
   addCard: async () => {},
   deleteCard: async () => {},
   archiveCard: async () => {},
@@ -55,12 +52,10 @@ export const TrelloApiContext = createContext<TrelloApiContextData>({
 export const TrelloApiContextProvider: React.FC<TrelloApiProviderProps> = ({
   children,
 }) => {
-  const { user } = useAuth();
   const [cards, setCards] = useState<Card[]>([]);
   const [boards, setBoards] = useState<Board[]>([]);
   const [lists, setLists] = useState<List[]>([]);
   const [members, setMembers] = useState<Member[]>([]);
-  const [trelloUser, setTrelloUser] = useState<Member | undefined>();
   const [status, setStatus] = useState<Status>({
     loading: false,
     success: false,
@@ -131,22 +126,12 @@ export const TrelloApiContextProvider: React.FC<TrelloApiProviderProps> = ({
     }
   };
 
-  useEffect(() => {
-    const userStorage = localStorage.getItem('user');
-    const user = userStorage ? JSON.parse(userStorage) : null
-    if (user) {
-      const currentMember = members?.find((member) => member.username.includes(user.username))
-      setTrelloUser(currentMember);
-    }
-  }, [members]);
-
   const value = {
     status,
     cards,
     boards,
     lists,
     members,
-    trelloUser,
     addCard,
     deleteCard,
     archiveCard,

@@ -18,7 +18,6 @@ const TaskForms: React.FC = () => {
     getMembers,
     boards,
     lists,
-    trelloUser,
   } = useTrelloApi();
 
   useEffect(() => {
@@ -26,8 +25,6 @@ const TaskForms: React.FC = () => {
     getBoards();
     getLists(dataFilters[0].value);
   }, []);
-
-  console.log(user)
 
   const getFirstListOfCurrentBoard = useCallback(
     (boardName: string): string | undefined => {
@@ -54,21 +51,21 @@ const TaskForms: React.FC = () => {
         <FormWithMaterials
           boardName={PLOTTER}
           listId={getFirstListOfCurrentBoard(PLOTTER)}
-          member={trelloUser}
+          member={user}
         />
       </TabsContent>
       <TabsContent title={EMBROIDERY}>
         <FormWithoutMaterials
           listId={getFirstListOfCurrentBoard(EMBROIDERY)}
           boardName={EMBROIDERY}
-          member={trelloUser}
+          member={user}
         />
       </TabsContent>
       <TabsContent title={DTF}>
         <FormWithoutMaterials
           listId={getFirstListOfCurrentBoard(DTF)}
           boardName={DTF}
-          member={trelloUser}
+          member={user}
         />
       </TabsContent>
     </Tabs>
