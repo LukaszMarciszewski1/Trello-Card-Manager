@@ -1,21 +1,24 @@
 import { AuthContextProvider } from 'context/authContext';
 import { TrelloApiContextProvider } from 'context/trelloApiContext';
 import { WatchSectionFormContextProvider } from 'context/watchSectionFormContext';
+import { SettingsApiContextProvider } from 'context/settingsContext';
 
 interface AppProvidersProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 const AppProviders: React.FC<AppProvidersProps> = ({ children }) => {
   return (
     <AuthContextProvider>
-      <TrelloApiContextProvider>
-        <WatchSectionFormContextProvider>
-          {children}
-        </WatchSectionFormContextProvider>
-      </TrelloApiContextProvider>
+      <SettingsApiContextProvider>
+        <TrelloApiContextProvider>
+          <WatchSectionFormContextProvider>
+            {children}
+          </WatchSectionFormContextProvider>
+        </TrelloApiContextProvider>
+      </SettingsApiContextProvider>
     </AuthContextProvider>
-  )
-}
+  );
+};
 
-export default AppProviders
+export default AppProviders;

@@ -52,7 +52,7 @@ const FormWithoutMaterials: React.FC<FormWithoutMaterialsProps> = ({
   listId,
   member,
 }) => {
-  const { addCard, success, error, loading, members } = useTrelloApi();
+  const { addCard, status, members } = useTrelloApi();
   const { watchSectionForm, setWatchSectionForm } = useWatchSectionForm();
 
   const {
@@ -159,9 +159,9 @@ const FormWithoutMaterials: React.FC<FormWithoutMaterialsProps> = ({
       <FormLayout>
         <MessageModal
           trigger={watchSectionForm.message}
-          success={success}
-          error={error}
-          loading={loading}
+          success={status.success}
+          error={status.error}
+          loading={status.loading}
           closeModal={closeModal}
           boardName={boardName}
         />
@@ -178,24 +178,26 @@ const FormWithoutMaterials: React.FC<FormWithoutMaterialsProps> = ({
                 {...register('title', { required: true })}
               />
             </>
-            <div className={styles.checkboxesListContainer}>
+            <div className={styles.memberCheckbox}>
               <span>{constants.TRADERS}</span>
-              <div className={styles.checkboxesList}>
-                {member ? (
-                  <Checkbox
-                    key={member.id}
-                    id={member.id}
-                    type={'radio'}
-                    value={member.id}
-                    title={member.fullName}
-                    label={member.fullName}
-                    error={errors.member}
-                    checked={true}
-                    style={{ height: 48, width: 'auto', whiteSpace: 'nowrap' }}
-                    {...register('member', { required: true })}
-                  />
-                ) : null}
-              </div>
+              {member ? (
+                <Checkbox
+                  id={member.id}
+                  type={'radio'}
+                  value={member.id}
+                  title={member.fullName}
+                  label={member.fullName}
+                  checked={true}
+                  style={{
+                    height: 48,
+                    width: 'auto',
+                    whiteSpace: 'nowrap',
+                    padding: '1rem 2.2rem',
+                    backgroundColor: 'rgb(242, 242, 242)',
+                  }}
+                  {...register('member', { required: true })}
+                />
+              ) : null}
             </div>
           </div>
           {fields.map((field, index) => {

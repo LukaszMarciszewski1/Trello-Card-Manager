@@ -2,15 +2,23 @@
 
 .linksContainer {
   display: flex;
-  li {
-    font-size: 1.05rem;
+  margin-right: 2rem;
+  .navItem {
+    font-size: 1rem;
     font-weight: bold;
     margin-right: 1.5rem;
-    a {
-      text-decoration: none;
-    }
     .navLink {
+      display: flex;
+      align-items: center;
       padding: 0.5rem 0;
+      text-decoration: none;
+      .iconContainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        margin-right: 0.5rem;
+      }
       &.active {
         border-bottom: 3px solid $secondary-blue;
       }

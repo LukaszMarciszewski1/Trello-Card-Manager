@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styles from './styles.module.scss';
+import { MdOutlineLogout, MdSettings, MdList, MdPostAdd } from 'react-icons/md';
 
 const NavLinks: React.FC = () => {
   const location = useLocation();
@@ -9,10 +10,17 @@ const NavLinks: React.FC = () => {
     {
       name: 'Dodaj zlecenie',
       path: '/create-order',
+      icon: <MdPostAdd />
     },
     {
       name: 'Lista zleceń',
       path: '/order-list',
+      icon: <MdList />
+    },
+    {
+      name: 'Ustawienia',
+      path: '/settings',
+      icon: <MdSettings />
     },
   ];
 
@@ -26,7 +34,9 @@ const NavLinks: React.FC = () => {
               location.pathname === item.path ? styles.active : null
             }`}
           >
-            {item.name}
+            {/* <div className={styles.iconContainer}>{item.icon}</div> */}
+            <span>{item.name}</span>
+            {/* {item.name} */}
           </Link>
         </li>
       ))}

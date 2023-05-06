@@ -6,7 +6,17 @@ import Loading from 'components/common/Loading/Loading';
 
 const CardsList = () => {
   const [selectedFilter, setSelectedFilter] = useState(dataFilters[1].value);
-  const { getCards, getMembers, getBoards, getLists, cards, members, boards, lists } = useTrelloApi();
+
+  const {
+    cards,
+    lists,
+    boards,
+    members,
+    getCards,
+    getLists,
+    getBoards,
+    getMembers,
+  } = useTrelloApi();
 
   useEffect(() => {
     getCards(selectedFilter);
@@ -14,6 +24,9 @@ const CardsList = () => {
     getBoards();
     getLists(dataFilters[0].value);
   }, [selectedFilter]);
+
+  console.log(members)
+  console.log(members)
 
   return (
     <>

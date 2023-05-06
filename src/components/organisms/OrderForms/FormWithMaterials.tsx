@@ -61,7 +61,7 @@ const FormWithMaterials: React.FC<FormWithMaterialsProps> = ({
   listId,
   member,
 }) => {
-  const { addCard, success, error, loading, members } = useTrelloApi();
+  const { addCard, members, status } = useTrelloApi();
   const { watchSectionForm, setWatchSectionForm } = useWatchSectionForm();
 
   const {
@@ -199,9 +199,9 @@ const FormWithMaterials: React.FC<FormWithMaterialsProps> = ({
       <FormLayout>
         <MessageModal
           trigger={watchSectionForm.message}
-          success={success}
-          error={error}
-          loading={loading}
+          success={status.success}
+          error={status.error}
+          loading={status.loading}
           closeModal={closeModal}
           boardName={boardName}
         />
@@ -214,28 +214,30 @@ const FormWithMaterials: React.FC<FormWithMaterialsProps> = ({
                 label={constants.CONTRACTOR}
                 type='text'
                 error={errors.title}
-                style={{ padding: '10px', height: 48, fontSize: 17 }}
+                style={{ padding: '10px', height: 46, fontSize: 17 }}
                 {...register('title', { required: true })}
               />
             </>
-            <div className={styles.checkboxesListContainer}>
+            <div className={styles.memberCheckbox}>
               <span>{constants.TRADERS}</span>
-              <div className={styles.checkboxesList}>
-                {member ? (
-                  <Checkbox
-                    key={member.id}
-                    id={member.id}
-                    type={'radio'}
-                    value={member.id}
-                    title={member.fullName}
-                    label={member.fullName}
-                    error={errors.member}
-                    checked={true}
-                    style={{ height: 48, width: 'auto', whiteSpace: 'nowrap' }}
-                    {...register('member', { required: true })}
-                  />
-                ) : null}
-              </div>
+              {member ? (
+                <Checkbox
+                  id={member.id}
+                  type={'radio'}
+                  value={member.id}
+                  title={member.fullName}
+                  label={member.fullName}
+                  checked={true}
+                  style={{
+                    height: 46,
+                    width: 'auto',
+                    whiteSpace: 'nowrap',
+                    padding: '1rem 2.2rem',
+                    backgroundColor: 'rgb(242, 242, 242)',
+                  }}
+                  {...register('member', { required: true })}
+                />
+              ) : null}
             </div>
           </div>
           {fields.map((field, index) => {

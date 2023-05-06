@@ -1,0 +1,11 @@
+@import 'style/colors.scss';
+
+.sidebar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  max-width: 300px;
+  height: 300px;
+  padding: 1rem;
+  background-color: $secondary-lightGrey;
+}

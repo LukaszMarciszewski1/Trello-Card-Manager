@@ -23,9 +23,8 @@ export interface CardDescription {
 }
 
 export interface Card {
+  id?: string;
   idList: string;
-  _id?: string;
-  trelloCardId?: string;
   title: string;
   department: string;
   description: CardDescription[];

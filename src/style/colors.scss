@@ -1,9 +1,13 @@
 $app-bg: #E7E7E7;
+$app-bg: #ebedee;
 $white-bg: #fdfdfd;
 
-$lightGrey: darken($white-bg, 1%);
+
+$primary-lightGrey: #e5e7ed;
+$secondary-lightGrey: darken($white-bg, 1%);
 $inputBg: #f9fafb;
 $focusBg: #f4f5fa;
+$readOnly: #F2F2F2;
 
 $primary-blue: #0d6192;
 $secondary-blue: #2177a9;

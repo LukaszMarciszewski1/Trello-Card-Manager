@@ -45,7 +45,8 @@ const OrderTable: React.FC<CardsTableProps> = ({
   selectedDataFilter,
   setSelectedDataFilter,
 }) => {
-  const { getCards, deleteCard, archiveCard } = useTrelloApi();
+  const { getCards } = useTrelloApi();
+  const { deleteCard, archiveCard } = useTrelloApi();
 
  const [isRefresh, setIsRefresh] = useState(false);
   const [popupTrigger, setPopupTrigger] = useState(false);
@@ -280,7 +281,7 @@ const OrderTable: React.FC<CardsTableProps> = ({
   );
 
   return (
-    <div className={styles.tableContainer}>
+    <div className={styles.orderTable}>
       <div className={styles.headerContainer}>
         <Search
           preGlobalFilteredRows={preGlobalFilteredRows}

@@ -6,20 +6,19 @@ type Props = {
   index: number;
   active: number;
   setSelectedTab: (index: number) => void;
-  subcategory?: boolean;
 };
 
-const Tab: React.FC<Props> = ({ title, setSelectedTab, active, index, subcategory }) => {
+const Tab: React.FC<Props> = ({ title, setSelectedTab, active, index }) => {
   const onClick = useCallback(() => {
     setSelectedTab(index);
   }, [setSelectedTab, index]);
 
   return (
-    <li className={`${subcategory ? styles.subcategoryTabContainer : styles.tabContainer}`}>
+    <li>
       <button
         type='button'
         title={title}
-        className={`${subcategory ? styles.subcategoryTab : styles.tab} ${
+        className={`${styles.tab} ${
           index === active ? styles.active : styles.tab
         }`}
         onClick={onClick}

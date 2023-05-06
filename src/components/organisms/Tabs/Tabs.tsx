@@ -4,15 +4,16 @@ import Tab from './Tab/Tab';
 
 type TabsProps = {
   children: ReactElement[];
+  navTitle: string
 };
 
-const Tabs: React.FC<TabsProps> = ({ children }) => {
+const Tabs: React.FC<TabsProps> = ({ children, navTitle }) => {
   const [selectedTab, setSelectedTab] = useState(0);
 
   return (
     <div className={styles.layout}>
       <ul className={styles.tabsContainer}>
-        <h3 className={styles.tabsHeading}>Tablica: </h3>
+        <h3 className={styles.tabsHeading}>{navTitle}</h3>
         {children.map((item, index) => (
           <Tab
             key={index}

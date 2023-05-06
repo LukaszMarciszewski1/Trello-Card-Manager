@@ -6,14 +6,18 @@ import Button from 'components/common/Button/Button';
 import { getDecodedToken } from 'helpers/getDecodedToken';
 import Popup from 'components/common/Popup/Popup';
 import NavLinks from './NavLinks/NavLinks';
+import IconLink from 'components/common/IconLink/IconLink';
+import { MdOutlineLogout, MdSettings } from 'react-icons/md';
 import styles from './styles.module.scss';
+import IconButton from 'components/common/IconButton/IconButton';
+import Divider from 'components/common/Divider/Divider';
+import getInitials from 'helpers/getInitials';
 
 const Navbar: React.FC = () => {
   const { logout, user } = useAuth();
   const navigate = useNavigate();
-  const { getCurrentTrelloMember } = useTrelloApi();
+  const { trelloUser } = useTrelloApi();
   const [userPopup, setUserPopup] = useState(false);
-  const trelloUser = getCurrentTrelloMember(user?.username);
 
   const getUserInitial = (text: string | null) => {
     if (!text) return '';
@@ -29,18 +33,21 @@ const Navbar: React.FC = () => {
   return (
     <nav className={styles.nav}>
       <div className={styles.left}>
-       <Link to={'/create-order'} id={styles.logo}><h1>Dreamtex</h1></Link>
-        <NavLinks />
+        <Link to={'/create-order'} id={styles.logo}>
+          <h1>Dreamtex</h1>
+        </Link>
+     
       </div>
       <div className={styles.right}>
+      <NavLinks />
         <button className={styles.userBtn} onClick={() => setUserPopup(true)}>
-          {trelloUser ? getUserInitial(trelloUser.fullName) : null}
+          {trelloUser ? getInitials(trelloUser.fullName) : null}
         </button>
         <Popup
           title={
             <div className={styles.popupHeader}>
               <div className={styles.avatar}>
-                {trelloUser ? getUserInitial(trelloUser.fullName) : null}
+                {trelloUser ? getInitials(trelloUser.fullName) : null}
               </div>
               <div>
                 <span>{trelloUser?.fullName}</span> <br />{' '}
@@ -53,14 +60,16 @@ const Navbar: React.FC = () => {
           style={{
             padding: 10,
             width: 260,
-            left: -220,
+            left: 'calc(100% - 260px)',
             top: 50,
           }}
         >
-          <Button
+          <IconLink path={'/settings'} icon={<MdSettings />} title={'Ustawienia'} />
+          <Divider />
+          <IconButton
             onClick={handleLogout}
+            icon={<MdOutlineLogout />}
             title={'Wyloguj'}
-            style={{ width: '100%', margin: '1rem 0' }}
           />
         </Popup>
       </div>

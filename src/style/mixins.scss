@@ -6,7 +6,7 @@
   width: 100%;
   padding: 10px;
   border-radius: 10px;
-  background-color: $lightGrey;
+  background-color: $secondary-lightGrey;
   background-color: $inputBg;
   border: 1px solid #67788a;
   font-size: 14px;
@@ -21,7 +21,7 @@
     background-color: $focusBg;
   }
   &:read-only {
-    background-color: rgb(242, 242, 242);
+    background-color: $readOnly;
   }
   &:invalid {
     border: 2px solid red;

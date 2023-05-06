@@ -1,13 +1,16 @@
 import axios from 'axios';
-import { DisplayUser, LoginUser, RegisterUser } from 'models/user';
+import jwt_decode from 'jwt-decode';
+import { DisplayUser, LoginUser, RegisterUser, DecodedJwt } from 'models/user';
 import { createContext, useEffect, useState } from 'react';
-import authService from 'services/api/authService';
+import authApi from 'api/authApi';
 
 interface AuthProviderProps {
   children: React.ReactNode;
 }
 
 interface AuthContextData {
+  success: boolean;
+  error: boolean;
   user: DisplayUser | null;
   signIn: (email: string, password: string) => Promise<any>;
   signUp: (username: string, email: string, password: string) => Promise<any>;
@@ -15,6 +18,8 @@ interface AuthContextData {
 }
 
 export const AuthContext = createContext<AuthContextData>({
+  success: false,
+  error: false,
   user: null,
   signIn: async () => {},
   signUp: async () => {},
@@ -25,16 +30,19 @@ export const AuthContextProvider: React.FC<AuthProviderProps> = ({
   children,
 }) => {
   const [user, setUser] = useState<DisplayUser | null>(null);
+  const [success, setSuccess] = useState(false)
+  const [error, setError] = useState(false)
 
   const signUp = async (username: string, email: string, password: string) => {
     if (!username && !email && !password) return;
     try {
-      await authService.register({
+      await authApi.register({
         username,
         email,
         password,
       });
-    } catch (e) {
+    }
+     catch (e) {
       alert('Oops, something went wrong! Try again later');
       console.log(e);
     }
@@ -43,12 +51,16 @@ export const AuthContextProvider: React.FC<AuthProviderProps> = ({
   const signIn = async (email: string, password: string) => {
     if (!email && !password) return;
     try {
-      const response = await authService.login({
+      const response = await authApi.login({
         email,
         password,
       });
       if (response) {
-        setUser(response.user);
+        const { token } = response;
+        localStorage.setItem('jwt', token);
+        const decodedJwt: DecodedJwt = jwt_decode(token);
+        localStorage.setItem('user', JSON.stringify(decodedJwt.user));
+        setUser(decodedJwt.user);
       }
     } catch (e) {
       alert('Invalid email or password');
@@ -57,19 +69,14 @@ export const AuthContextProvider: React.FC<AuthProviderProps> = ({
   };
 
   const logout = () => {
-    authService.logout();
+    localStorage.removeItem('user');
+    localStorage.removeItem('jwt');
     setUser(null);
   };
 
-  useEffect(() => {
-    const userFromLocalStorage = localStorage.getItem('user');
-    const user = userFromLocalStorage ? JSON.parse(userFromLocalStorage) : null
-    if (user) {
-      setUser(user);
-    }
-  }, []);
-
   const value = {
+    success,
+    error,
     user,
     signUp,
     signIn,

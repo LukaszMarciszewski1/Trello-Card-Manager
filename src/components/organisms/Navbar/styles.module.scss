@@ -5,19 +5,21 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   padding: 0.8rem 2rem;
   background-color: $white-bg;
   .left {
     display: flex;
     align-items: center;
     #logo {
-      margin-right: 2rem;
+      margin-right: 2.5rem;
       text-decoration: none;
     }
   }
   .right {
     position: relative;
+    display: flex;
+    align-items: center;
     div {
       margin-right: 1rem;
     }
